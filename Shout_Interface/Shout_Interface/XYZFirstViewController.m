@@ -9,7 +9,16 @@
 #import "XYZFirstViewController.h"
 
 @interface XYZFirstViewController ()
-
+{
+    NSString *title;
+    NSString * message;
+    
+    NSString *author;
+    NSMutableArray *myObject;
+    // A dictionary object
+    NSDictionary *dictionary;
+    // Define keys
+}
 
 @end
 
@@ -17,25 +26,38 @@
 
 - (void)fetchShouts
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData* data = [NSData dataWithContentsOfURL:
-                        [NSURL URLWithString: @"http://api.kivaws.org/v1/loans/search.json?status=fundraising"]];
+    [super viewDidLoad];
+    title = @"title";
+    message = @"message";
+    author = @"author";
+    
+    myObject = [[NSMutableArray alloc] init];
+    
+    NSData *jsonSource = [NSData dataWithContentsOfURL:
+                          [NSURL URLWithString:@"http://api.kivaws.org/v1/loans/search.json?status=fundraising"]];
+    
+    NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:
+                      jsonSource options:kNilOptions error:nil];
+    
+    NSArray *latestShouts = [jsonObjects objectForKey:@"loans"];
+    
+    for (NSDictionary *dataDict in latestShouts) {
+        NSString *title_data = [dataDict objectForKey:@"activity"];
+        NSString *author_data = [dataDict objectForKey:@"name"];
         
-        NSError* error;
+        NSLog(@"TITLE: %@",title_data);
+        NSLog(@"AUTHOR: %@",author_data);
         
-        JSONshouts = [NSJSONSerialization JSONObjectWithData:data
-                                                 options:kNilOptions
-                                                   error:&error];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    });
+        dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                      title_data, title,
+                      author_data,author,
+                      nil];
+        [myObject addObject:dictionary];
+    }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return shouts.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return myObject.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -47,12 +69,20 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    NSDictionary *shout = [shouts objectAtIndex:indexPath.row];
-    NSString *messageText = [shout objectForKey:@"loans"];
-//    NSString *title = [shout objectForKey:@"title"];
+    NSDictionary *tmpDict = [myObject objectAtIndex:indexPath.row];
     
-//    cell.textLabel.text = title;
-    cell.detailTextLabel.text = messageText;
+    NSMutableString *text;
+    //text = [NSString stringWithFormat:@"%@",[tmpDict objectForKey:title]];
+    text = [NSMutableString stringWithFormat:@"%@",
+            [tmpDict objectForKeyedSubscript:title]];
+    
+    NSMutableString *detail;
+    detail = [NSMutableString stringWithFormat:@"Author: %@ ",
+              [tmpDict objectForKey:author]];
+    
+    
+    cell.textLabel.text = text;
+    cell.detailTextLabel.text= detail;
     
     return cell;
 }
