@@ -22,6 +22,7 @@
 		6157241318E646F90068CCC9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6157241118E646F90068CCC9 /* InfoPlist.strings */; };
 		6157241518E646F90068CCC9 /* ShoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157241418E646F90068CCC9 /* ShoutTests.m */; };
 		6157242018E649200068CCC9 /* JCCFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157241F18E649200068CCC9 /* JCCFeedTableViewController.m */; };
+		6157242318E654D80068CCC9 /* JCCTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157242218E654D80068CCC9 /* JCCTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		6157241418E646F90068CCC9 /* ShoutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoutTests.m; sourceTree = "<group>"; };
 		6157241E18E649200068CCC9 /* JCCFeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCFeedTableViewController.h; sourceTree = "<group>"; };
 		6157241F18E649200068CCC9 /* JCCFeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCFeedTableViewController.m; sourceTree = "<group>"; };
+		6157242118E654D80068CCC9 /* JCCTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell.h; sourceTree = "<group>"; };
+		6157242218E654D80068CCC9 /* JCCTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +123,8 @@
 				615723FB18E646F80068CCC9 /* Main.storyboard */,
 				6157241E18E649200068CCC9 /* JCCFeedTableViewController.h */,
 				6157241F18E649200068CCC9 /* JCCFeedTableViewController.m */,
+				6157242118E654D80068CCC9 /* JCCTableViewCell.h */,
+				6157242218E654D80068CCC9 /* JCCTableViewCell.m */,
 				615723FE18E646F80068CCC9 /* JCCViewController.h */,
 				615723FF18E646F80068CCC9 /* JCCViewController.m */,
 				6157240118E646F80068CCC9 /* Images.xcassets */,
@@ -256,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6157240018E646F80068CCC9 /* JCCViewController.m in Sources */,
+				6157242318E654D80068CCC9 /* JCCTableViewCell.m in Sources */,
 				615723F618E646F80068CCC9 /* main.m in Sources */,
 				6157242018E649200068CCC9 /* JCCFeedTableViewController.m in Sources */,
 				615723FA18E646F80068CCC9 /* JCCAppDelegate.m in Sources */,

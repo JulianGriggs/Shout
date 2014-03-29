@@ -7,7 +7,7 @@
 //
 
 #import "JCCFeedTableViewController.h"
-
+#import "JCCTableViewCell.h"
 @interface JCCFeedTableViewController ()
 {
     NSString *title;
@@ -61,14 +61,24 @@
     return myObject.count;
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"messageCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
+    JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//    }
+    
+    // Begin configuration of Cell
+    [cell.toLabel setText:@"Team Little Meat"];
+    [cell.fromLabel setText:@"Team Pipe Layers"];
+    [cell.postTextView setText:@"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol."];
+    
+    /* Will eventually save the image here*/
+    //[cell.imageView setImage:<#(UIImage *)#>];
     
     NSDictionary *tmpDict = [myObject objectAtIndex:indexPath.row];
     
@@ -80,10 +90,11 @@
     NSMutableString *detail;
     detail = [NSMutableString stringWithFormat:@"Author: %@ ",
               [tmpDict objectForKey:author]];
+
+
     
-    
-    cell.textLabel.text = text;
-    cell.detailTextLabel.text= detail;
+//    cell.textLabel.text = text;
+//    cell.detailTextLabel.text= detail;
     
     return cell;
     
@@ -152,14 +163,14 @@
 }
 */
 
-/*
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    return NO;
 }
-*/
+
 
 /*
 #pragma mark - Navigation
