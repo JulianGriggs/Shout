@@ -10,14 +10,23 @@
 #import "JCCTableViewCell.h"
 @interface JCCFeedTableViewController ()
 {
-    NSString *title;
-    NSString * message;
+    // Who the message is to
+    NSString *to;
     
-    NSString *author;
-    NSMutableArray *myObject;
-    // A dictionary object
+    // Who the message is from
+    NSString *from;
+    
+    // The contents of the message
+    NSString *message;
+    
+    
+    // A dictionary object to hold feature:value
+    // ex. "to":"Cottage Club"
     NSDictionary *dictionary;
-    // Define keys
+    
+    // An array where each element will be a dictionary holding a feature:value
+    NSMutableArray *myObject;
+    
 }
 @end
 
@@ -26,18 +35,22 @@
 - (void)fetchShouts
 {
     [super viewDidLoad];
-    title = @"title";
-    message = @"message";
-    author = @"author";
+    to = @"Recipient";
+    from = @"Sender";
+    message = @"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol.";
     
+    // Creates myObject every time  this function is called
     myObject = [[NSMutableArray alloc] init];
     
+    // This is sends a get request to the URL and saves the response in an NSData object
     NSData *jsonSource = [NSData dataWithContentsOfURL:
                           [NSURL URLWithString:@"http://api.kivaws.org/v1/loans/search.json?status=fundraising"]];
     
+    // This parses the response from the server as a JSON object
     NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:
                                  jsonSource options:kNilOptions error:nil];
     
+    // Takes the section of the JSON object with the key 'loans'
     NSArray *latestShouts = [jsonObjects objectForKey:@"loans"];
     
     for (NSDictionary *dataDict in latestShouts) {
@@ -48,8 +61,8 @@
         NSLog(@"AUTHOR: %@",author_data);
         
         dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                      title_data, title,
-                      author_data,author,
+                      title_data, to,
+                      author_data,from,
                       nil];
         [myObject addObject:dictionary];
     }
@@ -65,42 +78,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // This is how to efficiently use table cells such that they only load when they should
     static NSString *CellIdentifier = @"messageCell";
-    
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//    }
-    
-    // Begin configuration of Cell
-    [cell.toLabel setText:@"Team Little Meat"];
-    [cell.fromLabel setText:@"Team Pipe Layers"];
-    [cell.postTextView setText:@"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol."];
+
     
     /* Will eventually save the image here*/
     //[cell.imageView setImage:<#(UIImage *)#>];
     
-    NSDictionary *tmpDict = [myObject objectAtIndex:indexPath.row];
-    
-    NSMutableString *text;
-    //text = [NSString stringWithFormat:@"%@",[tmpDict objectForKey:title]];
-    text = [NSMutableString stringWithFormat:@"%@",
-            [tmpDict objectForKeyedSubscript:title]];
-    
-    NSMutableString *detail;
-    detail = [NSMutableString stringWithFormat:@"Author: %@ ",
-              [tmpDict objectForKey:author]];
-
-
-    
-//    cell.textLabel.text = text;
-//    cell.detailTextLabel.text= detail;
+    // Begin configuration of Cell
+    [cell.toLabel setText:to];
+    [cell.fromLabel setText:from];
+    [cell.postTextView setText:message];
     
     return cell;
     
 }
 
-
+// Number of sections in our table view.  Our app will only use 1.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
