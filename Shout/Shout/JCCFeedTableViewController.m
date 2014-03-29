@@ -9,6 +9,7 @@
 #import "JCCFeedTableViewController.h"
 #import "JCCTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
+
 @interface JCCFeedTableViewController ()
 {
     // Who the message is to
@@ -33,23 +34,31 @@
     // Define keys
     
     // An array where each element will be a dictionary holding a feature:value
-    NSMutableArray *myObject;}
+    NSMutableArray *myObject;
+}
 //This is the actual table view object that corresponds to this table view controller
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
-// This happens whenever a user clicks the "UP" button
+
 @implementation JCCFeedTableViewController
+
+// This happens whenever a user clicks the "UP" button
 - (IBAction)sendUp:(id)sender {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-
+    // Gets the MessageID and the SenderID from the hidden fields in the table cell
     NSString *getMessageId = cell.messageIDLabel.text;
     NSString *getSenderID = cell.senderIDLabel.text;
+    
+    // FOR TESTING
     NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
+    
+    /***** NEED TO SEND POST REQUEST SAYING THAT THIS MESSAGEID RECEIVED AN UP VOTE *****/
 }
 
 // This happens whenever a user clicks the "DOWN" button
@@ -59,13 +68,18 @@
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    
+    // Gets the MessageID and the SenderID from the hidden fields in the table cell
     NSString *getMessageId = cell.messageIDLabel.text;
     NSString *getSenderID = cell.senderIDLabel.text;
+    
+    // FOR TESTING
     NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
+    
+    /***** NEED TO SEND POST REQUEST SAYING THAT THIS MESSAGEID RECEIVED AN UP VOTE *****/
 
 }
 
+// Pops up an alert modal giving the option to Mute the user who wrote that message
 - (IBAction)showMuteOption:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
     // optional - add more buttons:
@@ -73,8 +87,23 @@
     [alert show];
 }
 
+// This is the function that responds to what the user selected when the Alert modal was popped up
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    // This is if the user said yes, they really want to mute the person
+    if (buttonIndex == 1)
+    {
+        //FOR TESTING
+        NSLog(@"The User chose 'Yes'");
+        
+        /***** SEND POST TO SERVER INDICATING A MUTE *****/
+    }
+    
+}
+
 - (void)fetchShouts
 {
+    // Hard coded data for testing
     to = @"Recipient";
     from = @"Sender";
     message = @"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol.";
@@ -84,6 +113,11 @@
     
     // Creates myObject every time  this function is called
     myObject = [[NSMutableArray alloc] init];
+    
+    /*****
+     Note: The details, in terms of the keys searched for will entirely depend on the data from the server.  This is dummy data.
+     *****/
+    
     
     // This is sends a get request to the URL and saves the response in an NSData object
     NSData *jsonSource = [NSData dataWithContentsOfURL:
@@ -98,15 +132,18 @@
 
     
     for (NSDictionary *dataDict in latestShouts) {
-        NSString *title_data = [dataDict objectForKey:@"activity"];
-        NSString *author_data = [dataDict objectForKey:@"name"];
-        
-//        NSLog(@"TITLE: %@",title_data);
-//        NSLog(@"AUTHOR: %@",author_data);
+        NSString *to_data = [dataDict objectForKey:@"toField"];
+        NSString *from_data = [dataDict objectForKey:@"fromField"];
+        NSString *body_data = [dataDict objectForKey:@"bodyField"];
+        NSString *messageID_data = [dataDict objectForKey:@"messageIDField"];
+        NSString *userID_data = [dataDict objectForKey:@"userIDField"];
         
         dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                      title_data, to,
-                      author_data,from,
+                      to_data, @"to",
+                      from_data, @"from",
+                      body_data, @"body",
+                      messageID_data, @"messageID",
+                      userID_data, @"userID",
                       nil];
         [myObject addObject:dictionary];
     }
@@ -126,18 +163,23 @@
     
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-        // Begin configuration of Cell
+        // FOR TESTING
         [cell.toLabel setText:to];
         [cell.fromLabel setText:from];
         [cell.postTextView setText:message];
         [cell.messageIDLabel setText:@"Deez"];
         [cell.senderIDLabel setText:@"Nuts"];
-
-    return cell;
     
+    // In reality it will probably be
+//    [cell.toLabel setText:[[myObject objectAtIndex:(NSUInteger)indexPath] objectForKey:@"to"]];
+//    [cell.fromLabel setText:[[myObject objectAtIndex:(NSUInteger)indexPath] objectForKey:@"from"]];
+//    [cell.postTextView setText:[[myObject objectAtIndex:(NSUInteger)indexPath] objectForKey:@"body"]];
+//    [cell.messageIDLabel setText:[[myObject objectAtIndex:(NSUInteger)indexPath] objectForKey:@"messageID"]];
+//    [cell.senderIDLabel setText:[[myObject objectAtIndex:(NSUInteger)indexPath] objectForKey:@"userID"]];;
+    return cell;
 }
 
-
+// We will only have one section in the table view
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
