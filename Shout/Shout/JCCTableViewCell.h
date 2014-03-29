@@ -13,6 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *fromLabel;
 @property (weak, nonatomic) IBOutlet UITextView *postTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
-@property (weak, nonatomic) NSString *messageID;
-@property (weak, nonatomic) NSString *senderID;
+@property (weak, nonatomic) IBOutlet UILabel *messageIDLabel;
+@property (weak, nonatomic) IBOutlet UILabel *senderIDLabel;
 @end

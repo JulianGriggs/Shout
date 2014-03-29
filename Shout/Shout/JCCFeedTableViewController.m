@@ -8,48 +8,105 @@
 
 #import "JCCFeedTableViewController.h"
 #import "JCCTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 @interface JCCFeedTableViewController ()
 {
-    NSString *title;
-    NSString * message;
+    // Who the message is to
+    NSString *to;
     
-    NSString *author;
-    NSMutableArray *myObject;
-    // A dictionary object
+    // Who the message is from
+    NSString *from;
+    
+    // The contents of the message
+    NSString *message;
+    
+    // The Message ID
+    NSString *messageID;
+    
+    // The Sender ID
+    NSString *senderID;
+    
+    
+    // A dictionary object to hold feature:value
+    // ex. "to":"Cottage Club"
     NSDictionary *dictionary;
     // Define keys
-}
+    
+    // An array where each element will be a dictionary holding a feature:value
+    NSMutableArray *myObject;}
+//This is the actual table view object that corresponds to this table view controller
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
 
+// This happens whenever a user clicks the "UP" button
 @implementation JCCFeedTableViewController
+- (IBAction)sendUp:(id)sender {
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    
+    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+
+    NSString *getMessageId = cell.messageIDLabel.text;
+    NSString *getSenderID = cell.senderIDLabel.text;
+    NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
+}
+
+// This happens whenever a user clicks the "DOWN" button
+- (IBAction)sendDown:(id)sender {
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    
+    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    
+    NSString *getMessageId = cell.messageIDLabel.text;
+    NSString *getSenderID = cell.senderIDLabel.text;
+    NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
+
+}
+
+- (IBAction)showMuteOption:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
+    // optional - add more buttons:
+    [alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
 
 - (void)fetchShouts
 {
-    [super viewDidLoad];
-    title = @"title";
-    message = @"message";
-    author = @"author";
+    to = @"Recipient";
+    from = @"Sender";
+    message = @"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol.";
+    messageID = @"Please work";
+    senderID = @"Yo mama";
     
+    
+    // Creates myObject every time  this function is called
     myObject = [[NSMutableArray alloc] init];
     
+    // This is sends a get request to the URL and saves the response in an NSData object
     NSData *jsonSource = [NSData dataWithContentsOfURL:
                           [NSURL URLWithString:@"http://api.kivaws.org/v1/loans/search.json?status=fundraising"]];
     
+    // This parses the response from the server as a JSON object
     NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:
                                  jsonSource options:kNilOptions error:nil];
     
+    // Takes the section of the JSON object with the key 'loans'
     NSArray *latestShouts = [jsonObjects objectForKey:@"loans"];
+
     
     for (NSDictionary *dataDict in latestShouts) {
         NSString *title_data = [dataDict objectForKey:@"activity"];
         NSString *author_data = [dataDict objectForKey:@"name"];
         
-        NSLog(@"TITLE: %@",title_data);
-        NSLog(@"AUTHOR: %@",author_data);
+//        NSLog(@"TITLE: %@",title_data);
+//        NSLog(@"AUTHOR: %@",author_data);
         
         dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                      title_data, title,
-                      author_data,author,
+                      title_data, to,
+                      author_data,from,
                       nil];
         [myObject addObject:dictionary];
     }
@@ -68,34 +125,14 @@
     static NSString *CellIdentifier = @"messageCell";
     
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//    }
-    
-    // Begin configuration of Cell
-    [cell.toLabel setText:@"Team Little Meat"];
-    [cell.fromLabel setText:@"Team Pipe Layers"];
-    [cell.postTextView setText:@"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol."];
-    
-    /* Will eventually save the image here*/
-    //[cell.imageView setImage:<#(UIImage *)#>];
-    
-    NSDictionary *tmpDict = [myObject objectAtIndex:indexPath.row];
-    
-    NSMutableString *text;
-    //text = [NSString stringWithFormat:@"%@",[tmpDict objectForKey:title]];
-    text = [NSMutableString stringWithFormat:@"%@",
-            [tmpDict objectForKeyedSubscript:title]];
-    
-    NSMutableString *detail;
-    detail = [NSMutableString stringWithFormat:@"Author: %@ ",
-              [tmpDict objectForKey:author]];
 
+        // Begin configuration of Cell
+        [cell.toLabel setText:to];
+        [cell.fromLabel setText:from];
+        [cell.postTextView setText:message];
+        [cell.messageIDLabel setText:@"Deez"];
+        [cell.senderIDLabel setText:@"Nuts"];
 
-    
-//    cell.textLabel.text = text;
-//    cell.detailTextLabel.text= detail;
-    
     return cell;
     
 }
@@ -115,10 +152,24 @@
     return self;
 }
 
+// Prevents the view from being turned to landscape mode
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self fetchShouts];
+    
+    /*
+    // For rounded corners
+    self.upButton.layer.cornerRadius = 10;
+    self.upButton.clipsToBounds = YES;
+    */
+    
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
