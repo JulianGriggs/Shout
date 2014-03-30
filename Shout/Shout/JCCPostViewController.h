@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
-@interface JCCPostViewController : UIViewController <UITextViewDelegate, UITextFieldDelegate, NSURLConnectionDelegate>
+@interface JCCPostViewController : UIViewController <UITextViewDelegate, UITextFieldDelegate, NSURLConnectionDelegate, MKMapViewDelegate>
 
 @end

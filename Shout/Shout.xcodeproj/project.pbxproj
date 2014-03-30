@@ -132,8 +132,6 @@
 				75C92D4A18E7431000E42A03 /* JCCTableViewCell.h */,
 				75C92D4B18E7431000E42A03 /* JCCTableViewCell.m */,
 				75C92D4D18E7465200E42A03 /* JCCAnnotation.h */,
-				75C92D5018E746D900E42A03 /* JCCMapViewController.h */,
-				75C92D5118E746D900E42A03 /* JCCMapViewController.m */,
 				75C92D4E18E7465200E42A03 /* JCCAnnotation.m */,
 				75C92D5318E746FD00E42A03 /* JCCPostViewController.h */,
 				75C92D5418E746FD00E42A03 /* JCCPostViewController.m */,
@@ -146,6 +144,8 @@
 		615723F018E646F80068CCC9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				75C92D5018E746D900E42A03 /* JCCMapViewController.h */,
+				75C92D5118E746D900E42A03 /* JCCMapViewController.m */,
 				615723F118E646F80068CCC9 /* Shout-Info.plist */,
 				615723F218E646F80068CCC9 /* InfoPlist.strings */,
 				615723F518E646F80068CCC9 /* main.m */,

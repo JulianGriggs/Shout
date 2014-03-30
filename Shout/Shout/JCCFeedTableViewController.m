@@ -159,6 +159,11 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self fetchShouts];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

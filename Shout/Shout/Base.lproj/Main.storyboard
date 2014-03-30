@@ -66,7 +66,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                             </textView>
                             <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O5i-zL-Lw1">
-                                <rect key="frame" x="20" y="236" width="278" height="312"/>
+                                <rect key="frame" x="20" y="480" width="50" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="ShoutButton">
@@ -76,6 +76,10 @@
                                     <action selector="postShout:" destination="XRm-3f-I6o" eventType="touchUpInside" id="HLh-bR-ppj"/>
                                 </connections>
                             </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="hybrid" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mq1-EB-0MD">
+                                <rect key="frame" x="73" y="236" width="227" height="287"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -84,10 +88,10 @@
                             <constraint firstItem="sJh-Go-fTg" firstAttribute="centerY" secondItem="4mI-t6-pgM" secondAttribute="centerY" id="4cr-rz-VTc"/>
                             <constraint firstItem="oAu-tY-r6l" firstAttribute="leading" secondItem="W9K-Mf-FdH" secondAttribute="leading" id="Ejl-cZ-yH8"/>
                             <constraint firstAttribute="trailing" secondItem="W9K-Mf-FdH" secondAttribute="trailing" constant="22" id="Ffu-5a-dHz"/>
-                            <constraint firstItem="4mI-t6-pgM" firstAttribute="trailing" secondItem="O5i-zL-Lw1" secondAttribute="trailing" id="KjD-RH-RCc"/>
+                            <constraint firstItem="4mI-t6-pgM" firstAttribute="trailing" secondItem="O5i-zL-Lw1" secondAttribute="trailing" constant="228" id="KjD-RH-RCc"/>
                             <constraint firstItem="TUl-1c-jYV" firstAttribute="leading" secondItem="c2R-oX-SBi" secondAttribute="leading" id="LBf-Ul-4je"/>
-                            <constraint firstItem="O5i-zL-Lw1" firstAttribute="top" secondItem="sJh-Go-fTg" secondAttribute="bottom" constant="35" id="PKQ-kH-vq9"/>
-                            <constraint firstAttribute="bottom" secondItem="O5i-zL-Lw1" secondAttribute="bottom" constant="20" symbolic="YES" id="Ren-fN-z7h"/>
+                            <constraint firstItem="O5i-zL-Lw1" firstAttribute="top" secondItem="sJh-Go-fTg" secondAttribute="bottom" constant="279" id="PKQ-kH-vq9"/>
+                            <constraint firstAttribute="bottom" secondItem="O5i-zL-Lw1" secondAttribute="bottom" constant="45" id="Ren-fN-z7h"/>
                             <constraint firstItem="sJh-Go-fTg" firstAttribute="top" secondItem="c2R-oX-SBi" secondAttribute="bottom" constant="40" id="bpN-Wk-4IE"/>
                             <constraint firstItem="sJh-Go-fTg" firstAttribute="leading" secondItem="O5i-zL-Lw1" secondAttribute="leading" id="eTU-hf-YZv"/>
                             <constraint firstItem="4mI-t6-pgM" firstAttribute="leading" secondItem="oAu-tY-r6l" secondAttribute="leading" id="eqY-t4-bgH"/>
@@ -100,12 +104,15 @@
                             <constraint firstItem="W9K-Mf-FdH" firstAttribute="centerY" secondItem="TUl-1c-jYV" secondAttribute="centerY" id="rhc-iM-5gD"/>
                             <constraint firstItem="c2R-oX-SBi" firstAttribute="leading" secondItem="sJh-Go-fTg" secondAttribute="leading" id="u7Z-8i-fiP"/>
                             <constraint firstItem="W9K-Mf-FdH" firstAttribute="top" secondItem="Dk3-vn-c90" secondAttribute="bottom" constant="17" id="weG-8e-CBZ"/>
-                            <constraint firstItem="O5i-zL-Lw1" firstAttribute="top" secondItem="4mI-t6-pgM" secondAttribute="bottom" constant="8" symbolic="YES" id="zQg-Va-Jbb"/>
+                            <constraint firstItem="O5i-zL-Lw1" firstAttribute="top" secondItem="4mI-t6-pgM" secondAttribute="bottom" constant="252" id="zQg-Va-Jbb"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="4WN-da-Ldi"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="fromTextField" destination="oAu-tY-r6l" id="BFZ-S3-zG4"/>
+                        <outlet property="mapViewController" destination="Mq1-EB-0MD" id="oUa-3z-4TO"/>
                         <outlet property="postTextView" destination="4mI-t6-pgM" id="sMp-aT-xz2"/>
                         <outlet property="shoutButton" destination="O5i-zL-Lw1" id="GPm-bv-iFX"/>
                         <outlet property="toTextField" destination="W9K-Mf-FdH" id="EGR-tF-f4U"/>
@@ -129,7 +136,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDp-jB-IBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="608" y="819"/>
+            <point key="canvasLocation" x="296" y="2115"/>
         </scene>
         <!--Feed Table View Controller-->
         <scene sceneID="p08-gF-2tz">
@@ -258,7 +265,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Km1-gG-Dwl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="90"/>
+            <point key="canvasLocation" x="1252" y="710"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="l6Z-Ny-ijC">
