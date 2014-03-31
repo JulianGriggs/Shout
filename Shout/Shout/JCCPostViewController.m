@@ -16,11 +16,6 @@
 
 
 @property (weak, nonatomic) IBOutlet UITextView *postTextView;
-
-@property (weak, nonatomic) IBOutlet UITextField *toTextField;
-
-@property (weak, nonatomic) IBOutlet UITextField *fromTextField;
-
 @property (weak, nonatomic) IBOutlet UIButton *shoutButton;
 
 
@@ -34,11 +29,16 @@
 
 @implementation JCCPostViewController
 
+
+
 // map stuff
 - (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
         return;
+    
+    // get rid of the keyboard
+    [self.postTextView resignFirstResponder];
     
     // remove the old annotation and old overlay
     [self.mapViewController removeAnnotations:self.annotationArray];
@@ -116,27 +116,6 @@
 
 
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
-}
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    if ([textField isEqual:self.toTextField])
-    {
-        [self.toTextField resignFirstResponder];
-        [self.fromTextField becomeFirstResponder];
-    }
-    
-    if ([textField isEqual:self.fromTextField])
-    {
-        [self.fromTextField resignFirstResponder];
-        [self.postTextView becomeFirstResponder];
-    }
-    
-    return NO;
-}
 
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -181,13 +160,9 @@
 
 - (void)viewDidLoad
 {
-    self.toTextField.delegate = self;
-    self.fromTextField.delegate = self;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.postTextView.layer setBackgroundColor: [[UIColor whiteColor] CGColor]];
-    [self.postTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.postTextView.layer setBorderWidth: 1.0];
     [self.postTextView.layer setCornerRadius:8.0f];
     [self.postTextView.layer setMasksToBounds:YES];
@@ -203,14 +178,16 @@
     
     //  more map stuff
     [self.mapViewController setDelegate:self];
-    self.mapViewController.layer.cornerRadius = 10.0;
+    
+    // round map corners
+    //self.mapViewController.layer.cornerRadius = 10.0;
 
     
     
     // handle long press dropping pin
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.1; //user needs to press for 2 seconds
+    lpgr.minimumPressDuration = 0.05; // seconds 
     [self.mapViewController addGestureRecognizer:lpgr];
 
 }

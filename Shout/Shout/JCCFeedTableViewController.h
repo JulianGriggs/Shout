@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface JCCFeedTableViewController : UITableViewController <UITableViewDataSource>
+@interface JCCFeedTableViewController : UITableViewController <UITableViewDataSource, CLLocationManagerDelegate>
 
 @end

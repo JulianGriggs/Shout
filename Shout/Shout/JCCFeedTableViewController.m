@@ -12,11 +12,10 @@
 
 @interface JCCFeedTableViewController ()
 {
-    // Who the message is to
-    NSString *to;
     
-    // Who the message is from
-    NSString *from;
+    // location manager
+    CLLocationManager *locationManager;
+    
     
     // The contents of the message
     NSString *message;
@@ -38,7 +37,8 @@
 
 // This happens whenever a user clicks the "UP" button
 @implementation JCCFeedTableViewController
-- (IBAction)sendUp:(id)sender {
+- (IBAction)sendUp:(id)sender
+{
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
@@ -73,19 +73,34 @@
 
 - (void)fetchShouts
 {
-    /*
-    to = @"Recipient";
-    from = @"Sender";
-    message = @"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat vol.";
-    messageID = @"Please work";
-    senderID = @"Yo mama";
-     */
+    //  handle setting up location updates
+    if (!locationManager)
+        locationManager = [[CLLocationManager alloc] init];
+    
+    [locationManager startUpdatingLocation];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+    locationManager.distanceFilter=kCLDistanceFilterNone;
+    
+    //  get the current location
+    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
+    
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
+    
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages?"];
+    NSString *url1 = [url stringByAppendingString:@"latitude="];
+    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"latitude"]]];
+    NSString *url3 = [url2 stringByAppendingString:@"&"];
+    NSString *url4 = [url3 stringByAppendingString:@"longitude="];
+    NSString *url5 = [url4 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
     
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
+    [request setURL:[NSURL URLWithString:url5]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
     
     // check the response
     NSURLResponse *response;
@@ -123,13 +138,36 @@
     
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    //  format the post surroundings
+    [cell.postTextView.layer setBorderWidth: 1.0];
+    [cell.postTextView.layer setCornerRadius:8.0f];
+    [cell.postTextView.layer setMasksToBounds:YES];
+    
+    //  format buttons
+    [cell.upButton.layer setBorderWidth: 1.0];
+    [cell.upButton.layer setCornerRadius:8.0f];
+    [cell.upButton.layer setMasksToBounds:YES];
+    
+    [cell.downButton.layer setBorderWidth: 1.0];
+    [cell.downButton.layer setCornerRadius:8.0f];
+    [cell.downButton.layer setMasksToBounds:YES];
+    
+    [cell.moreButton.layer setBorderWidth: 1.0];
+    [cell.moreButton.layer setCornerRadius:8.0f];
+    [cell.moreButton.layer setMasksToBounds:YES];
+    
+    // format picture
+    [cell.profileImage.layer setBorderWidth: 1.0];
+    [cell.profileImage.layer setCornerRadius:8.0f];
+    [cell.profileImage.layer setMasksToBounds:YES];
+    
+    
+    
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     
     
     // Begin configuration of Cell
-    [cell.toLabel setText:@""];
-    [cell.fromLabel setText:@""];
     [cell.postTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.messageIDLabel setText:@""];
     [cell.senderIDLabel setText:@""];
@@ -164,10 +202,10 @@
     [self fetchShouts];
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self fetchShouts];
     
     /*
      // For rounded corners
@@ -191,7 +229,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self fetchShouts];
 }
 
 
@@ -232,6 +269,8 @@
     // Return NO if you do not want the item to be re-orderable.
     return NO;
 }
+
+
 
 
 /*
