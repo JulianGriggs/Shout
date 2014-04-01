@@ -53,6 +53,13 @@
                                 <rect key="frame" x="0.0" y="161" width="320" height="287"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </mapView>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="40" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="j7E-w1-mSH">
+                                <rect key="frame" x="101" y="456" width="118" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="sliderChange:" destination="XRm-3f-I6o" eventType="valueChanged" id="DLF-GX-0Ba"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.45478114679999998" green="0.71387838569999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>

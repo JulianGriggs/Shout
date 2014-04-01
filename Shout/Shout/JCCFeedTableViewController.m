@@ -200,6 +200,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:FALSE];
     [self fetchShouts];
 }
 

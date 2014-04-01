@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapViewController;
 @property (strong, nonatomic) NSArray *annotationArray;
 @property (strong, nonatomic) MKCircle *circleOverlay;
-
+@property (strong, nonatomic) NSNumber *circleRadius;
 
 @end
 
@@ -54,7 +54,7 @@
     JCCAnnotation *annot = [[JCCAnnotation alloc] init];
     annot.coordinate = touchMapCoordinate;
     self.annotationArray = [[NSArray alloc] initWithObjects:annot, nil];
-    self.circleOverlay = [MKCircle circleWithCenterCoordinate:annot.coordinate radius:DEFAULT_SHOUT_RADIUS];
+    self.circleOverlay = [MKCircle circleWithCenterCoordinate:annot.coordinate radius:[self.circleRadius doubleValue]];
     [self.mapViewController addOverlay:self.circleOverlay];
     [self.mapViewController addAnnotation:annot];
 }
@@ -67,6 +67,25 @@
     view.fillColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
     return view;
 }
+
+- (IBAction)sliderChange:(UISlider*)sender {
+    // Gets the size from the slider
+    int size = sender.value;
+    
+    // Replaces the instance variable corresponding to the circle size to the slider value
+    self.circleRadius = [[NSNumber alloc] initWithInt:size];
+   
+    // remove the old circle overlay
+    [self.mapViewController removeOverlay:self.circleOverlay];
+
+    // Get marker of previous radius circle
+    JCCAnnotation *annot = self.annotationArray[0];
+    
+    self.circleOverlay = [MKCircle circleWithCenterCoordinate:annot.coordinate radius:size];
+    [self.mapViewController addOverlay:self.circleOverlay];
+
+}
+
 
 //  other stuff
 
@@ -187,6 +206,9 @@
                                           initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 0.05; // seconds
     [self.mapViewController addGestureRecognizer:lpgr];
+    
+    // Set circle radius to default
+    self.circleRadius = @DEFAULT_SHOUT_RADIUS;
     
 }
 
