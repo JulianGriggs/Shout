@@ -30,7 +30,8 @@
     NSArray *jsonObjects;
     
     // An array where each element will be a dictionary holding a feature:value
-    NSMutableArray *myObject;}
+    NSMutableArray *myObject;
+}
 //This is the actual table view object that corresponds to this table view controller
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
@@ -203,8 +204,22 @@
 }
 
 
+- (void)refresh
+{
+    // Do something...
+    [self fetchShouts];
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
+}
+    
+
 - (void)viewDidLoad
 {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh)
+             forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+//    [self fetchShouts];
     [super viewDidLoad];
     
     /*
@@ -227,9 +242,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//}
 
 
 

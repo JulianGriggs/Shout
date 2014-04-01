@@ -47,7 +47,6 @@
                                 </state>
                                 <connections>
                                     <action selector="postShout:" destination="XRm-3f-I6o" eventType="touchUpInside" id="HLh-bR-ppj"/>
-                                    <action selector="shoutButtonPressed:" destination="XRm-3f-I6o" eventType="touchUpInside" id="aYU-35-Pb8"/>
                                 </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mq1-EB-0MD">

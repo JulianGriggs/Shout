@@ -93,8 +93,8 @@
         NSDictionary *dictionaryData = @{@"bodyField": self.postTextView.text, @"latitude": [NSNumber numberWithDouble:self.circleOverlay.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:self.circleOverlay.coordinate.longitude], @"radius" : [NSNumber numberWithDouble:self.circleOverlay.radius]};
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
         NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-
-
+        
+        
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
@@ -107,13 +107,11 @@
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
         
+        [self.navigationController popViewControllerAnimated:TRUE];
         
         
     }
 }
-
-
-
 
 
 
@@ -181,15 +179,15 @@
     
     // round map corners
     //self.mapViewController.layer.cornerRadius = 10.0;
-
+    
     
     
     // handle long press dropping pin
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.05; // seconds 
+    lpgr.minimumPressDuration = 0.05; // seconds
     [self.mapViewController addGestureRecognizer:lpgr];
-
+    
 }
 
 
@@ -212,7 +210,7 @@
     
     
     //  make the new annotation
-
+    
     JCCAnnotation *annot = [[JCCAnnotation alloc] init];
     annot.coordinate = coord;
     self.annotationArray = [[NSArray alloc] initWithObjects:annot, nil];
@@ -228,14 +226,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
