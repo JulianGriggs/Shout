@@ -140,27 +140,27 @@
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     //  format the post surroundings
-    [cell.postTextView.layer setBorderWidth: 1.0];
-    [cell.postTextView.layer setCornerRadius:8.0f];
-    [cell.postTextView.layer setMasksToBounds:YES];
+//    [cell.postTextView.layer setBorderWidth: 1.0];
+//    [cell.postTextView.layer setCornerRadius:8.0f];
+//    [cell.postTextView.layer setMasksToBounds:YES];
     
     //  format buttons
-    [cell.upButton.layer setBorderWidth: 1.0];
-    [cell.upButton.layer setCornerRadius:8.0f];
-    [cell.upButton.layer setMasksToBounds:YES];
-    
-    [cell.downButton.layer setBorderWidth: 1.0];
-    [cell.downButton.layer setCornerRadius:8.0f];
-    [cell.downButton.layer setMasksToBounds:YES];
-    
-    [cell.moreButton.layer setBorderWidth: 1.0];
-    [cell.moreButton.layer setCornerRadius:8.0f];
-    [cell.moreButton.layer setMasksToBounds:YES];
+//    [cell.upButton.layer setBorderWidth: 1.0];
+//    [cell.upButton.layer setCornerRadius:8.0f];
+//    [cell.upButton.layer setMasksToBounds:YES];
+//    
+//    [cell.downButton.layer setBorderWidth: 1.0];
+//    [cell.downButton.layer setCornerRadius:8.0f];
+//    [cell.downButton.layer setMasksToBounds:YES];
+//    
+//    [cell.moreButton.layer setBorderWidth: 1.0];
+//    [cell.moreButton.layer setCornerRadius:8.0f];
+//    [cell.moreButton.layer setMasksToBounds:YES];
     
     // format picture
-    [cell.profileImage.layer setBorderWidth: 1.0];
-    [cell.profileImage.layer setCornerRadius:8.0f];
-    [cell.profileImage.layer setMasksToBounds:YES];
+//    [cell.profileImage.layer setBorderWidth: 1.0];
+//    [cell.profileImage.layer setCornerRadius:8.0f];
+//    [cell.profileImage.layer setMasksToBounds:YES];
     
     
     
@@ -212,7 +212,7 @@
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
-    
+
 
 - (void)viewDidLoad
 {
@@ -222,12 +222,6 @@
     self.refreshControl = refreshControl;
 //    [self fetchShouts];
     [super viewDidLoad];
-    
-    /*
-     // For rounded corners
-     self.upButton.layer.cornerRadius = 10;
-     self.upButton.clipsToBounds = YES;
-     */
     
     
     // Uncomment the following line to preserve selection between presentations.
