@@ -36,41 +36,73 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
 
-// This happens whenever a user clicks the "UP" button
+
+// Happens when a user clicks the "UP" button
 @implementation JCCFeedTableViewController
-- (IBAction)sendUp:(id)sender
+
+/********************************************************************
+ * Actions
+ *******************************************************************/
+
+- (IBAction)sendUp:(UIButton*)sender
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    
     NSString *getMessageId = cell.messageIDLabel.text;
     NSString *getSenderID = cell.senderIDLabel.text;
+    
+    // Resets the color of the "down" button to black
+    [cell.downButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    // Sets the color of the "up" button to blue when its highlighted and after being clicked
+    [sender setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+    [sender setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+
     NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
 }
 
-// This happens whenever a user clicks the "DOWN" button
-- (IBAction)sendDown:(id)sender {
+
+// Happens when a user touches the reply button
+- (IBAction)replyButton:(UIButton*)sender
+{
+    
+}
+
+// Happens when user touches the echo button
+- (IBAction)echoButton:(UIButton*)sender
+{
+    
+}
+
+// Happens whenever a user clicks the "DOWN" button
+- (IBAction)sendDown:(UIButton*)sender {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    
     NSString *getMessageId = cell.messageIDLabel.text;
     NSString *getSenderID = cell.senderIDLabel.text;
-    NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
     
+    // Resets the color of the "up" button to black
+    [cell.upButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    // Sets the color of the "down" button to red when its highlighted and after being clicked
+    [sender setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+    [sender setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    
+    NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
 }
 
-- (IBAction)showMuteOption:(id)sender {
+- (IBAction)showMuteOption:(UIButton*)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
     // optional - add more buttons:
     [alert addButtonWithTitle:@"Yes"];
     [alert show];
 }
+
+/*******************************************************************/
 
 - (void)fetchShouts
 {
@@ -163,13 +195,15 @@
 //    [cell.profileImage.layer setMasksToBounds:YES];
     
     
-    
-    
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     
     
     // Begin configuration of Cell
     [cell.postTextView setText:[dictShout objectForKey:@"bodyField"]];
+//    CGRect frame = cell.postTextView.frame;
+//    frame.size.height = cell.postTextView.contentSize.height;
+//    cell.postTextView.frame = frame;
+    
     [cell.messageIDLabel setText:@""];
     [cell.senderIDLabel setText:@""];
         
@@ -220,9 +254,7 @@
     [refreshControl addTarget:self action:@selector(refresh)
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
-//    [self fetchShouts];
     [super viewDidLoad];
-    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
