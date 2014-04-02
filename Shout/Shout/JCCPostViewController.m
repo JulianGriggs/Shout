@@ -118,6 +118,14 @@
         
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        // authentication
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"camissoft"];
+        NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+        NSLog(@"%@", authValue);
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
         [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
