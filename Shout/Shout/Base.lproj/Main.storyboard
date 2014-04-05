@@ -119,16 +119,13 @@
                                             <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                         </textView>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qeZ-cp-EIO">
-                                            <rect key="frame" x="72" y="114" width="10" height="10"/>
+                                            <rect key="frame" x="72" y="114" width="10" height="11"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <state key="normal" title="⋀">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="sendUp:" destination="2CT-Di-9HV" eventType="touchUpInside" id="oHI-ri-nXn"/>
-                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSS-P1-wKI">
                                             <rect key="frame" x="110" y="115" width="10" height="10"/>
@@ -138,9 +135,6 @@
                                             <state key="normal" title="⋁">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="sendDown:" destination="2CT-Di-9HV" eventType="touchUpInside" id="Thi-GA-amN"/>
-                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvA-zX-5H6">
                                             <rect key="frame" x="263" y="115" width="15" height="15"/>
@@ -150,9 +144,6 @@
                                             <state key="normal" title="...">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="showMuteOption:" destination="2CT-Di-9HV" eventType="touchUpInside" id="EHf-EO-Y8d"/>
-                                            </connections>
                                         </button>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWn-Kd-5Uv">
                                             <rect key="frame" x="26" y="145" width="0.0" height="0.0"/>
@@ -187,9 +178,6 @@
                                             <rect key="frame" x="154" y="115" width="15" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Reply" image="Reply"/>
-                                            <connections>
-                                                <action selector="replyButton:" destination="2CT-Di-9HV" eventType="touchUpInside" id="aK0-xI-WIk"/>
-                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8X-hH-eFK">
                                             <rect key="frame" x="200" y="114" width="15" height="15"/>
@@ -197,21 +185,14 @@
                                             <state key="normal" title="Echo" image="Echo">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
-                                            <connections>
-                                                <action selector="echoButton:" destination="2CT-Di-9HV" eventType="touchUpInside" id="HUx-mn-Jih"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.45478114675208725" green="0.71387838566410733" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="downButton" destination="aSS-P1-wKI" id="bPc-lX-2Vv"/>
                                     <outlet property="messageIDLabel" destination="fWn-Kd-5Uv" id="uT5-Pu-1tY"/>
-                                    <outlet property="moreButton" destination="zvA-zX-5H6" id="VXG-AX-RnT"/>
-                                    <outlet property="postTextView" destination="2hM-zJ-fcZ" id="lES-3z-FHE"/>
                                     <outlet property="senderIDLabel" destination="pWT-3n-9Ka" id="Nye-P4-zjx"/>
-                                    <outlet property="upButton" destination="qeZ-cp-EIO" id="I4V-ql-J2X"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

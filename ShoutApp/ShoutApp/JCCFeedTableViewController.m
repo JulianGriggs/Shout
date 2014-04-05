@@ -52,48 +52,63 @@
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *getMessageId = cell.messageIDLabel.text;
-    NSString *getSenderID = cell.senderIDLabel.text;
+    NSString *getMessageId = cell.MessageIDLabel.text;
+    NSString *getSenderID = cell.SenderIDLabel.text;
     
-    // Resets the color of the "down" button to black
-    [cell.downButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    // Sets the color of the "up" button to blue when its highlighted and after being clicked
-    [sender setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
-    [sender setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    // If black set to blue, else set to black
+    if ([cell.UpLabel.textColor isEqual:[UIColor blackColor]])
+    {
+        // Resets the color of the "down" button to black
+        [cell.DownLabel setTextColor:[UIColor blackColor]];
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [cell.UpLabel setTextColor:[UIColor blueColor]];
+    }
+    else
+    {
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [cell.UpLabel setTextColor:[UIColor blackColor]];
+    }
 
-    NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
-}
-
-
-// Happens when a user touches the reply button
-- (IBAction)replyButton:(UIButton*)sender
-{
-    
-}
-
-// Happens when user touches the echo button
-- (IBAction)echoButton:(UIButton*)sender
-{
-    
 }
 
 // Happens whenever a user clicks the "DOWN" button
-- (IBAction)sendDown:(UIButton*)sender {
+- (IBAction)sendDown:(UIButton*)sender
+{
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *getMessageId = cell.messageIDLabel.text;
-    NSString *getSenderID = cell.senderIDLabel.text;
+    NSString *getMessageId = cell.MessageIDLabel.text;
+    NSString *getSenderID = cell.SenderIDLabel.text;
     
-    // Resets the color of the "up" button to black
-    [cell.upButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    // Sets the color of the "down" button to red when its highlighted and after being clicked
-    [sender setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-    [sender setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    
-    NSLog(@"Message ID: %@ \n SenderID: %@", getMessageId, getSenderID);
+    // If black set to red, else set to black
+    if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
+    {
+        // Resets the color of the "down" button to black
+        [cell.UpLabel setTextColor:[UIColor blackColor]];
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [cell.DownLabel setTextColor:[UIColor redColor]];
+    }
+    else
+    {
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [cell.DownLabel setTextColor:[UIColor blackColor]];
+    }
+}
+
+
+
+// Happens when a user touches the reply button
+- (IBAction)sendReply:(UIButton*)sender
+{
+    //ToDo
+}
+
+// Happens when user touches the echo button
+- (IBAction)sendEcho:(UIButton*)sender
+{
+    //ToDo
 }
 
 - (IBAction)showMuteOption:(UIButton*)sender {
@@ -101,6 +116,15 @@
     // optional - add more buttons:
     [alert addButtonWithTitle:@"Yes"];
     [alert show];
+}
+
+// This is the function that is called when the compose button is pressed
+- (IBAction)pressedComposeButton:(id)sender
+{
+    // This allocates a post view controller and pushes it on the navigation stack
+    JCCPostViewController *postViewController = [[JCCPostViewController alloc] initWithNibName:@"CustomPostView" bundle:[NSBundle mainBundle]];
+    
+    [self.navigationController pushViewController:postViewController animated:YES];
 }
 
 /*******************************************************************/
@@ -173,7 +197,9 @@
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
+//        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
+        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
     }
     
     
@@ -181,16 +207,28 @@
     
     
     // Begin configuration of Cell
-    [cell.postTextView setText:[dictShout objectForKey:@"bodyField"]];
-//    CGRect frame = cell.postTextView.frame;
-//    frame.size.height = cell.postTextView.contentSize.height;
-//    cell.postTextView.frame = frame;
+    [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
+//    CGRect frame = cell.MessageTextView.frame;
+//    frame.size.height = cell.MessageTextView.contentSize.height;
+//    cell.MessageTextView.frame = frame;
     
-    [cell.messageIDLabel setText:@""];
-    [cell.senderIDLabel setText:@""];
-        
+    [cell.MessageIDLabel setText:@""];
+    [cell.SenderIDLabel setText:@""];
+    
+    // Connects the buttons to their respective actions
+    [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
     
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 160;
 }
 
 
@@ -228,15 +266,6 @@
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
-
-// This is the function that is called when the compose button is pressed
-- (IBAction)pressedComposeButton:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    [self.navigationController pushViewController:postViewController animated:YES];
-}
-
 
 - (void)viewDidLoad
 {
