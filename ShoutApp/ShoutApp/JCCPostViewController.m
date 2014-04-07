@@ -182,17 +182,27 @@
     
     
     UIView *rootView = [[[NSBundle mainBundle] loadNibNamed:@"CustomPostView" owner:self options:nil] objectAtIndex:0];
+    
 
     [self.view addSubview:rootView];
     
     // Do any additional setup after loading the view.
-    [self.postTextView.layer setBorderWidth: 1.0];
-    [self.postTextView.layer setCornerRadius:8.0f];
-    [self.postTextView.layer setMasksToBounds:YES];
+//    [self.postTextView.layer setBorderWidth: 1.0];
+//    [self.postTextView.layer setCornerRadius:8.0f];
+//    [self.postTextView.layer setMasksToBounds:YES];
     
-    self.postTextView.delegate = self;
-    self.postTextView.text = @"Let's hear it!";
-    self.postTextView.textColor = [UIColor lightGrayColor];
+//    self.postTextView.delegate = self;
+//    self.postTextView.text = @"Let's hear it!";
+//    self.postTextView.textColor = [UIColor lightGrayColor];
+
+    UITextView *text = (UITextView *)[self.view viewWithTag:1];
+    [text.layer setBorderWidth:1.0];
+    [text.layer setCornerRadius:8.0f];
+    [text.layer setMasksToBounds:YES];
+    
+    text.delegate = self;
+    text.text = @"Let's hear it!";
+    text.textColor = [UIColor lightGrayColor];
     
     self.shoutButton.layer.cornerRadius = 10; // this value vary as per your desire
     self.shoutButton.clipsToBounds = YES;
