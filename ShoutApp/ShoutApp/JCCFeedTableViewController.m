@@ -34,7 +34,7 @@
     NSMutableArray *myObject;
 }
 //This is the actual table view object that corresponds to this table view controller
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+//@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
 
 
@@ -122,8 +122,7 @@
 - (IBAction)pressedComposeButton:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] initWithNibName:@"CustomPostView" bundle:[NSBundle mainBundle]];
-    
+    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 

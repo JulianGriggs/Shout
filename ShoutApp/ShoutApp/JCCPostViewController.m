@@ -182,8 +182,7 @@
     
     
     UIView *rootView = [[[NSBundle mainBundle] loadNibNamed:@"CustomPostView" owner:self options:nil] objectAtIndex:0];
-    UIView *containerView = [[[NSBundle mainBundle] loadNibNamed:@"MyContainerView" owner:self options:nil] lastObject];
-    [rootView addSubview:containerView];
+
     [self.view addSubview:rootView];
     
     // Do any additional setup after loading the view.

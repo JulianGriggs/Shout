@@ -12,7 +12,6 @@
 		61A0CE3518F08A8C00B8217A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3418F08A8C00B8217A /* UIKit.framework */; };
 		61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE3918F08A8C00B8217A /* InfoPlist.strings */; };
 		61A0CE3D18F08A8C00B8217A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A0CE3C18F08A8C00B8217A /* main.m */; };
-		61A0CE4418F08A8C00B8217A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE4218F08A8C00B8217A /* Main.storyboard */; };
 		61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE4818F08A8C00B8217A /* Images.xcassets */; };
 		61A0CE5018F08A8C00B8217A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE4F18F08A8C00B8217A /* XCTest.framework */; };
 		61A0CE5118F08A8C00B8217A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3018F08A8C00B8217A /* Foundation.framework */; };
@@ -48,7 +47,6 @@
 		61A0CE3A18F08A8C00B8217A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		61A0CE3C18F08A8C00B8217A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		61A0CE3E18F08A8C00B8217A /* ShoutApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShoutApp-Prefix.pch"; sourceTree = "<group>"; };
-		61A0CE4318F08A8C00B8217A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		61A0CE4818F08A8C00B8217A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		61A0CE4E18F08A8C00B8217A /* ShoutAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShoutAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A0CE4F18F08A8C00B8217A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -142,7 +140,6 @@
 				61A0CE6518F08AE300B8217A /* JCCAppDelegate.m */,
 				61A0CE6718F08AE300B8217A /* JCCAnnotation.h */,
 				61A0CE6818F08AE300B8217A /* JCCAnnotation.m */,
-				61A0CE4218F08A8C00B8217A /* Main.storyboard */,
 				61A0CE4818F08A8C00B8217A /* Images.xcassets */,
 				61A0CE3718F08A8C00B8217A /* Supporting Files */,
 			);
@@ -261,7 +258,6 @@
 				61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */,
 				61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */,
 				61A0CE7818F08D1500B8217A /* CustomTableViewCell.xib in Resources */,
-				61A0CE4418F08A8C00B8217A /* Main.storyboard in Resources */,
 				61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,14 +312,6 @@
 				61A0CE3A18F08A8C00B8217A /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		61A0CE4218F08A8C00B8217A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				61A0CE4318F08A8C00B8217A /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		61A0CE5818F08A8D00B8217A /* InfoPlist.strings */ = {
@@ -417,6 +405,7 @@
 				GCC_PREFIX_HEADER = "ShoutApp/ShoutApp-Prefix.pch";
 				INFOPLIST_FILE = "ShoutApp/ShoutApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -431,6 +420,7 @@
 				GCC_PREFIX_HEADER = "ShoutApp/ShoutApp-Prefix.pch";
 				INFOPLIST_FILE = "ShoutApp/ShoutApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -494,6 +484,7 @@
 				61A0CE6118F08A8D00B8217A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		61A0CE6218F08A8D00B8217A /* Build configuration list for PBXNativeTarget "ShoutAppTests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +493,7 @@
 				61A0CE6418F08A8D00B8217A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
