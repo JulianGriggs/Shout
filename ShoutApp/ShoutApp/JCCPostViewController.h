@@ -10,6 +10,6 @@
 #import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
-@interface JCCPostViewController : UIViewController <UITextViewDelegate, UITextFieldDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
+@interface JCCPostViewController : UIViewController <UITextViewDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
 
 @end

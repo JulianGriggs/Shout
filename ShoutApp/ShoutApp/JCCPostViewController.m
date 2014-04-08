@@ -15,15 +15,14 @@
 
 @interface JCCPostViewController ()
 {
-    int size;
     
     // location manager
     CLLocationManager *locationManager;
 }
 
 
-@property (weak, nonatomic) IBOutlet UITextView *postTextView;
-@property (weak, nonatomic) IBOutlet UIButton *shoutButton;
+//@property (weak, nonatomic) IBOutlet UITextView *postTextView;
+//@property (weak, nonatomic) IBOutlet UIButton *shoutButton;
 
 
 //  map shit
@@ -33,9 +32,15 @@
 @implementation JCCPostViewController
 {
     GMSMapView *mapView;
-    CLLocationCoordinate2D currentCenter;
+    CLLocationCoordinate2D myCurrentLocation;
+    CLLocationCoordinate2D destinationLocation;
     UISlider *radiusSlider;
-    UITextView * postTextView;
+    UITextView *postTextView;
+    UIButton *shoutButton;
+    GMSMarker *currentLocationMarker;
+    GMSMarker *destinationLocationMarker;
+    GMSCircle *circle;
+    int radiusSize;
 }
 
 
@@ -44,17 +49,39 @@
 
 
 // Action that changes the radius of the circle overlay whenever the the slider is changed
-- (IBAction)sliderChanged:(UISlider*)sender {
+- (IBAction)sliderChanged:(UISlider*)sender
+{
     // Gets the size from the slider
-    size = sender.value;
+    radiusSize = sender.value;
     
     [mapView clear];
-    GMSCircle *circle = [GMSCircle circleWithPosition:currentCenter radius:size];
+    circle = [GMSCircle circleWithPosition:destinationLocation radius:radiusSize];
     circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
     circle.strokeColor = [UIColor redColor];
     circle.strokeWidth = 1;
     circle.map = mapView;
     
+    // Creates a marker at current position.
+    [self addLocationMarker:currentLocationMarker withPostion:myCurrentLocation withTitle:@"Me" withSnippet:@"My Location" withColor:[UIColor blueColor]];
+    [self addLocationMarker:destinationLocationMarker withPostion:destinationLocation withTitle:@"Destination" withSnippet:nil withColor:[UIColor redColor]];
+
+    
+}
+
+// Method that will add a location marker
+- (void) addLocationMarker:(GMSMarker*)marker withPostion:(CLLocationCoordinate2D)markerPosition withTitle:(NSString *)title withSnippet:(NSString *)snippet withColor:(UIColor*)color
+{
+    // If the current location is the same as the destination location, make marker purple.
+    if (myCurrentLocation.latitude == destinationLocation.latitude && myCurrentLocation.longitude == destinationLocation.longitude)
+        color = [UIColor purpleColor];
+        
+    
+    // Creates a marker at the location given.
+    marker.position = CLLocationCoordinate2DMake(markerPosition.latitude, markerPosition.longitude);
+    marker.title = title;
+    marker.snippet = snippet;
+    marker.icon = [GMSMarker markerImageWithColor:color];
+    marker.map = mapView;
 }
 
 
@@ -64,7 +91,7 @@
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
-    if (([self.postTextView.text isEqualToString:@"Let's hear it!"] && [self.postTextView.textColor isEqual:[UIColor lightGrayColor]]) || ([[self.postTextView.text stringByTrimmingCharactersInSet: set] length] == 0))
+    if (([postTextView.text isEqualToString:@"Let's hear it!"] && [postTextView.textColor isEqual:[UIColor lightGrayColor]]) || ([[postTextView.text stringByTrimmingCharactersInSet: set] length] == 0))
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"You have to say something!" delegate:self cancelButtonTitle:@"Will do" otherButtonTitles:nil];
         [alert show];
@@ -73,7 +100,7 @@
     {
         
         //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": self.postTextView.text, @"latitude": [NSNumber numberWithDouble:currentCenter.latitude], @"longitude": [NSNumber numberWithDouble:currentCenter.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
         NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
         
@@ -101,10 +128,13 @@
     return textField.text.length + (string.length - range.length) <= 30;
 }
 
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    return YES;
+}
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    
     if ([textView.text isEqualToString:@"Let's hear it!"])
     {
         textView.text = @"";
@@ -139,14 +169,23 @@
 
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    [mapview clear];
-    GMSCircle *circle = [GMSCircle circleWithPosition:coordinate radius:40];
+    circle.map = nil;
+    // Creates a marker at current position.
+    destinationLocation = coordinate;
+    circle.position = coordinate;
+    circle.radius = radiusSize;
     circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
     circle.strokeColor = [UIColor redColor];
     circle.strokeWidth = 1;
     circle.map = mapview;
-    currentCenter = coordinate;
+    [self addLocationMarker:currentLocationMarker withPostion:myCurrentLocation withTitle:@"Me" withSnippet:@"My Location" withColor:[UIColor blueColor]];
+    [self addLocationMarker:destinationLocationMarker withPostion:coordinate withTitle:@"Destination" withSnippet:nil withColor:[UIColor redColor]];
     
+}
+
+- (IBAction)jumpToLocation:(id)sender
+{
+    [mapView animateToLocation:myCurrentLocation];
 }
 
 - (void)viewDidLoad
@@ -169,15 +208,32 @@
     mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     mapView.myLocationEnabled = YES;
     
-    GMSCircle *circle = [GMSCircle circleWithPosition:locationManager.location.coordinate radius:40];
+    
+    mapView.settings.myLocationButton = YES;
+    // Adds compass
+//    mapView.settings.compassButton = YES;
+    
+    radiusSize = 40;
+    circle = [GMSCircle circleWithPosition:locationManager.location.coordinate radius:radiusSize];
     circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
     circle.strokeColor = [UIColor redColor];
     circle.strokeWidth = 1;
     circle.map = mapView;
-    currentCenter = locationManager.location.coordinate;
-
+    // Gets the current location
+    myCurrentLocation = locationManager.location.coordinate;
+    
+    // Sets default destination location to the current location
+    destinationLocation = locationManager.location.coordinate;
+    
     mapView.delegate = self;
     self.view = mapView;
+    
+    // Creates a marker at current position.
+    currentLocationMarker = [[GMSMarker alloc] init];
+    destinationLocationMarker =[[GMSMarker alloc] init];
+    
+    // Creates a marker at current position.
+    [self addLocationMarker:destinationLocationMarker withPostion:destinationLocation withTitle:@"Destination" withSnippet:@"My Location" withColor:[UIColor redColor]];
 
     //  text view color and shape
     postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
@@ -187,10 +243,22 @@
     // Default text view
     postTextView.text = @"Let's hear it!";
     postTextView.textColor = [UIColor lightGrayColor];
-    [postTextView setUserInteractionEnabled:YES];
-    [postTextView setEditable:YES];
+    postTextView.userInteractionEnabled = YES;
+    postTextView.editable = YES;
     postTextView.delegate = self;
+    [postTextView becomeFirstResponder];
+    
     [self.view addSubview:postTextView];
+    
+    
+    // Recreating myLocation Button
+    UIImage* myLocationIcon = [UIImage imageNamed:@"MyLocation.png"];
+    // Adds button that jumps back to current location
+    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(275, 400, 35, 35)];
+    [myLocationButton setBackgroundColor:[UIColor whiteColor]];
+    [myLocationButton setBackgroundImage:myLocationIcon forState:UIControlStateNormal];
+    [myLocationButton addTarget:self action:@selector(jumpToLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:myLocationButton];
     
     // Prevents the scroll bar from automatically scrolling down
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -209,7 +277,7 @@
 
     
     //  add shoutbutton
-    UIButton *shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 490, 225, 50)];
+    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 490, 225, 50)];
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
     [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
