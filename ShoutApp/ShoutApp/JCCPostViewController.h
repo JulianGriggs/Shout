@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface JCCPostViewController : UIViewController <UITextViewDelegate, UITextFieldDelegate, NSURLConnectionDelegate, MKMapViewDelegate>
+@interface JCCPostViewController : UIViewController <UITextViewDelegate, UITextFieldDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
 
 @end

@@ -16,7 +16,6 @@
     // Creates the window object
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
-    
     // Created the table view controller
     JCCFeedTableViewController *feedTableViewController = [[JCCFeedTableViewController alloc] init];
     
@@ -26,6 +25,8 @@
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];
     
+    
+    [GMSServices provideAPIKey:@"AIzaSyCAU6EIF1XjTI26yiqRMJvycaVfOYcHf74"];
     // Shows the window
     [self.window makeKeyAndVisible];
     return YES;

@@ -9,12 +9,16 @@
 #import "JCCPostViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JCCAnnotation.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 #define DEFAULT_SHOUT_RADIUS 40
 
 @interface JCCPostViewController ()
 {
     int size;
+    
+    // location manager
+    CLLocationManager *locationManager;
 }
 
 
@@ -23,68 +27,33 @@
 
 
 //  map shit
-@property (weak, nonatomic) IBOutlet MKMapView *mapViewController;
-@property (strong, nonatomic) NSArray *annotationArray;
-@property (strong, nonatomic) MKCircle *circleOverlay;
 
 @end
 
 @implementation JCCPostViewController
+{
+    GMSMapView *mapView;
+    CLLocationCoordinate2D currentCenter;
+    UISlider *radiusSlider;
+    UITextView * postTextView;
+}
 
 
 
 // map stuff
-- (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer
-{
-    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
-        return;
-    
-    // get rid of the keyboard
-    [self.postTextView resignFirstResponder];
-    
-    // remove the old annotation and old overlay
-    [self.mapViewController removeAnnotations:self.annotationArray];
-    [self.mapViewController removeOverlay:self.circleOverlay];
-    
-    
-    
-    //  make the new annotation
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapViewController];
-    CLLocationCoordinate2D touchMapCoordinate =
-    [self.mapViewController convertPoint:touchPoint toCoordinateFromView:self.mapViewController];
-    
-    JCCAnnotation *annot = [[JCCAnnotation alloc] init];
-    annot.coordinate = touchMapCoordinate;
-    self.annotationArray = [[NSArray alloc] initWithObjects:annot, nil];
-    self.circleOverlay = [MKCircle circleWithCenterCoordinate:annot.coordinate radius:(double) size];
-    [self.mapViewController addOverlay:self.circleOverlay];
-    [self.mapViewController addAnnotation:annot];
-}
 
 
-//  customize the circle overlay
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
-{
-    MKCircleView *view = [[MKCircleView alloc] initWithCircle:overlay];
-    view.fillColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-    return view;
-}
-
-- (IBAction)sliderChange:(UISlider*)sender {
+// Action that changes the radius of the circle overlay whenever the the slider is changed
+- (IBAction)sliderChanged:(UISlider*)sender {
     // Gets the size from the slider
     size = sender.value;
     
-    // Replaces the instance variable corresponding to the circle size to the slider value
-//    self.circleRadius = [[NSNumber alloc] initWithInt:size];
-   
-    // remove the old circle overlay
-    [self.mapViewController removeOverlay:self.circleOverlay];
-    
-    // Get marker of previous radius circle
-    JCCAnnotation *annot = self.annotationArray[0];
-    
-    self.circleOverlay = [MKCircle circleWithCenterCoordinate:annot.coordinate radius:size];
-    [self.mapViewController addOverlay:self.circleOverlay];
+    [mapView clear];
+    GMSCircle *circle = [GMSCircle circleWithPosition:currentCenter radius:size];
+    circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
+    circle.strokeColor = [UIColor redColor];
+    circle.strokeWidth = 1;
+    circle.map = mapView;
     
 }
 
@@ -102,16 +71,9 @@
     }
     else
     {
-        //  check if user has selected a location
-        if (!self.circleOverlay)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"You choose a location!" delegate:self cancelButtonTitle:@"Will do" otherButtonTitles:nil];
-            [alert show];
-            return;
-        }
         
         //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": self.postTextView.text, @"latitude": [NSNumber numberWithDouble:self.circleOverlay.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:self.circleOverlay.coordinate.longitude], @"radius" : [NSNumber numberWithDouble:self.circleOverlay.radius]};
+        NSDictionary *dictionaryData = @{@"bodyField": self.postTextView.text, @"latitude": [NSNumber numberWithDouble:currentCenter.latitude], @"longitude": [NSNumber numberWithDouble:currentCenter.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
         NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
         
@@ -174,88 +136,91 @@
     [textView resignFirstResponder];
 }
 
+
+-(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [mapview clear];
+    GMSCircle *circle = [GMSCircle circleWithPosition:coordinate radius:40];
+    circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
+    circle.strokeColor = [UIColor redColor];
+    circle.strokeWidth = 1;
+    circle.map = mapview;
+    currentCenter = coordinate;
+    
+}
+
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
+    //  handle setting up location updates
+    if (!locationManager)
+        locationManager = [[CLLocationManager alloc] init];
     
+    [locationManager startUpdatingLocation];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+    locationManager.distanceFilter=kCLDistanceFilterNone;
     
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
+                                                            longitude:locationManager.location.coordinate.longitude
+                                                                 zoom:18];
+    [mapView animateToViewingAngle:45];
+    mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    mapView.myLocationEnabled = YES;
     
-    UIView *rootView = [[[NSBundle mainBundle] loadNibNamed:@"CustomPostView" owner:self options:nil] objectAtIndex:0];
-    
+    GMSCircle *circle = [GMSCircle circleWithPosition:locationManager.location.coordinate radius:40];
+    circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
+    circle.strokeColor = [UIColor redColor];
+    circle.strokeWidth = 1;
+    circle.map = mapView;
+    currentCenter = locationManager.location.coordinate;
 
-    [self.view addSubview:rootView];
-    
-    // Do any additional setup after loading the view.
-//    [self.postTextView.layer setBorderWidth: 1.0];
-//    [self.postTextView.layer setCornerRadius:8.0f];
-//    [self.postTextView.layer setMasksToBounds:YES];
-    
-//    self.postTextView.delegate = self;
-//    self.postTextView.text = @"Let's hear it!";
-//    self.postTextView.textColor = [UIColor lightGrayColor];
+    mapView.delegate = self;
+    self.view = mapView;
 
-    UITextView *text = (UITextView *)[self.view viewWithTag:1];
-    [text.layer setBorderWidth:1.0];
-    [text.layer setCornerRadius:8.0f];
-    [text.layer setMasksToBounds:YES];
+    //  text view color and shape
+    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
+    postTextView.layer.cornerRadius = 8.0;
+    postTextView.layer.masksToBounds = YES;
     
-    text.delegate = self;
-    text.text = @"Let's hear it!";
-    text.textColor = [UIColor lightGrayColor];
+    // Default text view
+    postTextView.text = @"Let's hear it!";
+    postTextView.textColor = [UIColor lightGrayColor];
+    [postTextView setUserInteractionEnabled:YES];
+    [postTextView setEditable:YES];
+    postTextView.delegate = self;
+    [self.view addSubview:postTextView];
     
-    self.shoutButton.layer.cornerRadius = 10; // this value vary as per your desire
-    self.shoutButton.clipsToBounds = YES;
+    // Prevents the scroll bar from automatically scrolling down
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
 
     
-    //  more map stuff
-    [self.mapViewController setDelegate:self];
+    //  add slider
+    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
     
-    // round map corners
-    //self.mapViewController.layer.cornerRadius = 10.0;
+    //  set the max and min value for the radius
+    radiusSlider.minimumValue = 40;
+    radiusSlider.maximumValue = 100;
     
+    [self.view addSubview:radiusSlider];
+    [radiusSlider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
+
     
-    
-    // handle long press dropping pin
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
-                                          initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.05; // seconds
-    [self.mapViewController addGestureRecognizer:lpgr];
-    
-    // Set circle radius to default
-    size = DEFAULT_SHOUT_RADIUS;
-    
+    //  add shoutbutton
+    UIButton *shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 490, 225, 50)];
+    shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    shoutButton.clipsToBounds = YES;
+    [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
+    [shoutButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    shoutButton.backgroundColor = [UIColor whiteColor];
+    [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shoutButton];
 }
 
 
--(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
-{
-    // do asynchronous coding on the location here or else it wont zoom
-    MKUserLocation *myLocation = [self.mapViewController userLocation];
-    CLLocationCoordinate2D coord = [[myLocation location] coordinate];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 200, 200);
-    [self.mapViewController setRegion:region animated:YES];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1];
-    [UIView commitAnimations];
-    
-    // remove the old annotation and old overlay
-    [self.mapViewController removeAnnotations:self.annotationArray];
-    [self.mapViewController removeOverlay:self.circleOverlay];
-    
-    
-    
-    //  make the new annotation
-    
-    JCCAnnotation *annot = [[JCCAnnotation alloc] init];
-    annot.coordinate = coord;
-    self.annotationArray = [[NSArray alloc] initWithObjects:annot, nil];
-    self.circleOverlay = [MKCircle circleWithCenterCoordinate:annot.coordinate radius:DEFAULT_SHOUT_RADIUS];
-    [self.mapViewController addOverlay:self.circleOverlay];
-    [self.mapViewController addAnnotation:annot];
-}
+
 
 - (void)didReceiveMemoryWarning
 {

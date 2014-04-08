@@ -138,7 +138,6 @@
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
-    
     //  get the current location
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
     
