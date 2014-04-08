@@ -37,6 +37,7 @@
     UISlider *radiusSlider;
     UITextView *postTextView;
     UIButton *shoutButton;
+    UIButton *textButton;
     GMSMarker *currentLocationMarker;
     GMSMarker *destinationLocationMarker;
     GMSCircle *circle;
@@ -183,9 +184,24 @@
     
 }
 
+-(IBAction)editText:(id)sender
+{
+    [postTextView becomeFirstResponder];
+}
+
 - (IBAction)jumpToLocation:(id)sender
 {
     [mapView animateToLocation:myCurrentLocation];
+}
+
+-(void)mapView:(GMSMapView *)mapview willMove:(BOOL)gesture
+{
+    [postTextView resignFirstResponder];
+}
+
+-(void)mapView:(GMSMapView *)mapview didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [postTextView resignFirstResponder];
 }
 
 - (void)viewDidLoad
@@ -204,12 +220,11 @@
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
                                                             longitude:locationManager.location.coordinate.longitude
                                                                  zoom:18];
-    [mapView animateToViewingAngle:45];
     mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-    mapView.myLocationEnabled = YES;
+    [mapView animateToViewingAngle:45];
     
     
-    mapView.settings.myLocationButton = YES;
+   // mapView.settings.myLocationButton = YES;
     // Adds compass
 //    mapView.settings.compassButton = YES;
     
@@ -246,7 +261,8 @@
     postTextView.userInteractionEnabled = YES;
     postTextView.editable = YES;
     postTextView.delegate = self;
-    [postTextView becomeFirstResponder];
+    
+
     
     [self.view addSubview:postTextView];
     
@@ -254,7 +270,8 @@
     // Recreating myLocation Button
     UIImage* myLocationIcon = [UIImage imageNamed:@"MyLocation.png"];
     // Adds button that jumps back to current location
-    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(275, 400, 35, 35)];
+    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
+    myLocationButton.layer.cornerRadius = 8.0;
     [myLocationButton setBackgroundColor:[UIColor whiteColor]];
     [myLocationButton setBackgroundImage:myLocationIcon forState:UIControlStateNormal];
     [myLocationButton addTarget:self action:@selector(jumpToLocation:) forControlEvents:UIControlEventTouchUpInside];
@@ -277,7 +294,7 @@
 
     
     //  add shoutbutton
-    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 490, 225, 50)];
+    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
     [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
@@ -285,6 +302,15 @@
     shoutButton.backgroundColor = [UIColor whiteColor];
     [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shoutButton];
+    
+    
+
+    // button to allow editing of text
+    textButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
+    textButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    textButton.clipsToBounds = YES;
+    [textButton addTarget:self action:@selector(editText:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:textButton];
 }
 
 

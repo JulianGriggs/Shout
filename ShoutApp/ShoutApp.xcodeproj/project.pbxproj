@@ -27,7 +27,6 @@
 		61A0CE7818F08D1500B8217A /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE7718F08D1400B8217A /* CustomTableViewCell.xib */; };
 		61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE7918F0A86C00B8217A /* CustomPostView.xib */; };
 		61A0CE7C18F370EF00B8217A /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE7B18F370EF00B8217A /* GoogleMaps.framework */; };
-		61A0CE7E18F3716400B8217A /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE7D18F3716400B8217A /* GoogleMaps.bundle */; };
 		61A0CE8018F3718600B8217A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE7F18F3718600B8217A /* AVFoundation.framework */; };
 		61A0CE8218F3718E00B8217A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE8118F3718E00B8217A /* CoreData.framework */; };
 		61A0CE8418F3719400B8217A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE8318F3719400B8217A /* CoreLocation.framework */; };
@@ -40,6 +39,7 @@
 		61A0CE9218F371DB00B8217A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9118F371DB00B8217A /* OpenGLES.framework */; };
 		61A0CE9418F371E300B8217A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9318F371E300B8217A /* QuartzCore.framework */; };
 		61A0CE9618F371EC00B8217A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */; };
+		755AAEF318F4441200DB52D9 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 755AAEF118F4413C00DB52D9 /* GoogleMaps.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +95,8 @@
 		61A0CE9118F371DB00B8217A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		61A0CE9318F371E300B8217A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		755AAEEF18F440E200DB52D9 /* GoogleMaps-iOS-1.7.2.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = "GoogleMaps-iOS-1.7.2.zip"; path = "../../../Downloads/GoogleMaps-iOS-1.7.2.zip"; sourceTree = "<group>"; };
+		755AAEF118F4413C00DB52D9 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = "../../../Downloads/GoogleMaps-iOS-1.7.2/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,8 @@
 		61A0CE2F18F08A8C00B8217A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				755AAEF118F4413C00DB52D9 /* GoogleMaps.bundle */,
+				755AAEEF18F440E200DB52D9 /* GoogleMaps-iOS-1.7.2.zip */,
 				61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */,
 				61A0CE9318F371E300B8217A /* QuartzCore.framework */,
 				61A0CE9118F371DB00B8217A /* OpenGLES.framework */,
@@ -310,11 +314,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				755AAEF318F4441200DB52D9 /* GoogleMaps.bundle in Resources */,
 				61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */,
 				61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */,
 				61A0CE7818F08D1500B8217A /* CustomTableViewCell.xib in Resources */,
 				61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */,
-				61A0CE7E18F3716400B8217A /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +466,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/JGriggs/Downloads/GoogleMaps-iOS-1.7.2",
+					"/Users/cameronporter/Downloads/GoogleMaps-iOS-1.7.2",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShoutApp/ShoutApp-Prefix.pch";
@@ -481,6 +486,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/JGriggs/Downloads/GoogleMaps-iOS-1.7.2",
+					"/Users/cameronporter/Downloads/GoogleMaps-iOS-1.7.2",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShoutApp/ShoutApp-Prefix.pch";
