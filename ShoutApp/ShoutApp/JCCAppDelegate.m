@@ -9,6 +9,7 @@
 #import "JCCAppDelegate.h"
 #import "JCCFeedTableViewController.h"
 #import "JCCViewController.h"
+#import "JCCUserViewController.h"
 
 @implementation JCCAppDelegate
 
@@ -18,10 +19,12 @@
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
     // Created the table view controller
+    JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
      JCCViewController *viewController = [[JCCViewController alloc] init];
     
     // Creates the root naviagtion controller
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:userViewController];
+    [navigationController pushViewController:viewController animated:YES];
     
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];

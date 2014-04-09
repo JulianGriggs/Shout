@@ -8,6 +8,7 @@
 
 #import "JCCViewController.h"
 #import "JCCPostViewController.h"
+#import "JCCUserViewController.h"
 
 @interface JCCViewController ()
 
@@ -38,6 +39,8 @@
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,6 +61,7 @@
                                                                  zoom:18];
     mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     [mapView animateToViewingAngle:45];
+    mapView.settings.consumesGesturesInView = NO;
     self.view = mapView;
     
     
@@ -66,9 +70,8 @@
     
     // The table view controller's view
     UITableView *table = tableViewController.tableView;
-    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.6]];
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    [table setFrame:screenRect];
+    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
+    [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height),0, 0)];
     
     // Adds the table view controller as a child view controller
     [self addChildViewController:tableViewController];
@@ -76,10 +79,10 @@
     [self.view addSubview:table];
     
     
-    
     // Create the button to transition to the compose message screen
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(pressedComposeButton:)];
     [self.navigationItem setRightBarButtonItem:composeShout animated:YES];
+    
     
 }
 
