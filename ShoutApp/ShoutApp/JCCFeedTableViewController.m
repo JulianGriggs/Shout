@@ -118,13 +118,6 @@
     [alert show];
 }
 
-// This is the function that is called when the compose button is pressed
-- (IBAction)pressedComposeButton:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    [self.navigationController pushViewController:postViewController animated:YES];
-}
 
 /*******************************************************************/
 
@@ -265,11 +258,16 @@
     [self.refreshControl endRefreshing];
 }
 
+
+
+
+/*******************************************************************/
+
+
+
 - (void)viewDidLoad
 {
-    // Create the button to transition to the compose message screen
-    UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(pressedComposeButton:)];
-    [self.navigationItem setRightBarButtonItem:composeShout animated:YES];
+    [super viewDidLoad];
     
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -277,14 +275,21 @@
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
-    [super viewDidLoad];
-    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
+
+
+/*******************************************************************/
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {

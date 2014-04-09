@@ -40,6 +40,7 @@
 		61A0CE9418F371E300B8217A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9318F371E300B8217A /* QuartzCore.framework */; };
 		61A0CE9618F371EC00B8217A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */; };
 		755AAEF318F4441200DB52D9 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 755AAEF118F4413C00DB52D9 /* GoogleMaps.bundle */; };
+		755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF518F4779E00DB52D9 /* JCCViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,8 @@
 		61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		755AAEEF18F440E200DB52D9 /* GoogleMaps-iOS-1.7.2.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = "GoogleMaps-iOS-1.7.2.zip"; path = "../../../Downloads/GoogleMaps-iOS-1.7.2.zip"; sourceTree = "<group>"; };
 		755AAEF118F4413C00DB52D9 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = "../../../Downloads/GoogleMaps-iOS-1.7.2/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle"; sourceTree = "<group>"; };
+		755AAEF418F4779E00DB52D9 /* JCCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCViewController.h; sourceTree = "<group>"; };
+		755AAEF518F4779E00DB52D9 /* JCCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +192,8 @@
 				61A0CE6518F08AE300B8217A /* JCCAppDelegate.m */,
 				61A0CE6D18F08AF400B8217A /* JCCFeedTableViewController.h */,
 				61A0CE6618F08AE300B8217A /* JCCFeedTableViewController.m */,
+				755AAEF418F4779E00DB52D9 /* JCCViewController.h */,
+				755AAEF518F4779E00DB52D9 /* JCCViewController.m */,
 				61A0CE7918F0A86C00B8217A /* CustomPostView.xib */,
 				61A0CE6E18F08AF400B8217A /* JCCMapViewController.h */,
 				61A0CE6F18F08AF400B8217A /* JCCMapViewController.m */,
@@ -342,6 +347,7 @@
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,
 				61A0CE3D18F08A8C00B8217A /* main.m in Sources */,
 				61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */,
+				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				61A0CE7418F08AF400B8217A /* JCCMapViewController.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
 			);

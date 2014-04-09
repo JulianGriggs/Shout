@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface JCCFeedTableViewController : UITableViewController <UITableViewDataSource, CLLocationManagerDelegate>
+@interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
+
 
 @end
