@@ -39,12 +39,35 @@
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
+-(IBAction)pressedUserButton:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
+-(IBAction)swipeRightHandler:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(IBAction)swipeLeftHandler:(id)sender
+{
+    // This allocates a post view controller and pushes it on the navigation stack
+    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+    [self.navigationController pushViewController:postViewController animated:YES];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //  customize the navigation back button
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+    UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
+    [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
+
+    
+    
     
     //  build the location manager
     if (!locationManager)
@@ -83,6 +106,14 @@
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(pressedComposeButton:)];
     [self.navigationItem setRightBarButtonItem:composeShout animated:YES];
     
+    
+    UISwipeGestureRecognizer *gestureRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightHandler:)];
+    [gestureRightRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [self.view addGestureRecognizer:gestureRightRecognizer];
+    
+    UISwipeGestureRecognizer *gestureLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
+    [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.view addGestureRecognizer:gestureLeftRecognizer];
     
 }
 

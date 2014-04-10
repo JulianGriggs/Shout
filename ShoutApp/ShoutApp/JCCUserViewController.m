@@ -31,6 +31,13 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
+-(IBAction)swipeLeftHandler:(id)sender
+{
+    // This allocates a post view controller and pushes it on the navigation stack
+    JCCViewController *viewController = [[JCCViewController alloc] init];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,6 +52,12 @@
     UIView *userView = [[UIView alloc] init];
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
+    
+    
+    //  swipe left
+    UISwipeGestureRecognizer *gestureLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
+    [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.view addGestureRecognizer:gestureLeftRecognizer];
     
 }
 
