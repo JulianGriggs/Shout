@@ -62,6 +62,30 @@
         [cell.DownLabel setTextColor:[UIColor blackColor]];
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.UpLabel setTextColor:[UIColor blueColor]];
+        
+        
+        
+        
+        // post the like
+        // make the url with query variables
+        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+        NSString *url1 = [url stringByAppendingString:getMessageId];
+        NSString *url2 = [url1 stringByAppendingString:@"/like"];
+
+        
+        // send the get request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:url2]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        // check the response
+        NSURLResponse *response;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        
     }
     else
     {
@@ -199,6 +223,11 @@
     
     // Begin configuration of Cell
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
+    [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
+    [cell.TimeLabel setText:[dictShout objectForKey:@"timestamp"]];
+    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
+    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
+    
 //    CGRect frame = cell.MessageTextView.frame;
 //    frame.size.height = cell.MessageTextView.contentSize.height;
 //    cell.MessageTextView.frame = frame;
