@@ -9,6 +9,7 @@
 #import "JCCFeedTableViewController.h"
 #import "JCCTableViewCell.h"
 #import "JCCPostViewController.h"
+#import "JCCEchoViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCFeedTableViewController ()
@@ -132,7 +133,9 @@
 // Happens when user touches the echo button
 - (IBAction)sendEcho:(UIButton*)sender
 {
-    //ToDo
+    // This allocates a echo view controller and pushes it on the navigation stack
+    JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
+    [self.navigationController pushViewController:echoViewController animated:YES];
 }
 
 - (IBAction)showMuteOption:(UIButton*)sender {
@@ -225,6 +228,7 @@
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[dictShout objectForKey:@"timestamp"]];
+    NSLog(@"%@", [dictShout objectForKey:@"timestamp"]);
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
     
@@ -275,7 +279,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
-    [self fetchShouts];
+    [self refresh];
 }
 
 

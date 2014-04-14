@@ -41,6 +41,7 @@
 		755AAEF318F4441200DB52D9 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 755AAEF118F4413C00DB52D9 /* GoogleMaps.bundle */; };
 		755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF518F4779E00DB52D9 /* JCCViewController.m */; };
 		755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */; };
+		755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,8 @@
 		755AAEF518F4779E00DB52D9 /* JCCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCViewController.m; sourceTree = "<group>"; };
 		755AAEF718F5D50700DB52D9 /* JCCUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCUserViewController.h; sourceTree = "<group>"; };
 		755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCUserViewController.m; sourceTree = "<group>"; };
+		755AAEFA18F7307600DB52D9 /* JCCEchoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEchoViewController.h; sourceTree = "<group>"; };
+		755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEchoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +202,8 @@
 				61A0CE7918F0A86C00B8217A /* CustomPostView.xib */,
 				61A0CE7018F08AF400B8217A /* JCCPostViewController.h */,
 				61A0CE7118F08AF400B8217A /* JCCPostViewController.m */,
+				755AAEFA18F7307600DB52D9 /* JCCEchoViewController.h */,
+				755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */,
 				61A0CE7218F08AF400B8217A /* JCCTableViewCell.h */,
 				61A0CE7318F08AF400B8217A /* JCCTableViewCell.m */,
 				61A0CE7718F08D1400B8217A /* CustomTableViewCell.xib */,
@@ -347,6 +352,7 @@
 				61A0CE6A18F08AE300B8217A /* JCCFeedTableViewController.m in Sources */,
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,
 				61A0CE3D18F08A8C00B8217A /* main.m in Sources */,
+				755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */,
 				61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */,
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
