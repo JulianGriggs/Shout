@@ -12,5 +12,7 @@
 
 @interface JCCEchoViewController : UIViewController <UITextViewDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
 
+-(void)setTextField:(NSString *)text;
+
 @end
 

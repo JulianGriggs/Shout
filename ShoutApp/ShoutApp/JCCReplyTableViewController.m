@@ -1,4 +1,12 @@
 //
+//  JCCReplyTableViewController.m
+//  ShoutApp
+//
+//  Created by Cameron Porter on 4/14/14.
+//  Copyright (c) 2014 Shout. All rights reserved.
+//
+
+//
 //  JCCFeedTableViewController.m
 //  Shout
 //
@@ -7,17 +15,18 @@
 //
 
 #import "JCCFeedTableViewController.h"
+#import "JCCReplyTableViewController.h"
 #import "JCCTableViewCell.h"
 #import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
+#import "JCCReplyViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface JCCFeedTableViewController ()
+@interface JCCReplyTableViewController ()
 {
     
     // location manager
     CLLocationManager *locationManager;
-    
     
     // The contents of the message
     NSString *message;
@@ -33,6 +42,8 @@
     
     // An array where each element will be a dictionary holding a feature:value
     NSMutableArray *myObject;
+    
+    NSString *Id;
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -40,7 +51,13 @@
 
 
 // Happens when a user clicks the "UP" button
-@implementation JCCFeedTableViewController
+@implementation JCCReplyTableViewController
+
+
+-(void)passMessageId:(NSString *)messageId
+{
+    Id = messageId;
+}
 
 /********************************************************************
  * Actions
@@ -65,14 +82,12 @@
         [cell.UpLabel setTextColor:[UIColor blueColor]];
         
         
-        
-        
         // post the like
         // make the url with query variables
         NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
         NSString *url1 = [url stringByAppendingString:getMessageId];
         NSString *url2 = [url1 stringByAppendingString:@"/like"];
-
+        
         
         // send the get request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -93,7 +108,7 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.UpLabel setTextColor:[UIColor blackColor]];
     }
-
+    
 }
 
 // Happens whenever a user clicks the "DOWN" button
@@ -129,16 +144,16 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
+    [self.navigationController pushViewController:replyViewController animated:YES];
+    
     
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    [self.navigationController pushViewController:replyViewController animated:YES];
-    
     // set the text
-    [replyViewController passMessageId:cell.MessageIDLabel.text];    
+    [replyViewController passMessageId:cell.MessageIDLabel.text];
 }
 
 
@@ -172,6 +187,7 @@
 
 - (void)fetchShouts
 {
+    
     //  handle setting up location updates
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -180,22 +196,15 @@
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
-    //  get the current location
-    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
-    
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-    
+
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages?"];
-    NSString *url1 = [url stringByAppendingString:@"latitude="];
-    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"latitude"]]];
-    NSString *url3 = [url2 stringByAppendingString:@"&"];
-    NSString *url4 = [url3 stringByAppendingString:@"longitude="];
-    NSString *url5 = [url4 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/replies?"];
+    NSString *url1 = [url stringByAppendingString:@"message_id="];
+    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", Id]];
     
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url5]];
+    [request setURL:[NSURL URLWithString:url2]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
@@ -206,19 +215,9 @@
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
     
-    // Creates myObject every time  this function is called
-    myObject = [[NSMutableArray alloc] init];
-    
-    /*
-    // This is sends a get request to the URL and saves the response in an NSData object
-    NSData *jsonSource = [NSData dataWithContentsOfURL:
-                          [NSURL URLWithString:@"http://api.kivaws.org/v1/loans/search.json?status=fundraising"]];
-     */
-    
-    
     // This parses the response from the server as a JSON object
     jsonObjects = [NSJSONSerialization JSONObjectWithData:
-                                 GETReply options:kNilOptions error:nil];
+                   GETReply options:kNilOptions error:nil];
     
 }
 
@@ -237,14 +236,13 @@
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-//        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
+        //        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
-    
     
     // Begin configuration of Cell
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
@@ -253,18 +251,19 @@
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
     
-//    CGRect frame = cell.MessageTextView.frame;
-//    frame.size.height = cell.MessageTextView.contentSize.height;
-//    cell.MessageTextView.frame = frame;
     
-    [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
+    //    CGRect frame = cell.MessageTextView.frame;
+    //    frame.size.height = cell.MessageTextView.contentSize.height;
+    //    cell.MessageTextView.frame = frame;
+    
+    [cell.MessageIDLabel setText:@""];
     [cell.SenderIDLabel setText:@""];
     
     // Connects the buttons to their respective actions
     [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
     [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -329,11 +328,6 @@
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 

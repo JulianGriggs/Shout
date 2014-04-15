@@ -44,7 +44,24 @@
     int radiusSize;
 }
 
-
+// set the text field
+-(void)setTextField:(NSString *)text
+{
+    //  text view color and shape
+    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
+    postTextView.layer.cornerRadius = 8.0;
+    postTextView.layer.masksToBounds = YES;
+    
+    //  set the text
+    [postTextView setText:text];
+    
+    // Default text view
+    postTextView.userInteractionEnabled = NO;
+    postTextView.editable = NO;
+    postTextView.delegate = self;
+    
+    [self.view addSubview:postTextView];
+}
 
 // map stuff
 
@@ -259,21 +276,6 @@
     // Creates a marker at current position.
     [self addLocationMarker:destinationLocationMarker withPostion:destinationLocation withTitle:@"Destination" withSnippet:@"My Location" withColor:[UIColor redColor]];
     
-    //  text view color and shape
-    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
-    postTextView.layer.cornerRadius = 8.0;
-    postTextView.layer.masksToBounds = YES;
-    
-    // Default text view
-    postTextView.text = @"ECHO HERE";
-    postTextView.textColor = [UIColor lightGrayColor];
-    postTextView.userInteractionEnabled = NO;
-    postTextView.editable = NO;
-    postTextView.delegate = self;
-    
-    
-    
-    [self.view addSubview:postTextView];
     
     
     // Recreating myLocation Button
@@ -311,15 +313,6 @@
     shoutButton.backgroundColor = [UIColor whiteColor];
     [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shoutButton];
-    
-    
-    
-    // button to allow editing of text
-    textButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
-    textButton.layer.cornerRadius = 8.0; // this value vary as per your desire
-    textButton.clipsToBounds = YES;
-    [textButton addTarget:self action:@selector(editText:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:textButton];
 }
 
 
