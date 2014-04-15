@@ -7,6 +7,7 @@
 //
 
 #import "JCCPostViewController.h"
+#import "JCCLoginViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JCCAnnotation.h"
 #import <GoogleMaps/GoogleMaps.h>
@@ -111,7 +112,12 @@
         
         
         // authentication
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
+//        Hard coded works for some reason
+//        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
+        
+//        NSLog(@"%@, %@", self.userName, self.password);
+        
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", self.userName, self.password];
         NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
         NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
         NSLog(@"%@", authValue);
@@ -218,6 +224,7 @@
     
     [super viewDidLoad];
     //  handle setting up location updates
+    
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
     

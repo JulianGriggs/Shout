@@ -247,6 +247,8 @@
     
     
     // Begin configuration of Cell
+    
+    [cell.ProfileImage setImage:[UIImage imageNamed:@"UserIcon.png"]];
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[dictShout objectForKey:@"timestamp"]];

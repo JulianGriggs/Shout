@@ -10,25 +10,26 @@
 #import "JCCFeedTableViewController.h"
 #import "JCCViewController.h"
 #import "JCCUserViewController.h"
+#import "JCCLoginViewController.h"
 
 @implementation JCCAppDelegate
 
+
+// Note that the viewController for the table and the user page are now created in the login controller after a successful login
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Creates the window object
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
-    // Created the table view controller
-    JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-     JCCViewController *viewController = [[JCCViewController alloc] init];
+    // Created the login view controller
+    JCCLoginViewController *loginViewController = [[JCCLoginViewController alloc]init];
     
     // Creates the root naviagtion controller
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:userViewController];
-    [navigationController pushViewController:viewController animated:YES];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];
-    
+
     
     [GMSServices provideAPIKey:@"AIzaSyCAU6EIF1XjTI26yiqRMJvycaVfOYcHf74"];
     // Shows the window

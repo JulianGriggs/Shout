@@ -36,6 +36,12 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+    
+    // Passes the username to the post view controller
+    postViewController.userName = self.userName;
+    // Passes the password to the post view controller
+    postViewController.password = self.password;
+    
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
@@ -53,6 +59,12 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+    
+    // Passes the username to the post view controller
+    postViewController.userName = self.userName;
+    // Passes the password to the post view controller
+    
+    postViewController.password = self.password;
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
@@ -66,8 +78,6 @@
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 
-    
-    
     
     //  build the location manager
     if (!locationManager)

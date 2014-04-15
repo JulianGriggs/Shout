@@ -28,6 +28,12 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
+    
+    // Passes the username to the post view controller
+    viewController.userName = self.userName;
+    // Passes the password to the post view controller
+    viewController.password = self.password;
+    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -35,6 +41,12 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
+    
+    // Passes the username to the post view controller
+    viewController.userName = self.userName;
+    // Passes the password to the post view controller
+    viewController.password = self.password;
+    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -46,6 +58,9 @@
     // Create the button to transition to the feed screen
     UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(pressedFeedButton:)];
     [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
+    
+    // Remove back button in top navigation
+    self.navigationItem.hidesBackButton = YES;
     
     
     //  build the view

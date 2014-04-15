@@ -12,5 +12,5 @@
 
 @interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
 
-
+@property(nonatomic, strong) NSString *userName;
 @end

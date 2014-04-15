@@ -11,5 +11,6 @@
 #import <GoogleMaps/GoogleMaps.h>
 
 @interface JCCPostViewController : UIViewController <UITextViewDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
-
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSString *password;
 @end
