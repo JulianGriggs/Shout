@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "JCCReplyViewController.h"
 
-@interface JCCReplyTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
+@interface JCCReplyTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UITextFieldDelegate>
 
 -(void)passMessageId:(NSString *)messageId;
 

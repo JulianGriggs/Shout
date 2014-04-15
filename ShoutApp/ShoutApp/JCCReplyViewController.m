@@ -23,6 +23,8 @@
     JCCReplyTableViewController *tableViewController;
     UITableView *tableView;
     NSString *Id;
+    UIView *composeView;
+    UITextView *replyTextView;
 }
 
 //  set the message id
@@ -54,29 +56,45 @@
     return self;
 }
 
-// This is the function that is called when the compose button is pressed
-- (IBAction)pressedComposeButton:(id)sender
+
+
+//  reply pressed button handler
+-(IBAction)replyComposeButtonPressed:(id)sender
 {
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    [self.navigationController pushViewController:postViewController animated:YES];
+    //  text view color and shape
+    composeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
+    composeView.layer.masksToBounds = YES;
+    composeView.backgroundColor = [UIColor whiteColor];
+    composeView.alpha = 0.8;
+    [self.view addSubview:composeView];
+    
+    // add the cancel button 
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
+    [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
+    
+    //  add the reply field
+    //  text view color and shape
+    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 125, 225, 75)];
+    replyTextView.layer.cornerRadius = 8.0;
+    replyTextView.layer.masksToBounds = YES;
+    
+    // Default text view
+    replyTextView.textColor = [UIColor blackColor];
+    replyTextView.userInteractionEnabled = YES;
+    replyTextView.editable = YES;
+    [self.view addSubview:replyTextView];
+    
 }
 
--(IBAction)pressedUserButton:(id)sender
+//  cancel button is pressed handler
+-(IBAction)cancelButtonPressed:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
--(IBAction)swipeRightHandler:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
--(IBAction)swipeLeftHandler:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    [self.navigationController pushViewController:postViewController animated:YES];
+    //  delete the compose view
+    [composeView removeFromSuperview];
+    
+    //  add the reply compose button
+    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
+    [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
 }
 
 - (void)viewDidLoad
@@ -139,6 +157,9 @@
     [self.view addSubview:postTextView];
     
 
+    // add a compose reply button
+    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
+    [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
     
 }
 
