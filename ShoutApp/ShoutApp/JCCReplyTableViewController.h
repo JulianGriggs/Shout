@@ -14,4 +14,6 @@
 
 -(void)passMessageId:(NSString *)messageId;
 
+- (void)refresh;
+
 @end

@@ -25,6 +25,7 @@
     NSString *Id;
     UIView *composeView;
     UITextView *replyTextView;
+    UIButton *replyButton;
 }
 
 //  set the message id
@@ -79,7 +80,6 @@
     replyTextView.layer.masksToBounds = YES;
     
     // Default text view
-    // Default text view
     replyTextView.text = @"Reply here!";
     replyTextView.textColor = [UIColor lightGrayColor];
     replyTextView.userInteractionEnabled = YES;
@@ -87,6 +87,36 @@
     replyTextView.delegate = self;
     [self.view addSubview:replyTextView];
     
+    
+    //  add reply button
+    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 210, 175, 50)];
+    replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    replyButton.clipsToBounds = YES;
+    [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
+    [replyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    replyButton.backgroundColor = [UIColor whiteColor];
+    [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:replyButton];
+    
+}
+
+//  handle posting a reply
+-(IBAction)postReply:(id)sender
+{
+    // post the reply
+    
+    //  refresh the table of replies after posting
+    [tableViewController refresh];
+    
+    // clear the screen
+    //  delete the compose view
+    [composeView removeFromSuperview];
+    [replyTextView removeFromSuperview];
+    [replyButton removeFromSuperview];
+    
+    //  add the reply compose button
+    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
+    [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
 }
 
 // handle the number of cahracters in the text field
@@ -113,12 +143,14 @@
     [textView resignFirstResponder];
 }
 
+
 //  cancel button is pressed handler
 -(IBAction)cancelButtonPressed:(id)sender
 {
     //  delete the compose view
     [composeView removeFromSuperview];
     [replyTextView removeFromSuperview];
+    [replyButton removeFromSuperview];
     
     //  add the reply compose button
     UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
