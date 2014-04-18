@@ -11,7 +11,7 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "JCCFeedTableViewController.h"
 
-@interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate>
+@interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate>
 
 -(void)passMessageId:(NSString *)messageId;
 

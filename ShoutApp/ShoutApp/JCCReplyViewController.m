@@ -65,7 +65,7 @@
     composeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
     composeView.layer.masksToBounds = YES;
     composeView.backgroundColor = [UIColor whiteColor];
-    composeView.alpha = 0.8;
+    composeView.alpha = 0.5;
     [self.view addSubview:composeView];
     
     // add the cancel button 
@@ -79,11 +79,38 @@
     replyTextView.layer.masksToBounds = YES;
     
     // Default text view
-    replyTextView.textColor = [UIColor blackColor];
+    // Default text view
+    replyTextView.text = @"Reply here!";
+    replyTextView.textColor = [UIColor lightGrayColor];
     replyTextView.userInteractionEnabled = YES;
     replyTextView.editable = YES;
+    replyTextView.delegate = self;
     [self.view addSubview:replyTextView];
     
+}
+
+// handle the number of cahracters in the text field
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    
+    [textView becomeFirstResponder];
+    if([text isEqualToString:@"\n"])
+    {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return textView.text.length + (text.length - range.length) <= 140;
+}
+
+// handle lets hear it text
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = @"Reply here!";
+        textView.textColor = [UIColor lightGrayColor];
+    }
+    [textView resignFirstResponder];
 }
 
 //  cancel button is pressed handler
@@ -91,6 +118,7 @@
 {
     //  delete the compose view
     [composeView removeFromSuperview];
+    [replyTextView removeFromSuperview];
     
     //  add the reply compose button
     UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
