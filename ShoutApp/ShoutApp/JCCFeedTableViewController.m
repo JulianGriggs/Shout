@@ -131,7 +131,7 @@
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
     replyViewController.userName = self.userName;
-    replyViewController.password = self.password;
+    replyViewController.token = self.token;
     
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -151,6 +151,8 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
+    echoViewController.userName = self.userName;
+    echoViewController.token = self.token;
     
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];

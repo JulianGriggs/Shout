@@ -100,7 +100,7 @@
     
     //  create the table view controller
     tableViewController = [[JCCFeedTableViewController alloc] init];
-    tableViewController.password = self.password;
+    tableViewController.token = self.token;
     tableViewController.userName = self.userName;
     
     // The table view controller's view

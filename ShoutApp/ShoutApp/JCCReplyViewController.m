@@ -126,9 +126,9 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
-        NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+        NSString *authStr = self.token;
+                
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         NSLog(@"%@", authValue);
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
@@ -144,8 +144,6 @@
         NSURLResponse *response;
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        NSLog(theReply);
         
         //  refresh the table of replies after posting
         [tableViewController refresh];

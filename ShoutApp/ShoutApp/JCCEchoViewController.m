@@ -118,7 +118,7 @@
     {
         
         //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
         NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
         
@@ -128,10 +128,8 @@
         
         
         // authentication
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
-        NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-        NSLog(@"%@", authValue);
+        NSString *authStr = [NSString stringWithFormat:@"%@", self.token];
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
         [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
