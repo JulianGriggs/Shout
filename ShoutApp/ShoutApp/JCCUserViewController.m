@@ -32,7 +32,7 @@
     // Passes the username to the post view controller
     viewController.userName = self.userName;
     // Passes the password to the post view controller
-    viewController.password = self.password;
+    viewController.token = self.token;
     
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -45,7 +45,7 @@
     // Passes the username to the post view controller
     viewController.userName = self.userName;
     // Passes the password to the post view controller
-    viewController.password = self.password;
+    viewController.token = self.token;
     
     [self.navigationController pushViewController:viewController animated:YES];
 }

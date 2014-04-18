@@ -112,15 +112,9 @@
         
         
         // authentication
-//        Hard coded works for some reason
-//        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
-        
-//        NSLog(@"%@, %@", self.userName, self.password);
-        
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", self.userName, self.password];
+        NSString *authStr = self.token;
         NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-        NSLog(@"%@", authValue);
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
         [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
@@ -130,8 +124,11 @@
         
         // check the response
         NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSError *error = nil;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        NSLog(@"Response: %@", error);
         
         [self.navigationController popViewControllerAnimated:TRUE];
         

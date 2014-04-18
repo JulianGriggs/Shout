@@ -22,6 +22,7 @@
     UITextField *userNameField;
     UITextField *passwordField;
     UIButton *loginButton;
+    UIImage *logoImage;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -84,7 +85,6 @@
         NSLog(@"%@ %@", userNameField.text, passwordField.text);
         NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
         NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-        NSLog(@"%@", authValue);
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
         [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
@@ -96,34 +96,41 @@
         NSURLResponse *response;
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        // This parses the response from the server as a JSON object
-        //NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
-        NSLog(@"%@", GETReply);
-        NSLog(@"here%@", theReply);
+
+        // They didn't give a valid username / password
+        if (GETReply == nil)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+            passwordField.text = @"";
+        }
         
-        // Make Sure the response says it is valid
+        else
+        {
+            // This parses the response from the server as a JSON object
+            NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
+            //NSLog(@"%@", loginToken);
+            NSString *token = [loginToken objectForKey:@"token"];
+            // Make Sure the response says it is valid
 
         
-        // Created the user view controller
-        JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-        // Sets the username field to the appropriate value
-        userViewController.userName = userNameField.text;
-        userViewController.password = passwordField.text;
-//        userViewController.userName = @"blirby";
-//        userViewController.password = @"blirby";
+            // Created the user view controller
+            JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+            // Sets the username field to the appropriate value
+            userViewController.userName = userNameField.text;
+            userViewController.token = token;
+            NSLog(@"login token: %@", token);
         
-        // Created the table view controller
-        JCCViewController *viewController = [[JCCViewController alloc] init];
-        // Sets the username field to the appropriate value
-        viewController.userName = userNameField.text;
-        viewController.password = passwordField.text;
-//        viewController.userName = @"blirby";
-//        viewController.password = @"blirby";
+            // Created the table view controller
+            JCCViewController *viewController = [[JCCViewController alloc] init];
+            // Sets the username field to the appropriate value
+            viewController.userName = userNameField.text;
+            viewController.token = token;
         
 
-        [self.navigationController pushViewController:userViewController animated:NO];
-        [self.navigationController pushViewController:viewController animated:YES];
-        
+            [self.navigationController pushViewController:userViewController animated:NO];
+            [self.navigationController pushViewController:viewController animated:YES];
+        }
     }
 }
 
@@ -133,7 +140,7 @@
     [super viewDidLoad];
     //  build the view
     UIView *loginView = [[UIView alloc] init];
-    loginView.backgroundColor = [UIColor whiteColor];
+    loginView.backgroundColor = [UIColor lightGrayColor];
     self.view = loginView;
 
     // Adds a tap gesture so that text fields resign first responder on a tap outside
@@ -143,36 +150,46 @@
     
     [self.view addGestureRecognizer:tap];
     
+    // Create Logo Image
+    logoImage = [UIImage imageNamed:@"ShoutIcon.png"];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75,225, 100)];
+    [imageView setImage:logoImage];
+    [self.view addSubview:imageView];
+    
     // Create the email field
-    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 75, 225, 50)];
+    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 175, 225, 50)];
     userNameField.delegate = self;
     userNameField.placeholder = @" Username";
     [userNameField setAutocorrectionType: UITextAutocorrectionTypeNo];
     userNameField.layer.cornerRadius=8.0f;
     userNameField.layer.masksToBounds=YES;
-    userNameField.layer.borderColor=[[UIColor blackColor]CGColor];
+//    userNameField.layer.borderColor=[[UIColor blackColor]CGColor];
+    userNameField.layer.backgroundColor=[[UIColor whiteColor]CGColor];
     userNameField.layer.borderWidth= 1.0f;
+    userNameField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:userNameField];
 
     
     // Create the password field
-    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 175, 225, 50)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
     passwordField.delegate = self;
     passwordField.placeholder = @" Password";
     passwordField.secureTextEntry = YES;
     passwordField.layer.cornerRadius=8.0f;
     passwordField.layer.masksToBounds=YES;
-    passwordField.layer.borderColor=[[UIColor blackColor]CGColor];
+//    passwordField.layer.borderColor=[[UIColor blackColor]CGColor];
+    passwordField.layer.backgroundColor=[[UIColor whiteColor]CGColor];
     passwordField.layer.borderWidth= 1.0f;
+    userNameField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:passwordField];
     
     // Build login button
-    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 300, 225, 50)];
     loginButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     loginButton.clipsToBounds = YES;
     [loginButton setTitle:@"Login!" forState:UIControlStateNormal];
-    [loginButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    loginButton.backgroundColor = [UIColor whiteColor];
+    [loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    loginButton.backgroundColor = [UIColor grayColor];
     [loginButton addTarget:self action:@selector(postLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
     
