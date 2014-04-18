@@ -87,7 +87,7 @@
         NSLog(@"%@", authValue);
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
-        [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/login"]];
+        [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
@@ -96,7 +96,10 @@
         NSURLResponse *response;
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        NSLog(@"%@", theReply);
+        // This parses the response from the server as a JSON object
+        //NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
+        NSLog(@"%@", GETReply);
+        NSLog(@"here%@", theReply);
         
         // Make Sure the response says it is valid
 

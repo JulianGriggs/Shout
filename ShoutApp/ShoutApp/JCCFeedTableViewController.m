@@ -210,12 +210,6 @@
     // Creates myObject every time  this function is called
     myObject = [[NSMutableArray alloc] init];
     
-    /*
-    // This is sends a get request to the URL and saves the response in an NSData object
-    NSData *jsonSource = [NSData dataWithContentsOfURL:
-                          [NSURL URLWithString:@"http://api.kivaws.org/v1/loans/search.json?status=fundraising"]];
-     */
-    
     
     // This parses the response from the server as a JSON object
     jsonObjects = [NSJSONSerialization JSONObjectWithData:
