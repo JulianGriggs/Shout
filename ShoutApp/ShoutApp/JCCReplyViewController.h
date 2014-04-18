@@ -11,8 +11,11 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "JCCFeedTableViewController.h"
 
-@interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate>
+@interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate>
 
 -(void)passMessageId:(NSString *)messageId;
+
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSString *password;
 
 @end

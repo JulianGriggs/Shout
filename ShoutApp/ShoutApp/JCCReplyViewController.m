@@ -42,8 +42,11 @@
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
     
+    tableView.delegate = self;
+    
     // Adds the table view controller as a child view controller
     [self addChildViewController:tableViewController];
+    
     // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
 }
@@ -89,7 +92,7 @@
     
     
     //  add reply button
-    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 210, 175, 50)];
+    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 207, 175, 50)];
     replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     replyButton.clipsToBounds = YES;
     [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
@@ -104,19 +107,56 @@
 -(IBAction)postReply:(id)sender
 {
     // post the reply
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
-    //  refresh the table of replies after posting
-    [tableViewController refresh];
-    
-    // clear the screen
-    //  delete the compose view
-    [composeView removeFromSuperview];
-    [replyTextView removeFromSuperview];
-    [replyButton removeFromSuperview];
-    
-    //  add the reply compose button
-    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
-    [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
+    if (([replyTextView.text isEqualToString:@"Reply here!"] && [replyTextView.textColor isEqual:[UIColor lightGrayColor]]) || ([[replyTextView.text stringByTrimmingCharactersInSet: set] length] == 0))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"You have to say something!" delegate:self cancelButtonTitle:@"Will do" otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        
+        //  format the data
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
+        NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+        
+        
+        // send the post request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", self.userName, self.password];
+        NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+        NSLog(@"%@", authValue);
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
+        [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        
+        // check the response
+        NSURLResponse *response;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        
+        //  refresh the table of replies after posting
+        [tableViewController refresh];
+        
+        // clear the screen
+        //  delete the compose view
+        [composeView removeFromSuperview];
+        [replyTextView removeFromSuperview];
+        [replyButton removeFromSuperview];
+        
+        //  add the reply compose button
+        UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
+        [self.navigationItem setRightBarButtonItem:replyComposeButton animated:YES];
+        
+    }
 }
 
 // handle the number of cahracters in the text field
@@ -133,7 +173,23 @@
     return textView.text.length + (text.length - range.length) <= 140;
 }
 
-// handle lets hear it text
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [replyTextView resignFirstResponder];
+}
+
+// handle text in text view
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"Reply here!"])
+    {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor]; //optional
+    }
+    [textView becomeFirstResponder];
+}
+
+// handle text in text view
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@""]) {
@@ -156,6 +212,8 @@
     UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
     [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
 }
+
+
 
 - (void)viewDidLoad
 {
@@ -216,10 +274,54 @@
     postTextView.editable = NO;
     [self.view addSubview:postTextView];
     
+    // username label
+    UILabel *usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 85, 100, 30)];
+    [usernameLabel setText:[tempJsonObjects objectForKey:@"owner"]];
+    usernameLabel.textAlignment = NSTextAlignmentLeft;
+    [self.view addSubview:usernameLabel];
+    
+    // time label
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
+    [timeLabel setText:[tempJsonObjects objectForKey:@"timestamp"]];
+    timeLabel.textAlignment = NSTextAlignmentRight;
+    [self.view addSubview:timeLabel];
+    
+    //  like label
+    UILabel *likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 187, 40, 40)];
+    [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
+    likeLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:likeLabel];
+    
+    //  dislike label
+    UILabel *dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 187, 40, 40)];
+    [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
+    dislikeLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:dislikeLabel];
+    
+    // like button
+    UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
+    [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
+    [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:likeButton];
+    
+    // dislike button
+    UIButton *dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
+    [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
+    [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:dislikeButton];
+    
+
 
     // add a compose reply button
-    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
-    [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
+    UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
+    [self.navigationItem setRightBarButtonItem:replyComposeButton animated:YES];
+    
+    
+    //  add profile picture
+    UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 40, 40)];
+    [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
+    [self.view addSubview:profilePricture];
+
     
 }
 
