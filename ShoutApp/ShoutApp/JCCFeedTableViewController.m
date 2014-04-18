@@ -130,6 +130,8 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
+    replyViewController.userName = self.userName;
+    replyViewController.password = self.password;
     
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];

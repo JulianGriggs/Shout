@@ -118,7 +118,7 @@
     {
         
         //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text};
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
         NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
         
@@ -126,13 +126,16 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", self.userName, self.password];
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
         NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
         NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
         NSLog(@"%@", authValue);
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
-        [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
+        //  build the appropriate URL
+        NSString *url = [NSString stringWithFormat:@"%@%@",@"http://aeneas.princeton.edu:8000/api/v1/replies?message_id=", Id];
+        
+        [request setURL:[NSURL URLWithString:url]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:jsonData];
@@ -142,6 +145,7 @@
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
         
+        NSLog(theReply);
         
         //  refresh the table of replies after posting
         [tableViewController refresh];
@@ -238,7 +242,14 @@
     mapView.settings.consumesGesturesInView = NO;
     self.view = mapView;
     
-
+    
+    //  add view to cover map
+    UIView *mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
+    mapCoverView.layer.masksToBounds = YES;
+    mapCoverView.backgroundColor = [UIColor whiteColor];
+    mapCoverView.alpha = 0.7;
+    [self.view addSubview:mapCoverView];
+    
     
     //  get the message being viewed
     // make the url with query variables
