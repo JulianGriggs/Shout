@@ -33,6 +33,7 @@
     
     // An array where each element will be a dictionary holding a feature:value
     NSMutableArray *myObject;
+    
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -228,6 +229,21 @@
     return jsonObjects.count;
 }
 
+// converts a UTC string to a date object
+- (NSString *) formatTime:(NSString *) timeString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'s'Z'";
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+    NSLog(@"%@", [dateFormatter dateFromString:timeString]);
+    dateFormatter = nil;
+//    
+//    NSString *currentTime = [dateFormatter stringFromDate:timeStamp];
+//    return currentTime;
+    return timeString;
+}
+
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -251,7 +267,11 @@
     [cell.ProfileImage setImage:[UIImage imageNamed:@"UserIcon.png"]];
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
-    [cell.TimeLabel setText:[dictShout objectForKey:@"timestamp"]];
+   
+   // NSLog(@"%@", [dictShout objectForKey:@"timestamp"]);
+    
+    [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
+    //[cell.TimeLabel setText:[dictShout objectForKey:@"timestamp"]];
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
     
@@ -331,6 +351,7 @@
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
+//    dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'s'Z'";
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
