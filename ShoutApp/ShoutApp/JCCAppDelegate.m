@@ -26,6 +26,7 @@
     
     // Creates the root naviagtion controller
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
     
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];
