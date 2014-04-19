@@ -167,6 +167,8 @@
     userNameField.layer.backgroundColor=[[UIColor whiteColor]CGColor];
     userNameField.layer.borderWidth= 1.0f;
     userNameField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    userNameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    userNameField.autocorrectionType = UITextAutocorrectionTypeNo;
     [self.view addSubview:userNameField];
 
     
