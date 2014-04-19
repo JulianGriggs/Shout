@@ -23,6 +23,19 @@
     JCCReplyTableViewController *tableViewController;
     UITableView *tableView;
     NSString *Id;
+    UILabel *usernameLabel;
+    UILabel *timeLabel;
+    UIView *mapCoverView;
+    UITableView *table;
+    
+    //  like label
+    UILabel *likeLabel;
+    //  dislike label
+    UILabel *dislikeLabel;
+    // like button
+    UIButton *likeButton;
+    // dislike button
+    UIButton *dislikeButton;
     UIView *composeView;
     UIView *outerReplyView;
     UITextView *replyTextView;
@@ -210,6 +223,16 @@
         [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
         [replyTextView setFrame:CGRectMake(25,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
         [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-keyboardSize - 55, 50, 50)];
+        [likeLabel setFrame:CGRectMake(7, 137, 40, 40)];
+        [dislikeLabel setFrame:CGRectMake(277, 137, 40, 40)];
+        [likeButton setFrame:CGRectMake(7, 157, 40, 40)];
+        [dislikeButton setFrame:CGRectMake(277, 157, 40, 40)];
+      
+//        [mapView setFrame:CGRectMake(0, 0, 320, 215)];
+//        [mapCoverView setFrame:CGRectMake(0, 0, 320, 215)];
+//        [tableViewController.tableView setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 150,0, 0)];
+//        [tableViewController passMessageId:Id];
+        
     }];
     [textView becomeFirstResponder];
 }
@@ -229,6 +252,15 @@
         [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
         [replyTextView setFrame:CGRectMake(25, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
         [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-55, 50, 50)];
+        [likeLabel setFrame:CGRectMake(7, 187, 40, 40)];
+        [dislikeLabel setFrame:CGRectMake(275, 187, 40, 40)];
+        [likeButton setFrame:CGRectMake(7, 207, 40, 40)];
+        [dislikeButton setFrame:CGRectMake(277, 207, 40, 40)];
+//        [mapView setFrame:CGRectMake(0, 0, 320, 265)];
+//        [mapCoverView setFrame:CGRectMake(0, 0, 320, 265)];
+//        [tableViewController.tableView setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
+//        [tableViewController passMessageId:Id];
+        
     }];
 
     [textView resignFirstResponder];
@@ -280,7 +312,7 @@
     
     
     //  add view to cover map
-    UIView *mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
+    mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
     mapCoverView.layer.masksToBounds = YES;
     mapCoverView.backgroundColor = [UIColor whiteColor];
     mapCoverView.alpha = 0.7;
@@ -324,37 +356,37 @@
     [self.view addSubview:postTextView];
     
     // username label
-    UILabel *usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 85, 100, 30)];
+    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 85, 100, 30)];
     [usernameLabel setText:[tempJsonObjects objectForKey:@"owner"]];
     usernameLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:usernameLabel];
     
     // time label
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
+    timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
     [timeLabel setText:[tempJsonObjects objectForKey:@"timestamp"]];
     timeLabel.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:timeLabel];
     
     //  like label
-    UILabel *likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 187, 40, 40)];
+    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 187, 40, 40)];
     [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
     likeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:likeLabel];
     
     //  dislike label
-    UILabel *dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 187, 40, 40)];
+    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 187, 40, 40)];
     [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
     dislikeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:dislikeLabel];
     
     // like button
-    UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
+    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
     [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
     [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:likeButton];
     
     // dislike button
-    UIButton *dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
+    dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
     [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
     [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:dislikeButton];
@@ -365,7 +397,7 @@
     [tableViewController passMessageId:Id];
     
     // The table view controller's view
-    UITableView *table = tableViewController.tableView;
+    table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
     

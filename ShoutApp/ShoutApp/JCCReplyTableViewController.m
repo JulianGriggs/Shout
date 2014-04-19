@@ -282,6 +282,13 @@
     [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
 //    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
 //    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // Hides the Reply and Echo button
+    [cell.ReplyIconImage setHidden:YES];
+    [cell.ReplyButton setHidden:YES];
+    [cell.EchoIconImage setHidden:YES];
+    [cell.EchoButton setHidden:YES];
+
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
