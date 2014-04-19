@@ -62,11 +62,12 @@
     {
         // Resets the color of the "down" button to black
         [cell.DownLabel setTextColor:[UIColor blackColor]];
+        cell.DownLabel.backgroundColor = [UIColor whiteColor];
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor blueColor]];
-        
-        
-        
+        [cell.UpLabel setTextColor:[UIColor whiteColor]];
+        cell.UpLabel.backgroundColor = [UIColor blackColor];
+        cell.UpLabel.layer.cornerRadius = 8.0;
+        cell.UpLabel.layer.masksToBounds = YES;
         
         // post the like
         // make the url with query variables
@@ -99,6 +100,7 @@
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.UpLabel setTextColor:[UIColor blackColor]];
+        cell.UpLabel.backgroundColor = [UIColor whiteColor];
     }
 
 }
@@ -117,15 +119,20 @@
     // If black set to red, else set to black
     if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
     {
-        // Resets the color of the "down" button to black
+        // Resets the color of the "up" button to black
         [cell.UpLabel setTextColor:[UIColor blackColor]];
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor redColor]];
+        cell.UpLabel.backgroundColor = [UIColor whiteColor];
+        // Sets the color of the "down" button to blue when its highlighted and after being clicked
+        [cell.DownLabel setTextColor:[UIColor whiteColor]];
+        cell.DownLabel.backgroundColor = [UIColor blackColor];
+        cell.DownLabel.layer.cornerRadius = 8.0;
+        cell.DownLabel.layer.masksToBounds = YES;
     }
     else
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.DownLabel setTextColor:[UIColor blackColor]];
+        cell.DownLabel.backgroundColor = [UIColor whiteColor];
     }
 }
 
