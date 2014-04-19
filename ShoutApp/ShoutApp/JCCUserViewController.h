@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface JCCUserViewController : UIViewController
+@interface JCCUserViewController : UIViewController <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate>
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *token;
 
