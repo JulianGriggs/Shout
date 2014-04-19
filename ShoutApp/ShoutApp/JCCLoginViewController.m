@@ -43,22 +43,13 @@
         [passwordField becomeFirstResponder];
     else
         [userNameField becomeFirstResponder];
-    [self textFieldKeepInEditingPlace:textField];
     
     return NO;
 }
 
-- (void) textFieldKeepInEditingPlace:(UITextField *)textField
-{
-    [UIView animateWithDuration:0.0 animations:^{
-        [imageView setFrame:CGRectMake(50, 50, 225, 100)];
-        [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
-        [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
-        [loginButton setFrame:CGRectMake(50, 240, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 300, 225, 50)];
-    }];
-    
-}
+
+
+
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -139,6 +130,7 @@
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 
+        NSLog(@"%@", GETReply);
         // They didn't give a valid username / password
         if (GETReply == nil)
         {
@@ -194,13 +186,11 @@
     
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"ShoutIcon.png"];
-//  imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 100)];
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 175, 225, 100)];
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
     // Create the email field
-//    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 175, 225, 50)];
     userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
     userNameField.delegate = self;
     userNameField.placeholder = @" Username";
@@ -217,7 +207,6 @@
 
     
     // Create the password field
-//    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
     passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
     passwordField.delegate = self;
     passwordField.placeholder = @" Password";
@@ -231,7 +220,6 @@
     [self.view addSubview:passwordField];
     
     // Build login button
-//    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 300, 225, 50)];
     loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
     loginButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     loginButton.clipsToBounds = YES;

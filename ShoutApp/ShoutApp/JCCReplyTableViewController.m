@@ -59,9 +59,9 @@
     Id = messageId;
 }
 
-/********************************************************************
- * Actions
- *******************************************************************/
+
+
+
 
 - (IBAction)sendUp:(UIButton*)sender
 {
@@ -101,7 +101,6 @@
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
         
-        
     }
     else
     {
@@ -110,6 +109,10 @@
     }
     
 }
+
+
+
+
 
 // Happens whenever a user clicks the "DOWN" button
 - (IBAction)sendDown:(UIButton*)sender
@@ -139,6 +142,8 @@
 
 
 
+
+
 // Happens when a user touches the reply button
 - (IBAction)sendReply:(UIButton*)sender
 {
@@ -155,6 +160,8 @@
     // set the text
     [replyViewController passMessageId:cell.MessageIDLabel.text];
 }
+
+
 
 
 
@@ -175,6 +182,10 @@
     [echoViewController setTextField:cell.MessageTextView.text];
 }
 
+
+
+
+
 - (IBAction)showMuteOption:(UIButton*)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
     // optional - add more buttons:
@@ -183,7 +194,8 @@
 }
 
 
-/*******************************************************************/
+
+
 
 - (void)fetchShouts
 {
@@ -221,11 +233,17 @@
     
 }
 
+
+
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     return jsonObjects.count;
 }
+
+
 
 
 
@@ -270,16 +288,27 @@
     
 }
 
+
+
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 160;
 }
 
 
+
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
+
+
+
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -290,11 +319,19 @@
     return self;
 }
 
+
+
+
+
 // Prevents the view from being turned to landscape mode
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+
+
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -314,9 +351,6 @@
 
 
 
-/*******************************************************************/
-
-
 
 - (void)viewDidLoad
 {
@@ -327,13 +361,7 @@
     [refreshControl addTarget:self action:@selector(refresh)
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
-    
 }
-
-
-
-
-/*******************************************************************/
 
 
 
@@ -344,6 +372,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return NO;
+}
+
+
+
+
 
 //- (void)viewDidAppear:(BOOL)animated
 //{
@@ -379,15 +421,6 @@
  {
  }
  */
-
-
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return NO;
-}
-
 
 
 

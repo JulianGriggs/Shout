@@ -168,6 +168,10 @@
 
 }
 
+
+
+
+
 // Happens whenever a user clicks the "DOWN" button
 - (IBAction)sendDown:(UIButton*)sender
 {
@@ -291,6 +295,8 @@
 
 
 
+
+
 // Happens when a user touches the reply button
 - (IBAction)sendReply:(UIButton*)sender
 {
@@ -299,16 +305,19 @@
     replyViewController.userName = self.userName;
     replyViewController.token = self.token;
     
+    
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    // set the text
+    [replyViewController passMessageId:cell.MessageIDLabel.text];
     
     [self.navigationController pushViewController:replyViewController animated:YES];
     
-    // set the text
-    [replyViewController passMessageId:cell.MessageIDLabel.text];    
 }
+
+
 
 
 
@@ -331,6 +340,10 @@
     [echoViewController setTextField:cell.MessageTextView.text];
 }
 
+
+
+
+
 - (IBAction)showMuteOption:(UIButton*)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
     // optional - add more buttons:
@@ -339,7 +352,8 @@
 }
 
 
-/*******************************************************************/
+
+
 
 - (void)fetchShouts
 {
@@ -386,11 +400,19 @@
     
 }
 
+
+
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     return jsonObjects.count;
 }
+
+
+
+
 
 // converts a UTC string to a date object
 - (NSString *) formatTime:(NSString *) timeString
@@ -405,6 +427,7 @@
 //    return currentTime;
     return timeString;
 }
+
 
 
 
@@ -456,16 +479,27 @@
     
 }
 
+
+
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 160;
 }
 
 
+
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
+
+
+
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -476,17 +510,28 @@
     return self;
 }
 
+
+
+
+
 // Prevents the view from being turned to landscape mode
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
 
+
+
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
     [self refresh];
 }
+
+
+
 
 
 - (void)refresh

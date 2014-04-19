@@ -24,32 +24,29 @@
     UITableView *tableView;
     NSString *Id;
     UIView *composeView;
+    UIView *outerReplyView;
     UITextView *replyTextView;
     UIButton *replyButton;
+    CGFloat keyboardSize;
+    CGFloat screenWidth;
+    CGFloat screenHeight;
+    
 }
+
+
+
+
 
 //  set the message id
 -(void)passMessageId:(NSString *)messageId
 {
     Id = messageId;
     
-    //  create the table view controller
-    tableViewController = [[JCCReplyTableViewController alloc] init];
-    [tableViewController passMessageId:Id];
-    
-    // The table view controller's view
-    UITableView *table = tableViewController.tableView;
-    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
-    [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
-    
-    tableView.delegate = self;
-    
-    // Adds the table view controller as a child view controller
-    [self addChildViewController:tableViewController];
-    
-    // Adds the View of the table view controller as a subview
-    [self.view addSubview:table];
 }
+
+
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -62,46 +59,57 @@
 
 
 
-//  reply pressed button handler
--(IBAction)replyComposeButtonPressed:(id)sender
+
+
+////  reply pressed button handler
+//-(IBAction)replyComposeButtonPressed:(id)sender
+//{
+//    //  text view color and shape
+//    composeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
+//    composeView.layer.masksToBounds = YES;
+//    composeView.backgroundColor = [UIColor whiteColor];
+//    composeView.alpha = 0.5;
+//    [self.view addSubview:composeView];
+//    
+//    // add the cancel button 
+//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
+//    [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
+//    
+//    //  add the reply field
+//    //  text view color and shape
+//    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 125, 225, 75)];
+//    replyTextView.layer.cornerRadius = 8.0;
+//    replyTextView.layer.masksToBounds = YES;
+//    
+//    // Default text view
+//    replyTextView.text = @"Reply here!";
+//    replyTextView.textColor = [UIColor lightGrayColor];
+//    replyTextView.userInteractionEnabled = YES;
+//    replyTextView.editable = YES;
+//    replyTextView.delegate = self;
+//    [self.view addSubview:replyTextView];
+//    
+//    
+//    //  add reply button
+//    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 207, 175, 50)];
+//    replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+//    replyButton.clipsToBounds = YES;
+//    [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
+//    [replyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    replyButton.backgroundColor = [UIColor whiteColor];
+//    [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:replyButton];
+//    
+//}
+
+
+- (void) resetAfterReply
 {
-    //  text view color and shape
-    composeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
-    composeView.layer.masksToBounds = YES;
-    composeView.backgroundColor = [UIColor whiteColor];
-    composeView.alpha = 0.5;
-    [self.view addSubview:composeView];
-    
-    // add the cancel button 
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
-    [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
-    
-    //  add the reply field
-    //  text view color and shape
-    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 125, 225, 75)];
-    replyTextView.layer.cornerRadius = 8.0;
-    replyTextView.layer.masksToBounds = YES;
-    
-    // Default text view
+    [self textViewDidEndEditing:replyTextView];
     replyTextView.text = @"Reply here!";
-    replyTextView.textColor = [UIColor lightGrayColor];
-    replyTextView.userInteractionEnabled = YES;
-    replyTextView.editable = YES;
-    replyTextView.delegate = self;
-    [self.view addSubview:replyTextView];
-    
-    
-    //  add reply button
-    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 207, 175, 50)];
-    replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
-    replyButton.clipsToBounds = YES;
-    [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
-    [replyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    replyButton.backgroundColor = [UIColor whiteColor];
-    [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:replyButton];
-    
+    replyTextView.textColor =[UIColor lightGrayColor];
 }
+
 
 //  handle posting a reply
 -(IBAction)postReply:(id)sender
@@ -148,11 +156,8 @@
         //  refresh the table of replies after posting
         [tableViewController refresh];
         
-        // clear the screen
-        //  delete the compose view
-        [composeView removeFromSuperview];
-        [replyTextView removeFromSuperview];
-        [replyButton removeFromSuperview];
+        // reset the screen
+        [self resetAfterReply];
         
         //  add the reply compose button
         UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
@@ -160,6 +165,10 @@
         
     }
 }
+
+
+
+
 
 // handle the number of cahracters in the text field
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -175,21 +184,39 @@
     return textView.text.length + (text.length - range.length) <= 140;
 }
 
+
+
+
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [replyTextView resignFirstResponder];
 }
 
+
+
+
+
 // handle text in text view
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
+    NSLog(@"In text view did begin editing");
     if ([textView.text isEqualToString:@"Reply here!"])
     {
         textView.text = @"";
         textView.textColor = [UIColor blackColor]; //optional
     }
+    [UIView animateWithDuration:0.3 animations:^{
+        [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
+        [replyTextView setFrame:CGRectMake(25,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
+        [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-keyboardSize - 55, 50, 50)];
+    }];
     [textView becomeFirstResponder];
 }
+
+
+
+
 
 // handle text in text view
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -198,8 +225,17 @@
         textView.text = @"Reply here!";
         textView.textColor = [UIColor lightGrayColor];
     }
+    [UIView animateWithDuration:0.3 animations:^{
+        [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
+        [replyTextView setFrame:CGRectMake(25, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
+        [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-55, 50, 50)];
+    }];
+
     [textView resignFirstResponder];
 }
+
+
+
 
 
 //  cancel button is pressed handler
@@ -214,6 +250,8 @@
     UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
     [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
 }
+
+
 
 
 
@@ -271,10 +309,12 @@
                                 GETReply options:kNilOptions error:nil];
     
     
+    screenHeight = [UIScreen mainScreen].bounds.size.height;
+    screenWidth = [UIScreen mainScreen].bounds.size.width;
+    keyboardSize = 216;
     //  text view color and shape
     UITextView *postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 125, 225, 75)];
-    postTextView.layer.cornerRadius = 8.0;
-    postTextView.layer.masksToBounds = YES;
+
     
     // Default text view
     postTextView.text = [tempJsonObjects objectForKey:@"bodyField"];
@@ -319,20 +359,67 @@
     [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:dislikeButton];
     
+    
+    //  create the table view controller
+    tableViewController = [[JCCReplyTableViewController alloc] init];
+    [tableViewController passMessageId:Id];
+    
+    // The table view controller's view
+    UITableView *table = tableViewController.tableView;
+    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
+    [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
+    
+    tableView.delegate = self;
+    
+    // Adds the table view controller as a child view controller
+    [self addChildViewController:tableViewController];
+    
+    // Adds the View of the table view controller as a subview
+    [self.view addSubview:table];
+    
+    // Make gray background
+    outerReplyView = [[UITextView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
+    outerReplyView.layer.backgroundColor=[[UIColor lightGrayColor]CGColor];
+    [self.view addSubview:outerReplyView];
+    
+    // Make replyTextView
+    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(25, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
+    replyTextView.layer.backgroundColor=[[UIColor whiteColor]CGColor];
+    replyTextView.userInteractionEnabled = YES;
+    replyTextView.layer.cornerRadius=8.0f;
+    replyTextView.layer.masksToBounds = YES;
+    replyTextView.editable = YES;
+    replyTextView.text = @"Reply here!";
+    replyTextView.textColor = [UIColor lightGrayColor];
+    replyTextView.delegate = self;
+    [self.view addSubview:replyTextView];
+    
+    //  add reply button
+    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-55, 50, 50)];
+    replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    replyButton.clipsToBounds = YES;
+    [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
+    [replyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [replyButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+    [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:replyButton];
 
-
+    
+    
     // add a compose reply button
-    UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
-    [self.navigationItem setRightBarButtonItem:replyComposeButton animated:YES];
+//    UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
+//    [self.navigationItem setRightBarButtonItem:replyComposeButton animated:YES];
     
     
     //  add profile picture
     UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 40, 40)];
     [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
     [self.view addSubview:profilePricture];
-
-    
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {
