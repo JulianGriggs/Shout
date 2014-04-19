@@ -24,6 +24,7 @@
     UIButton *loginButton;
     UIImage *logoImage;
     UIImageView *imageView;
+    UIButton *registerButton;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -38,18 +39,35 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    if (textField == userNameField)
+        [passwordField becomeFirstResponder];
+    else
+        [userNameField becomeFirstResponder];
+    [self textFieldKeepInEditingPlace:textField];
+    
     return NO;
 }
 
-
+- (void) textFieldKeepInEditingPlace:(UITextField *)textField
+{
+    [UIView animateWithDuration:0.0 animations:^{
+        [imageView setFrame:CGRectMake(50, 50, 225, 100)];
+        [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
+        [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
+        [loginButton setFrame:CGRectMake(50, 240, 225, 50)];
+        [registerButton setFrame:CGRectMake(50, 300, 225, 50)];
+    }];
+    
+}
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(50, 75, 225, 100)];
-    [userNameField setFrame:CGRectMake(50, 175, 225, 50)];
-    [passwordField setFrame:CGRectMake(50, 225, 225, 50)];
-    [loginButton setFrame:CGRectMake(50, 300, 225, 50)];
+    [imageView setFrame:CGRectMake(50, 50, 225, 100)];
+    [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
+    [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
+    [loginButton setFrame:CGRectMake(50, 240, 225, 50)];
+    [registerButton setFrame:CGRectMake(50, 300, 225, 50)];
     }];
 
 }
@@ -59,19 +77,20 @@
 
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
-    [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(50, 175, 225, 100)];
-    [userNameField setFrame:CGRectMake(50, 275, 225, 50)];
-    [passwordField setFrame:CGRectMake(50, 325, 225, 50)];
-    [loginButton setFrame:CGRectMake(50, 400, 225, 50)];
-    }];
-    
     [textField resignFirstResponder];
 }
 
 -(void) dismissKeyboard {
     [userNameField resignFirstResponder];
     [passwordField resignFirstResponder];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+    [imageView setFrame:CGRectMake(50, 175, 225, 100)];
+    [userNameField setFrame:CGRectMake(50, 275, 225, 50)];
+    [passwordField setFrame:CGRectMake(50, 325, 225, 50)];
+    [loginButton setFrame:CGRectMake(50, 400, 225, 50)];
+    [registerButton setFrame:CGRectMake(50, 475, 225, 50)];
+    }];
 }
 
 - (IBAction)postLogin:(id)sender
@@ -83,10 +102,9 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"Your username is too long!  Must be less than 30 characters." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
-    else if ([[userNameField.text stringByTrimmingCharactersInSet: set] length] == 0)
+    else if (([[userNameField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[passwordField.text stringByTrimmingCharactersInSet: set] length] == 0))
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"You didn't enter a username!  Try again!"  delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [alert show];
+         [self dismissKeyboard];
     }
     else
     {
@@ -223,6 +241,12 @@
     [loginButton addTarget:self action:@selector(postLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
     
+    // Register new username
+    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
+    [registerButton setTitle:@"Sign Up For Shout" forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+    [self.view addSubview:registerButton];
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
 }
