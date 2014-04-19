@@ -75,12 +75,18 @@
         NSString *url2 = [url1 stringByAppendingString:@"/like"];
 
         
-        // send the get request
+        // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        NSString *authStr = self.token;
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+        NSLog(@"%@", authValue);
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
         [request setURL:[NSURL URLWithString:url2]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
         
         // check the response
         NSURLResponse *response;
