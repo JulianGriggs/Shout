@@ -154,7 +154,13 @@
             sharedUserToken = token;
             /***********************************************************/
 
-        
+            // Restores the default values
+            /*------------------------*/
+            userNameField.text = @"";
+            passwordField.text = @"";
+            [self dismissKeyboard];
+            /*------------------------*/
+            
             // Created the user view controller
             JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
             NSLog(@"login token: %@", token);

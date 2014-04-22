@@ -348,9 +348,9 @@
 
 
 - (IBAction)showMuteOption:(UIButton*)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:@"Yes",nil];
     // optional - add more buttons:
-    [alert addButtonWithTitle:@"Yes"];
+//    [alert addButtonWithTitle:@"Yes"];
     [alert show];
 }
 
