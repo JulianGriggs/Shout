@@ -9,6 +9,7 @@
 #import "JCCEchoViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JCCAnnotation.h"
+#import "JCCUserCredentials.h"
 #import <GoogleMaps/GoogleMaps.h>
 
 #define DEFAULT_SHOUT_RADIUS 40
@@ -128,7 +129,7 @@
         
         
         // authentication
-        NSString *authStr = [NSString stringWithFormat:@"%@", self.token];
+        NSString *authStr = [NSString stringWithFormat:@"%@", sharedUserToken];
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         

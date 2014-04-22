@@ -14,8 +14,4 @@
 @interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate>
 
 -(void)passMessageId:(NSString *)messageId;
-
-@property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSString *token;
-
 @end

@@ -10,6 +10,8 @@
 #import "JCCTableViewCell.h"
 #import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
+#import "JCCUserCredentials.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCFeedTableViewController ()
@@ -33,6 +35,9 @@
     
     // An array where each element will be a dictionary holding a feature:value
     NSMutableArray *myObject;
+    
+    // Current Location
+    CLLocationCoordinate2D myCurrentLocation;
     
 }
 //This is the actual table view object that corresponds to this table view controller
@@ -79,7 +84,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -131,7 +136,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -205,7 +210,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -257,7 +262,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -302,8 +307,8 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
-    replyViewController.userName = self.userName;
-    replyViewController.token = self.token;
+//    replyViewController.userName = self.userName;
+//    replyViewController.token = self.token;
     
     
     // get the text
@@ -326,8 +331,6 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
-    echoViewController.userName = self.userName;
-    echoViewController.token = self.token;
     
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -354,18 +357,21 @@
 
 
 
+-(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *mostRecentLocation = (CLLocation *) locations.lastObject;
+    myCurrentLocation = CLLocationCoordinate2DMake(mostRecentLocation.coordinate.latitude, mostRecentLocation.coordinate.longitude);
+}
+
+
+
+
 
 - (void)fetchShouts
 {
-    //  handle setting up location updates
-    if (!locationManager)
-        locationManager = [[CLLocationManager alloc] init];
-    [locationManager startUpdatingLocation];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-    locationManager.distanceFilter=kCLDistanceFilterNone;
+    
     //  get the current location
-    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
+    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
@@ -495,7 +501,7 @@
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
-    
+    [cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
 //    CGRect frame = cell.MessageTextView.frame;
 //    frame.size.height = cell.MessageTextView.contentSize.height;
 //    cell.MessageTextView.frame = frame;
@@ -593,6 +599,19 @@
     [refreshControl addTarget:self action:@selector(refresh)
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    
+    //  handle setting up location updates
+    if (!locationManager)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+        locationManager.distanceFilter=kCLDistanceFilterNone;
+        [locationManager startUpdatingLocation];
+    }
+    
+    // Gets the current location
+    myCurrentLocation = locationManager.location.coordinate;
     
 //    dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'s'Z'";
     // Uncomment the following line to preserve selection between presentations.

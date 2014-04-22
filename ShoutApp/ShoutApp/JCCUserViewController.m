@@ -8,6 +8,8 @@
 
 #import "JCCUserViewController.h"
 #import "JCCViewController.h"
+#import "JCCLoginViewController.h"
+#import "JCCUserCredentials.h"
 
 @interface JCCUserViewController ()
 
@@ -35,25 +37,28 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
-    
-    // Passes the username to the post view controller
-    viewController.userName = self.userName;
-    // Passes the password to the post view controller
-    viewController.token = self.token;
-    
     [self.navigationController pushViewController:viewController animated:YES];
 }
+
+
+
+
+-(IBAction)pressedLogoutButton:(id)sender
+{
+    // This allocates a post view controller and pushes it on the navigation stack
+    sharedUserName = @"";
+    sharedUserToken = @"";
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+
 
 -(IBAction)swipeLeftHandler:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
-    
-    // Passes the username to the post view controller
-    viewController.userName = self.userName;
-    // Passes the password to the post view controller
-    viewController.token = self.token;
-    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -68,6 +73,10 @@
     
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
+    
+    // Add logout button
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(pressedLogoutButton:)];
+    [self.navigationItem setLeftBarButtonItem:logoutButton animated:YES];
     
     
     //  build the view

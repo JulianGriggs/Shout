@@ -10,5 +10,4 @@
 
 
 @interface JCCLoginViewController : UIViewController<UITextFieldDelegate>
-
 @end
