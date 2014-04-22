@@ -10,16 +10,16 @@
 #import "JCCLoginViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JCCAnnotation.h"
+#import "JCCUserCredentials.h"
 #import <GoogleMaps/GoogleMaps.h>
 
 #define DEFAULT_SHOUT_RADIUS 40
 
 @interface JCCPostViewController ()
-{
+
     
-    // location manager
-    CLLocationManager *locationManager;
-}
+
+
 
 
 //@property (weak, nonatomic) IBOutlet UITextView *postTextView;
@@ -32,6 +32,9 @@
 
 @implementation JCCPostViewController
 {
+    // location manager
+    CLLocationManager *locationManager;
+    
     GMSMapView *mapView;
     CLLocationCoordinate2D myCurrentLocation;
     CLLocationCoordinate2D destinationLocation;
@@ -113,7 +116,7 @@
         
         
         // authentication
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -137,15 +140,26 @@
 }
 
 
+
+
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     return textField.text.length + (string.length - range.length) <= 30;
 }
 
+
+
+
+
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     return YES;
 }
+
+
+
+
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -156,6 +170,10 @@
     }
     [textView becomeFirstResponder];
 }
+
+
+
+
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -171,6 +189,9 @@
 }
 
 
+
+
+
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@""]) {
@@ -179,6 +200,9 @@
     }
     [textView resignFirstResponder];
 }
+
+
+
 
 
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
@@ -197,25 +221,56 @@
     
 }
 
+
+
+
+
 -(IBAction)editText:(id)sender
 {
     [postTextView becomeFirstResponder];
 }
+
+
+
+
+
 
 - (IBAction)jumpToLocation:(id)sender
 {
     [mapView animateToLocation:myCurrentLocation];
 }
 
+
+
+
+
 -(void)mapView:(GMSMapView *)mapview willMove:(BOOL)gesture
 {
     [postTextView resignFirstResponder];
 }
 
+
+
+
+
 -(void)mapView:(GMSMapView *)mapview didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [postTextView resignFirstResponder];
 }
+
+
+
+
+
+-(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *mostRecentLocation = (CLLocation *) locations.lastObject;
+    myCurrentLocation = CLLocationCoordinate2DMake(mostRecentLocation.coordinate.latitude, mostRecentLocation.coordinate.longitude);
+}
+
+
+
+
 
 - (void)viewDidLoad
 {
@@ -224,12 +279,15 @@
     //  handle setting up location updates
     
     if (!locationManager)
+    {
         locationManager = [[CLLocationManager alloc] init];
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+        locationManager.distanceFilter=kCLDistanceFilterNone;
+        [locationManager startUpdatingLocation];
+    }
     
-    [locationManager startUpdatingLocation];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-    locationManager.distanceFilter=kCLDistanceFilterNone;
+
     
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
                                                             longitude:locationManager.location.coordinate.longitude

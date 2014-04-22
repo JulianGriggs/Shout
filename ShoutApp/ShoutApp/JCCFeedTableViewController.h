@@ -11,8 +11,4 @@
 #import "JCCReplyViewController.h"
 
 @interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
-
-@property(nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSString *token;
-
 @end

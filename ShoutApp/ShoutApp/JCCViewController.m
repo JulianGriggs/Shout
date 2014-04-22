@@ -9,6 +9,8 @@
 #import "JCCViewController.h"
 #import "JCCPostViewController.h"
 #import "JCCUserViewController.h"
+#import "JCCUserCredentials.h"
+
 
 @interface JCCViewController ()
 
@@ -22,6 +24,10 @@
     UITableView *tableView;
 }
 
+
+
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -31,42 +37,50 @@
     return self;
 }
 
+
+
+
+
 // This is the function that is called when the compose button is pressed
 - (IBAction)pressedComposeButton:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    
-    // Passes the username to the post view controller
-    postViewController.userName = self.userName;
-    // Passes the token to the post view controller
-    postViewController.token = self.token;
-    
     [self.navigationController pushViewController:postViewController animated:YES];
 }
+
+
+
+
 
 -(IBAction)pressedUserButton:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+
+
+
 -(IBAction)swipeRightHandler:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+
+
+
 -(IBAction)swipeLeftHandler:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    
-    // Passes the username to the post view controller
-    postViewController.userName = self.userName;
-    // Passes the password to the post view controller
-    
-    postViewController.token = self.token;
     [self.navigationController pushViewController:postViewController animated:YES];
 }
+
+
+
+
 
 - (void)viewDidLoad
 {
@@ -83,10 +97,10 @@
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
     
-    [locationManager startUpdatingLocation];
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
+    [locationManager startUpdatingLocation];
     
     //  add a map in the background
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
@@ -100,8 +114,6 @@
     
     //  create the table view controller
     tableViewController = [[JCCFeedTableViewController alloc] init];
-    tableViewController.token = self.token;
-    tableViewController.userName = self.userName;
     
     // The table view controller's view
     UITableView *table = tableViewController.tableView;
@@ -128,6 +140,10 @@
     [self.view addGestureRecognizer:gestureLeftRecognizer];
     
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {

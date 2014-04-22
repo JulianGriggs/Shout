@@ -11,6 +11,7 @@
 #import "JCCPostViewController.h"
 #import "JCCUserViewController.h"
 #import "JCCReplyTableViewController.h"
+#import "JCCUserCredentials.h"
 
 @interface JCCReplyViewController ()
 
@@ -147,7 +148,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
                 
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         NSLog(@"%@", authValue);

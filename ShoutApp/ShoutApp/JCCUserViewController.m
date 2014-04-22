@@ -8,6 +8,8 @@
 
 #import "JCCUserViewController.h"
 #import "JCCViewController.h"
+#import "JCCLoginViewController.h"
+#import "JCCUserCredentials.h"
 
 @interface JCCUserViewController ()
 
@@ -35,12 +37,6 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
-    
-    // Passes the username to the post view controller
-    viewController.userName = self.userName;
-    // Passes the password to the post view controller
-    viewController.token = self.token;
-    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -48,12 +44,6 @@
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
-    
-    // Passes the username to the post view controller
-    viewController.userName = self.userName;
-    // Passes the password to the post view controller
-    viewController.token = self.token;
-    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

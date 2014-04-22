@@ -11,7 +11,4 @@
 #import <GoogleMaps/GoogleMaps.h>
 
 @interface JCCUserViewController : UIViewController <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate>
-@property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSString *token;
-
 @end

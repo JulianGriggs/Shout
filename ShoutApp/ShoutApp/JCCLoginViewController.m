@@ -11,7 +11,7 @@
 #import "JCCUserViewController.h"
 #import "JCCViewController.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "JCCUserCredentials.h"
 
 @interface JCCLoginViewController ()
 
@@ -146,21 +146,21 @@
             //NSLog(@"%@", loginToken);
             NSString *token = [loginToken objectForKey:@"token"];
             // Make Sure the response says it is valid
+            
+            
+            /***********************************************************/
+            // Sets the username and token for this session of the app
+            sharedUserName = userNameField.text;
+            sharedUserToken = token;
+            /***********************************************************/
 
         
             // Created the user view controller
             JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-            // Sets the username field to the appropriate value
-            userViewController.userName = userNameField.text;
-            userViewController.token = token;
             NSLog(@"login token: %@", token);
         
             // Created the table view controller
             JCCViewController *viewController = [[JCCViewController alloc] init];
-            // Sets the username field to the appropriate value
-            viewController.userName = userNameField.text;
-            viewController.token = token;
-        
 
             [self.navigationController pushViewController:userViewController animated:NO];
             [self.navigationController pushViewController:viewController animated:YES];
