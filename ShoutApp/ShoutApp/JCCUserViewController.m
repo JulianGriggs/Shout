@@ -43,14 +43,27 @@
 
 
 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+        [self.navigationController popViewControllerAnimated:YES];
+        
+}
+
+
+
+
 -(IBAction)pressedLogoutButton:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
     sharedUserName = @"";
     sharedUserToken = @"";
-    [self.navigationController popViewControllerAnimated:YES];
-}
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
+    [alert show];
 
+    
+}
 
 
 
@@ -75,7 +88,8 @@
     self.navigationItem.hidesBackButton = YES;
     
     // Add logout button
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(pressedLogoutButton:)];
+//    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(pressedLogoutButton:)];
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(pressedLogoutButton:)];
     [self.navigationItem setLeftBarButtonItem:logoutButton animated:YES];
     
     
