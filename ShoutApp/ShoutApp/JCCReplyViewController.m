@@ -369,7 +369,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -421,7 +421,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -488,7 +488,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -540,7 +540,7 @@
         // send the post request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         
-        NSString *authStr = self.token;
+        NSString *authStr = sharedUserToken;
         
         NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
