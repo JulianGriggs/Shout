@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *MoreButton;
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfUpsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfDownsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *NumberOfRepliesLabel;
 
 
 

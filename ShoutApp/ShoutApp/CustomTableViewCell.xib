@@ -60,7 +60,7 @@
                         </state>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJu-L9-szo" userLabel="ReplyButton">
-                        <rect key="frame" x="189" y="105" width="30" height="30"/>
+                        <rect key="frame" x="166" y="105" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Echo">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -93,13 +93,19 @@
                         </state>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADb-2p-Y9f" userLabel="NumberOfDownsLabel">
-                        <rect key="frame" x="105" y="112" width="15" height="15"/>
+                        <rect key="frame" x="105" y="113" width="15" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm4-tY-t0K" userLabel="NumberOfRepliesLabel">
+                        <rect key="frame" x="198" y="113" width="15" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ReplyIcon" translatesAutoresizingMaskIntoConstraints="NO" id="uK8-ox-XBb" userLabel="ReplyIconImage">
-                        <rect key="frame" x="196" y="112" width="15" height="15"/>
+                        <rect key="frame" x="173" y="112" width="15" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="EchoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="cYJ-1x-ccr" userLabel="EchoIconImage">
@@ -132,6 +138,7 @@
                 <outlet property="MessageTextView" destination="k1N-sG-1Mv" id="Jvk-lE-x9N"/>
                 <outlet property="MoreButton" destination="BxT-qE-dup" id="UVR-2c-Gfm"/>
                 <outlet property="NumberOfDownsLabel" destination="ADb-2p-Y9f" id="XAq-wd-HqD"/>
+                <outlet property="NumberOfRepliesLabel" destination="zm4-tY-t0K" id="7sL-dY-RJB"/>
                 <outlet property="NumberOfUpsLabel" destination="LYB-qQ-jDT" id="c0s-gg-EPD"/>
                 <outlet property="ProfileImage" destination="EcL-NE-MVZ" id="1a2-5x-GR3"/>
                 <outlet property="ReplyButton" destination="bJu-L9-szo" id="AHH-WR-y0c"/>

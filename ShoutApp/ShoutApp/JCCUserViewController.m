@@ -40,6 +40,21 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
+
+
+
+-(IBAction)pressedLogoutButton:(id)sender
+{
+    // This allocates a post view controller and pushes it on the navigation stack
+    sharedUserName = @"";
+    sharedUserToken = @"";
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+
+
 -(IBAction)swipeLeftHandler:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
@@ -58,6 +73,10 @@
     
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
+    
+    // Add logout button
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(pressedLogoutButton:)];
+    [self.navigationItem setLeftBarButtonItem:logoutButton animated:YES];
     
     
     //  build the view
