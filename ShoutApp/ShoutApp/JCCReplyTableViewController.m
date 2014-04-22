@@ -244,7 +244,57 @@
 }
 
 
-
+// converts a UTC string to a date object
+- (NSString *) formatTime:(NSString *) timeString
+{
+    NSString* input = timeString;
+    NSString* format = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    
+    NSDate *now = [NSDate date];
+    
+    // Set up an NSDateFormatter for UTC time zone
+    NSDateFormatter* formatterUtc = [[NSDateFormatter alloc] init];
+    [formatterUtc setDateFormat:format];
+    [formatterUtc setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    // Cast the input string to NSDate
+    NSDate* utcDate = [formatterUtc dateFromString:input];
+    
+    double timeInterval = [now timeIntervalSinceDate:utcDate];
+    
+    timeInterval = timeInterval + 37;
+    
+    //  years
+    if ((timeInterval) / 31536000 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
+    }
+    
+    //  days
+    else if ((timeInterval) / 86400 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
+    }
+    
+    //  hours
+    else if ((timeInterval) / 3600 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
+    }
+    
+    //  minutes
+    else if ((timeInterval) / 60 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
+    }
+    
+    if (timeInterval < 1)
+        return [NSString stringWithFormat:@"right now"];
+    
+    //  seconds
+    return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
+    
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -265,7 +315,7 @@
     // Begin configuration of Cell
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
-    [cell.TimeLabel setText:[dictShout objectForKey:@"timestamp"]];
+    [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
     

@@ -74,8 +74,7 @@
     UIView *userView = [[UIView alloc] init];
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
-    
-    
+
     
     // add map in the background
     //  build the location manager

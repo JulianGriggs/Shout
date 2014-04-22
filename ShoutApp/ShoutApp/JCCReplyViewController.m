@@ -36,6 +36,8 @@
     UIButton *likeButton;
     // dislike button
     UIButton *dislikeButton;
+    
+    
     UIView *composeView;
     UIView *outerReplyView;
     UITextView *replyTextView;
@@ -222,9 +224,11 @@
     [UIView animateWithDuration:0.3 animations:^{
         [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
         [replyTextView setFrame:CGRectMake(25,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
+        replyTextView.layer.cornerRadius=8.0f;
+        replyTextView.layer.masksToBounds = YES;
         [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-keyboardSize - 55, 50, 50)];
-        [likeLabel setFrame:CGRectMake(7, 137, 40, 40)];
-        [dislikeLabel setFrame:CGRectMake(277, 137, 40, 40)];
+        [likeLabel setFrame:CGRectMake(7, 127, 40, 40)];
+        [dislikeLabel setFrame:CGRectMake(277, 127, 40, 40)];
         [likeButton setFrame:CGRectMake(7, 157, 40, 40)];
         [dislikeButton setFrame:CGRectMake(277, 157, 40, 40)];
       
@@ -252,8 +256,10 @@
         [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
         [replyTextView setFrame:CGRectMake(25, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
         [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-55, 50, 50)];
-        [likeLabel setFrame:CGRectMake(7, 187, 40, 40)];
-        [dislikeLabel setFrame:CGRectMake(275, 187, 40, 40)];
+        replyTextView.layer.cornerRadius=8.0f;
+        replyTextView.layer.masksToBounds = YES;
+        [likeLabel setFrame:CGRectMake(7, 177, 40, 40)];
+        [dislikeLabel setFrame:CGRectMake(275, 177, 40, 40)];
         [likeButton setFrame:CGRectMake(7, 207, 40, 40)];
         [dislikeButton setFrame:CGRectMake(277, 207, 40, 40)];
 //        [mapView setFrame:CGRectMake(0, 0, 320, 265)];
@@ -282,6 +288,294 @@
     UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
     [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
 }
+
+
+// converts a UTC string to a date object
+- (NSString *) formatTime:(NSString *) timeString
+{
+    NSString* input = timeString;
+    NSString* format = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    
+    NSDate *now = [NSDate date];
+    
+    // Set up an NSDateFormatter for UTC time zone
+    NSDateFormatter* formatterUtc = [[NSDateFormatter alloc] init];
+    [formatterUtc setDateFormat:format];
+    [formatterUtc setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    // Cast the input string to NSDate
+    NSDate* utcDate = [formatterUtc dateFromString:input];
+    
+    double timeInterval = [now timeIntervalSinceDate:utcDate];
+    
+    
+    //  years
+    if ((timeInterval) / 31536000 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
+    }
+    
+    //  days
+    else if ((timeInterval) / 86400 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
+    }
+    
+    //  hours
+    else if ((timeInterval) / 3600 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
+    }
+    
+    //  minutes
+    else if ((timeInterval) / 60 >= 1)
+    {
+        return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
+    }
+    
+    if (timeInterval < 1)
+        return [NSString stringWithFormat:@"right now"];
+    
+    //  seconds
+    return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
+    
+}
+
+
+
+- (IBAction)sendUp:(UIButton*)sender
+{
+    
+    // If black set to blue, else set to black
+    if ([likeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
+    {
+        // Resets the color of the "down" button to black
+        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        dislikeButton.backgroundColor = [UIColor clearColor];
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        likeButton.backgroundColor = [UIColor blackColor];
+        likeButton.layer.cornerRadius = 20.0;
+        likeButton.layer.masksToBounds = YES;
+        
+        // post the like
+        // make the url with query variables
+        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+        NSString *url1 = [url stringByAppendingString:Id];
+        NSString *url2 = [url1 stringByAppendingString:@"/like"];
+        
+        
+        // send the post request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        NSString *authStr = self.token;
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
+        [request setURL:[NSURL URLWithString:url2]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        // check the response
+        NSURLResponse *response;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        
+        //  update the labels
+        // send the get request
+        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
+        request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        // check the response
+        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        // This parses the response from the server as a JSON object
+        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        
+        [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        
+    }
+    else
+    {
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        likeButton.backgroundColor = [UIColor clearColor];
+        
+        
+        // post the like
+        // make the url with query variables
+        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+        NSString *url1 = [url stringByAppendingString:Id];
+        NSString *url2 = [url1 stringByAppendingString:@"/like"];
+        
+        
+        // send the post request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        NSString *authStr = self.token;
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
+        [request setURL:[NSURL URLWithString:url2]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        // check the response
+        NSURLResponse *response;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        
+        //  update the labels
+        // send the get request
+        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
+        request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        // check the response
+        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        // This parses the response from the server as a JSON object
+        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        
+        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+    }
+    
+}
+
+
+
+
+
+// Happens whenever a user clicks the "DOWN" button
+- (IBAction)sendDown:(UIButton*)sender
+{
+    
+    // If black set to red, else set to black
+    if ([dislikeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
+    {
+        // Resets the color of the "up" button to black
+        [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        likeButton.backgroundColor = [UIColor clearColor];
+        // Sets the color of the "down" button to blue when its highlighted and after being clicked
+        [dislikeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        dislikeButton.backgroundColor = [UIColor blackColor];
+        dislikeButton.layer.cornerRadius = 20.0;
+        dislikeButton.layer.masksToBounds = YES;
+        
+        // post the dislike
+        // make the url with query variables
+        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+        NSString *url1 = [url stringByAppendingString:Id];
+        NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
+        
+        
+        // send the post request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        NSString *authStr = self.token;
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
+        [request setURL:[NSURL URLWithString:url2]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        // check the response
+        NSURLResponse *response;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        
+        //  update the labels
+        // send the get request
+        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
+        request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        // check the response
+        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        // This parses the response from the server as a JSON object
+        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        
+        [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        
+        
+    }
+    else
+    {
+        // Sets the color of the "up" button to blue when its highlighted and after being clicked
+        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        dislikeButton.backgroundColor = [UIColor clearColor];
+        
+        // post the dislike
+        // make the url with query variables
+        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+        NSString *url1 = [url stringByAppendingString:Id];
+        NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
+        
+        
+        // send the post request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        
+        NSString *authStr = self.token;
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
+        [request setURL:[NSURL URLWithString:url2]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        // check the response
+        NSURLResponse *response;
+        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        
+        //  update the labels
+        // send the get request
+        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
+        request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        
+        // check the response
+        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        
+        // This parses the response from the server as a JSON object
+        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        
+        [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+    }
+}
+
+
 
 
 
@@ -363,32 +657,35 @@
     
     // time label
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
-    [timeLabel setText:[tempJsonObjects objectForKey:@"timestamp"]];
+    [timeLabel setText:[self formatTime:[tempJsonObjects objectForKey:@"timestamp"]]];
     timeLabel.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:timeLabel];
     
     //  like label
-    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 187, 40, 40)];
+    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 177, 40, 40)];
     [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
     likeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:likeLabel];
     
     //  dislike label
-    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 187, 40, 40)];
+    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 177, 40, 40)];
     [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
     dislikeLabel.textAlignment = NSTextAlignmentCenter;
+    [dislikeButton targetForAction:@selector(sendDown:) withSender:self];
     [self.view addSubview:dislikeLabel];
     
     // like button
     likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
     [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
     [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [likeButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:likeButton];
     
     // dislike button
     dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
     [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
     [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [dislikeButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dislikeButton];
     
     
