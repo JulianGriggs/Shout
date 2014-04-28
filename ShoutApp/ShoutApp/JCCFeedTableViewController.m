@@ -615,6 +615,7 @@
     // Gets the current location
     myCurrentLocation = locationManager.location.coordinate;
     
+//    self.navigationItem.hidesBackButton = YES;
 //    dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'s'Z'";
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

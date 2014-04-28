@@ -47,7 +47,12 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1)
+    {
+        sharedUserName = @"";
+        sharedUserToken = @"";
+        NSLog(@"Token after logout button: %@", sharedUserToken);
         [self.navigationController popViewControllerAnimated:YES];
+    }
         
 }
 
@@ -57,14 +62,20 @@
 -(IBAction)pressedLogoutButton:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
-    sharedUserName = @"";
-    sharedUserToken = @"";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
     [alert show];
 
     
 }
 
+
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    //    // Remove back button in top navigation
+    self.navigationItem.hidesBackButton = YES;
+}
 
 
 

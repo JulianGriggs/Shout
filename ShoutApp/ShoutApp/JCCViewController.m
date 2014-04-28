@@ -78,9 +78,11 @@
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
-
-
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    //    // Remove back button in top navigation
+    self.navigationItem.hidesBackButton = YES;
+}
 
 - (void)viewDidLoad
 {
@@ -88,7 +90,7 @@
     // Do any additional setup after loading the view.
     
     //  customize the navigation back button
-    [self.navigationItem setHidesBackButton:YES animated:YES];
+    self.navigationItem.hidesBackButton = YES;
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 

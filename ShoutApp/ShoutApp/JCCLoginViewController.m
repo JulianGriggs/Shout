@@ -12,6 +12,7 @@
 #import "JCCViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JCCUserCredentials.h"
+#import "JCCRegistrationViewController.h"
 
 @interface JCCLoginViewController ()
 
@@ -86,6 +87,7 @@
 
 - (IBAction)postLogin:(id)sender
 {
+    
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
     if (userNameField.text.length > 30)
@@ -130,7 +132,8 @@
         NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 
-        NSLog(@"%@", GETReply);
+        NSLog(@"LOGIN REPLY: %@", GETReply);
+        NSLog(@"Token after login button: %@", sharedUserToken);
         // They didn't give a valid username / password
         if (GETReply == nil)
         {
@@ -161,17 +164,75 @@
             [self dismissKeyboard];
             /*------------------------*/
             
-            // Created the user view controller
-            JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-            NSLog(@"login token: %@", token);
-        
-            // Created the table view controller
-            JCCViewController *viewController = [[JCCViewController alloc] init];
-
-            [self.navigationController pushViewController:userViewController animated:NO];
-            [self.navigationController pushViewController:viewController animated:YES];
+            [self addMainViewControllers];
         }
     }
+}
+
+
+
+
+-(void) addMainViewControllers
+{
+    // Created the user view controller
+    JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+    // Created the table view controller
+    JCCViewController *viewController = [[JCCViewController alloc] init];
+    
+    [self.navigationController pushViewController:userViewController animated:NO];
+    [self.navigationController pushViewController:viewController animated:NO];
+
+}
+
+
+
+-(IBAction)moveToRegistration:(id)sender
+{
+    JCCRegistrationViewController *registration = [[JCCRegistrationViewController alloc]init];
+    [self.navigationController pushViewController:registration animated:YES];
+}
+
+
+
+
+// Returns YES upon success, and NO upon failure
+-(BOOL)attemptAuthWithToken
+{
+    if ([sharedUserToken isEqual: @""])
+        return NO;
+//    // send the post request
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    
+//    
+//    // authentication
+//    NSString *authStr = sharedUserToken;
+//    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+//    NSString *authValue = [NSString stringWithFormat:@"Token %@", [authData base64EncodedStringWithOptions:0]];
+//    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+//    
+//    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
+//    [request setHTTPMethod:@"POST"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//
+//    
+//    // check the response
+//    NSURLResponse *response;
+//    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//    
+//    NSLog(@"LOGIN REPLY: %@", theReply);
+//    if (GETReply == nil) { NSLog(@"Yes it is nil");return NO;}
+    else return YES;
+}
+
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+//    // Remove back button in top navigation
+    self.navigationItem.hidesBackButton = YES;
+    if ([self attemptAuthWithToken])
+        [self addMainViewControllers];
 }
 
 
@@ -179,6 +240,7 @@
 {
     [super viewDidLoad];
     //  build the view
+    
     UIView *loginView = [[UIView alloc] init];
     loginView.backgroundColor = [UIColor lightGrayColor];
     self.view = loginView;
@@ -240,9 +302,13 @@
     [registerButton setTitle:@"Sign Up For Shout" forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [registerButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+    [registerButton addTarget:self action:@selector(moveToRegistration:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
+
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
