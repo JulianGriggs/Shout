@@ -301,7 +301,7 @@
     registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
     [registerButton setTitle:@"Sign Up For Shout" forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [registerButton addTarget:self action:@selector(moveToRegistration:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
 

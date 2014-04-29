@@ -40,12 +40,14 @@
 
 
 
-
+// Handles how pressing the return key in the keyboard should page through the text fields
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     if (textField == userNameField)
         [passwordField becomeFirstResponder];
+    else if(textField == passwordField)
+        [emailField becomeFirstResponder];
     else
         [userNameField becomeFirstResponder];
     
@@ -55,42 +57,49 @@
 
 
 
-
+// Animation upon beginning the editing of text fields
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
         [imageView setFrame:CGRectMake(50, 50, 225, 100)];
         [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
-        [emailField setFrame:CGRectMake(50, 240, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 300, 225, 50)];
+        [emailField setFrame:CGRectMake(50, 230, 225, 50)];
+        [registerButton setFrame:CGRectMake(50, 275, 225, 50)];
+        [backToLoginButton setFrame:CGRectMake(50, 300, 225, 50)];
     }];
     
 }
 
 
 
-
+// Animation upon ending the editing of text fields
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
 }
 
+
+
+
+// Animates the dismissal of the keyboard and the text fields
 -(void) dismissKeyboard {
     [userNameField resignFirstResponder];
     [passwordField resignFirstResponder];
+    [emailField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
         [imageView setFrame:CGRectMake(50, 175, 225, 100)];
         [userNameField setFrame:CGRectMake(50, 275, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 325, 225, 50)];
-        [emailField setFrame:CGRectMake(50, 400, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 475, 225, 50)];
+        [emailField setFrame:CGRectMake(50, 375, 225, 50)];
+        [registerButton setFrame:CGRectMake(50, 425, 225, 50)];
+        [backToLoginButton setFrame:CGRectMake(50, 475, 225, 50)];
     }];
 }
 
 
-// Returns YES upon success and NO upon failure
+// Attempts the the registration.  Upon success YES is returned.  Upon failure, NO is returned.
 -(BOOL) attemptRegistration
 {
     //  format the data
@@ -115,20 +124,20 @@
     
     NSLog(@"Registration GETReply: %@", GETReply);
     NSLog(@"Registration theReply: %@", theReply);
-    // They didn't give a valid username / password
+    
     if ([theReply isEqualToString:@"error"])
     {
-        return NO;
+        return NO;  // Failure (Username probably alreday exists)
     }
     
     else
     {
-        return YES;
+        return YES; // Success
     }
 
 }
 
-// Returns YES upon success, and NO upon failure
+// Attempts the login.  Upon success, the global variables for username and token are updated and YES is returned.  Upon failure, NO is returned.
 -(BOOL)attemptAuth
 {
     //  format the data
@@ -143,8 +152,6 @@
     
     
     // authentication
-    //        Hard coded works for some reason
-    //        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", userNameField.text, passwordField.text];
     NSLog(@"%@ %@", userNameField.text, passwordField.text);
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -162,7 +169,9 @@
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
     NSLog(@"%@", GETReply);
-    if (GETReply == nil) return NO;
+    
+    if (GETReply == nil) return NO; // Failure (Probably didn't give a valid username / password)
+
     else
     {
         // This parses the response from the server as a JSON object
@@ -186,29 +195,62 @@
         [self dismissKeyboard];
         /*------------------------*/
     }
-    return YES;
+    return YES; //Success (global username and token have been stored)
 
 }
 
+
+
+// Returns back to the login screen
 -(IBAction)backToLogin:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 
+
+// Validates email address
+- (BOOL)validateEmailWithString:(NSString*)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
+}
+
+
+
+
+// Does error checking and field validation before attempting a registration/login
 - (IBAction)postLogin:(id)sender
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    int MAX_USERNAME_LENGTH = 15;
     
-    if (userNameField.text.length > 30)
+    // Makes sure that the username is less than max length characters long
+    if (userNameField.text.length > MAX_USERNAME_LENGTH)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"Your username is too long!  Must be less than 30 characters." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        NSString *errorMessage = [NSString stringWithFormat:@"Your username is too long!  Must be less than %d characters.", MAX_USERNAME_LENGTH];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
-    else if (([[userNameField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[passwordField.text stringByTrimmingCharactersInSet: set] length] == 0))
+    
+    // Makes sure that no fields are left blank
+    else if (([[userNameField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[passwordField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[emailField.text stringByTrimmingCharactersInSet: set] length] == 0))
     {
         [self dismissKeyboard];
     }
+    
+    // Makes sure that the email given is a valid email address
+    else if(![self validateEmailWithString:emailField.text])
+    {
+        NSString *errorMessage = [NSString stringWithFormat:@"Your email address is not valid.  Please provide a valid email address."];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [alert show];
+    }
+        
+    
     else
     {
         if ([self attemptRegistration])
@@ -291,7 +333,7 @@
     [self.view addSubview:passwordField];
     
     // Build login button
-    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 375, 225, 50)];
     emailField.delegate = self;
     emailField.placeholder = @" Email";
     [emailField setAutocorrectionType: UITextAutocorrectionTypeNo];
@@ -307,18 +349,18 @@
 
     
     // Register new username
-    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
+    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 425, 225, 50)];
     [registerButton setTitle:@"Register!" forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [registerButton addTarget:self action:@selector(postLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
     
     // Register new username
-    backToLoginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 525, 225, 50)];
+    backToLoginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
     [backToLoginButton setTitle:@"Back to Login" forState:UIControlStateNormal];
     [backToLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backToLoginButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
+    [backToLoginButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [backToLoginButton addTarget:self action:@selector(backToLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backToLoginButton];
     
