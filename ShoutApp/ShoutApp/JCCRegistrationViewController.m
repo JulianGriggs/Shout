@@ -65,8 +65,8 @@
         [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
         [emailField setFrame:CGRectMake(50, 230, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 275, 225, 50)];
-        [backToLoginButton setFrame:CGRectMake(50, 300, 225, 50)];
+        [registerButton setFrame:CGRectMake(50, 295, 225, 50)];
+//        [backToLoginButton setFrame:CGRectMake(50, 300, 225, 50)];
     }];
     
 }
@@ -89,12 +89,12 @@
     [emailField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(50, 175, 225, 100)];
-        [userNameField setFrame:CGRectMake(50, 275, 225, 50)];
-        [passwordField setFrame:CGRectMake(50, 325, 225, 50)];
-        [emailField setFrame:CGRectMake(50, 375, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 425, 225, 50)];
-        [backToLoginButton setFrame:CGRectMake(50, 475, 225, 50)];
+        [imageView setFrame:CGRectMake(50, 125, 225, 100)];
+        [userNameField setFrame:CGRectMake(50, 225, 225, 50)];
+        [passwordField setFrame:CGRectMake(50, 275, 225, 50)];
+        [emailField setFrame:CGRectMake(50, 325, 225, 50)];
+        [registerButton setFrame:CGRectMake(50, 400, 225, 50)];
+//        [backToLoginButton setFrame:CGRectMake(50, 475, 225, 50)];
     }];
 }
 
@@ -299,12 +299,12 @@
     
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"ShoutIcon.png"];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 175, 225, 100)];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 125, 225, 100)];
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
     // Create the email field
-    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
     userNameField.delegate = self;
     userNameField.placeholder = @" Username";
     [userNameField setAutocorrectionType: UITextAutocorrectionTypeNo];
@@ -320,7 +320,7 @@
     
     
     // Create the password field
-    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
     passwordField.delegate = self;
     passwordField.placeholder = @" Password";
     passwordField.secureTextEntry = YES;
@@ -333,7 +333,7 @@
     [self.view addSubview:passwordField];
     
     // Build login button
-    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 375, 225, 50)];
+    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
     emailField.delegate = self;
     emailField.placeholder = @" Email";
     [emailField setAutocorrectionType: UITextAutocorrectionTypeNo];
@@ -349,17 +349,22 @@
 
     
     // Register new username
-    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 425, 225, 50)];
+    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+    registerButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    registerButton.clipsToBounds = YES;
     [registerButton setTitle:@"Register!" forState:UIControlStateNormal];
-    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+    [registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [registerButton.titleLabel setFont:[UIFont systemFontOfSize:18.0]];
+    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    registerButton.backgroundColor = [UIColor grayColor];
     [registerButton addTarget:self action:@selector(postLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
     
     // Register new username
     backToLoginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
     [backToLoginButton setTitle:@"Back to Login" forState:UIControlStateNormal];
-    [backToLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backToLoginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [backToLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [backToLoginButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [backToLoginButton addTarget:self action:@selector(backToLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backToLoginButton];

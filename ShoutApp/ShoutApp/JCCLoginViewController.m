@@ -292,7 +292,9 @@
     loginButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     loginButton.clipsToBounds = YES;
     [loginButton setTitle:@"Login!" forState:UIControlStateNormal];
-    [loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [loginButton.titleLabel setFont:[UIFont systemFontOfSize:18.0]];
     loginButton.backgroundColor = [UIColor grayColor];
     [loginButton addTarget:self action:@selector(postLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
@@ -300,7 +302,8 @@
     // Register new username
     registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
     [registerButton setTitle:@"Sign Up For Shout" forState:UIControlStateNormal];
-    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [registerButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [registerButton addTarget:self action:@selector(moveToRegistration:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
