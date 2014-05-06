@@ -30,6 +30,11 @@
         
         [myAlertView show];
         
+        
+        
+        //  set the background image to the current profile picture 
+        [self.imageView setImage:self.profPicture];
+        
     }
     
 }

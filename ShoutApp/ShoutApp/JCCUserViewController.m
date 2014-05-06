@@ -11,6 +11,8 @@
 #import "JCCLoginViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCProfPicViewController.h"
+#import "JCCUserCredentials.h"
+#import "JCCMyShoutsTableViewController.h"
 
 @interface JCCUserViewController ()
 
@@ -24,6 +26,9 @@
     UIButton *topShoutsButton;
     UIButton *myLocationsButton;
     UIButton *editProfPicButton;
+    UIImage *myProfPicture;
+
+
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -145,10 +150,34 @@
     [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
     
+    
+    //  get the the users information
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://aeneas.princeton.edu:8000/api/v1/userProfiles/1/"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    
+    // check the response
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    
+    // This parses the response from the server as a JSON object
+    NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+    NSLog(userProfDict);
+    
+    
     //  add the users profile picture
     //  add profile picture
     UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
     [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
+    myProfPicture = profilePricture.image;
     [self.view addSubview:profilePricture];
     
     //  add an edit profile picture button
@@ -160,34 +189,20 @@
     //  add the navaigation buttons
     
     //add my shouts button
-    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 105, 30)];
+    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
     myShoutsButton.backgroundColor = [UIColor darkGrayColor];
     myShoutsButton.alpha = 0.4;
     [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
-    [myShoutsButton addTarget:self action:@selector(myShoutButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:myShoutsButton];
     
-    //add top shouts button
-    topShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(215, 265, 105, 30)];
-    topShoutsButton.backgroundColor = [UIColor darkGrayColor];
-    topShoutsButton.alpha = 0.4;
-    [topShoutsButton setTitle:@"Top Shouts" forState:UIControlStateNormal];
-    [topShoutsButton addTarget:self action:@selector(topShoutsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:topShoutsButton];
     
-    //add my locations button
-    myLocationsButton = [[UIButton alloc] initWithFrame:CGRectMake(105, 265, 110, 30)];
-    myLocationsButton.backgroundColor = [UIColor darkGrayColor];
-    myLocationsButton.alpha = 0.8;
-    [myLocationsButton setTitle:@"My Locations" forState:UIControlStateNormal];
-    [myLocationsButton addTarget:self action:@selector(myLocationsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:myLocationsButton];
 }
 
 //  handle the edit profile picture button being pressed
 -(IBAction)editProfPicButtonPressed:(id)sender
 {
      JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
+    profPicView.profPicture = myProfPicture;
     [self.navigationController pushViewController:profPicView animated:YES];
 }
 

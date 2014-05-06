@@ -15,4 +15,6 @@
 - (IBAction)takePhoto:  (UIButton *)sender;
 - (IBAction)selectPhoto:(UIButton *)sender;
 
+@property (strong, nonatomic) UIImage *profPicture;
+
 @end
