@@ -10,6 +10,7 @@
 #import "JCCViewController.h"
 #import "JCCLoginViewController.h"
 #import "JCCUserCredentials.h"
+#import "JCCProfPicViewController.h"
 
 @interface JCCUserViewController ()
 
@@ -22,6 +23,7 @@
     UIButton *myShoutsButton;
     UIButton *topShoutsButton;
     UIButton *myLocationsButton;
+    UIButton *editProfPicButton;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -149,6 +151,11 @@
     [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
     [self.view addSubview:profilePricture];
     
+    //  add an edit profile picture button
+    editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+    [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:editProfPicButton];
+    
     
     //  add the navaigation buttons
     
@@ -175,6 +182,13 @@
     [myLocationsButton setTitle:@"My Locations" forState:UIControlStateNormal];
     [myLocationsButton addTarget:self action:@selector(myLocationsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:myLocationsButton];
+}
+
+//  handle the edit profile picture button being pressed
+-(IBAction)editProfPicButtonPressed:(id)sender
+{
+     JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
+    [self.navigationController pushViewController:profPicView animated:YES];
 }
 
 // handle the my shout button being pressed
