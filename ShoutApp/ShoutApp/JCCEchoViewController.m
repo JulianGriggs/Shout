@@ -12,7 +12,7 @@
 #import "JCCUserCredentials.h"
 #import <GoogleMaps/GoogleMaps.h>
 
-#define DEFAULT_SHOUT_RADIUS 40
+#define DEFAULT_MIN_RADIUS 100
 
 @interface JCCEchoViewController ()
 {
@@ -42,6 +42,7 @@
     GMSMarker *currentLocationMarker;
     GMSMarker *destinationLocationMarker;
     GMSCircle *circle;
+    int maxRadiusSize;
     int radiusSize;
 }
 
@@ -149,6 +150,44 @@
 }
 
 
+
+// Gets the max radius size
+-(int) getMaxRadiusSize
+{
+    // send the post request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    // authentication
+    NSString *authStr = sharedUserToken;
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/userProfiles/1/"]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    //    [request setHTTPBody:jsonData];
+    
+    // check the response
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    
+    NSLog(@"Response: %@", error);
+    
+    // This parses the response from the server as a JSON object
+    NSDictionary *userDict = [NSJSONSerialization JSONObjectWithData:
+                              GETReply options:kNilOptions error:nil];
+    NSLog(@"theReply: %@", theReply);
+    NSNumber *maxRadius = [userDict objectForKey:@"maxRadius"];
+    NSLog(@"MaxRadius: %@", maxRadius);
+    return [maxRadius intValue];
+}
+
+
+
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     return textField.text.length + (string.length - range.length) <= 30;
@@ -244,7 +283,7 @@
     
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
                                                             longitude:locationManager.location.coordinate.longitude
-                                                                 zoom:18];
+                                                                 zoom:17];
     mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     [mapView animateToViewingAngle:45];
     
@@ -253,7 +292,9 @@
     // Adds compass
     //    mapView.settings.compassButton = YES;
     
-    radiusSize = 40;
+    maxRadiusSize = [self getMaxRadiusSize];
+    radiusSize = DEFAULT_MIN_RADIUS;
+    
     circle = [GMSCircle circleWithPosition:locationManager.location.coordinate radius:radiusSize];
     circle.fillColor = [UIColor colorWithRed:0.25 green:0 blue:0 alpha:0.2];
     circle.strokeColor = [UIColor redColor];
@@ -296,8 +337,8 @@
     radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
     
     //  set the max and min value for the radius
-    radiusSlider.minimumValue = 40;
-    radiusSlider.maximumValue = 100;
+    radiusSlider.minimumValue = DEFAULT_MIN_RADIUS;
+    radiusSlider.maximumValue = maxRadiusSize;
     
     [self.view addSubview:radiusSlider];
     [radiusSlider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
