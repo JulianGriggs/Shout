@@ -336,9 +336,7 @@
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
     [cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
-//    CGRect frame = cell.MessageTextView.frame;
-//    frame.size.height = cell.MessageTextView.contentSize.height;
-//    cell.MessageTextView.frame = frame;
+
     
     [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
     [cell.SenderIDLabel setText:@""];
@@ -507,13 +505,6 @@
     // Gets the current location
     myCurrentLocation = locationManager.location.coordinate;
     
-//    self.navigationItem.hidesBackButton = YES;
-//    dateFormatter.dateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'s'Z'";
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 

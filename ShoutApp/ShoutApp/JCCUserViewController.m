@@ -36,9 +36,8 @@
     UILabel *myMaxRadius;
     UILabel *myNumShouts;
     UILabel *myNumLikesReceived;
+
     
-
-
 }
 
 
@@ -114,7 +113,6 @@
 
 
 
-
 // Populates all of the data
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -129,6 +127,7 @@
     [myNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
 
 }
+
 
 
 
@@ -192,9 +191,9 @@
     NSDictionary *userProfDict = [requestObj getUserProfile];
     NSData* profPicData = [requestObj getProfileImage:userProfDict];
     
-    
-    NSLog(@"%@", userProfDict);
-    
+    // Stores our userID
+    sharedUserID = [userProfDict objectForKey:@"id"];
+
     //  add the users profile picture
     //  add profile picture
     profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];

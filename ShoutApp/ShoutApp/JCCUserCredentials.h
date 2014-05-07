@@ -12,5 +12,5 @@
 
 extern NSString* sharedUserToken;
 extern NSString* sharedUserName;
-
+extern NSString* sharedUserID;
 @end

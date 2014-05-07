@@ -79,7 +79,7 @@
     self.imageView.image = chosenImage;
     newProfImage = chosenImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
-//    [self sendImageToServer:@"test"];
+    [self sendImageToServer];
     
 }
 
@@ -90,64 +90,66 @@
 }
 
 
-//- (void)sendImageToServer:(NSString *) filename{
-//    
-//    // Change 3 to userID
-//    NSURL *url = [NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/userProfiles/1/"];
-//    
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    
-//    NSData* paramData = UIImagePNGRepresentation(newProfImage);
-//    
-//    // create request
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-//    [request setHTTPShouldHandleCookies:NO];
-//    [request setTimeoutInterval:30];
-//    [request setHTTPMethod:@"POST"];
-//    
-//    // set Content-Type in HTTP header
-//    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-//    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
-//    
-//    // post body
-//    NSMutableData *body = [NSMutableData data];
-//    
-//    // add params (all params are strings)
-//    for (NSString *param in _params) {
-//        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [body appendData:[[NSString stringWithFormat:@"%@\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
-//    }
-//    
-//    // add image data
-//    NSData *imageData = UIImageJPEGRepresentation(imageToPost, 1.0);
-//    if (imageData) {
-//        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", FileParamConstant] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [body appendData:[[NSString stringWithString:@"Content-Type: image/jpeg\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [body appendData:imageData];
-//        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-//    }
-//    
-//    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//    
-//    // setting the body of the post to the reqeust
-//    [request setHTTPBody:body];
-//    
-//    // set URL
-//    [request setURL:requestURL];
-//    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-//    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-//    
-//    
-//    // check the response
-//    NSURLResponse *response;
-//    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//    NSLog(@"GETReply: %@", GETReply);
-//    NSLog(@"theReply: %@", theReply);
-//
-//}
+- (void)sendImageToServer
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aeneas.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
+    
+    
+    NSString *authStr = sharedUserToken;
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    NSData *imageData = UIImageJPEGRepresentation(newProfImage, 1.0);
+    
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:60];
+    [request setHTTPMethod:@"PUT"];
+    
+    NSString *boundary = @"unique-consistent-string";
+    
+    // set Content-Type in HTTP header
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // post body
+    NSMutableData *body = [NSMutableData data];
+    
+    // add params (all params are strings)
+    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@\r\n\r\n", @"imageCaption"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"%@\r\n", @"Some Caption"] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // add image data
+    if (imageData) {
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@; filename=%@.jpg\r\n", @"profilePic", sharedUserName] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imageData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // setting the body of the post to the reqeust
+    [request setHTTPBody:body];
+    
+    // set the content-length
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        if(data.length > 0)
+//        {
+//            //success
+//        }
+//    }];
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    NSLog(@"theReply: %@", theReply);
+}
+
 
 @end

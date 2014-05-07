@@ -11,4 +11,5 @@
 @implementation JCCUserCredentials
 NSString *sharedUserToken = @"";
 NSString *sharedUserName = @"";
+NSString *sharedUserID = @"";
 @end
