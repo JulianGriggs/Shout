@@ -493,7 +493,7 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     
-    NSData* profPicData = [self setProfileImage:dictShout];
+    NSData* profPicData = [self getProfileImage:dictShout];
     // Begin configuration of Cell
     
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
@@ -583,7 +583,7 @@
 
 
 
--(NSData*)setProfileImage:(NSDictionary*) dictShout
+-(NSData*)getProfileImage:(NSDictionary*) dictShout
 {
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];

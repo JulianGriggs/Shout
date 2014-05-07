@@ -92,8 +92,10 @@
     //  customize the navigation back button
     self.navigationItem.hidesBackButton = YES;
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
+//    UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithImage:<#(UIImage *)#> style:<#(UIBarButtonItemStyle)#> target:<#(id)#> action:<#(SEL)#> :UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 
+    
     
     //  build the location manager
     if (!locationManager)

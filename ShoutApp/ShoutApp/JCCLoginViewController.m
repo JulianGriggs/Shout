@@ -133,7 +133,7 @@
         NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 
         NSLog(@"LOGIN REPLY: %@", GETReply);
-        NSLog(@"Token after login button: %@", sharedUserToken);
+         NSLog(@"theReply: %@", theReply);
         // They didn't give a valid username / password
         if (GETReply == nil)
         {

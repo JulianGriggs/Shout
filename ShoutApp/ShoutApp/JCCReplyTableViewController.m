@@ -316,8 +316,8 @@
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
-    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
-    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
+//    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
+//    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
 //    q[cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
 
     
@@ -329,8 +329,8 @@
     [cell.SenderIDLabel setText:@""];
     
     // Connects the buttons to their respective actions
-    [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
 //    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
 //    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -339,6 +339,11 @@
     [cell.ReplyButton setHidden:YES];
     [cell.EchoIconImage setHidden:YES];
     [cell.EchoButton setHidden:YES];
+    [cell.UpButton setHidden:YES];
+    [cell.UpLabel setHidden:YES];
+    [cell.DownButton setHidden:YES];
+    [cell.DownLabel setHidden:YES];
+    
 
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     

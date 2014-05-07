@@ -27,6 +27,13 @@
     UIButton *myLocationsButton;
     UIButton *editProfPicButton;
     UIImage *myProfPicture;
+    JCCMyShoutsTableViewController *tableViewController;
+    
+    UILabel *myUsername;
+    UILabel *myMaxRadius;
+    UILabel *myNumShouts;
+    UILabel *myNumLikesReceived;
+    
 
 
 }
@@ -78,20 +85,42 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-    //    // Remove back button in top navigation
-    self.navigationItem.hidesBackButton = YES;
-}
-
-
-
 -(IBAction)swipeLeftHandler:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
+
+
+
+-(NSData*)getProfileImage:(NSDictionary*) dictShout
+{
+    // send the post request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/static/shout/images/"];
+    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
+    
+    [request setURL:[NSURL URLWithString:url1]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    //    [request setHTTPBody:jsonData];
+    
+    // check the response
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    
+    return GETReply;
+}
+
+
+
+
+
+
 
 - (void)viewDidLoad
 {
@@ -116,7 +145,6 @@
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
 
-    NSLog(@"In User 1...");
     
     // add map in the background
     //  build the location manager
@@ -137,7 +165,6 @@
     mapView.settings.consumesGesturesInView = NO;
     self.view = mapView;
     
-    NSLog(@"In User 2...");
     //  add view to cover map
     UIView *mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
     mapCoverView.layer.masksToBounds = YES;
@@ -151,43 +178,40 @@
     [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
     
-    NSLog(@"In User 3...");
     //  get the the users information
-    NSString *url = [NSString stringWithFormat:@"%@", @"http://aeneas.princeton.edu:8000/api/v1/userProfiles/1/"];
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://aeneas.princeton.edu:8000/api/v1/users/getMyProfile/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    NSLog(@"In User 4...");
     
     NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
-    NSLog(@"In User 5...");
     
     // check the response
     NSURLResponse *response;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     NSLog(@"theReply: %@", theReply);
-    NSLog(@"In User 6...");
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
                                   GETReply options:kNilOptions error:nil];
     
+    NSData* profPicData = [self getProfileImage:userProfDict];
+    
+    
     NSLog(@"%@", userProfDict);
     
-    NSLog(@"In User 7...");
     //  add the users profile picture
     //  add profile picture
     UIImageView *profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
-    [profilePicture setImage:[UIImage imageNamed:@"UserIcon.png"]];
+    [profilePicture setImage:[UIImage imageWithData:profPicData]];
     myProfPicture = profilePicture.image;
     [self.view addSubview:profilePicture];
     
-    NSLog(@"In User 8...");
     
     //  add an edit profile picture button
     editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
@@ -204,7 +228,36 @@
     [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
     [self.view addSubview:myShoutsButton];
     
+    tableViewController = [[JCCMyShoutsTableViewController alloc] init];
     
+    // The table view controller's view
+    UITableView *table = tableViewController.tableView;
+    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
+    [table setFrame:CGRectMake(0,295,0, 0)];
+    table.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+    // Adds the table view controller as a child view controller
+    [self addChildViewController:tableViewController];
+    // Adds the View of the table view controller as a subview
+    [self.view addSubview:table];
+    
+    
+    
+    myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
+    [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
+    [self.view addSubview:myUsername];
+    
+    myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+    [myMaxRadius setText:[NSString stringWithFormat:@"%@ %@ %@", @"Max Radius:", [userProfDict objectForKey:@"maxRadius"], @"meters"]];
+    [self.view addSubview:myMaxRadius];
+
+    myNumShouts = [[UILabel alloc] initWithFrame:CGRectMake(100, 160, 200, 30)];
+    [myNumShouts setText:[NSString stringWithFormat:@"%@ %@",@"Number of Shouts:", [userProfDict objectForKey:@""]]];
+    [self.view addSubview:myNumShouts];
+    
+    myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 190, 200, 30)];
+    [myNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
+    [self.view addSubview:myNumLikesReceived];
+
 }
 
 //  handle the edit profile picture button being pressed
