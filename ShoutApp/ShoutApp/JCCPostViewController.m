@@ -283,7 +283,7 @@
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/getMyProfile"]];
+    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/getMyProfile/"]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 //    [request setHTTPBody:jsonData];
