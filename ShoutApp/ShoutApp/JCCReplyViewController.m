@@ -347,17 +347,20 @@
 - (IBAction)sendUp:(UIButton*)sender
 {
     
-    // If black set to blue, else set to black
+    // If black set to white, else set to black
     if ([likeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
     {
         // Resets the color of the "down" button to black
-        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        dislikeButton.backgroundColor = [UIColor clearColor];
+        [self setDefaultLikeDislike:dislikeButton];
+        
+//        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        dislikeButton.backgroundColor = [UIColor clearColor];
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        likeButton.backgroundColor = [UIColor blackColor];
-        likeButton.layer.cornerRadius = 20.0;
-        likeButton.layer.masksToBounds = YES;
+        [self setLikeAsMarked:likeButton];
+//        [likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        likeButton.backgroundColor = [UIColor blackColor];
+//        likeButton.layer.cornerRadius = 20.0;
+//        likeButton.layer.masksToBounds = YES;
         
         // post the like
         // make the url with query variables
@@ -407,8 +410,9 @@
     else
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        likeButton.backgroundColor = [UIColor clearColor];
+        //[likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        //likeButton.backgroundColor = [UIColor clearColor];
+        [self setDefaultLikeDislike:likeButton];
         
         
         // post the like
@@ -452,7 +456,7 @@
         // This parses the response from the server as a JSON object
         NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
         
-        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
     }
     
@@ -578,11 +582,43 @@
 
 
 
-// Will higlight the up / down arrow if this user has liked the message
--(void)highlightLikeDislike
+
+// Sets default to white background and black text for like/dislike labels
+-(void)setDefaultLikeDislike:(UIButton*)button
 {
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor clearColor]];
+    button.layer.cornerRadius = 20.0;
+    button.layer.masksToBounds = YES;
     
 }
+
+
+
+
+
+// if the user is found in the list for having liked, then highlight the like label
+-(void)setLikeAsMarked:(UIButton*)button
+{
+//    [button setTitle:@"⋀" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor blackColor]];
+}
+
+
+
+
+
+// if the user is found in the list for having disliked, then highlight the like label
+-(void)setDislikeAsMarked:(UIButton*)button
+{
+//    [button setTitle:@"⋁" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor blackColor]];
+    
+}
+
+
 
 
 
@@ -695,6 +731,23 @@
     [dislikeButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dislikeButton];
     
+    [self setDefaultLikeDislike:likeButton];
+    [self setDefaultLikeDislike:dislikeButton];
+    NSArray *usersLiked = [tempJsonObjects objectForKey:@"usersLiked"];
+    NSArray *usersDisliked = [tempJsonObjects objectForKey:@"usersDisliked"];
+    // Check to see if like or dislike should be highlighted
+    for (NSString* person in usersLiked)
+    {
+        if ([person isEqualToString:sharedUserName])
+            [self setLikeAsMarked:likeButton];
+    }
+    
+    for (NSString* person in usersDisliked)
+    {
+        if ([person isEqualToString:sharedUserName])
+            [self setDislikeAsMarked:dislikeButton];
+    }
+
     
     //  create the table view controller
     tableViewController = [[JCCReplyTableViewController alloc] init];
@@ -742,11 +795,6 @@
 
     
     
-    // add a compose reply button
-//    UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
-//    [self.navigationItem setRightBarButtonItem:replyComposeButton animated:YES];
-    
-    
     //  add profile picture
     UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 40, 40)];
     [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
@@ -754,40 +802,6 @@
 }
 
 
-
-
-
-// Sets default to white background and black text for like/dislike labels
--(void)setDefaultLikeDislike:(UIButton*)button
-{
-    [button setTitle:@"⋀" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor whiteColor]];
-    
-    [button setTitle:@"⋁" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor whiteColor]];
-}
-
-
-
-// if the user is found in the list for having liked, then highlight the like label
--(void)setLikeAsMarked:(UIButton*)button
-{
-    [button setTitle:@"⋀" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor blackColor]];
-}
-
-
-// if the user is found in the list for having disliked, then highlight the like label
--(void)setDislikeAsMarked:(UIButton*)button
-{
-    [button setTitle:@"⋁" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor blackColor]];
-
-}
 
 
 
