@@ -468,6 +468,32 @@
 }
 
 
+
+-(NSData*)getProfileImage:(NSDictionary*) dictShout
+{
+    // send the post request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/static/shout/images/"];
+    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
+    
+    [request setURL:[NSURL URLWithString:url1]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    //    [request setHTTPBody:jsonData];
+    
+    // check the response
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    
+    return GETReply;
+}
+
+
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"messageCell";
@@ -483,7 +509,11 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
 
+    NSData* profPicData = [self getProfileImage:dictShout];
+    // Begin configuration of Cell
     
+    [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
+
     // Begin configuration of Cell
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
