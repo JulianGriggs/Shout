@@ -121,7 +121,7 @@
     UITableView *table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height),0, 0)];
-    
+    table.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
     // Adds the table view controller as a child view controller
     [self addChildViewController:tableViewController];
     // Adds the View of the table view controller as a subview

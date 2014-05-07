@@ -116,6 +116,7 @@
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
 
+    NSLog(@"In User 1...");
     
     // add map in the background
     //  build the location manager
@@ -136,7 +137,7 @@
     mapView.settings.consumesGesturesInView = NO;
     self.view = mapView;
     
-    
+    NSLog(@"In User 2...");
     //  add view to cover map
     UIView *mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
     mapCoverView.layer.masksToBounds = YES;
@@ -150,7 +151,7 @@
     [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
     
-    
+    NSLog(@"In User 3...");
     //  get the the users information
     NSString *url = [NSString stringWithFormat:@"%@", @"http://aeneas.princeton.edu:8000/api/v1/userProfiles/1/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -158,27 +159,35 @@
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
+    NSLog(@"In User 4...");
     
     NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
+    NSLog(@"In User 5...");
     
     // check the response
     NSURLResponse *response;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    NSLog(@"theReply: %@", theReply);
+    NSLog(@"In User 6...");
     
     // This parses the response from the server as a JSON object
-    NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
-    NSLog(userProfDict);
+    NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
+                                  GETReply options:kNilOptions error:nil];
     
+    NSLog(@"%@", userProfDict);
     
+    NSLog(@"In User 7...");
     //  add the users profile picture
     //  add profile picture
-    UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
-    [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
-    myProfPicture = profilePricture.image;
-    [self.view addSubview:profilePricture];
+    UIImageView *profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+    [profilePicture setImage:[UIImage imageNamed:@"UserIcon.png"]];
+    myProfPicture = profilePicture.image;
+    [self.view addSubview:profilePicture];
+    
+    NSLog(@"In User 8...");
     
     //  add an edit profile picture button
     editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];

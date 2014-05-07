@@ -394,7 +394,7 @@
     NSURLResponse *response;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    NSLog(@"Fetch Shouts: theReply%@", theReply);
+//    NSLog(@"Fetch Shouts: theReply%@", theReply);
     
     
     // Creates myObject every time  this function is called
