@@ -345,6 +345,27 @@
     //    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
     //    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+    // Set current like/dislike
+    NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
+    NSArray *usersDisliked = [dictShout objectForKey:@"usersDisliked"];
+    
+    // Default colors for likes/dislikes
+    [self setDefaultLikeDislike:cell];
+    
+    // Check to see if like or dislike should be highlighted
+    for (NSString* person in usersLiked)
+    {
+        if ([person isEqualToString:sharedUserName])
+            [self setLikeAsMarked:cell];
+    }
+    
+    for (NSString* person in usersDisliked)
+    {
+        if ([person isEqualToString:sharedUserName])
+            [self setDislikeAsMarked:cell];
+    }
+
     // Hides the Reply and Echo button
     [cell.ReplyIconImage setHidden:YES];
     [cell.ReplyButton setHidden:YES];
@@ -358,6 +379,41 @@
 }
 
 
+
+// Sets default to white background and black text for like/dislike labels
+-(void)setDefaultLikeDislike:(JCCTableViewCell*)cell
+{
+    [cell.UpLabel setTextColor:[UIColor blackColor]];
+    cell.UpLabel.backgroundColor = [UIColor whiteColor];
+    cell.UpLabel.layer.cornerRadius = 8.0;
+    cell.UpLabel.layer.masksToBounds = YES;
+    
+    [cell.DownLabel setTextColor:[UIColor blackColor]];
+    cell.DownLabel.backgroundColor = [UIColor whiteColor];
+    cell.DownLabel.layer.cornerRadius = 8.0;
+    cell.DownLabel.layer.masksToBounds = YES;
+}
+
+
+
+// if the user is found in the list for having liked, then highlight the like label
+-(void)setLikeAsMarked:(JCCTableViewCell*)cell
+{
+    [cell.UpLabel setTextColor:[UIColor whiteColor]];
+    cell.UpLabel.backgroundColor = [UIColor blackColor];
+    cell.UpLabel.layer.cornerRadius = 8.0;
+    cell.UpLabel.layer.masksToBounds = YES;
+}
+
+
+// if the user is found in the list for having disliked, then highlight the like label
+-(void)setDislikeAsMarked:(JCCTableViewCell*)cell
+{
+    [cell.DownLabel setTextColor:[UIColor whiteColor]];
+    cell.DownLabel.backgroundColor = [UIColor blackColor];
+    cell.DownLabel.layer.cornerRadius = 8.0;
+    cell.DownLabel.layer.masksToBounds = YES;
+}
 
 
 
