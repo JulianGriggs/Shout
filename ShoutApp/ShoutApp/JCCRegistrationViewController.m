@@ -122,8 +122,8 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
-    NSLog(@"Registration GETReply: %@", GETReply);
-    NSLog(@"Registration theReply: %@", theReply);
+    //NSLog(@"Registration GETReply: %@", GETReply);
+    //NSLog(@"Registration theReply: %@", theReply);
     
     if ([theReply isEqualToString:@"error"])
     {
@@ -153,7 +153,7 @@
     
     // authentication
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", userNameField.text, passwordField.text];
-    NSLog(@"%@ %@", userNameField.text, passwordField.text);
+    //NSLog(@"%@ %@", userNameField.text, passwordField.text);
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -168,7 +168,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
-    NSLog(@"%@", GETReply);
+    //NSLog(@"%@", GETReply);
     
     if (GETReply == nil) return NO; // Failure (Probably didn't give a valid username / password)
 

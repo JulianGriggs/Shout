@@ -188,7 +188,7 @@
     NSString *getMessageId = cell.MessageIDLabel.text;
     NSString *getSenderID = cell.SenderIDLabel.text;
     
-    // If black set to red, else set to black
+    // If black set to white, else set to black
     if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
     {
         // Resets the color of the "up" button to black
@@ -394,6 +394,7 @@
     NSURLResponse *response;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    NSLog(@"Fetch Shouts: theReply%@", theReply);
     
     
     // Creates myObject every time  this function is called
@@ -492,10 +493,10 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     
-    
+    NSData* profPicData = [self setProfileImage:dictShout];
     // Begin configuration of Cell
     
-    [cell.ProfileImage setImage:[UIImage imageNamed:@"UserIcon.png"]];
+    [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
    
@@ -518,10 +519,91 @@
     [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
+    // Set current like/dislike
+    NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
+    NSArray *usersDisliked = [dictShout objectForKey:@"usersDisliked"];
+    
+    // Default colors for likes/dislikes
+    [self setDefaultLikeDislike:cell];
+    
+    // Check to see if like or dislike should be highlighted
+    for (NSString* person in usersLiked)
+    {
+        if ([person isEqualToString:sharedUserName])
+            [self setLikeAsMarked:cell];
+    }
+    
+    for (NSString* person in usersDisliked)
+    {
+        if ([person isEqualToString:sharedUserName])
+            [self setDislikeAsMarked:cell];
+    }
+    
+    
     return cell;
     
 }
 
+
+// Sets default to white background and black text for like/dislike labels
+-(void)setDefaultLikeDislike:(JCCTableViewCell*)cell
+{
+    [cell.UpLabel setTextColor:[UIColor blackColor]];
+    cell.UpLabel.backgroundColor = [UIColor whiteColor];
+    cell.UpLabel.layer.cornerRadius = 8.0;
+    cell.UpLabel.layer.masksToBounds = YES;
+    
+    [cell.DownLabel setTextColor:[UIColor blackColor]];
+    cell.DownLabel.backgroundColor = [UIColor whiteColor];
+    cell.DownLabel.layer.cornerRadius = 8.0;
+    cell.DownLabel.layer.masksToBounds = YES;
+}
+
+
+
+// if the user is found in the list for having liked, then highlight the like label
+-(void)setLikeAsMarked:(JCCTableViewCell*)cell
+{
+    [cell.UpLabel setTextColor:[UIColor whiteColor]];
+    cell.UpLabel.backgroundColor = [UIColor blackColor];
+    cell.UpLabel.layer.cornerRadius = 8.0;
+    cell.UpLabel.layer.masksToBounds = YES;
+}
+
+
+// if the user is found in the list for having disliked, then highlight the like label
+-(void)setDislikeAsMarked:(JCCTableViewCell*)cell
+{
+    [cell.DownLabel setTextColor:[UIColor whiteColor]];
+    cell.DownLabel.backgroundColor = [UIColor blackColor];
+    cell.DownLabel.layer.cornerRadius = 8.0;
+    cell.DownLabel.layer.masksToBounds = YES;
+}
+
+
+
+
+-(NSData*)setProfileImage:(NSDictionary*) dictShout
+{
+    // send the post request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/static/shout/images/"];
+    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
+
+    [request setURL:[NSURL URLWithString:url1]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    //    [request setHTTPBody:jsonData];
+    
+    // check the response
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+
+    return GETReply;
+}
 
 
 

@@ -578,6 +578,12 @@
 
 
 
+// Will higlight the up / down arrow if this user has liked the message
+-(void)highlightLikeDislike
+{
+    
+}
+
 
 
 
@@ -599,7 +605,7 @@
     //  add a map in the background
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
                                                             longitude:locationManager.location.coordinate.longitude
-                                                                 zoom:18];
+                                                                 zoom:17];
     mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     [mapView animateToViewingAngle:45];
     mapView.settings.consumesGesturesInView = NO;
@@ -745,6 +751,42 @@
     UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 40, 40)];
     [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
     [self.view addSubview:profilePricture];
+}
+
+
+
+
+
+// Sets default to white background and black text for like/dislike labels
+-(void)setDefaultLikeDislike:(UIButton*)button
+{
+    [button setTitle:@"⋀" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor whiteColor]];
+    
+    [button setTitle:@"⋁" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor whiteColor]];
+}
+
+
+
+// if the user is found in the list for having liked, then highlight the like label
+-(void)setLikeAsMarked:(UIButton*)button
+{
+    [button setTitle:@"⋀" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor blackColor]];
+}
+
+
+// if the user is found in the list for having disliked, then highlight the like label
+-(void)setDislikeAsMarked:(UIButton*)button
+{
+    [button setTitle:@"⋁" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor blackColor]];
+
 }
 
 
