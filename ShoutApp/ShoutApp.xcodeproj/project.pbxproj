@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61782095191ABDB300192709 /* JCCMakeRequests.m */; };
 		619B901619106FB800B9E728 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619B901519106FB800B9E728 /* GoogleMaps.framework */; };
 		619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 619B901719106FF500B9E728 /* GoogleMaps.bundle */; };
 		61A0CE3118F08A8C00B8217A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3018F08A8C00B8217A /* Foundation.framework */; };
@@ -63,6 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		61782094191ABDB300192709 /* JCCMakeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCMakeRequests.h; path = ../JCCMakeRequests.h; sourceTree = "<group>"; };
+		61782095191ABDB300192709 /* JCCMakeRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCMakeRequests.m; path = ../JCCMakeRequests.m; sourceTree = "<group>"; };
 		619B901519106FB800B9E728 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		619B901719106FF500B9E728 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		61A0CE2D18F08A8C00B8217A /* ShoutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -265,6 +268,8 @@
 		61E069C91906D3AA00900A71 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				61782094191ABDB300192709 /* JCCMakeRequests.h */,
+				61782095191ABDB300192709 /* JCCMakeRequests.m */,
 				61E069C219060AA600900A71 /* JCCUserCredentials.h */,
 				61E069C319060AA600900A71 /* JCCUserCredentials.m */,
 				61A0CE6C18F08AF400B8217A /* JCCAppDelegate.h */,
@@ -502,6 +507,7 @@
 				75020638191998DB001BAA49 /* JCCMyShoutsTableViewController.m in Sources */,
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */,
+				61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

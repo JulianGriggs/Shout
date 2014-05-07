@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "JCCAnnotation.h"
 #import "JCCUserCredentials.h"
+#import "JCCMakeRequests.h"
 #import <GoogleMaps/GoogleMaps.h>
 
 #define DEFAULT_MIN_RADIUS 100
@@ -32,6 +33,7 @@
 
 @implementation JCCEchoViewController
 {
+    JCCMakeRequests *requestObj;
     GMSMapView *mapView;
     CLLocationCoordinate2D myCurrentLocation;
     CLLocationCoordinate2D destinationLocation;
@@ -121,69 +123,13 @@
         
         //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
-        NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-        NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        
-        // authentication
-        NSString *authStr = [NSString stringWithFormat:@"%@", sharedUserToken];
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
+        [requestObj postShout:dictionaryData];
         [self.navigationController popViewControllerAnimated:TRUE];
         
     }
 }
 
 
-
-// Gets the max radius size
--(int) getMaxRadiusSize
-{
-    // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/userProfiles/1/"]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    //    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error = nil;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-    NSLog(@"Response: %@", error);
-    
-    // This parses the response from the server as a JSON object
-    NSDictionary *userDict = [NSJSONSerialization JSONObjectWithData:
-                              GETReply options:kNilOptions error:nil];
-    NSLog(@"theReply: %@", theReply);
-    NSNumber *maxRadius = [userDict objectForKey:@"maxRadius"];
-    NSLog(@"MaxRadius: %@", maxRadius);
-    return [maxRadius intValue];
-}
 
 
 
@@ -273,6 +219,8 @@
     
     [super viewDidLoad];
     //  handle setting up location updates
+    
+    requestObj = [[JCCMakeRequests alloc] init];
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
     
@@ -292,7 +240,8 @@
     // Adds compass
     //    mapView.settings.compassButton = YES;
     
-    maxRadiusSize = [self getMaxRadiusSize];
+    NSDictionary* userDict = [requestObj getUserProfile];
+    maxRadiusSize = [requestObj getMaxRadiusSize:userDict];
     radiusSize = DEFAULT_MIN_RADIUS;
     
     circle = [GMSCircle circleWithPosition:locationManager.location.coordinate radius:radiusSize];

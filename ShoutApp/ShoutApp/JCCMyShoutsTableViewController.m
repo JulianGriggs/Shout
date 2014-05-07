@@ -12,10 +12,12 @@
 #import "JCCTableViewCell.h"
 #import "JCCMyShoutsTableViewController.h"
 #import "JCCUserCredentials.h"
+#import "JCCMakeRequests.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCMyShoutsTableViewController ()
 {
+    JCCMakeRequests *requestObj;
     
     // location manager
     CLLocationManager *locationManager;
@@ -60,7 +62,7 @@
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *getMessageId = cell.MessageIDLabel.text;
+    NSString *getMessageID = cell.MessageIDLabel.text;
     NSString *getSenderID = cell.SenderIDLabel.text;
     
     // If black set to blue, else set to black
@@ -76,45 +78,10 @@
         cell.UpLabel.layer.masksToBounds = YES;
         
         // post the like
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:getMessageId];
-        NSString *url2 = [url1 stringByAppendingString:@"/like"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        
-        //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", getMessageId];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        [requestObj postLike:getMessageID];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
         
         [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -128,45 +95,11 @@
         
         
         // post the like
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:getMessageId];
-        NSString *url2 = [url1 stringByAppendingString:@"/like"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        
-        //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", getMessageId];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        [requestObj postLike:getMessageID];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+        
         
         [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -186,7 +119,7 @@
     
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *getMessageId = cell.MessageIDLabel.text;
+    NSString *getMessageID = cell.MessageIDLabel.text;
     NSString *getSenderID = cell.SenderIDLabel.text;
     
     // If black set to white, else set to black
@@ -202,45 +135,10 @@
         cell.DownLabel.layer.masksToBounds = YES;
         
         // post the dislike
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:getMessageId];
-        NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        
-        //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", getMessageId];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        [requestObj postDislike:getMessageID];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
         
         [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -254,55 +152,15 @@
         cell.DownLabel.backgroundColor = [UIColor whiteColor];
         
         // post the dislike
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:getMessageId];
-        NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
+        [requestObj postDislike:getMessageID];
         
         //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", getMessageId];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
         
         [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
     }
 }
-
-
-
-
-
 
 
 
@@ -372,35 +230,8 @@
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
-    
-    // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/getMyShouts/"];
-    
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    NSLog(@"User Page GETReply: %@", GETReply);
-    NSLog(@"User Page theReply: %@", theReply);
-    
-    
-    // This parses the response from the server as a JSON object
-    jsonObjects = [NSJSONSerialization JSONObjectWithData:
-                   GETReply options:kNilOptions error:nil];
+        
+    jsonObjects = [requestObj getMyShouts];
     
 }
 
@@ -469,28 +300,6 @@
 
 
 
--(NSData*)getProfileImage:(NSDictionary*) dictShout
-{
-    // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/static/shout/images/"];
-    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
-    
-    [request setURL:[NSURL URLWithString:url1]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    //    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error = nil;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-    return GETReply;
-}
-
 
 
 
@@ -509,7 +318,7 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
 
-    NSData* profPicData = [self getProfileImage:dictShout];
+    NSData* profPicData = [requestObj getProfileImage:dictShout];
     // Begin configuration of Cell
     
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
@@ -616,6 +425,7 @@
 {
     [super viewDidLoad];
     
+    requestObj = [[JCCMakeRequests alloc] init];
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)
