@@ -126,12 +126,6 @@
     [myNumShouts setText:[NSString stringWithFormat:@"%@ %@",@"Number of Shouts:", [userProfDict objectForKey:@""]]];
     [myNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
     
-    for (UINavigationItem* item in self.navigationController.navigationBar.items)
-    {
-        // put title on navbar
-        item.title = @"SHOUT!";
-    }
-
 }
 
 
