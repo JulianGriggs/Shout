@@ -428,27 +428,6 @@
     [self.view addSubview:mapCoverView];
     
     
-    //  get the message being viewed
-    // make the url with query variables
-//    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-//    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", Id]];
-//    
-//    // send the get request
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    [request setURL:[NSURL URLWithString:url1]];
-//    [request setHTTPMethod:@"GET"];
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    
-//    
-//    // check the response
-//    NSURLResponse *response;
-//    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//    
-//    // This parses the response from the server as a JSON object
-//    NSDictionary *tempJsonObjects = [NSJSONSerialization JSONObjectWithData:
-//                                GETReply options:kNilOptions error:nil];
-    
     NSDictionary *tempJsonObjects = [requestObj getShoutWithID:Id];
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;

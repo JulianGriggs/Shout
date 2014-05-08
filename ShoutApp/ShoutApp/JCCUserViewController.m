@@ -208,6 +208,7 @@
     
     //  add the navaigation buttons
     
+    
     //add my shouts button
     myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
 //    myShoutsButton.backgroundColor = [UIColor darkGrayColor];

@@ -258,6 +258,12 @@
     [super viewDidLoad];
     //  handle setting up location updates
     
+    
+    
+    // put title on navbar
+    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
+    
+    
     requestObj = [[JCCMakeRequests alloc] init];
     if (!locationManager)
     {

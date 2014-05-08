@@ -27,12 +27,13 @@
     
     // Creates the root naviagtion controller
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
+//    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
     
     //  set the navigation bar to black
-    navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    navigationController.navigationBar.translucent = NO;
-
+//    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+//    navigationController.navigationBar.translucent = NO;
+    //navigationController.navigationBar.backgroundColor = [UIColor blackColor];
+    navigationController.navigationBar.topItem.title = @"SHOUT!";
     
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];

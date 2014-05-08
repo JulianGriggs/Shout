@@ -297,6 +297,7 @@
     
     [self.view addGestureRecognizer:tap];
     
+    
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"gorilla.png"];
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];

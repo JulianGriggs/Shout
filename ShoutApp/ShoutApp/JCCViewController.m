@@ -128,6 +128,9 @@
     // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
     
+    // put title on navbar
+    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
+    
     
     // Create the button to transition to the compose message screen
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(pressedComposeButton:)];

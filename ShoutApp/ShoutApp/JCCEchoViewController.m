@@ -236,6 +236,7 @@
     [mapView animateToViewingAngle:45];
     
     
+    
     // mapView.settings.myLocationButton = YES;
     // Adds compass
     //    mapView.settings.compassButton = YES;
