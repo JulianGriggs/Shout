@@ -220,23 +220,15 @@
     if ([textView.text isEqualToString:@"Reply here!"])
     {
         textView.text = @"";
-        textView.textColor = [UIColor blackColor]; //optional
+        textView.textColor = [UIColor blackColor];
     }
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.25 animations:^{
         [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
-        [replyTextView setFrame:CGRectMake(25,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
+        [replyTextView setFrame:CGRectMake(50,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
         replyTextView.layer.cornerRadius=8.0f;
         replyTextView.layer.masksToBounds = YES;
-        [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-keyboardSize - 55, 50, 50)];
-        [likeLabel setFrame:CGRectMake(7, 127, 40, 40)];
-        [dislikeLabel setFrame:CGRectMake(277, 127, 40, 40)];
-        [likeButton setFrame:CGRectMake(7, 157, 40, 40)];
-        [dislikeButton setFrame:CGRectMake(277, 157, 40, 40)];
+        [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-keyboardSize - 45, 35, 35)];
       
-//        [mapView setFrame:CGRectMake(0, 0, 320, 215)];
-//        [mapCoverView setFrame:CGRectMake(0, 0, 320, 215)];
-//        [tableViewController.tableView setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 150,0, 0)];
-//        [tableViewController passMessageId:Id];
         
     }];
     [textView becomeFirstResponder];
@@ -253,20 +245,12 @@
         textView.text = @"Reply here!";
         textView.textColor = [UIColor lightGrayColor];
     }
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.25 animations:^{
         [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
-        [replyTextView setFrame:CGRectMake(25, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
-        [replyButton setFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-55, 50, 50)];
+        [replyTextView setFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
+        [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45, 35, 35)];
         replyTextView.layer.cornerRadius=8.0f;
         replyTextView.layer.masksToBounds = YES;
-        [likeLabel setFrame:CGRectMake(7, 177, 40, 40)];
-        [dislikeLabel setFrame:CGRectMake(275, 177, 40, 40)];
-        [likeButton setFrame:CGRectMake(7, 207, 40, 40)];
-        [dislikeButton setFrame:CGRectMake(277, 207, 40, 40)];
-//        [mapView setFrame:CGRectMake(0, 0, 320, 265)];
-//        [mapCoverView setFrame:CGRectMake(0, 0, 320, 265)];
-//        [tableViewController.tableView setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
-//        [tableViewController passMessageId:Id];
         
     }];
 
@@ -649,7 +633,7 @@
     
     
     //  add view to cover map
-    mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
+    mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
     mapCoverView.layer.masksToBounds = YES;
     mapCoverView.backgroundColor = [UIColor whiteColor];
     mapCoverView.alpha = 0.7;
@@ -682,7 +666,7 @@
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     keyboardSize = 216;
     //  text view color and shape
-    UITextView *postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 125, 225, 75)];
+    UITextView *postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
 
     
     // Default text view
@@ -690,42 +674,49 @@
     postTextView.textColor = [UIColor blackColor];
     postTextView.userInteractionEnabled = NO;
     postTextView.editable = NO;
+    postTextView.layer.cornerRadius = 8.0;
+    postTextView.clipsToBounds = YES;
     [self.view addSubview:postTextView];
     
     // username label
-    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 85, 100, 30)];
+    UIFont* boldFont = [UIFont boldSystemFontOfSize:16.0];
+    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 85, 100, 30)];
     [usernameLabel setText:[tempJsonObjects objectForKey:@"owner"]];
     usernameLabel.textAlignment = NSTextAlignmentLeft;
+    [usernameLabel setFont:boldFont];
     [self.view addSubview:usernameLabel];
     
     // time label
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
     [timeLabel setText:[self formatTime:[tempJsonObjects objectForKey:@"timestamp"]]];
     timeLabel.textAlignment = NSTextAlignmentRight;
+    UIFont* font = [UIFont systemFontOfSize:12.0];
+    [timeLabel setFont:font];
+    [timeLabel setTextColor:[UIColor blueColor]];
     [self.view addSubview:timeLabel];
     
     //  like label
-    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 177, 40, 40)];
+    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 197, 40, 40)];
     [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
     likeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:likeLabel];
     
     //  dislike label
-    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 177, 40, 40)];
+    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 197, 40, 40)];
     [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
     dislikeLabel.textAlignment = NSTextAlignmentCenter;
     [dislikeButton targetForAction:@selector(sendDown:) withSender:self];
     [self.view addSubview:dislikeLabel];
     
     // like button
-    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
+    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 227, 40, 40)];
     [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
     [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [likeButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:likeButton];
     
     // dislike button
-    dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
+    dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 227, 40, 40)];
     [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
     [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [dislikeButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
@@ -756,7 +747,9 @@
     // The table view controller's view
     table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
-    [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 200,0, 0)];
+    [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 227, 0, 0)];
+    table.contentInset = UIEdgeInsetsMake(0, 0, 350, 0);
+
     
     tableView.delegate = self;
     
@@ -768,11 +761,12 @@
     
     // Make gray background
     outerReplyView = [[UITextView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
-    outerReplyView.layer.backgroundColor=[[UIColor lightGrayColor]CGColor];
+    outerReplyView.layer.backgroundColor=[[UIColor blackColor]CGColor];
+    [outerReplyView setUserInteractionEnabled:NO];
     [self.view addSubview:outerReplyView];
-    
+
     // Make replyTextView
-    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(25, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
+    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
     replyTextView.layer.backgroundColor=[[UIColor whiteColor]CGColor];
     replyTextView.userInteractionEnabled = YES;
     replyTextView.layer.cornerRadius=8.0f;
@@ -784,11 +778,11 @@
     [self.view addSubview:replyTextView];
     
     //  add reply button
-    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(255, [UIScreen mainScreen].bounds.size.height-55, 50, 50)];
+    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45, 35, 35)];
     replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     replyButton.clipsToBounds = YES;
-    [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
-    [replyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [replyButton setBackgroundColor:[UIColor whiteColor]];
+    [replyButton setBackgroundImage:[UIImage imageNamed:@"ClearReplyIcon.png"] forState:UIControlStateNormal];
     [replyButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:replyButton];
@@ -796,7 +790,7 @@
     
     
     //  add profile picture
-    UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 40, 40)];
+    UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 60, 60)];
     [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
     [self.view addSubview:profilePricture];
 }

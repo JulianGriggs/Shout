@@ -49,8 +49,10 @@
 		755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF518F4779E00DB52D9 /* JCCViewController.m */; };
 		755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */; };
 		755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */; };
-		755AAEFF18FCAE0B00DB52D9 /* JCCReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEFE18FCAE0B00DB52D9 /* JCCReplyViewController.m */; };
-		755AAF0218FCB29C00DB52D9 /* JCCReplyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAF0118FCB29C00DB52D9 /* JCCReplyTableViewController.m */; };
+		75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */; };
+		75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */; };
+		75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */; };
+		75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,10 +125,13 @@
 		755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCUserViewController.m; sourceTree = "<group>"; };
 		755AAEFA18F7307600DB52D9 /* JCCEchoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEchoViewController.h; sourceTree = "<group>"; };
 		755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEchoViewController.m; sourceTree = "<group>"; };
-		755AAEFD18FCAE0B00DB52D9 /* JCCReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyViewController.h; sourceTree = "<group>"; };
-		755AAEFE18FCAE0B00DB52D9 /* JCCReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyViewController.m; sourceTree = "<group>"; };
-		755AAF0018FCB29C00DB52D9 /* JCCReplyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyTableViewController.h; sourceTree = "<group>"; };
-		755AAF0118FCB29C00DB52D9 /* JCCReplyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewController.m; sourceTree = "<group>"; };
+		75EC956E191B2C95004AE3F6 /* JCCReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyTableViewCell.h; sourceTree = "<group>"; };
+		75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewCell.m; sourceTree = "<group>"; };
+		75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCReplyTableViewCell.xib; sourceTree = "<group>"; };
+		75EC9571191B2C95004AE3F6 /* JCCReplyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyTableViewController.h; sourceTree = "<group>"; };
+		75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewController.m; sourceTree = "<group>"; };
+		75EC9573191B2C95004AE3F6 /* JCCReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyViewController.h; sourceTree = "<group>"; };
+		75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,10 +298,13 @@
 		755AAF031901B48900DB52D9 /* Reply */ = {
 			isa = PBXGroup;
 			children = (
-				755AAEFD18FCAE0B00DB52D9 /* JCCReplyViewController.h */,
-				755AAEFE18FCAE0B00DB52D9 /* JCCReplyViewController.m */,
-				755AAF0018FCB29C00DB52D9 /* JCCReplyTableViewController.h */,
-				755AAF0118FCB29C00DB52D9 /* JCCReplyTableViewController.m */,
+				75EC956E191B2C95004AE3F6 /* JCCReplyTableViewCell.h */,
+				75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */,
+				75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */,
+				75EC9571191B2C95004AE3F6 /* JCCReplyTableViewController.h */,
+				75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */,
+				75EC9573191B2C95004AE3F6 /* JCCReplyViewController.h */,
+				75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */,
 			);
 			name = Reply;
 			sourceTree = "<group>";
@@ -471,6 +479,7 @@
 				7502063519198BDB001BAA49 /* JCCProfPicViewController.xib in Resources */,
 				61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */,
 				61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */,
+				75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */,
 				61A0CE7818F08D1500B8217A /* CustomTableViewCell.xib in Resources */,
 				61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */,
 				619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */,
@@ -492,9 +501,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				755AAEFF18FCAE0B00DB52D9 /* JCCReplyViewController.m in Sources */,
-				755AAF0218FCB29C00DB52D9 /* JCCReplyTableViewController.m in Sources */,
 				61E069C419060AA600900A71 /* JCCUserCredentials.m in Sources */,
+				75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */,
+				75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */,
 				755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */,
 				61A0CE7618F08AF400B8217A /* JCCTableViewCell.m in Sources */,
 				61A0CE6A18F08AE300B8217A /* JCCFeedTableViewController.m in Sources */,
@@ -502,6 +511,7 @@
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,
 				61A0CE3D18F08A8C00B8217A /* main.m in Sources */,
 				61FBB75118FCA78A00C55ECF /* JCCLoginViewController.m in Sources */,
+				75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */,
 				755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */,
 				61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */,
 				75020638191998DB001BAA49 /* JCCMyShoutsTableViewController.m in Sources */,

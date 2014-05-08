@@ -16,10 +16,10 @@
 
 #import "JCCFeedTableViewController.h"
 #import "JCCReplyTableViewController.h"
-#import "JCCTableViewCell.h"
 #import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
 #import "JCCReplyViewController.h"
+#import "JCCTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCReplyTableViewController ()
@@ -58,131 +58,6 @@
 {
     Id = messageId;
 }
-
-
-
-
-
-- (IBAction)sendUp:(UIButton*)sender
-{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    
-    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *getMessageId = cell.MessageIDLabel.text;
-    NSString *getSenderID = cell.SenderIDLabel.text;
-    
-    // If black set to blue, else set to black
-    if ([cell.UpLabel.textColor isEqual:[UIColor blackColor]])
-    {
-        // Resets the color of the "down" button to black
-        [cell.DownLabel setTextColor:[UIColor blackColor]];
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor blueColor]];
-        
-        
-        // post the like
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:getMessageId];
-        NSString *url2 = [url1 stringByAppendingString:@"/like"];
-        
-        
-        // send the get request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-    }
-    else
-    {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor blackColor]];
-    }
-    
-}
-
-
-
-
-
-// Happens whenever a user clicks the "DOWN" button
-- (IBAction)sendDown:(UIButton*)sender
-{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    
-    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *getMessageId = cell.MessageIDLabel.text;
-    NSString *getSenderID = cell.SenderIDLabel.text;
-    
-    // If black set to red, else set to black
-    if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
-    {
-        // Resets the color of the "down" button to black
-        [cell.UpLabel setTextColor:[UIColor blackColor]];
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor redColor]];
-    }
-    else
-    {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor blackColor]];
-    }
-}
-
-
-
-
-
-// Happens when a user touches the reply button
-- (IBAction)sendReply:(UIButton*)sender
-{
-    // This allocates a echo view controller and pushes it on the navigation stack
-    JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
-    [self.navigationController pushViewController:replyViewController animated:YES];
-    
-    
-    // get the text
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    // set the text
-    [replyViewController passMessageId:cell.MessageIDLabel.text];
-}
-
-
-
-
-
-// Happens when user touches the echo button
-- (IBAction)sendEcho:(UIButton*)sender
-{
-    // This allocates a echo view controller and pushes it on the navigation stack
-    JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
-    
-    // get the text
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    [self.navigationController pushViewController:echoViewController animated:YES];
-    
-    // set the text
-    [echoViewController setTextField:cell.MessageTextView.text];
-}
-
-
 
 
 
@@ -299,15 +174,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"messageCell";
+    static NSString *CellIdentifier = @"replyCell";
     
     JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        //        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
-        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCReplyTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
@@ -316,35 +192,8 @@
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
-//    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
-//    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
-//    q[cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
-
     
-    //    CGRect frame = cell.MessageTextView.frame;
-    //    frame.size.height = cell.MessageTextView.contentSize.height;
-    //    cell.MessageTextView.frame = frame;
     
-    [cell.MessageIDLabel setText:@""];
-    [cell.SenderIDLabel setText:@""];
-    
-    // Connects the buttons to their respective actions
-//    [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
-//    [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
-//    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
-//    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
-    
-    // Hides the Reply and Echo button
-    [cell.ReplyIconImage setHidden:YES];
-    [cell.ReplyButton setHidden:YES];
-    [cell.EchoIconImage setHidden:YES];
-    [cell.EchoButton setHidden:YES];
-    [cell.UpButton setHidden:YES];
-    [cell.UpLabel setHidden:YES];
-    [cell.DownButton setHidden:YES];
-    [cell.DownLabel setHidden:YES];
-    
-
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -357,7 +206,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160;
+    return 111;
 }
 
 
