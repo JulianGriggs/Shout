@@ -61,7 +61,7 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(50, 75, 225, 210)];
+        [imageView setFrame:CGRectMake(135, 75, 55, 50)];
         [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
         [emailField setFrame:CGRectMake(50, 230, 225, 50)];
@@ -89,7 +89,7 @@
     [emailField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(50, 75, 225, 210)];
+        [imageView setFrame:CGRectMake(80, 75, 160, 145)];
         [userNameField setFrame:CGRectMake(50, 225, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 275, 225, 50)];
         [emailField setFrame:CGRectMake(50, 325, 225, 50)];
@@ -309,7 +309,7 @@
     
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"gorilla.png"];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(80, 75, 160, 145)];
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     

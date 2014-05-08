@@ -55,7 +55,7 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(50, 75, 225, 210)];
+    [imageView setFrame:CGRectMake(135, 75, 55, 50)];
     [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
     [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
     [loginButton setFrame:CGRectMake(50, 240, 225, 50)];
