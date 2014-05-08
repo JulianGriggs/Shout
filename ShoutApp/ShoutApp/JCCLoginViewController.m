@@ -215,8 +215,7 @@
     self.navigationItem.hidesBackButton = YES;
     if ([self attemptAuthWithToken])
         [self addMainViewControllers];
-    // put title on navbar
-    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
+
 }
 
 

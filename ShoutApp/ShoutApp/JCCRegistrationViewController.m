@@ -279,16 +279,6 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-    for (UINavigationItem* item in self.navigationController.navigationBar.items)
-    {
-        // put title on navbar
-        item.title = @"SHOUT!";
-    }
-}
-
-
 
 - (void)viewDidLoad
 {

@@ -511,7 +511,6 @@
     [super viewWillAppear:FALSE];
     [self refresh];
     // put title on navbar
-    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
 }
 
 

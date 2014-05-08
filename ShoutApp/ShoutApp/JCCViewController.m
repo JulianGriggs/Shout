@@ -89,7 +89,7 @@
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 
-    [self.navigationItem setTitle:@"SHOUT!"];
+    [self.navigationItem setTitle:@"FEED"];
     
     //  build the location manager
     if (!locationManager)
@@ -123,8 +123,7 @@
     // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
     
-    // put title on navbar
-    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
+
     
     
     // Create the button to transition to the compose message screen
