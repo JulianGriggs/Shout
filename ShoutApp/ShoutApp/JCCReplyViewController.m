@@ -12,6 +12,7 @@
 #import "JCCUserViewController.h"
 #import "JCCReplyTableViewController.h"
 #import "JCCUserCredentials.h"
+#import "JCCMakeRequests.h"
 
 @interface JCCReplyViewController ()
 
@@ -47,6 +48,7 @@
     CGFloat screenWidth;
     CGFloat screenHeight;
     
+    JCCMakeRequests *requestObj;
 }
 
 
@@ -77,47 +79,6 @@
 
 
 
-////  reply pressed button handler
-//-(IBAction)replyComposeButtonPressed:(id)sender
-//{
-//    //  text view color and shape
-//    composeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
-//    composeView.layer.masksToBounds = YES;
-//    composeView.backgroundColor = [UIColor whiteColor];
-//    composeView.alpha = 0.5;
-//    [self.view addSubview:composeView];
-//    
-//    // add the cancel button 
-//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
-//    [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
-//    
-//    //  add the reply field
-//    //  text view color and shape
-//    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 125, 225, 75)];
-//    replyTextView.layer.cornerRadius = 8.0;
-//    replyTextView.layer.masksToBounds = YES;
-//    
-//    // Default text view
-//    replyTextView.text = @"Reply here!";
-//    replyTextView.textColor = [UIColor lightGrayColor];
-//    replyTextView.userInteractionEnabled = YES;
-//    replyTextView.editable = YES;
-//    replyTextView.delegate = self;
-//    [self.view addSubview:replyTextView];
-//    
-//    
-//    //  add reply button
-//    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 207, 175, 50)];
-//    replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
-//    replyButton.clipsToBounds = YES;
-//    [replyButton setTitle:@"REPLY!" forState:UIControlStateNormal];
-//    [replyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    replyButton.backgroundColor = [UIColor whiteColor];
-//    [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:replyButton];
-//    
-//}
-
 
 - (void) resetAfterReply
 {
@@ -143,31 +104,8 @@
         
         //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text};
-        NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-        NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-                
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        NSLog(@"%@", authValue);
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        //  build the appropriate URL
-        NSString *url = [NSString stringWithFormat:@"%@%@",@"http://aeneas.princeton.edu:8000/api/v1/replies?message_id=", Id];
-        
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        [requestObj postReply:dictionaryData withID:Id];
+
         
         //  refresh the table of replies after posting
         [tableViewController refresh];
@@ -336,56 +274,15 @@
     {
         // Resets the color of the "down" button to black
         [self setDefaultLikeDislike:dislikeButton];
-        
-//        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        dislikeButton.backgroundColor = [UIColor clearColor];
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [self setLikeAsMarked:likeButton];
-//        [likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        likeButton.backgroundColor = [UIColor blackColor];
-//        likeButton.layer.cornerRadius = 20.0;
-//        likeButton.layer.masksToBounds = YES;
+
         
         // post the like
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:Id];
-        NSString *url2 = [url1 stringByAppendingString:@"/like"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        
-        //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        [requestObj postLike:Id];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
         
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -394,51 +291,13 @@
     else
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        //[likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        //likeButton.backgroundColor = [UIColor clearColor];
         [self setDefaultLikeDislike:likeButton];
         
-        
         // post the like
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:Id];
-        NSString *url2 = [url1 stringByAppendingString:@"/like"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        
-        //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        [requestObj postLike:Id];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
         
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -467,46 +326,10 @@
         dislikeButton.layer.masksToBounds = YES;
         
         // post the dislike
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:Id];
-        NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
+        [requestObj postDislike:Id];
         
         //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
-        
+        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
         
@@ -518,46 +341,12 @@
         [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         dislikeButton.backgroundColor = [UIColor clearColor];
         
+        
         // post the dislike
-        // make the url with query variables
-        NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-        NSString *url1 = [url stringByAppendingString:Id];
-        NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        NSString *authStr = sharedUserToken;
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:url2]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
+        [requestObj postDislike:Id];
         
         //  update the labels
-        // send the get request
-        url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", Id];
-        request = [[NSMutableURLRequest alloc] init];
-        [request setURL:[NSURL URLWithString:url]];
-        [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        // check the response
-        GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-        
-        // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
+        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
         
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -606,13 +395,12 @@
 
 
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    requestObj = [[JCCMakeRequests alloc] init];
     //  build the location manager
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -642,26 +430,26 @@
     
     //  get the message being viewed
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
-    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", Id]];
+//    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+//    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", Id]];
+//    
+//    // send the get request
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    [request setURL:[NSURL URLWithString:url1]];
+//    [request setHTTPMethod:@"GET"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    
+//    
+//    // check the response
+//    NSURLResponse *response;
+//    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//    
+//    // This parses the response from the server as a JSON object
+//    NSDictionary *tempJsonObjects = [NSJSONSerialization JSONObjectWithData:
+//                                GETReply options:kNilOptions error:nil];
     
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url1]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-    // This parses the response from the server as a JSON object
-    NSDictionary *tempJsonObjects = [NSJSONSerialization JSONObjectWithData:
-                                GETReply options:kNilOptions error:nil];
-    
-    
+    NSDictionary *tempJsonObjects = [requestObj getShoutWithID:Id];
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     keyboardSize = 216;
@@ -692,7 +480,9 @@
     timeLabel.textAlignment = NSTextAlignmentRight;
     UIFont* font = [UIFont systemFontOfSize:12.0];
     [timeLabel setFont:font];
-    [timeLabel setTextColor:[UIColor blueColor]];
+
+    UIColor *prettyBlue = [[UIColor alloc] initWithRed:74.0/255.0f green:127.0/255.0f blue:255.0/255.0f alpha:1.0f];
+    [timeLabel setTextColor:prettyBlue];
     [self.view addSubview:timeLabel];
     
     //  like label
@@ -790,9 +580,12 @@
     
     
     //  add profile picture
-    UIImageView *profilePricture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 60, 60)];
-    [profilePricture setImage:[UIImage imageNamed:@"UserIcon.png"]];
-    [self.view addSubview:profilePricture];
+    
+    NSData* profPicData = [requestObj getProfileImage:tempJsonObjects];
+    
+    UIImageView *profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 60, 60)];
+    [profilePicture setImage:[UIImage imageWithData:profPicData]];
+    [self.view addSubview:profilePicture];
 }
 
 

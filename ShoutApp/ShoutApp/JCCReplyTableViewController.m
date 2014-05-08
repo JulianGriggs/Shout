@@ -20,11 +20,13 @@
 #import "JCCEchoViewController.h"
 #import "JCCReplyViewController.h"
 #import "JCCTableViewCell.h"
+#import "JCCMakeRequests.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCReplyTableViewController ()
 {
     
+    JCCMakeRequests *requestObj;
     // location manager
     CLLocationManager *locationManager;
     
@@ -44,6 +46,8 @@
     NSMutableArray *myObject;
     
     NSString *Id;
+    
+    JCCTableViewCell *currentCell;
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -62,9 +66,12 @@
 
 
 - (IBAction)showMuteOption:(UIButton*)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
-    // optional - add more buttons:
-    [alert addButtonWithTitle:@"Yes"];
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    currentCell = cell;
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:@"Yes",nil];
     [alert show];
 }
 
@@ -84,27 +91,8 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
 
-    // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/replies?"];
-    NSString *url1 = [url stringByAppendingString:@"message_id="];
-    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", Id]];
-    
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url2]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-    
     // This parses the response from the server as a JSON object
-    jsonObjects = [NSJSONSerialization JSONObjectWithData:
-                   GETReply options:kNilOptions error:nil];
+    jsonObjects = [requestObj getReplies:Id];
     
 }
 
@@ -172,6 +160,8 @@
 }
 
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"replyCell";
@@ -187,8 +177,11 @@
     
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
+    NSLog(@"%@", dictShout);
+    NSData* profPicData = [requestObj getProfileImage:dictShout];
     
     // Begin configuration of Cell
+    [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
@@ -200,6 +193,23 @@
     
 }
 
+
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        // Do nothing
+    }
+    else
+    {
+        [requestObj postMute:[currentCell.UsernameLabel text]];
+        [self fetchShouts];
+        [self.tableView reloadData];
+        
+    }
+}
 
 
 
@@ -268,6 +278,7 @@
 {
     [super viewDidLoad];
     
+    requestObj = [[JCCMakeRequests alloc] init];
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)

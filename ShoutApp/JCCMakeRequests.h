@@ -14,11 +14,15 @@
 
 -(NSArray *) getMyShouts;
 
+-(NSArray *) getReplies:(NSString *) ID;
+
 -(NSDictionary *)getUserProfile;
 
 -(NSData*)getProfileImage:(NSDictionary *) dictShout;
 
 -(NSString *) postShout:(NSDictionary *) dictionaryData;
+
+-(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID;
 
 -(int) getMaxRadiusSize:(NSDictionary *) userDict;
 

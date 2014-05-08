@@ -67,6 +67,39 @@
 
 
 
+-(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID
+{
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
+    NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+    
+    
+    // send the post request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    NSString *authStr = sharedUserToken;
+    
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    NSLog(@"%@", authValue);
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    //  build the appropriate URL
+    NSString *url = [NSString stringWithFormat:@"%@%@",@"http://aeneas.princeton.edu:8000/api/v1/replies?message_id=", ID];
+    
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:jsonData];
+    
+    // check the response
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    
+    return theReply;
+
+}
+
+
 
 
 -(NSString *) postShout:(NSDictionary *) dictionaryData
@@ -107,6 +140,40 @@
     return [maxRadius intValue];
 }
 
+
+
+// Returns the list of replies
+-(NSArray *) getReplies:(NSString *) ID
+{
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/replies?"];
+    NSString *url1 = [url stringByAppendingString:@"message_id="];
+    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", ID]];
+    
+    // send the get request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url2]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    // authentication
+    NSString *authStr = sharedUserToken;
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+
+    
+    // check the response
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    
+    // This parses the response from the server as a JSON object
+    NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
+                            GETReply options:kNilOptions error:nil];
+    
+    return jsonObjects;
+}
 
 
 // Returns the list of shouts
