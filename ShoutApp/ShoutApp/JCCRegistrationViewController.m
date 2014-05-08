@@ -303,10 +303,16 @@
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
+    UIView *spacerView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    UIView *spacerView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    UIView *spacerView3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    
     // Create the email field
     userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
+    [userNameField setLeftViewMode:UITextFieldViewModeAlways];
+    [userNameField setLeftView:spacerView1];
     userNameField.delegate = self;
-    userNameField.placeholder = @" Username";
+    userNameField.placeholder = @"Username";
     [userNameField setAutocorrectionType: UITextAutocorrectionTypeNo];
     userNameField.layer.cornerRadius=8.0f;
     userNameField.layer.masksToBounds=YES;
@@ -321,8 +327,10 @@
     
     // Create the password field
     passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+    [passwordField setLeftViewMode:UITextFieldViewModeAlways];
+    [passwordField setLeftView:spacerView2];
     passwordField.delegate = self;
-    passwordField.placeholder = @" Password";
+    passwordField.placeholder = @"Password";
     passwordField.secureTextEntry = YES;
     passwordField.layer.cornerRadius=8.0f;
     passwordField.layer.masksToBounds=YES;
@@ -334,8 +342,10 @@
     
     // Build login button
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+    [emailField setLeftViewMode:UITextFieldViewModeAlways];
+    [emailField setLeftView:spacerView3];
     emailField.delegate = self;
-    emailField.placeholder = @" Email";
+    emailField.placeholder = @"Email";
     [emailField setAutocorrectionType: UITextAutocorrectionTypeNo];
     emailField.layer.cornerRadius=8.0f;
     emailField.layer.masksToBounds=YES;
