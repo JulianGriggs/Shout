@@ -310,24 +310,40 @@
     //  years
     if ((timeInterval) / 31536000 >= 1)
     {
+        if ((int)(timeInterval) / 31536000 == 1)
+        {
+            return @"1 year ago";
+        }
         return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
     }
     
     //  days
     else if ((timeInterval) / 86400 >= 1)
     {
+        if ((int)(timeInterval) / 86400 == 1)
+        {
+            return @"1 day ago";
+        }
         return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
     }
     
     //  hours
     else if ((timeInterval) / 3600 >= 1)
     {
+        if ((int)(timeInterval) / 3600 == 1)
+        {
+            return @"1 hour ago";
+        }
         return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
     }
     
     //  minutes
     else if ((timeInterval) / 60 >= 1)
     {
+        if ((int)(timeInterval) / 60 == 1)
+        {
+            return @"1 min ago";
+        }
         return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
     }
     
