@@ -138,7 +138,7 @@
     
     requestObj = [[JCCMakeRequests alloc] init];
     // Create the button to transition to the feed screen
-    UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(pressedFeedButton:)];
+    UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(pressedFeedButton:)];
     [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
     
     // Remove back button in top navigation
