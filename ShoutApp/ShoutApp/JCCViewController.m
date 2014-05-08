@@ -80,8 +80,11 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    //    // Remove back button in top navigation
-    self.navigationItem.hidesBackButton = YES;
+    for (UINavigationItem* item in self.navigationController.navigationBar.items)
+    {
+        // put title on navbar
+        item.title = @"SHOUT!";
+    }
 }
 
 - (void)viewDidLoad
@@ -94,7 +97,7 @@
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 
-    
+    [self.navigationItem setTitle:@"SHOUT!"];
     
     //  build the location manager
     if (!locationManager)

@@ -215,6 +215,8 @@
     self.navigationItem.hidesBackButton = YES;
     if ([self attemptAuthWithToken])
         [self addMainViewControllers];
+    // put title on navbar
+    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
 }
 
 
@@ -299,6 +301,7 @@
 
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
+    [self.navigationItem setTitle:@"SHOUT!"];
     
     
 }

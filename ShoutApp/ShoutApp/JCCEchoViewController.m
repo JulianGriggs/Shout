@@ -214,11 +214,26 @@
     [postTextView resignFirstResponder];
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    for (UINavigationItem* item in self.navigationController.navigationBar.items)
+    {
+        // put title on navbar
+        item.title = @"SHOUT!";
+    }
+}
+
+
+
+
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
     //  handle setting up location updates
+    
+    [self.navigationItem setTitle:@"SHOUT!"];
     
     requestObj = [[JCCMakeRequests alloc] init];
     if (!locationManager)

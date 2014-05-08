@@ -248,7 +248,14 @@
 }
 
 
-
+-(void) viewWillAppear:(BOOL)animated
+{
+    for (UINavigationItem* item in self.navigationController.navigationBar.items)
+    {
+        // put title on navbar
+        item.title = @"SHOUT!";
+    }
+}
 
 
 
@@ -261,8 +268,7 @@
     
     
     // put title on navbar
-    self.navigationController.navigationBar.topItem.title = @"SHOUT!";
-    
+    [self.navigationItem setTitle:@"SHOUT!"];    
     
     requestObj = [[JCCMakeRequests alloc] init];
     if (!locationManager)

@@ -125,6 +125,12 @@
     [myMaxRadius setText:[NSString stringWithFormat:@"%@ %@ %@", @"Max Radius:", [userProfDict objectForKey:@"maxRadius"], @"meters"]];
     [myNumShouts setText:[NSString stringWithFormat:@"%@ %@",@"Number of Shouts:", [userProfDict objectForKey:@""]]];
     [myNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
+    
+    for (UINavigationItem* item in self.navigationController.navigationBar.items)
+    {
+        // put title on navbar
+        item.title = @"SHOUT!";
+    }
 
 }
 
@@ -140,7 +146,7 @@
     // Create the button to transition to the feed screen
     UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(pressedFeedButton:)];
     [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
-    
+    [self.navigationItem setTitle:@"SHOUT!"];
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
     
@@ -207,7 +213,7 @@
     
     
     //  add the navaigation buttons
-    
+
     
     //add my shouts button
     myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];

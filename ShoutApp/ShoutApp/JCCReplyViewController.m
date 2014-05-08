@@ -410,13 +410,21 @@
 
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    for (UINavigationItem* item in self.navigationController.navigationBar.items)
+    {
+        // put title on navbar
+        item.title = @"SHOUT!";
+    }
+}
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self.navigationItem setTitle:@"SHOUT!"];
     requestObj = [[JCCMakeRequests alloc] init];
     //  build the location manager
     if (!locationManager)
