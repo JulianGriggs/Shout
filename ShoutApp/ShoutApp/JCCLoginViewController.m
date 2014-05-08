@@ -55,7 +55,7 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(50, 50, 225, 100)];
+    [imageView setFrame:CGRectMake(50, 75, 225, 210)];
     [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
     [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
     [loginButton setFrame:CGRectMake(50, 240, 225, 50)];
@@ -77,7 +77,7 @@
     [passwordField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(50, 175, 225, 100)];
+    [imageView setFrame:CGRectMake(50, 75, 225, 210)];
     [userNameField setFrame:CGRectMake(50, 275, 225, 50)];
     [passwordField setFrame:CGRectMake(50, 325, 225, 50)];
     [loginButton setFrame:CGRectMake(50, 400, 225, 50)];
@@ -224,7 +224,7 @@
     //  build the view
     
     UIView *loginView = [[UIView alloc] init];
-    loginView.backgroundColor = [UIColor lightGrayColor];
+    loginView.backgroundColor = [UIColor blackColor];
     self.view = loginView;
 
     // Adds a tap gesture so that text fields resign first responder on a tap outside
@@ -235,8 +235,8 @@
     [self.view addGestureRecognizer:tap];
     
     // Create Logo Image
-    logoImage = [UIImage imageNamed:@"ShoutIcon.png"];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 175, 225, 100)];
+    logoImage = [UIImage imageNamed:@"gorilla.png"];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
@@ -290,9 +290,9 @@
     
     // Register new username
     registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
-    [registerButton setTitle:@"Sign Up For Shout" forState:UIControlStateNormal];
-    [registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [registerButton setTitle:@"Sign Up For Shout!" forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [registerButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [registerButton addTarget:self action:@selector(moveToRegistration:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];

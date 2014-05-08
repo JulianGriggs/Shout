@@ -61,7 +61,7 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(50, 50, 225, 100)];
+        [imageView setFrame:CGRectMake(50, 75, 225, 210)];
         [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
         [emailField setFrame:CGRectMake(50, 230, 225, 50)];
@@ -89,7 +89,7 @@
     [emailField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(50, 125, 225, 100)];
+        [imageView setFrame:CGRectMake(50, 75, 225, 210)];
         [userNameField setFrame:CGRectMake(50, 225, 225, 50)];
         [passwordField setFrame:CGRectMake(50, 275, 225, 50)];
         [emailField setFrame:CGRectMake(50, 325, 225, 50)];
@@ -287,7 +287,7 @@
     // Do any additional setup after loading the view.
     //  build the view
     UIView *loginView = [[UIView alloc] init];
-    loginView.backgroundColor = [UIColor lightGrayColor];
+    loginView.backgroundColor = [UIColor blackColor];
     self.view = loginView;
     
     // Adds a tap gesture so that text fields resign first responder on a tap outside
@@ -298,8 +298,8 @@
     [self.view addGestureRecognizer:tap];
     
     // Create Logo Image
-    logoImage = [UIImage imageNamed:@"ShoutIcon.png"];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 125, 225, 100)];
+    logoImage = [UIImage imageNamed:@"gorilla.png"];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
@@ -373,8 +373,8 @@
     // Register new username
     backToLoginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
     [backToLoginButton setTitle:@"Back to Login" forState:UIControlStateNormal];
-    [backToLoginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [backToLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [backToLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backToLoginButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [backToLoginButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [backToLoginButton addTarget:self action:@selector(backToLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backToLoginButton];

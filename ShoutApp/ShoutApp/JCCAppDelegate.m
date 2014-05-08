@@ -21,12 +21,18 @@
     // Creates the window object
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
+    
     // Created the login view controller
     JCCLoginViewController *loginViewController = [[JCCLoginViewController alloc]init];
     
     // Creates the root naviagtion controller
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
+    
+    //  set the navigation bar to black
+    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    navigationController.navigationBar.translucent = NO;
+
     
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];
