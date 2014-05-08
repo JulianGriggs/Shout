@@ -80,11 +80,13 @@
         // post the like
         [requestObj postLike:getMessageID];
         
-        // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
-        
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+//        // This parses the response from the server as a JSON object
+//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        
+//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        [self fetchShouts];
+        [self.tableView reloadData];
         
     }
     else
@@ -97,12 +99,14 @@
         // post the like
         [requestObj postLike:getMessageID];
         
-        // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
-        
-        
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+//        // This parses the response from the server as a JSON object
+//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        
+//        
+//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        [self fetchShouts];
+        [self.tableView reloadData];
     }
     
 }
@@ -137,12 +141,13 @@
         // post the dislike
         [requestObj postDislike:getMessageID];
         
-        // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
-        
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        
+//        // This parses the response from the server as a JSON object
+//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        
+//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        [self fetchShouts];
+        [self.tableView reloadData];
         
     }
     else
@@ -154,11 +159,13 @@
         // post the dislike
         [requestObj postDislike:getMessageID];
         
-        //  update the labels
-        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
-        
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+//        //  update the labels
+//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        
+//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        [self fetchShouts];
+        [self.tableView reloadData];
     }
 }
 
