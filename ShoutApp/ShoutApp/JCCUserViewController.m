@@ -210,7 +210,7 @@
 
     
     //add my shouts button
-    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
+    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
 //    myShoutsButton.backgroundColor = [UIColor darkGrayColor];
 //    myShoutsButton.alpha = 0.4;
     myShoutsButton.backgroundColor = [UIColor blackColor];
@@ -222,8 +222,8 @@
     // The table view controller's view
     UITableView *table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
-    [table setFrame:CGRectMake(0,295,0, 0)];
-    table.contentInset = UIEdgeInsetsMake(0, 0, 296, 0);
+    [table setFrame:CGRectMake(0,195,0, 0)];
+    table.contentInset = UIEdgeInsetsMake(0, 0, 196, 0);
     // Adds the table view controller as a child view controller
     [self addChildViewController:tableViewController];
     // Adds the View of the table view controller as a subview
