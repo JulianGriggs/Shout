@@ -15,6 +15,10 @@
 - (IBAction)takePhoto:  (UIButton *)sender;
 - (IBAction)selectPhoto:(UIButton *)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *takePhotoButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *selectPhotoButton;
+
 @property (strong, nonatomic) UIImage *profPicture;
 
 @end

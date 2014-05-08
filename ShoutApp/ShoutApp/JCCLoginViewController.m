@@ -114,8 +114,6 @@
         
         
         // authentication
-        //        Hard coded works for some reason
-        //        NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"blirby", @"blirby"];
         NSString *authStr = [NSString stringWithFormat:@"%@:%@", userNameField.text, passwordField.text];
         NSLog(@"%@ %@", userNameField.text, passwordField.text);
         NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -135,11 +133,15 @@
         NSLog(@"LOGIN REPLY: %@", GETReply);
          NSLog(@"theReply: %@", theReply);
         // They didn't give a valid username / password
-        if (GETReply == nil)
+        
+        
+        
+        if ([theReply rangeOfString:@"token"].location == NSNotFound)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [alert show];
             passwordField.text = @"";
+            
         }
         
         else
@@ -156,7 +158,7 @@
             sharedUserName = userNameField.text;
             sharedUserToken = token;
             /***********************************************************/
-
+            
             // Restores the default values
             /*------------------------*/
             userNameField.text = @"";
@@ -166,6 +168,7 @@
             
             [self addMainViewControllers];
         }
+        
     }
 }
 
@@ -200,28 +203,7 @@
 {
     if ([sharedUserToken isEqual: @""])
         return NO;
-//    // send the post request
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    
-//    
-//    // authentication
-//    NSString *authStr = sharedUserToken;
-//    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-//    NSString *authValue = [NSString stringWithFormat:@"Token %@", [authData base64EncodedStringWithOptions:0]];
-//    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-//    
-//    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
-//    [request setHTTPMethod:@"POST"];
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//
-//    
-//    // check the response
-//    NSURLResponse *response;
-//    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//    
-//    NSLog(@"LOGIN REPLY: %@", theReply);
-//    if (GETReply == nil) { NSLog(@"Yes it is nil");return NO;}
+    
     else return YES;
 }
 

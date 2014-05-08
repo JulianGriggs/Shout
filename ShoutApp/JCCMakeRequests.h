@@ -28,4 +28,7 @@
 
 -(NSDictionary *)getShoutWithID:(NSString *) messageID;
 
+- (NSString*)sendImageToServer:(UIImage *)newProfImage;
+
+-(NSString *)postMute:(NSString *) username;
 @end

@@ -123,6 +123,13 @@
     
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    // authentication
+    NSString *authStr = sharedUserToken;
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+
     [request setURL:[NSURL URLWithString:url5]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -265,6 +272,99 @@
     // This parses the response from the server as a JSON object
     NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
     return messageDict;
+}
+
+
+
+
+- (NSString*)sendImageToServer:(UIImage *)newProfImage
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aeneas.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
+    
+    
+    NSString *authStr = sharedUserToken;
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    NSData *imageData = UIImageJPEGRepresentation(newProfImage, 1.0);
+    
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:60];
+    [request setHTTPMethod:@"PUT"];
+    
+    NSString *boundary = @"unique-consistent-string";
+    
+    // set Content-Type in HTTP header
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // post body
+    NSMutableData *body = [NSMutableData data];
+    
+    // add params (all params are strings)
+    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@\r\n\r\n", @"imageCaption"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"%@\r\n", @"Some Caption"] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // add image data
+    if (imageData) {
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@; filename=%@.jpg\r\n", @"profilePic", sharedUserName] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imageData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // setting the body of the post to the reqeust
+    [request setHTTPBody:body];
+    
+    // set the content-length
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    
+    //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    //        if(data.length > 0)
+    //        {
+    //            //success
+    //        }
+    //    }];
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    return theReply;
+    
+}
+
+
+
+// post the dislike
+-(NSString *)postMute:(NSString *) username
+{
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/mute?username="];
+    NSString *url1 = [url stringByAppendingString:username];
+    
+    // send the post request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    NSString *authStr = sharedUserToken;
+    
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    [request setURL:[NSURL URLWithString:url1]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    // check the response
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    return theReply;
 }
 
 

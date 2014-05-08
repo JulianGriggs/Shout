@@ -42,6 +42,8 @@
     // Current Location
     CLLocationCoordinate2D myCurrentLocation;
     
+    JCCTableViewCell *currentCell;
+    
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -197,6 +199,7 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    currentCell = cell;
     
     [self.navigationController pushViewController:echoViewController animated:YES];
     
@@ -208,10 +211,15 @@
 
 
 
-- (IBAction)showMuteOption:(UIButton*)sender {
+- (IBAction)showMuteOption:(UIButton*)sender
+{
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    currentCell = cell;
+
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:@"Yes",nil];
-    // optional - add more buttons:
-//    [alert addButtonWithTitle:@"Yes"];
+ 
     [alert show];
 }
 
@@ -225,6 +233,21 @@
 }
 
 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        // Do nothing
+    }
+    else
+    {
+        [requestObj postMute:[currentCell.UsernameLabel text]];
+        [self fetchShouts];
+        [self.tableView reloadData];
+        
+    }
+}
 
 
 

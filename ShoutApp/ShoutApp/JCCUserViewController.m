@@ -210,8 +210,9 @@
     
     //add my shouts button
     myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
-    myShoutsButton.backgroundColor = [UIColor darkGrayColor];
-    myShoutsButton.alpha = 0.4;
+//    myShoutsButton.backgroundColor = [UIColor darkGrayColor];
+//    myShoutsButton.alpha = 0.4;
+    myShoutsButton.backgroundColor = [UIColor blackColor];
     [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
     [self.view addSubview:myShoutsButton];
     
@@ -229,16 +230,16 @@
     
     
     
-    myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
+    myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
     [self.view addSubview:myUsername];
     
-    myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+    myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
     [self.view addSubview:myMaxRadius];
 
-    myNumShouts = [[UILabel alloc] initWithFrame:CGRectMake(100, 160, 200, 30)];
-    [self.view addSubview:myNumShouts];
+//    myNumShouts = [[UILabel alloc] initWithFrame:CGRectMake(100, 160, 200, 30)];
+//    [self.view addSubview:myNumShouts];
     
-    myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 190, 200, 30)];
+    myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
     [self.view addSubview:myNumLikesReceived];
 
 }
