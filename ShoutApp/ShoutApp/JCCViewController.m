@@ -91,8 +91,7 @@
     
     //  customize the navigation back button
     self.navigationItem.hidesBackButton = YES;
-    UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
-//    UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithImage:<#(UIImage *)#> style:<#(UIBarButtonItemStyle)#> target:<#(id)#> action:<#(SEL)#> :UIBarButtonSystemItemAction target:self action:@selector(pressedUserButton:)];
+    UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 
     
@@ -133,7 +132,6 @@
     // Create the button to transition to the compose message screen
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(pressedComposeButton:)];
     [self.navigationItem setRightBarButtonItem:composeShout animated:YES];
-    
     
     UISwipeGestureRecognizer *gestureRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightHandler:)];
     [gestureRightRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
