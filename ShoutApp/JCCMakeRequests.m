@@ -42,6 +42,34 @@
 }
 
 
++(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername
+{
+    //  get the the users information
+    NSString *url = [NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherProfile?username=", otherUsername];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    
+    // check the response
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+#ifdef DEBUG
+    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
+#endif
+    
+    // This parses the response from the server as a JSON object
+    NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
+                                  GETReply options:kNilOptions error:nil];
+    return userProfDict;
+}
+
 
 
 // Returns an NSData object with the user's profile image
@@ -264,6 +292,40 @@
     return jsonObjects;
 }
 
+
+//  Returns a list of a given users shouts
++(NSArray *) getOtherUsersShouts:(NSString *) otherUsername
+{
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherShouts?username=", otherUsername]];
+    
+    // send the get request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    // authentication
+    NSString *authStr = sharedUserToken;
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    // check the response
+    NSURLResponse *response;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+#ifdef DEBUG
+    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
+#endif
+    
+    // This parses the response from the server as a JSON object
+    NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
+                            GETReply options:kNilOptions error:nil];
+    
+    return jsonObjects;
+}
 
 
 

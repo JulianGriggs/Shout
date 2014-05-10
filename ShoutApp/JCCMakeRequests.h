@@ -14,9 +14,13 @@
 
 +(NSArray *) getMyShouts;
 
++(NSArray *) getOtherUsersShouts:(NSString *) otherUsername;
+
 +(NSArray *) getReplies:(NSString *) ID;
 
 +(NSDictionary *)getUserProfile;
+
++(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername;
 
 +(NSData*)getProfileImage:(NSDictionary *) dictShout;
 

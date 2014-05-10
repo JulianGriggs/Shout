@@ -12,7 +12,7 @@
 #import "JCCLoginViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCUserCredentials.h"
-#import "JCCMyShoutsTableViewController.h"
+#import "JCCOtherUserShoutsTableViewController.h"
 #import "JCCMakeRequests.h"
 
 @interface JCCOtherUserViewController ()
@@ -28,7 +28,7 @@
     UIButton *myLocationsButton;
     UIImage *myProfPicture;
     UIImageView *profilePicture;
-    JCCMyShoutsTableViewController *tableViewController;
+    JCCOtherUserShoutsTableViewController *tableViewController;
     
     
     UILabel *myUsername;
@@ -58,64 +58,11 @@
 
 
 
--(IBAction)pressedFeedButton:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCViewController *viewController = [[JCCViewController alloc] init];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
-
-
-
-
-
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1)
-    {
-        sharedUserName = @"";
-        sharedUserToken = @"";
-        NSLog(@"Token after logout button: %@", sharedUserToken);
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    
-}
-
-
-
-
-
-
--(IBAction)pressedLogoutButton:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
-    [alert show];
-    
-    
-}
-
-
-
-
-
--(IBAction)swipeLeftHandler:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCViewController *viewController = [[JCCViewController alloc] init];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
-
-
-
 
 // Populates all of the data
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername];
     NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     profilePicture.layer.cornerRadius = 8.0;
@@ -136,17 +83,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    // Create the button to transition to the feed screen
-    UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(pressedFeedButton:)];
-    [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
-    [self.navigationItem setTitle:@"SHOUT!"];
-    // Remove back button in top navigation
-    self.navigationItem.hidesBackButton = YES;
-    
-    // Add logout button
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(pressedLogoutButton:)];
-    [self.navigationItem setLeftBarButtonItem:logoutButton animated:YES];
     
     
     //  build the view
@@ -181,11 +117,6 @@
     mapCoverView.alpha = 0.7;
     [self.view addSubview:mapCoverView];
     
-    //  swipe left
-    UISwipeGestureRecognizer *gestureLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
-    [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
-    
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
@@ -208,7 +139,8 @@
     [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
     [self.view addSubview:myShoutsButton];
     
-    tableViewController = [[JCCMyShoutsTableViewController alloc] init];
+    tableViewController = [[JCCOtherUserShoutsTableViewController alloc] init];
+    tableViewController.otherUsername = self.otherUsername;
     
     // The table view controller's view
     UITableView *table = tableViewController.tableView;

@@ -234,7 +234,7 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
     
-    jsonObjects = [JCCMakeRequests getMyShouts];
+    jsonObjects = [JCCMakeRequests getOtherUsersShouts:self.otherUsername];
     
 }
 

@@ -222,6 +222,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
+    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+    otherViewController.otherUsername = cell.UsernameLabel.text;
     [self.navigationController pushViewController:otherViewController animated:YES];
 }
 
