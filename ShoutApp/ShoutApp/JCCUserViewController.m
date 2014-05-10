@@ -176,7 +176,7 @@
     self.view = mapView;
     
     //  add view to cover map
-    UIView *mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 265)];
+    UIView *mapCoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 195)];
     mapCoverView.layer.masksToBounds = YES;
     mapCoverView.backgroundColor = [UIColor whiteColor];
     mapCoverView.alpha = 0.7;
