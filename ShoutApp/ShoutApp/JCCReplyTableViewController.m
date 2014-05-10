@@ -22,6 +22,7 @@
 #import "JCCEchoViewController.h"
 #import "JCCReplyViewController.h"
 #import "JCCMakeRequests.h"
+#import "JCCOtherUserViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCReplyTableViewController ()
@@ -56,6 +57,16 @@
 
 // Happens when a user clicks the "UP" button
 @implementation JCCReplyTableViewController
+
+
+//  handle switching to other users page on click of cell
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
+    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+    otherViewController.otherUsername = cell.UsernameLabel.text;
+    [self.navigationController pushViewController:otherViewController animated:YES];
+}
 
 
 -(void)passMessageId:(NSString *)messageId

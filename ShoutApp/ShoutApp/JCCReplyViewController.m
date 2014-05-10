@@ -30,6 +30,7 @@
     UIView *mapCoverView;
     UITableView *table;
     
+    
     //  like label
     UILabel *likeLabel;
     //  dislike label
@@ -473,27 +474,27 @@
     [self.view addSubview:timeLabel];
     
     //  like label
-    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 197, 40, 40)];
+    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 177, 40, 40)];
     [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
     likeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:likeLabel];
     
     //  dislike label
-    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 197, 40, 40)];
+    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 177, 40, 40)];
     [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
     dislikeLabel.textAlignment = NSTextAlignmentCenter;
     [dislikeButton targetForAction:@selector(sendDown:) withSender:self];
     [self.view addSubview:dislikeLabel];
     
     // like button
-    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 227, 40, 40)];
+    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
     [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
     [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [likeButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:likeButton];
     
     // dislike button
-    dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 227, 40, 40)];
+    dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
     [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
     [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [dislikeButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
@@ -515,6 +516,7 @@
         if ([person isEqualToString:sharedUserName])
             [self setDislikeAsMarked:dislikeButton];
     }
+    
 
     
     //  create the table view controller
@@ -573,6 +575,12 @@
     UIImageView *profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 60, 60)];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     [self.view addSubview:profilePicture];
+    
+    //add my shouts button
+    UIButton *repliesButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
+    repliesButton.backgroundColor = [UIColor blackColor];
+    [repliesButton setTitle:@"Replies" forState:UIControlStateNormal];
+    [self.view addSubview:repliesButton];
 }
 
 
