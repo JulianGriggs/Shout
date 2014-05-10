@@ -16,7 +16,7 @@
 +(NSDictionary *)getUserProfile
 {
     //  get the the users information
-    NSString *url = [NSString stringWithFormat:@"%@", @"http://aeneas.princeton.edu:8000/api/v1/users/getMyProfile/"];
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/users/getMyProfile/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
@@ -50,7 +50,7 @@
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/static/shout/images/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/static/shout/images/"];
     NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
     
     [request setURL:[NSURL URLWithString:url1]];
@@ -87,7 +87,7 @@
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
     //  build the appropriate URL
-    NSString *url = [NSString stringWithFormat:@"%@%@",@"http://aeneas.princeton.edu:8000/api/v1/replies?message_id=", ID];
+    NSString *url = [NSString stringWithFormat:@"%@%@",@"http://shout.princeton.edu:8000/api/v1/replies?message_id=", ID];
     
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
@@ -122,7 +122,7 @@
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
 
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages"]];
+    [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/messages"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:jsonData];
@@ -154,7 +154,7 @@
 +(NSArray *) getReplies:(NSString *) ID
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/replies?"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/replies?"];
     NSString *url1 = [url stringByAppendingString:@"message_id="];
     NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", ID]];
     
@@ -191,7 +191,7 @@
 +(NSArray *) getShouts:(NSDictionary *) dictionaryData
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages?"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages?"];
     NSString *url1 = [url stringByAppendingString:@"latitude="];
     NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"latitude"]]];
     NSString *url3 = [url2 stringByAppendingString:@"&"];
@@ -234,7 +234,7 @@
 +(NSArray *) getMyShouts
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/getMyShouts/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/getMyShouts/"];
     
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -271,7 +271,7 @@
 +(NSString *)postDislike:(NSString *) messageID
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
     NSString *url1 = [url stringByAppendingString:messageID];
     NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
 
@@ -304,7 +304,7 @@
 +(NSString *)postLike:(NSString *) messageID
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/messages/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
     NSString *url1 = [url stringByAppendingString:messageID];
     NSString *url2 = [url1 stringByAppendingString:@"/like"];
     
@@ -337,7 +337,7 @@
 +(NSDictionary *)getShoutWithID:(NSString *) messageID
 {
     // make the url with query variables
-    NSString *url = [NSString stringWithFormat:@"%@%@", @"http://aeneas.princeton.edu:8000/api/v1/messages/", messageID];
+    NSString *url = [NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/messages/", messageID];
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
@@ -365,7 +365,7 @@
 
 +(NSString*)sendImageToServer:(UIImage *)newProfImage
 {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aeneas.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shout.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
     
     
     NSString *authStr = sharedUserToken;
@@ -435,7 +435,7 @@
 +(NSString *)postMute:(NSString *) username
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/mute?username="];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/mute?username="];
     NSString *url1 = [url stringByAppendingString:username];
     
     // send the post request
@@ -472,7 +472,7 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     // Registration
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/register/"]];
+    [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/users/register/"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:jsonData];
@@ -511,7 +511,7 @@
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
+    [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/api-token-auth/"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:jsonData];

@@ -1,27 +1,24 @@
 //
-//  JCCFeedTableViewController.m
-//  Shout
+//  JCCOtherUserShoutsTableViewController.m
+//  ShoutApp
 //
-//  Created by Julian Griggs on 3/28/14.
+//  Created by Cameron Porter on 5/10/14.
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
-#import "JCCFeedTableViewController.h"
-#import "JCCTableViewCell1.h"
-#import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
+#import "JCCReplyViewController.h"
+#import "JCCTableViewCell1.h"
+#import "JCCOtherUserShoutsTableViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
-#import "JCCOtherUserViewController.h"
-
 #import <QuartzCore/QuartzCore.h>
 
-@interface JCCFeedTableViewController ()
+@interface JCCOtherUserShoutsTableViewController ()
 {
     
     // location manager
     CLLocationManager *locationManager;
-    
     
     // The contents of the message
     NSString *message;
@@ -38,11 +35,7 @@
     // An array where each element will be a dictionary holding a feature:value
     NSMutableArray *myObject;
     
-    // Current Location
-    CLLocationCoordinate2D myCurrentLocation;
-    
-    JCCTableViewCell1 *currentCell;
-    
+    NSString *Id;
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -50,11 +43,15 @@
 
 
 // Happens when a user clicks the "UP" button
-@implementation JCCFeedTableViewController
+@implementation JCCOtherUserShoutsTableViewController
 
-/********************************************************************
- * Actions
- *******************************************************************/
+
+-(void)passMessageId:(NSString *)messageId
+{
+    Id = messageId;
+}
+
+
 
 - (IBAction)sendUp:(UIButton*)sender
 {
@@ -80,11 +77,11 @@
         // post the like
         [JCCMakeRequests postLike:getMessageID];
         
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        //        // This parses the response from the server as a JSON object
+        //        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
+        //
+        //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
         [self fetchShouts];
         [self.tableView reloadData];
         
@@ -99,16 +96,16 @@
         // post the like
         [JCCMakeRequests postLike:getMessageID];
         
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        //        // This parses the response from the server as a JSON object
+        //        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
+        //
+        //
+        //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
         [self fetchShouts];
         [self.tableView reloadData];
     }
-
+    
 }
 
 
@@ -140,15 +137,13 @@
         // post the dislike
         [JCCMakeRequests postDislike:getMessageID];
         
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        //        // This parses the response from the server as a JSON object
+        //        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
+        //
+        //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
         [self fetchShouts];
         [self.tableView reloadData];
-
-        
         
     }
     else
@@ -160,15 +155,13 @@
         // post the dislike
         [JCCMakeRequests postDislike:getMessageID];
         
-//        //  update the labels
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        //        //  update the labels
+        //        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
+        //
+        //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
+        //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
         [self fetchShouts];
         [self.tableView reloadData];
-
     }
 }
 
@@ -181,16 +174,16 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
-
+    [self.navigationController pushViewController:replyViewController animated:YES];
+    
+    
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
     // set the text
     [replyViewController passMessageId:cell.MessageIDLabel.text];
-    
-    [self.navigationController pushViewController:replyViewController animated:YES];
-    
 }
 
 
@@ -207,7 +200,6 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    currentCell = cell;
     
     [self.navigationController pushViewController:echoViewController animated:YES];
     
@@ -218,61 +210,31 @@
 
 
 
-//  handle switching to other users page on click of cell
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
-    [self.navigationController pushViewController:otherViewController animated:YES];
-}
 
-
-- (IBAction)showMuteOption:(UIButton*)sender
-{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    currentCell = cell;
-
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
- 
+- (IBAction)showMuteOption:(UIButton*)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
+    // optional - add more buttons:
+    [alert addButtonWithTitle:@"Yes"];
     [alert show];
 }
 
 
 
 
--(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-    CLLocation *mostRecentLocation = (CLLocation *) locations.lastObject;
-    myCurrentLocation = CLLocationCoordinate2DMake(mostRecentLocation.coordinate.latitude, mostRecentLocation.coordinate.longitude);
-}
-
-
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0)
-    {
-        // Do nothing
-    }
-    else
-    {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
-        [self fetchShouts];
-        [self.tableView reloadData];
-        
-    }
-}
-
-
 
 - (void)fetchShouts
 {
     
-    //  get the current location
-    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
+    //  handle setting up location updates
+    if (!locationManager)
+        locationManager = [[CLLocationManager alloc] init];
     
-    jsonObjects = [JCCMakeRequests getShouts:dictionaryData];
+    [locationManager startUpdatingLocation];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+    locationManager.distanceFilter=kCLDistanceFilterNone;
+    
+    jsonObjects = [JCCMakeRequests getMyShouts];
     
 }
 
@@ -285,9 +247,6 @@
     // Return the number of rows in the section.
     return jsonObjects.count;
 }
-
-
-
 
 
 // converts a UTC string to a date object
@@ -310,44 +269,27 @@
     
     timeInterval = timeInterval + 37;
     
-
     //  years
     if ((timeInterval) / 31536000 >= 1)
     {
-        if ((int)(timeInterval) / 31536000 == 1)
-        {
-            return @"1 year ago";
-        }
         return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
     }
     
     //  days
     else if ((timeInterval) / 86400 >= 1)
     {
-        if ((int)(timeInterval) / 86400 == 1)
-        {
-            return @"1 day ago";
-        }
         return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
     }
     
     //  hours
     else if ((timeInterval) / 3600 >= 1)
     {
-        if ((int)(timeInterval) / 3600 == 1)
-        {
-            return @"1 hour ago";
-        }
         return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
     }
     
     //  minutes
     else if ((timeInterval) / 60 >= 1)
     {
-        if ((int)(timeInterval) / 60 == 1)
-        {
-            return @"1 min ago";
-        }
         return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
     }
     
@@ -356,8 +298,9 @@
     
     //  seconds
     return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
-
+    
 }
+
 
 
 
@@ -370,7 +313,7 @@
     JCCTableViewCell1 *cell = (JCCTableViewCell1 *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-//        cell = [[JCCTableViewCell1 alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
+        //        cell = [[JCCTableViewCell1 alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCTableViewCell1" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
@@ -384,21 +327,13 @@
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
     cell.ProfileImage.layer.cornerRadius = 8.0;
     cell.ProfileImage.layer.masksToBounds = YES;
-    [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
-//    CGSize sizeThatShouldFitTheContent = [cell.MessageTextView sizeThatFits:cell.MessageTextView.frame.size];
-//    CGRect frame = cell.MessageTextView.frame;
-//    frame.size.height = sizeThatShouldFitTheContent.height;
-//    [cell.MessageTextView setFrame:frame];
-    [cell.MessageTextView setBackgroundColor:[UIColor lightTextColor]];
-    [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
-   
     
+    // Begin configuration of Cell
+    [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
+    [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
-    [cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
-
-    
     [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
     [cell.SenderIDLabel setText:@""];
     
@@ -407,10 +342,9 @@
     [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
     [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
     [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
+    
     cell.InnerView.layer.cornerRadius = 8.0;
     cell.InnerView.layer.masksToBounds = YES;
-    
     
     // Set current like/dislike
     NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
@@ -432,10 +366,18 @@
             [self setDislikeAsMarked:cell];
     }
     
+    // Hides the Reply and Echo button
+    [cell.ReplyIconImage setHidden:YES];
+    [cell.ReplyButton setHidden:YES];
+    [cell.EchoIconImage setHidden:YES];
+    [cell.EchoButton setHidden:YES];
+    
+    [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
     
 }
+
 
 
 // Sets default to white background and black text for like/dislike labels
@@ -472,10 +414,6 @@
     cell.DownLabel.layer.cornerRadius = 8.0;
     cell.DownLabel.layer.masksToBounds = YES;
 }
-
-
-
-
 
 
 
@@ -524,11 +462,7 @@
 {
     [super viewWillAppear:FALSE];
     [self refresh];
-    // put title on navbar
 }
-
-
-
 
 
 - (void)refresh
@@ -542,13 +476,11 @@
 
 
 
-/*******************************************************************/
-
-
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // This will remove extra separators from tableview
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -557,26 +489,7 @@
     [refreshControl addTarget:self action:@selector(refresh)
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
-    
-    //  handle setting up location updates
-    if (!locationManager)
-    {
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-        locationManager.distanceFilter=kCLDistanceFilterNone;
-        [locationManager startUpdatingLocation];
-    }
-    
-    // Gets the current location
-    myCurrentLocation = locationManager.location.coordinate;
-    
 }
-
-
-
-
-/*******************************************************************/
 
 
 
@@ -588,40 +501,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//}
 
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
 
 
 // Override to support conditional rearranging of the table view.
@@ -630,6 +510,7 @@
     // Return NO if you do not want the item to be re-orderable.
     return NO;
 }
+
 
 
 
