@@ -94,7 +94,6 @@
         [passwordField setFrame:CGRectMake(50, 275, 225, 50)];
         [emailField setFrame:CGRectMake(50, 325, 225, 50)];
         [registerButton setFrame:CGRectMake(50, 400, 225, 50)];
-//        [backToLoginButton setFrame:CGRectMake(50, 475, 225, 50)];
     }];
 }
 
