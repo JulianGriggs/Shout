@@ -13,7 +13,8 @@
 #import "JCCLoginViewController.h"
 
 @implementation JCCAppDelegate
-
+CGFloat outerWindowHeight;
+CGFloat outerWindowWidth;
 
 // Note that the viewController for the table and the user page are now created in the login controller after a successful login
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -21,6 +22,9 @@
     // Creates the window object
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
+    // Set the height and window size
+    outerWindowHeight = self.window.frame.size.height;  // 568 on 4 inch screen ----- 480 on 2.5 inch
+    outerWindowWidth = self.window.frame.size.width; // 320 on 4 inch screen ----- 480 on 3.5 inch
     
     // Created the login view controller
     JCCLoginViewController *loginViewController = [[JCCLoginViewController alloc]init];

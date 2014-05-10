@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
+#import "JCCAppDelegate.h"
 #import "JCCLoginViewController.h"
 #import "JCCFeedTableViewController.h"
 #import "JCCUserViewController.h"
@@ -16,7 +17,6 @@
 #import "JCCMakeRequests.h"
 
 @interface JCCLoginViewController ()
-//CGFloat fourInch = 568;
 @end
 
 @implementation JCCLoginViewController
@@ -27,8 +27,7 @@
     UIImage *logoImage;
     UIImageView *imageView;
     UIButton *registerButton;
-    CGFloat outerWindowHeight; // 568 on 4 inch screen ----- 480 on 2.5 inch
-    CGFloat outerWindowWidth;  // 320 on 4 inch screen ----- 480 on 3.5 inch
+
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -60,10 +59,10 @@
 
         [UIView animateWithDuration:0.25 animations:^{
             [imageView setFrame:CGRectMake(outerWindowWidth * 0.4218, outerWindowHeight * 0.1327, outerWindowWidth * 0.1718, outerWindowHeight * 0.088)];
-            [userNameField setFrame:CGRectMake(50, outerWindowHeight * 0.2288, 225, outerWindowHeight * 0.088)];
-            [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.3169, 225, outerWindowHeight * 0.088)];
-            [loginButton setFrame:CGRectMake(50, outerWindowHeight * 0.42, 225, outerWindowHeight * 0.088)];
-            [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.49, 225, outerWindowHeight * 0.088)];
+            [userNameField setFrame:CGRectMake(50, outerWindowHeight * 0.2288, 225, outerWindowHeight * 0.07)];
+            [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.30, 225, outerWindowHeight * 0.07)];
+            [loginButton setFrame:CGRectMake(50, outerWindowHeight * 0.42, 225, outerWindowHeight * 0.07)];
+            [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.48, 225, outerWindowHeight * 0.088)];
         }];
 
     
@@ -195,13 +194,6 @@
     [super viewDidLoad];
     //  build the view
     
-    // Sets the instance variable containing the size of the outer window
-    outerWindowHeight = self.view.frame.size.height;
-    outerWindowWidth = self.view.frame.size.width;
-        NSLog(@"window width: %f", outerWindowWidth);
-    NSLog(@"window height: %f", outerWindowHeight);
-
-    
     UIView *loginView = [[UIView alloc] init];
     loginView.backgroundColor = [UIColor blackColor];
     self.view = loginView;
@@ -216,10 +208,7 @@
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"gorilla.png"];
 //    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625,
-                                                              outerWindowHeight * 0.132,
-                                                              outerWindowWidth * 0.703,
-                                                              outerWindowHeight * 0.370)];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625, outerWindowHeight * 0.132, outerWindowWidth * 0.703, outerWindowHeight * 0.370)];
 
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];

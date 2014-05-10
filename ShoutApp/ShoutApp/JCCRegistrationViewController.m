@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
+#import "JCCAppDelegate.h"
 #import "JCCRegistrationViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCUserViewController.h"
@@ -61,11 +62,11 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(135, 75, 55, 50)];
-        [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
-        [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
-        [emailField setFrame:CGRectMake(50, 230, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 295, 225, 50)];
+        [imageView setFrame:CGRectMake(outerWindowWidth * 0.4219, outerWindowHeight * 0.133, outerWindowWidth * 0.1719, outerWindowHeight * 0.088)];
+        [userNameField setFrame:CGRectMake(50, outerWindowHeight * 0.2289, 225, outerWindowHeight * 0.07)];
+        [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.299, 225, outerWindowHeight * 0.07)];
+        [emailField setFrame:CGRectMake(50, outerWindowHeight * 0.37, 225, outerWindowHeight * 0.07)];
+        [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.47, 225, outerWindowHeight * 0.07)];
 //        [backToLoginButton setFrame:CGRectMake(50, 300, 225, 50)];
     }];
     
@@ -89,11 +90,11 @@
     [emailField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
-        [imageView setFrame:CGRectMake(80, 75, 160, 145)];
-        [userNameField setFrame:CGRectMake(50, 225, 225, 50)];
-        [passwordField setFrame:CGRectMake(50, 275, 225, 50)];
-        [emailField setFrame:CGRectMake(50, 325, 225, 50)];
-        [registerButton setFrame:CGRectMake(50, 400, 225, 50)];
+        [imageView setFrame:CGRectMake(outerWindowWidth * 0.25, outerWindowHeight * 0.132, outerWindowWidth * 0.5, outerWindowHeight * 0.2553)];
+        [userNameField setFrame:CGRectMake(50, outerWindowHeight * 0.396, 225, outerWindowHeight * 0.088)];
+        [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.484, 225, outerWindowHeight * 0.088)];
+        [emailField setFrame:CGRectMake(50, outerWindowHeight * 0.572, 225, outerWindowHeight * 0.088)];
+        [registerButton setFrame:CGRectMake(50, outerWindowHeight * .704, 225, outerWindowHeight * 0.088)];
     }];
 }
 
@@ -224,7 +225,7 @@
     
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"gorilla.png"];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(80, 75, 160, 145)];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.25, outerWindowHeight * 0.132, outerWindowWidth * 0.5, outerWindowHeight * 0.2553)];
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
@@ -233,7 +234,8 @@
     UIView *spacerView3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     
     // Create the email field
-    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
+//    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
+    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.396, 225, outerWindowHeight * 0.088)];
     [userNameField setLeftViewMode:UITextFieldViewModeAlways];
     [userNameField setLeftView:spacerView1];
     userNameField.delegate = self;
@@ -251,7 +253,8 @@
     
     
     // Create the password field
-    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+//    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.484, 225, outerWindowHeight * 0.088)];
     [passwordField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordField setLeftView:spacerView2];
     passwordField.delegate = self;
@@ -266,7 +269,8 @@
     [self.view addSubview:passwordField];
     
     // Build login button
-    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+//    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.572, 225, outerWindowHeight * 0.088)];
     [emailField setLeftViewMode:UITextFieldViewModeAlways];
     [emailField setLeftView:spacerView3];
     emailField.delegate = self;
@@ -284,7 +288,8 @@
 
     
     // Register new username
-    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+//    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * .704, 225, outerWindowHeight * 0.088)];
     registerButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     registerButton.clipsToBounds = YES;
     [registerButton setTitle:@"Register!" forState:UIControlStateNormal];
@@ -296,7 +301,7 @@
     [self.view addSubview:registerButton];
     
     // Register new username
-    backToLoginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
+    backToLoginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
     [backToLoginButton setTitle:@"Back to Login" forState:UIControlStateNormal];
     [backToLoginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backToLoginButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
