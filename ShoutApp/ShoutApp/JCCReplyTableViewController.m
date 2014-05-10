@@ -16,11 +16,11 @@
 
 #import "JCCFeedTableViewController.h"
 #import "JCCReplyTableViewController.h"
+#import "JCCTableViewCell1.h"
 #import "JCCReplyTableViewCell.h"
 #import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
 #import "JCCReplyViewController.h"
-#import "JCCTableViewCell.h"
 #import "JCCMakeRequests.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -47,7 +47,7 @@
     
     NSString *Id;
     
-    JCCTableViewCell *currentCell;
+    JCCTableViewCell1 *currentCell;
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -68,7 +68,7 @@
 - (IBAction)showMuteOption:(UIButton*)sender {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     currentCell = cell;
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];

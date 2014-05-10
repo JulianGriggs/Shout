@@ -131,50 +131,50 @@
 
 
 
-
-
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    return textField.text.length + (string.length - range.length) <= 30;
-}
-
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    return YES;
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@"Let's hear it!"])
-    {
-        textView.text = @"";
-        textView.textColor = [UIColor blackColor]; //optional
-    }
-    [textView becomeFirstResponder];
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    
-    [textView becomeFirstResponder];
-    if([text isEqualToString:@"\n"])
-    {
-        [textView resignFirstResponder];
-        return NO;
-    }
-    
-    return textView.text.length + (text.length - range.length) <= 140;
-}
-
-
-- (void)textViewDidEndEditing:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@""]) {
-        textView.text = @"Let's hear it!";
-        textView.textColor = [UIColor lightGrayColor];
-    }
-    [textView resignFirstResponder];
-}
+//
+//
+//-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+//{
+//    return textField.text.length + (string.length - range.length) <= 30;
+//}
+//
+//- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+//{
+//    return YES;
+//}
+//
+//- (void)textViewDidBeginEditing:(UITextView *)textView
+//{
+//    if ([textView.text isEqualToString:@"Let's hear it!"])
+//    {
+//        textView.text = @"";
+//        textView.textColor = [UIColor blackColor]; //optional
+//    }
+//    [textView becomeFirstResponder];
+//}
+//
+//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+//{
+//    
+//    [textView becomeFirstResponder];
+//    if([text isEqualToString:@"\n"])
+//    {
+//        [textView resignFirstResponder];
+//        return NO;
+//    }
+//    
+//    return textView.text.length + (text.length - range.length) <= 140;
+//}
+//
+//
+//- (void)textViewDidEndEditing:(UITextView *)textView
+//{
+//    if ([textView.text isEqualToString:@""]) {
+//        textView.text = @"Let's hear it!";
+//        textView.textColor = [UIColor lightGrayColor];
+//    }
+//    [textView resignFirstResponder];
+//}
 
 
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
@@ -193,10 +193,10 @@
     
 }
 
--(IBAction)editText:(id)sender
-{
-    [postTextView becomeFirstResponder];
-}
+//-(IBAction)editText:(id)sender
+//{
+//    [postTextView becomeFirstResponder];
+//}
 
 - (IBAction)jumpToLocation:(id)sender
 {
@@ -232,7 +232,8 @@
     [locationManager startUpdatingLocation];
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-    locationManager.distanceFilter=kCLDistanceFilterNone;
+    locationManager.distanceFilter=10;
+    //locationManager.distanceFilter=kCLDistanceFilterNone;
     
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
                                                             longitude:locationManager.location.coordinate.longitude
@@ -290,7 +291,8 @@
     
     //  add slider
     radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
-    
+    [radiusSlider setTintColor:[UIColor blackColor]];
+    [radiusSlider setThumbTintColor:[UIColor blackColor]];
     //  set the max and min value for the radius
     radiusSlider.minimumValue = DEFAULT_MIN_RADIUS;
     radiusSlider.maximumValue = maxRadiusSize;
@@ -304,8 +306,8 @@
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
     [shoutButton setTitle:@"ECHO IT!" forState:UIControlStateNormal];
-    [shoutButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    shoutButton.backgroundColor = [UIColor whiteColor];
+    [shoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    shoutButton.backgroundColor = [UIColor blackColor];
     [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shoutButton];
 }
