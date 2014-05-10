@@ -219,7 +219,7 @@
         [likeButton setFrame:CGRectMake(7, 207, 40, 40)];
         [likeLabel setFrame:CGRectMake(7, 177, 40, 40)];
         [dislikeButton setFrame:CGRectMake(277, 207, 40, 40)];
-        [dislikeLabel setFrame:CGRectMake(275, 107, 40, 40)];
+        [dislikeLabel setFrame:CGRectMake(275, 177, 40, 40)];
         [repliesButton setFrame:CGRectMake(0, 265, 320, 30)];
         
         

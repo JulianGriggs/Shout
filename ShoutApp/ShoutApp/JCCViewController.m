@@ -89,7 +89,7 @@
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
 
-    [self.navigationItem setTitle:@"FEED"];
+    [self.navigationItem setTitle:@"Feed"];
     
     //  build the location manager
     if (!locationManager)

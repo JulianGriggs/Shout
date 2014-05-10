@@ -141,7 +141,7 @@
     // Create the button to transition to the feed screen
     UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(pressedFeedButton:)];
     [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
-    [self.navigationItem setTitle:@"SHOUT!"];
+    [self.navigationItem setTitle:@"Profile"];
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
     

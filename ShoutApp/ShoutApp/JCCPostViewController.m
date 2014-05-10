@@ -256,7 +256,7 @@
     
     
     // put title on navbar
-    [self.navigationItem setTitle:@"SHOUT!"];    
+    [self.navigationItem setTitle:@"Compose"];    
     
     if (!locationManager)
     {
