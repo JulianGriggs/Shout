@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
+#import "JCCAppDelegate.h"
 #import "JCCPostViewController.h"
 #import "JCCLoginViewController.h"
 #import <QuartzCore/QuartzCore.h>
@@ -323,7 +324,8 @@
     // Recreating myLocation Button
     UIImage* myLocationIcon = [UIImage imageNamed:@"MyLocation.png"];
     // Adds button that jumps back to current location
-    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
+//    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
+    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, outerWindowHeight * 0.875, 35, 35)];
     myLocationButton.layer.cornerRadius = 8.0;
     [myLocationButton setBackgroundColor:[UIColor whiteColor]];
     [myLocationButton setBackgroundImage:myLocationIcon forState:UIControlStateNormal];
@@ -336,7 +338,8 @@
 
     
     //  add slider
-    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
+//    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
+    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.7923, 225, 20)];
     [radiusSlider setTintColor:[UIColor blackColor]];
     [radiusSlider setThumbTintColor:[UIColor blackColor]];
     //  set the max and min value for the radius
@@ -348,7 +351,8 @@
 
     
     //  add shoutbutton
-    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+//    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, outerWindowHeight * 0.8627, 175, 50)];
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
     [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
