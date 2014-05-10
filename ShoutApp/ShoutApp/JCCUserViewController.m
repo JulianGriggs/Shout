@@ -30,7 +30,7 @@
     UIImage *myProfPicture;
     UIImageView *profilePicture;
     JCCMyShoutsTableViewController *tableViewController;
-    JCCMakeRequests *requestObj;
+
     
     UILabel *myUsername;
     UILabel *myMaxRadius;
@@ -116,8 +116,8 @@
 // Populates all of the data
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [requestObj getUserProfile];
-    NSData* profPicData = [requestObj getProfileImage:userProfDict];
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     myProfPicture = profilePicture.image;
     
@@ -136,7 +136,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    requestObj = [[JCCMakeRequests alloc] init];
     // Create the button to transition to the feed screen
     UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(pressedFeedButton:)];
     [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
@@ -188,8 +187,7 @@
     
     
     // This parses the response from the server as a JSON object
-    NSDictionary *userProfDict = [requestObj getUserProfile];
-    NSData* profPicData = [requestObj getProfileImage:userProfDict];
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
     
     // Stores our userID
     sharedUserID = [userProfDict objectForKey:@"id"];

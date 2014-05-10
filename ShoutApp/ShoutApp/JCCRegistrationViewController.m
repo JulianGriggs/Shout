@@ -10,7 +10,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCUserViewController.h"
 #import "JCCViewController.h"
-
+#import "JCCMakeRequests.h"
 
 @interface JCCRegistrationViewController ()
 
@@ -99,104 +99,23 @@
 }
 
 
-// Attempts the the registration.  Upon success YES is returned.  Upon failure, NO is returned.
--(BOOL) attemptRegistration
+
+
+
+-(void) setUserCredentials:(NSString *)token
 {
-    //  format the data
-    NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text, @"email": emailField.text};
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-    NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-    
-    
-    // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    // Registration    
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/users/register/"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-    //NSLog(@"Registration GETReply: %@", GETReply);
-    //NSLog(@"Registration theReply: %@", theReply);
-    
-    if ([theReply isEqualToString:@"error"])
-    {
-        return NO;  // Failure (Username probably alreday exists)
-    }
-    
-    else
-    {
-        return YES; // Success
-    }
-
-}
-
-// Attempts the login.  Upon success, the global variables for username and token are updated and YES is returned.  Upon failure, NO is returned.
--(BOOL)attemptAuth
-{
-    //  format the data
-    NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
-    
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-    NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-    
-    
-    // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    
-    // authentication
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", userNameField.text, passwordField.text];
-    //NSLog(@"%@ %@", userNameField.text, passwordField.text);
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-    //NSLog(@"%@", GETReply);
-    
-    if (GETReply == nil) return NO; // Failure (Probably didn't give a valid username / password)
-
-    else
-    {
-        // This parses the response from the server as a JSON object
-        NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
-        //NSLog(@"%@", loginToken);
-        NSString *token = [loginToken objectForKey:@"token"];
-        // Make Sure the response says it is valid
-        
-        
-        /***********************************************************/
-        // Sets the username and token for this session of the app
-        sharedUserName = userNameField.text;
-        sharedUserToken = token;
-        /***********************************************************/
-        NSLog((@"Registered Username: %@ \n Registered Token: %@"), sharedUserName, sharedUserToken);
-        // Restores the default values
-        /*------------------------*/
-        userNameField.text = @"";
-        emailField.text = @"";
-        passwordField.text = @"";
-        [self dismissKeyboard];
-        /*------------------------*/
-    }
-    return YES; //Success (global username and token have been stored)
-
+    /***********************************************************/
+    // Sets the username and token for this session of the app
+    sharedUserName = userNameField.text;
+    sharedUserToken = token;
+    /***********************************************************/
+    NSLog((@"Registered Username: %@ \n Registered Token: %@"), sharedUserName, sharedUserToken);
+    // Restores the default values
+    /*------------------------*/
+    userNameField.text = @"";
+    emailField.text = @"";
+    passwordField.text = @"";
+    [self dismissKeyboard];
 }
 
 
@@ -253,10 +172,17 @@
     
     else
     {
-        if ([self attemptRegistration])
+        // Object with username, password, and email address
+        NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text, @"email": emailField.text};
+        
+        // Attempts the registration
+        if ([JCCMakeRequests attemptRegistration:dictionaryData])
         {
-            if ([self attemptAuth])
+            // Attemps to login as new user
+            NSString *token = [JCCMakeRequests attemptAuth:dictionaryData];
+            if (token)
             {
+                [self setUserCredentials:token];
                 [self.navigationController popViewControllerAnimated:NO];
             }
         

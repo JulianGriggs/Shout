@@ -13,6 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "JCCUserCredentials.h"
 #import "JCCRegistrationViewController.h"
+#import "JCCMakeRequests.h"
 
 @interface JCCLoginViewController ()
 
@@ -95,83 +96,48 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"Your username is too long!  Must be less than 30 characters." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
+    
     else if (([[userNameField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[passwordField.text stringByTrimmingCharactersInSet: set] length] == 0))
     {
          [self dismissKeyboard];
     }
+    
     else
     {
     
         //  format the data
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
-        
-        NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-        NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-        
-        
-        // send the post request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        
-        
-        // authentication
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", userNameField.text, passwordField.text];
-        NSLog(@"%@ %@", userNameField.text, passwordField.text);
-        NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-        
-        [request setURL:[NSURL URLWithString:@"http://aeneas.princeton.edu:8000/api/v1/api-token-auth/"]];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:jsonData];
-        
-        // check the response
-        NSURLResponse *response;
-        NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-        NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+        NSString *token = [JCCMakeRequests attemptAuth:dictionaryData];
 
-        NSLog(@"LOGIN REPLY: %@", GETReply);
-         NSLog(@"theReply: %@", theReply);
-        // They didn't give a valid username / password
-        
-        
-        
-        if ([theReply rangeOfString:@"token"].location == NSNotFound)
+        if (token)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
-            passwordField.text = @"";
-            
+            [self setUserCredentials:token];
+            [self addMainViewControllers];
         }
         
         else
         {
-            // This parses the response from the server as a JSON object
-            NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
-            //NSLog(@"%@", loginToken);
-            NSString *token = [loginToken objectForKey:@"token"];
-            // Make Sure the response says it is valid
-            
-            
-            /***********************************************************/
-            // Sets the username and token for this session of the app
-            sharedUserName = userNameField.text;
-            sharedUserToken = token;
-            /***********************************************************/
-            
-            // Restores the default values
-            /*------------------------*/
-            userNameField.text = @"";
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
             passwordField.text = @"";
-            [self dismissKeyboard];
-            /*------------------------*/
-            
-            [self addMainViewControllers];
         }
-        
     }
 }
 
+
+
+
+-(void) setUserCredentials:(NSString *)token
+{
+    // Sets the username and token for this session of the app
+    sharedUserName = userNameField.text;
+    sharedUserToken = token;
+
+    // Restores the default values
+    userNameField.text = @"";
+    passwordField.text = @"";
+    [self dismissKeyboard];
+}
 
 
 

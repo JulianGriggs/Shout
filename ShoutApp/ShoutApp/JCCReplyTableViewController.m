@@ -26,7 +26,6 @@
 @interface JCCReplyTableViewController ()
 {
     
-    JCCMakeRequests *requestObj;
     // location manager
     CLLocationManager *locationManager;
     
@@ -92,7 +91,7 @@
     locationManager.distanceFilter=kCLDistanceFilterNone;
 
     // This parses the response from the server as a JSON object
-    jsonObjects = [requestObj getReplies:Id];
+    jsonObjects = [JCCMakeRequests getReplies:Id];
     
 }
 
@@ -178,7 +177,7 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     NSLog(@"%@", dictShout);
-    NSData* profPicData = [requestObj getProfileImage:dictShout];
+    NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
     
     // Begin configuration of Cell
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
@@ -204,7 +203,7 @@
     }
     else
     {
-        [requestObj postMute:[currentCell.UsernameLabel text]];
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
         [self fetchShouts];
         [self.tableView reloadData];
         
@@ -278,7 +277,6 @@
 {
     [super viewDidLoad];
     
-    requestObj = [[JCCMakeRequests alloc] init];
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)

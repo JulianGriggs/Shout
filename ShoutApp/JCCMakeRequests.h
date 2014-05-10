@@ -10,29 +10,33 @@
 
 @interface JCCMakeRequests : NSObject
 
--(NSArray *) getShouts:(NSDictionary *) dictionaryData;
++(NSArray *) getShouts:(NSDictionary *) dictionaryData;
 
--(NSArray *) getMyShouts;
++(NSArray *) getMyShouts;
 
--(NSArray *) getReplies:(NSString *) ID;
++(NSArray *) getReplies:(NSString *) ID;
 
--(NSDictionary *)getUserProfile;
++(NSDictionary *)getUserProfile;
 
--(NSData*)getProfileImage:(NSDictionary *) dictShout;
++(NSData*)getProfileImage:(NSDictionary *) dictShout;
 
--(NSString *) postShout:(NSDictionary *) dictionaryData;
++(NSString *) postShout:(NSDictionary *) dictionaryData;
 
--(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID;
++(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID;
 
--(int) getMaxRadiusSize:(NSDictionary *) userDict;
++(int) getMaxRadiusSize:(NSDictionary *) userDict;
 
--(NSString *)postLike:(NSString *) messageID;
++(NSString *)postLike:(NSString *) messageID;
 
--(NSString *)postDislike:(NSString *) messageID;
++(NSString *)postDislike:(NSString *) messageID;
 
--(NSDictionary *)getShoutWithID:(NSString *) messageID;
++(NSDictionary *)getShoutWithID:(NSString *) messageID;
 
-- (NSString*)sendImageToServer:(UIImage *)newProfImage;
++ (NSString*)sendImageToServer:(UIImage *)newProfImage;
 
--(NSString *)postMute:(NSString *) username;
++(NSString *)postMute:(NSString *) username;
+
++(BOOL) attemptRegistration:(NSDictionary *) dictionaryData;
+
++(NSString *)attemptAuth:(NSDictionary *) dictionaryData;
 @end

@@ -17,7 +17,6 @@
 
 @implementation JCCProfPicViewController
 {
-    JCCMakeRequests *requestObj;
     UIImage* newProfImage;
     
 }
@@ -61,7 +60,7 @@
     self.imageView.image = chosenImage;
     newProfImage = chosenImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    [requestObj sendImageToServer:newProfImage];
+    [JCCMakeRequests sendImageToServer:newProfImage];
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -80,7 +79,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    requestObj = [[JCCMakeRequests alloc] init];
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -92,8 +90,8 @@
         [myAlertView show];
     }
     //  set the background image to the current profile picture
-    NSDictionary *userProfile = [requestObj getUserProfile];
-    NSData *profileImage = [requestObj getProfileImage:userProfile];
+    NSDictionary *userProfile = [JCCMakeRequests getUserProfile];
+    NSData *profileImage = [JCCMakeRequests getProfileImage:userProfile];
     UIImage *actualPhoto = [[UIImage alloc] initWithData:profileImage];
     [self.imageView setImage:actualPhoto];
     self.takePhotoButton.layer.cornerRadius = 8.0;

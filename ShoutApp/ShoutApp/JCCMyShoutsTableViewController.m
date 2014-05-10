@@ -17,7 +17,6 @@
 
 @interface JCCMyShoutsTableViewController ()
 {
-    JCCMakeRequests *requestObj;
     
     // location manager
     CLLocationManager *locationManager;
@@ -63,7 +62,6 @@
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
     NSString *getMessageID = cell.MessageIDLabel.text;
-    NSString *getSenderID = cell.SenderIDLabel.text;
     
     // If black set to blue, else set to black
     if ([cell.UpLabel.textColor isEqual:[UIColor blackColor]])
@@ -78,10 +76,10 @@
         cell.UpLabel.layer.masksToBounds = YES;
         
         // post the like
-        [requestObj postLike:getMessageID];
+        [JCCMakeRequests postLike:getMessageID];
         
 //        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
 //        
 //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
 //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -97,10 +95,10 @@
         
         
         // post the like
-        [requestObj postLike:getMessageID];
+        [JCCMakeRequests postLike:getMessageID];
         
 //        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
 //        
 //        
 //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
@@ -124,7 +122,6 @@
     JCCTableViewCell *cell = (JCCTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
     NSString *getMessageID = cell.MessageIDLabel.text;
-    NSString *getSenderID = cell.SenderIDLabel.text;
     
     // If black set to white, else set to black
     if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
@@ -139,10 +136,10 @@
         cell.DownLabel.layer.masksToBounds = YES;
         
         // post the dislike
-        [requestObj postDislike:getMessageID];
+        [JCCMakeRequests postDislike:getMessageID];
         
 //        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
 //        
 //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
 //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -157,10 +154,10 @@
         cell.DownLabel.backgroundColor = [UIColor whiteColor];
         
         // post the dislike
-        [requestObj postDislike:getMessageID];
+        [JCCMakeRequests postDislike:getMessageID];
         
 //        //  update the labels
-//        NSDictionary *messageDict = [requestObj getShoutWithID:getMessageID];
+//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
 //        
 //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
 //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -238,7 +235,7 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
         
-    jsonObjects = [requestObj getMyShouts];
+    jsonObjects = [JCCMakeRequests getMyShouts];
     
 }
 
@@ -325,7 +322,7 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
 
-    NSData* profPicData = [requestObj getProfileImage:dictShout];
+    NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
     // Begin configuration of Cell
     
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
@@ -488,7 +485,6 @@
 {
     [super viewDidLoad];
     
-    requestObj = [[JCCMakeRequests alloc] init];
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)

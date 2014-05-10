@@ -36,8 +36,6 @@
     // location manager
     CLLocationManager *locationManager;
     
-    JCCMakeRequests *requestObj;
-    
     GMSMapView *mapView;
     CLLocationCoordinate2D myCurrentLocation;
     CLLocationCoordinate2D destinationLocation;
@@ -112,7 +110,7 @@
         //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         
-        [requestObj postShout:dictionaryData];
+        [JCCMakeRequests postShout:dictionaryData];
         [self.navigationController popViewControllerAnimated:TRUE];
         
     }
@@ -262,7 +260,6 @@
     // put title on navbar
     [self.navigationItem setTitle:@"SHOUT!"];    
     
-    requestObj = [[JCCMakeRequests alloc] init];
     if (!locationManager)
     {
         locationManager = [[CLLocationManager alloc] init];
@@ -285,8 +282,8 @@
     // Adds compass
 //    mapView.settings.compassButton = YES;
     
-    NSDictionary* userDict = [requestObj getUserProfile];
-    maxRadiusSize = [requestObj getMaxRadiusSize:userDict];
+    NSDictionary* userDict = [JCCMakeRequests getUserProfile];
+    maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
     
     radiusSize = DEFAULT_MIN_RADIUS;
     

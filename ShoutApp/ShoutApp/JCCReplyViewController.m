@@ -48,7 +48,6 @@
     CGFloat screenWidth;
     CGFloat screenHeight;
     
-    JCCMakeRequests *requestObj;
 }
 
 
@@ -104,7 +103,7 @@
         
         //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text};
-        [requestObj postReply:dictionaryData withID:Id];
+        [JCCMakeRequests postReply:dictionaryData withID:Id];
 
         
         //  refresh the table of replies after posting
@@ -112,10 +111,6 @@
         
         // reset the screen
         [self resetAfterReply];
-        
-        //  add the reply compose button
-        UIBarButtonItem *replyComposeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
-        [self.navigationItem setRightBarButtonItem:replyComposeButton animated:YES];
         
     }
 }
@@ -154,7 +149,6 @@
 // handle text in text view
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    NSLog(@"In text view did begin editing");
     if ([textView.text isEqualToString:@"Reply here!"])
     {
         textView.text = @"";
@@ -207,9 +201,6 @@
     [replyTextView removeFromSuperview];
     [replyButton removeFromSuperview];
     
-    //  add the reply compose button
-    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(replyComposeButtonPressed:)];
-    [self.navigationItem setRightBarButtonItem:replyButton animated:YES];
 }
 
 // converts a UTC string to a date object
@@ -296,10 +287,10 @@
 
         
         // post the like
-        [requestObj postLike:Id];
+        [JCCMakeRequests postLike:Id];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
+        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:Id];
         
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -311,10 +302,10 @@
         [self setDefaultLikeDislike:likeButton];
         
         // post the like
-        [requestObj postLike:Id];
+        [JCCMakeRequests postLike:Id];
         
         // This parses the response from the server as a JSON object
-        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
+        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:Id];
         
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -343,10 +334,10 @@
         dislikeButton.layer.masksToBounds = YES;
         
         // post the dislike
-        [requestObj postDislike:Id];
+        [JCCMakeRequests postDislike:Id];
         
         //  update the labels
-        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
+        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:Id];
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
         
@@ -360,10 +351,10 @@
         
         
         // post the dislike
-        [requestObj postDislike:Id];
+        [JCCMakeRequests postDislike:Id];
         
         //  update the labels
-        NSDictionary *messageDict = [requestObj getShoutWithID:Id];
+        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:Id];
         
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
@@ -417,7 +408,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationItem setTitle:@"SHOUT!"];
-    requestObj = [[JCCMakeRequests alloc] init];
+
     //  build the location manager
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -445,7 +436,7 @@
     [self.view addSubview:mapCoverView];
     
     
-    NSDictionary *tempJsonObjects = [requestObj getShoutWithID:Id];
+    NSDictionary *tempJsonObjects = [JCCMakeRequests getShoutWithID:Id];
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     keyboardSize = 216;
@@ -577,7 +568,7 @@
     
     //  add profile picture
     
-    NSData* profPicData = [requestObj getProfileImage:tempJsonObjects];
+    NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects];
     
     UIImageView *profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 60, 60)];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
