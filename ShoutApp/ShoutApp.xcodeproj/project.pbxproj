@@ -649,6 +649,7 @@
 				GCC_PREFIX_HEADER = "ShoutApp/ShoutApp-Prefix.pch";
 				INFOPLIST_FILE = "ShoutApp/ShoutApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

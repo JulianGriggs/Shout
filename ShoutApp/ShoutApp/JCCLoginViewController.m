@@ -27,6 +27,8 @@
     UIImage *logoImage;
     UIImageView *imageView;
     UIButton *registerButton;
+    CGFloat outerWindowHeight; // 568 on iPhone 5
+    CGFloat outerWindowWidth;  // 320 on iPhone 5
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -56,11 +58,30 @@
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(135, 75, 55, 50)];
-    [userNameField setFrame:CGRectMake(50, 130, 225, 50)];
-    [passwordField setFrame:CGRectMake(50, 180, 225, 50)];
-    [loginButton setFrame:CGRectMake(50, 240, 225, 50)];
-    [registerButton setFrame:CGRectMake(50, 300, 225, 50)];
+    [imageView setFrame:CGRectMake(outerWindowWidth * 0.4218,
+                                   outerWindowHeight * 0.1327,
+                                   outerWindowWidth * 0.1718,
+                                   outerWindowHeight * 0.088)];
+        
+    [userNameField setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                       outerWindowHeight * 0.2288,
+                                       outerWindowWidth * 0.703,
+                                       outerWindowHeight * 0.088)];
+        
+    [passwordField setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                           outerWindowHeight * 0.3169,
+                                           outerWindowWidth * 0.703,
+                                           outerWindowHeight * 0.088)];
+        
+    [loginButton setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                         outerWindowHeight * 0.4225,
+                                         outerWindowWidth * 0.703,
+                                         outerWindowHeight * 0.088)];
+        
+    [registerButton setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                            outerWindowHeight * 0.5282,
+                                            outerWindowWidth * 0.703,
+                                            outerWindowHeight * 0.088)];
     }];
 
 }
@@ -78,11 +99,30 @@
     [passwordField resignFirstResponder];
     
     [UIView animateWithDuration:0.25 animations:^{
-    [imageView setFrame:CGRectMake(50, 75, 225, 210)];
-    [userNameField setFrame:CGRectMake(50, 275, 225, 50)];
-    [passwordField setFrame:CGRectMake(50, 325, 225, 50)];
-    [loginButton setFrame:CGRectMake(50, 400, 225, 50)];
-    [registerButton setFrame:CGRectMake(50, 475, 225, 50)];
+        [imageView setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                       outerWindowHeight * 0.132,
+                                       outerWindowWidth * 0.703,
+                                       outerWindowHeight * 0.370)];
+        
+        [userNameField setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                           outerWindowHeight * 0.484,
+                                           outerWindowWidth * 0.703,
+                                           outerWindowHeight * 0.088)];
+        
+        [passwordField setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                           outerWindowHeight * 0.572,
+                                           outerWindowWidth * 0.703,
+                                           outerWindowHeight * 0.088)];
+        
+        [loginButton setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                         outerWindowHeight * 0.704,
+                                         outerWindowWidth * 0.703,
+                                         outerWindowHeight * 0.088)];
+        
+        [registerButton setFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                            outerWindowHeight * 0.836,
+                                            outerWindowWidth * 0.703,
+                                            outerWindowHeight * 0.088)];
     }];
 }
 
@@ -190,6 +230,13 @@
     [super viewDidLoad];
     //  build the view
     
+    // Sets the instance variable containing the size of the outer window
+    outerWindowHeight = self.view.frame.size.height;
+    outerWindowWidth = self.view.frame.size.width;
+        NSLog(@"window width: %f", outerWindowWidth);
+    NSLog(@"window height: %f", outerWindowHeight);
+
+    
     UIView *loginView = [[UIView alloc] init];
     loginView.backgroundColor = [UIColor blackColor];
     self.view = loginView;
@@ -203,14 +250,25 @@
     
     // Create Logo Image
     logoImage = [UIImage imageNamed:@"gorilla.png"];
-    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];
+//    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 75, 225, 210)];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                                              outerWindowHeight * 0.132,
+                                                              outerWindowWidth * 0.703,
+                                                              outerWindowHeight * 0.370)];
+
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
     // Create the email field
     UIView *spacerView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     UIView *spacerView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+
+//    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                                                  outerWindowHeight * 0.484,
+                                                                  outerWindowWidth * 0.703,
+                                                                  outerWindowHeight * 0.088)];
+
     [userNameField setLeftViewMode:UITextFieldViewModeAlways];
     [userNameField setLeftView:spacerView1];
     userNameField.delegate = self;
@@ -229,7 +287,12 @@
 
     
     // Create the password field
-    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+//    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                                                  outerWindowHeight * 0.572,
+                                                                  outerWindowWidth * 0.703,
+                                                                  outerWindowHeight * 0.088)];
+
     [passwordField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordField setLeftView:spacerView2];
     passwordField.delegate = self;
@@ -244,7 +307,11 @@
     [self.view addSubview:passwordField];
     
     // Build login button
-    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+//    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                                             outerWindowHeight * 0.704,
+                                                             outerWindowWidth * 0.703,
+                                                             outerWindowHeight * 0.088)];
     loginButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     loginButton.clipsToBounds = YES;
     [loginButton setTitle:@"Login!" forState:UIControlStateNormal];
@@ -256,7 +323,11 @@
     [self.view addSubview:loginButton];
     
     // Register new username
-    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
+//    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
+    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625,
+                                                                outerWindowHeight * 0.836,
+                                                                outerWindowWidth * 0.703,
+                                                                outerWindowHeight * 0.088)];
     [registerButton setTitle:@"Sign Up For Shout!" forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
