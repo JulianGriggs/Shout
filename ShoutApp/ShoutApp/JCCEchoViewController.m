@@ -281,7 +281,7 @@
 //    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
     UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, outerWindowHeight * 0.875, 35, 35)];
     myLocationButton.layer.cornerRadius = 8.0;
-    [myLocationButton setBackgroundColor:[UIColor whiteColor]];
+    [myLocationButton setBackgroundColor:[UIColor blackColor]];
     [myLocationButton setBackgroundImage:myLocationIcon forState:UIControlStateNormal];
     [myLocationButton addTarget:self action:@selector(jumpToLocation:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:myLocationButton];

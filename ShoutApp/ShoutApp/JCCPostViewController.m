@@ -327,7 +327,7 @@
 //    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
     UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, outerWindowHeight * 0.875, 35, 35)];
     myLocationButton.layer.cornerRadius = 8.0;
-    [myLocationButton setBackgroundColor:[UIColor lightGrayColor]];
+    [myLocationButton setBackgroundColor:[UIColor blackColor]];
     [myLocationButton setBackgroundImage:myLocationIcon forState:UIControlStateNormal];
     [myLocationButton addTarget:self action:@selector(jumpToLocation:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:myLocationButton];
@@ -356,8 +356,8 @@
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
     [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
-    [shoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    shoutButton.backgroundColor = [UIColor lightGrayColor];
+    [shoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    shoutButton.backgroundColor = [UIColor blackColor];
     [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shoutButton];
     
