@@ -134,7 +134,7 @@
         return NO;
     }
     
-    return textView.text.length + (text.length - range.length) <= 140;
+    return textView.text.length + (text.length - range.length) <= maxCharacters;
 }
 
 

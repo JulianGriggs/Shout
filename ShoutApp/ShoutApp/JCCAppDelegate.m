@@ -15,6 +15,7 @@
 @implementation JCCAppDelegate
 CGFloat outerWindowHeight;
 CGFloat outerWindowWidth;
+int maxCharacters = 111;
 
 // Note that the viewController for the table and the user page are now created in the login controller after a successful login
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

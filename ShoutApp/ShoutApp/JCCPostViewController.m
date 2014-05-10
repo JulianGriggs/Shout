@@ -76,6 +76,9 @@
     
 }
 
+
+
+
 // Method that will add a location marker
 - (void) addLocationMarker:(GMSMarker*)marker withPostion:(CLLocationCoordinate2D)markerPosition withTitle:(NSString *)title withSnippet:(NSString *)snippet withColor:(UIColor*)color
 {
@@ -93,7 +96,8 @@
 }
 
 
-//  other stuff
+
+
 
 - (IBAction)postShout:(id)sender
 {
@@ -156,7 +160,7 @@
         return NO;
     }
     
-    return textView.text.length + (text.length - range.length) <= 111;
+    return textView.text.length + (text.length - range.length) <= maxCharacters;
 }
 
 
