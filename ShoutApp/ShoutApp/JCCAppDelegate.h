@@ -12,6 +12,6 @@
 @interface JCCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-extern CGFloat outerWindowHeight;
-extern CGFloat outerWindowWidth;
+extern CGFloat outerWindowHeight;  // 568 on 4 inch screen ----- 480 on 3.5 inch
+extern CGFloat outerWindowWidth;  // 320 on 4 inch screen ----- 320 on 3.5 inch
 @end

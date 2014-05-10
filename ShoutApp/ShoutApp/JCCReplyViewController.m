@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
-
+#import "JCCAppDelegate.h"
 #import "JCCReplyViewController.h"
 #import "JCCPostViewController.h"
 #import "JCCUserViewController.h"
@@ -29,6 +29,9 @@
     UILabel *timeLabel;
     UIView *mapCoverView;
     UITableView *table;
+    UIImageView *profilePicture;
+    UITextView *postTextView;
+    UIButton *repliesButton;
     
     
     //  like label
@@ -155,15 +158,43 @@
         textView.text = @"";
         textView.textColor = [UIColor blackColor];
     }
-    [UIView animateWithDuration:0.25 animations:^{
-        [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
-        [replyTextView setFrame:CGRectMake(50,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
-        replyTextView.layer.cornerRadius=8.0f;
-        replyTextView.layer.masksToBounds = YES;
-        [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-keyboardSize - 45, 35, 35)];
-      
-        
-    }];
+    
+    // If 3.5 inch screen
+    if (outerWindowHeight == 480)
+    {
+        [UIView animateWithDuration:0.25 animations:^{
+            [usernameLabel setFrame:CGRectMake(75, 70, 100, 30)];
+            [timeLabel setFrame:CGRectMake(200, 70, 100, 30)];
+            [profilePicture setFrame:CGRectMake(7, 75, 40, 40)];
+            [postTextView setFrame:CGRectMake(50, 100, 225, 75)];
+            
+            [likeButton setFrame:CGRectMake(7, 127, 40, 40)];
+            [likeLabel setFrame:CGRectMake(7, 107, 40, 40)];
+            [dislikeButton setFrame:CGRectMake(277, 127, 40, 40)];
+            [dislikeLabel setFrame:CGRectMake(275, 107, 40, 40)];
+            [repliesButton setFrame:CGRectMake(0, 180, 320, 25)];
+            
+            [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
+            [replyTextView setFrame:CGRectMake(50,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
+            replyTextView.layer.cornerRadius=8.0f;
+            replyTextView.layer.masksToBounds = YES;
+            [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-keyboardSize - 45, 35, 35)];
+            
+            
+        }];
+
+    }
+    else
+    {
+        [UIView animateWithDuration:0.25 animations:^{
+            [outerReplyView setFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - keyboardSize - 60 , [UIScreen mainScreen].bounds.size.width, 60)];
+            [replyTextView setFrame:CGRectMake(50,[UIScreen mainScreen].bounds.size.height - keyboardSize - 55 , 225, 50)];
+            replyTextView.layer.cornerRadius=8.0f;
+            replyTextView.layer.masksToBounds = YES;
+            [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-keyboardSize - 45, 35, 35)];
+            
+        }];
+    }
     [textView becomeFirstResponder];
 }
 
@@ -179,6 +210,19 @@
         textView.textColor = [UIColor lightGrayColor];
     }
     [UIView animateWithDuration:0.25 animations:^{
+        
+        [usernameLabel setFrame:CGRectMake(75, 85, 100, 30)];
+        [timeLabel setFrame:CGRectMake(200, 85, 100, 30)];
+        [profilePicture setFrame:CGRectMake(7, 75, 55, 55)];
+        [postTextView setFrame:CGRectMake(50, 145, 225, 75)];
+        
+        [likeButton setFrame:CGRectMake(7, 207, 40, 40)];
+        [likeLabel setFrame:CGRectMake(7, 177, 40, 40)];
+        [dislikeButton setFrame:CGRectMake(277, 207, 40, 40)];
+        [dislikeLabel setFrame:CGRectMake(275, 107, 40, 40)];
+        [repliesButton setFrame:CGRectMake(0, 265, 320, 30)];
+        
+        
         [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
         [replyTextView setFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
         [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45, 35, 35)];
@@ -442,7 +486,7 @@
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     keyboardSize = 216;
     //  text view color and shape
-    UITextView *postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
+    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
 
     
     // Default text view
@@ -572,12 +616,14 @@
     
     NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects];
     
-    UIImageView *profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 60, 60)];
+    profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 55, 55)];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
+    profilePicture.layer.cornerRadius = 8.0;
+    profilePicture.layer.masksToBounds = YES;
     [self.view addSubview:profilePicture];
     
     //add my shouts button
-    UIButton *repliesButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
+    repliesButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
     repliesButton.backgroundColor = [UIColor blackColor];
     [repliesButton setTitle:@"Replies" forState:UIControlStateNormal];
     [self.view addSubview:repliesButton];
