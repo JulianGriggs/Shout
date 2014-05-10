@@ -119,6 +119,8 @@
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
     NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
+    profilePicture.layer.cornerRadius = 8.0;
+    profilePicture.layer.masksToBounds = YES;
     myProfPicture = profilePicture.image;
     
     [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
@@ -221,7 +223,7 @@
     UITableView *table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,195,0, 0)];
-    table.contentInset = UIEdgeInsetsMake(0, 0, 196, 0);
+    table.contentInset = UIEdgeInsetsMake(0, 0, 194, 0);
     // Adds the table view controller as a child view controller
     [self addChildViewController:tableViewController];
     // Adds the View of the table view controller as a subview

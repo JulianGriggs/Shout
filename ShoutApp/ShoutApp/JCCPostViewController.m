@@ -120,13 +120,6 @@
 
 
 
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    return textField.text.length + (string.length - range.length) <= 30;
-}
-
-
-
 
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
@@ -162,7 +155,7 @@
         return NO;
     }
     
-    return textView.text.length + (text.length - range.length) <= 140;
+    return textView.text.length + (text.length - range.length) <= 111;
 }
 
 
@@ -265,7 +258,9 @@
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
         locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-        locationManager.distanceFilter=kCLDistanceFilterNone;
+//        locationManager.distanceFilter=kCLDistanceFilterNone;
+        locationManager.distanceFilter=10;
+
         [locationManager startUpdatingLocation];
     }
     
@@ -342,7 +337,8 @@
     
     //  add slider
     radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
-    
+    [radiusSlider setTintColor:[UIColor blackColor]];
+    [radiusSlider setThumbTintColor:[UIColor blackColor]];
     //  set the max and min value for the radius
     radiusSlider.minimumValue = DEFAULT_MIN_RADIUS;
     radiusSlider.maximumValue = maxRadiusSize;
@@ -356,8 +352,8 @@
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
     [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
-    [shoutButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    shoutButton.backgroundColor = [UIColor whiteColor];
+    [shoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    shoutButton.backgroundColor = [UIColor blackColor];
     [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shoutButton];
     

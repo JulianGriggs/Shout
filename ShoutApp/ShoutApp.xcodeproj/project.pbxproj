@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61782095191ABDB300192709 /* JCCMakeRequests.m */; };
+		6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */; };
+		6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */; };
 		619B901619106FB800B9E728 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619B901519106FB800B9E728 /* GoogleMaps.framework */; };
 		619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 619B901719106FF500B9E728 /* GoogleMaps.bundle */; };
 		61A0CE3118F08A8C00B8217A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3018F08A8C00B8217A /* Foundation.framework */; };
@@ -25,8 +27,6 @@
 		61A0CE6A18F08AE300B8217A /* JCCFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A0CE6618F08AE300B8217A /* JCCFeedTableViewController.m */; };
 		61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A0CE6818F08AE300B8217A /* JCCAnnotation.m */; };
 		61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A0CE7118F08AF400B8217A /* JCCPostViewController.m */; };
-		61A0CE7618F08AF400B8217A /* JCCTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A0CE7318F08AF400B8217A /* JCCTableViewCell.m */; };
-		61A0CE7818F08D1500B8217A /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE7718F08D1400B8217A /* CustomTableViewCell.xib */; };
 		61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A0CE7918F0A86C00B8217A /* CustomPostView.xib */; };
 		61A0CE8018F3718600B8217A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE7F18F3718600B8217A /* AVFoundation.framework */; };
 		61A0CE8218F3718E00B8217A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE8118F3718E00B8217A /* CoreData.framework */; };
@@ -68,6 +68,9 @@
 /* Begin PBXFileReference section */
 		61782094191ABDB300192709 /* JCCMakeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCMakeRequests.h; path = ../JCCMakeRequests.h; sourceTree = "<group>"; };
 		61782095191ABDB300192709 /* JCCMakeRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCMakeRequests.m; path = ../JCCMakeRequests.m; sourceTree = "<group>"; };
+		6178FCAC191DD21C00B206B7 /* JCCTableViewCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell1.h; sourceTree = "<group>"; };
+		6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell1.m; sourceTree = "<group>"; };
+		6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCTableViewCell1.xib; sourceTree = "<group>"; };
 		619B901519106FB800B9E728 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		619B901719106FF500B9E728 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		61A0CE2D18F08A8C00B8217A /* ShoutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,9 +95,6 @@
 		61A0CE6D18F08AF400B8217A /* JCCFeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCFeedTableViewController.h; sourceTree = "<group>"; };
 		61A0CE7018F08AF400B8217A /* JCCPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCPostViewController.h; sourceTree = "<group>"; };
 		61A0CE7118F08AF400B8217A /* JCCPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCPostViewController.m; sourceTree = "<group>"; };
-		61A0CE7218F08AF400B8217A /* JCCTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell.h; sourceTree = "<group>"; };
-		61A0CE7318F08AF400B8217A /* JCCTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell.m; sourceTree = "<group>"; };
-		61A0CE7718F08D1400B8217A /* CustomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
 		61A0CE7918F0A86C00B8217A /* CustomPostView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPostView.xib; sourceTree = "<group>"; };
 		61A0CE7F18F3718600B8217A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		61A0CE8118F3718E00B8217A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -301,10 +301,10 @@
 				75EC956E191B2C95004AE3F6 /* JCCReplyTableViewCell.h */,
 				75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */,
 				75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */,
-				75EC9571191B2C95004AE3F6 /* JCCReplyTableViewController.h */,
-				75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */,
 				75EC9573191B2C95004AE3F6 /* JCCReplyViewController.h */,
 				75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */,
+				75EC9571191B2C95004AE3F6 /* JCCReplyTableViewController.h */,
+				75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */,
 			);
 			name = Reply;
 			sourceTree = "<group>";
@@ -312,9 +312,9 @@
 		755AAF041901B4A500DB52D9 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				61A0CE7218F08AF400B8217A /* JCCTableViewCell.h */,
-				61A0CE7318F08AF400B8217A /* JCCTableViewCell.m */,
-				61A0CE7718F08D1400B8217A /* CustomTableViewCell.xib */,
+				6178FCAC191DD21C00B206B7 /* JCCTableViewCell1.h */,
+				6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */,
+				6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */,
 				755AAEF418F4779E00DB52D9 /* JCCViewController.h */,
 				755AAEF518F4779E00DB52D9 /* JCCViewController.m */,
 				61A0CE6D18F08AF400B8217A /* JCCFeedTableViewController.h */,
@@ -478,9 +478,9 @@
 			files = (
 				7502063519198BDB001BAA49 /* JCCProfPicViewController.xib in Resources */,
 				61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */,
+				6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */,
 				61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */,
 				75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */,
-				61A0CE7818F08D1500B8217A /* CustomTableViewCell.xib in Resources */,
 				61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */,
 				619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */,
 			);
@@ -505,12 +505,12 @@
 				75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */,
 				75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */,
 				755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */,
-				61A0CE7618F08AF400B8217A /* JCCTableViewCell.m in Sources */,
 				61A0CE6A18F08AE300B8217A /* JCCFeedTableViewController.m in Sources */,
 				7502063419198BDB001BAA49 /* JCCProfPicViewController.m in Sources */,
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,
 				61A0CE3D18F08A8C00B8217A /* main.m in Sources */,
 				61FBB75118FCA78A00C55ECF /* JCCLoginViewController.m in Sources */,
+				6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */,
 				75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */,
 				755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */,
 				61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */,

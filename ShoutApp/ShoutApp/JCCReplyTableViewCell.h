@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *TimeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ProfileImage;
 @property (weak, nonatomic) IBOutlet UIButton *MoreButton;
-
+@property (weak, nonatomic) IBOutlet UIView *InnerView;
+@property (weak, nonatomic) IBOutlet UILabel *MessageIDLabel;
 
 @end

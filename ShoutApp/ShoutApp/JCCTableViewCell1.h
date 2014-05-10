@@ -1,14 +1,15 @@
 //
-//  JCCTableViewCell.h
-//  Shout
+//  JCCTableViewCell1.h
+//  ShoutApp
 //
-//  Created by Julian Griggs on 3/28/14.
+//  Created by Julian Griggs on 5/9/14.
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface JCCTableViewCell : UITableViewCell
+@interface JCCTableViewCell1 : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UITextView *MessageTextView;
 @property (weak, nonatomic) IBOutlet UILabel *SenderIDLabel;
 @property (weak, nonatomic) IBOutlet UILabel *MessageIDLabel;
@@ -27,8 +28,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfUpsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfDownsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfRepliesLabel;
-
-
-
-
+@property (weak, nonatomic) IBOutlet UIView *InnerView;
 @end

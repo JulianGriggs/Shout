@@ -16,6 +16,7 @@
 
 #import "JCCFeedTableViewController.h"
 #import "JCCReplyTableViewController.h"
+#import "JCCReplyTableViewCell.h"
 #import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
 #import "JCCReplyViewController.h"
@@ -163,9 +164,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"replyCell";
+    static NSString *CellIdentifier = @"replyCell1";
     
-    JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    JCCReplyTableViewCell *cell = (JCCReplyTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCReplyTableViewCell" owner:self options:nil];
@@ -181,9 +182,14 @@
     
     // Begin configuration of Cell
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
+    cell.ProfileImage.layer.cornerRadius = 8.0;
+    cell.ProfileImage.layer.masksToBounds = YES;
+    
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
+    cell.InnerView.layer.cornerRadius = 8.0;
+    cell.InnerView.layer.masksToBounds = YES;
     
     
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
@@ -276,6 +282,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // This will remove extra separators from tableview
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];

@@ -8,6 +8,7 @@
 
 #import "JCCFeedTableViewController.h"
 #import "JCCTableViewCell.h"
+#import "JCCTableViewCell1.h"
 #import "JCCPostViewController.h"
 #import "JCCEchoViewController.h"
 #import "JCCUserCredentials.h"
@@ -357,13 +358,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"messageCell";
+    static NSString *CellIdentifier = @"messageCell1";
     
-    JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    JCCTableViewCell1 *cell = (JCCTableViewCell1 *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
 //        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
-        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCTableViewCell1" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
@@ -374,7 +375,14 @@
     // Begin configuration of Cell
     
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
+    cell.ProfileImage.layer.cornerRadius = 8.0;
+    cell.ProfileImage.layer.masksToBounds = YES;
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
+//    CGSize sizeThatShouldFitTheContent = [cell.MessageTextView sizeThatFits:cell.MessageTextView.frame.size];
+//    CGRect frame = cell.MessageTextView.frame;
+//    frame.size.height = sizeThatShouldFitTheContent.height;
+//    [cell.MessageTextView setFrame:frame];
+    [cell.MessageTextView setBackgroundColor:[UIColor lightTextColor]];
     [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
    
     
@@ -393,6 +401,9 @@
     [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
     [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
+    cell.InnerView.layer.cornerRadius = 8.0;
+    cell.InnerView.layer.masksToBounds = YES;
+    
     
     // Set current like/dislike
     NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
@@ -421,7 +432,7 @@
 
 
 // Sets default to white background and black text for like/dislike labels
--(void)setDefaultLikeDislike:(JCCTableViewCell*)cell
+-(void)setDefaultLikeDislike:(JCCTableViewCell1*)cell
 {
     [cell.UpLabel setTextColor:[UIColor blackColor]];
     cell.UpLabel.backgroundColor = [UIColor whiteColor];
@@ -437,7 +448,7 @@
 
 
 // if the user is found in the list for having liked, then highlight the like label
--(void)setLikeAsMarked:(JCCTableViewCell*)cell
+-(void)setLikeAsMarked:(JCCTableViewCell1*)cell
 {
     [cell.UpLabel setTextColor:[UIColor whiteColor]];
     cell.UpLabel.backgroundColor = [UIColor blackColor];
@@ -447,7 +458,7 @@
 
 
 // if the user is found in the list for having disliked, then highlight the like label
--(void)setDislikeAsMarked:(JCCTableViewCell*)cell
+-(void)setDislikeAsMarked:(JCCTableViewCell1*)cell
 {
     [cell.DownLabel setTextColor:[UIColor whiteColor]];
     cell.DownLabel.backgroundColor = [UIColor blackColor];
@@ -463,7 +474,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160;
+    return 140;
 }
 
 
@@ -531,6 +542,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // This will remove extra separators from tableview
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];

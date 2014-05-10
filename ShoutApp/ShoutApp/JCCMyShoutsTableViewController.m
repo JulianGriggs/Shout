@@ -10,6 +10,7 @@
 #import "JCCEchoViewController.h"
 #import "JCCReplyViewController.h"
 #import "JCCTableViewCell.h"
+#import "JCCTableViewCell1.h"
 #import "JCCMyShoutsTableViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
@@ -309,13 +310,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"messageCell";
+    static NSString *CellIdentifier = @"messageCell1";
     
-    JCCTableViewCell *cell = (JCCTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    JCCTableViewCell1 *cell = (JCCTableViewCell1 *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
         //        cell = [[JCCTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
-        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCTableViewCell1" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
@@ -326,6 +327,8 @@
     // Begin configuration of Cell
     
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
+    cell.ProfileImage.layer.cornerRadius = 8.0;
+    cell.ProfileImage.layer.masksToBounds = YES;
 
     // Begin configuration of Cell
     [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
@@ -333,22 +336,17 @@
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
-    //    q[cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
-    
-    
-    //    CGRect frame = cell.MessageTextView.frame;
-    //    frame.size.height = cell.MessageTextView.contentSize.height;
-    //    cell.MessageTextView.frame = frame;
-    
     [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
     [cell.SenderIDLabel setText:@""];
     
     // Connects the buttons to their respective actions
     [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
     [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
-    //    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
-    //    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     
+    cell.InnerView.layer.cornerRadius = 8.0;
+    cell.InnerView.layer.masksToBounds = YES;
     
     // Set current like/dislike
     NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
@@ -385,7 +383,7 @@
 
 
 // Sets default to white background and black text for like/dislike labels
--(void)setDefaultLikeDislike:(JCCTableViewCell*)cell
+-(void)setDefaultLikeDislike:(JCCTableViewCell1*)cell
 {
     [cell.UpLabel setTextColor:[UIColor blackColor]];
     cell.UpLabel.backgroundColor = [UIColor whiteColor];
@@ -401,7 +399,7 @@
 
 
 // if the user is found in the list for having liked, then highlight the like label
--(void)setLikeAsMarked:(JCCTableViewCell*)cell
+-(void)setLikeAsMarked:(JCCTableViewCell1*)cell
 {
     [cell.UpLabel setTextColor:[UIColor whiteColor]];
     cell.UpLabel.backgroundColor = [UIColor blackColor];
@@ -411,7 +409,7 @@
 
 
 // if the user is found in the list for having disliked, then highlight the like label
--(void)setDislikeAsMarked:(JCCTableViewCell*)cell
+-(void)setDislikeAsMarked:(JCCTableViewCell1*)cell
 {
     [cell.DownLabel setTextColor:[UIColor whiteColor]];
     cell.DownLabel.backgroundColor = [UIColor blackColor];
@@ -423,7 +421,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 160;
+    return 140;
 }
 
 
@@ -485,6 +483,9 @@
 {
     [super viewDidLoad];
     
+    // This will remove extra separators from tableview
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)
@@ -513,43 +514,6 @@
 }
 
 
-
-
-
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//}
-
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
 
 
 
