@@ -23,18 +23,18 @@
 {
     CLLocationManager *locationManager;
     GMSMapView *mapView;
-    UIButton *myShoutsButton;
+    UIButton *theirShoutsButton;
     UIButton *topShoutsButton;
-    UIButton *myLocationsButton;
-    UIImage *myProfPicture;
+    UIButton *theirLocationsButton;
+    UIImage *theirProfPicture;
     UIImageView *profilePicture;
     JCCOtherUserShoutsTableViewController *tableViewController;
     
     
-    UILabel *myUsername;
-    UILabel *myMaxRadius;
-    UILabel *myNumShouts;
-    UILabel *myNumLikesReceived;
+    UILabel *theirUsername;
+    UILabel *theirMaxRadius;
+    UILabel *theirNumShouts;
+    UILabel *theirNumLikesReceived;
     
     
 }
@@ -67,13 +67,15 @@
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
-    myProfPicture = profilePicture.image;
+    theirProfPicture = profilePicture.image;
     
-    [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
-    [myMaxRadius setText:[NSString stringWithFormat:@"%@ %@ %@", @"Max Radius:", [userProfDict objectForKey:@"maxRadius"], @"meters"]];
-    [myNumShouts setText:[NSString stringWithFormat:@"%@ %@",@"Number of Shouts:", [userProfDict objectForKey:@""]]];
-    [myNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
+    [theirUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
+    [theirMaxRadius setText:[NSString stringWithFormat:@"%@ %@ %@", @"Max Radius:", [userProfDict objectForKey:@"maxRadius"], @"meters"]];
+    [theirNumShouts setText:[NSString stringWithFormat:@"%@ %@",@"Number of Shouts:", [userProfDict objectForKey:@""]]];
+    [theirNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
     
+    [theirShoutsButton setTitle:[NSString stringWithFormat:@"Shouts by %@", [userProfDict objectForKey:@"username"]] forState:UIControlStateNormal];
+
 }
 
 
@@ -118,11 +120,11 @@
     [self.view addSubview:mapCoverView];
     
     
-    // This parses the response from the server as a JSON object
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
-    
-    // Stores our userID
-    sharedUserID = [userProfDict objectForKey:@"id"];
+//    // This parses the response from the server as a JSON object
+//    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+//    
+//    // Stores our userID
+//    sharedUserID = [userProfDict objectForKey:@"id"];
     
     //  add the users profile picture
     //  add profile picture
@@ -132,12 +134,11 @@
     
     
     //add my shouts button
-    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
+    theirShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
     //    myShoutsButton.backgroundColor = [UIColor darkGrayColor];
     //    myShoutsButton.alpha = 0.4;
-    myShoutsButton.backgroundColor = [UIColor blackColor];
-    [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
-    [self.view addSubview:myShoutsButton];
+    theirShoutsButton.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:theirShoutsButton];
     
     tableViewController = [[JCCOtherUserShoutsTableViewController alloc] init];
     tableViewController.otherUsername = self.otherUsername;
@@ -154,17 +155,17 @@
     
     
     
-    myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
-    [self.view addSubview:myUsername];
+    theirUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
+    [self.view addSubview:theirUsername];
     
-    myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
-    [self.view addSubview:myMaxRadius];
+    theirMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
+    [self.view addSubview:theirMaxRadius];
     
     //    myNumShouts = [[UILabel alloc] initWithFrame:CGRectMake(100, 160, 200, 30)];
     //    [self.view addSubview:myNumShouts];
     
-    myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
-    [self.view addSubview:myNumLikesReceived];
+    theirNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+    [self.view addSubview:theirNumLikesReceived];
     
 }
 
@@ -176,9 +177,9 @@
 -(IBAction)myShoutButtonPressed:(id)sender
 {
     // adjust the alphas
-    myShoutsButton.alpha = 0.8;
+    theirShoutsButton.alpha = 0.8;
     topShoutsButton.alpha = 0.4;
-    myLocationsButton.alpha = 0.4;
+    theirLocationsButton.alpha = 0.4;
 }
 
 
@@ -189,9 +190,9 @@
 -(IBAction)topShoutsButtonPressed:(id)sender
 {
     // adjust the alphas
-    myShoutsButton.alpha = 0.4;
+    theirShoutsButton.alpha = 0.4;
     topShoutsButton.alpha = 0.8;
-    myLocationsButton.alpha = 0.4;
+    theirLocationsButton.alpha = 0.4;
 }
 
 
@@ -202,9 +203,9 @@
 -(IBAction)myLocationsButtonPressed:(id)sender
 {
     // adjust the alphas
-    myShoutsButton.alpha = 0.4;
+    theirShoutsButton.alpha = 0.4;
     topShoutsButton.alpha = 0.4;
-    myLocationsButton.alpha = 0.8;
+    theirLocationsButton.alpha = 0.8;
 }
 
 

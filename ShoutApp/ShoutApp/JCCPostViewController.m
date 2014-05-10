@@ -254,7 +254,6 @@
     //  handle setting up location updates
     
     
-    
     // put title on navbar
     [self.navigationItem setTitle:@"Compose"];    
     
