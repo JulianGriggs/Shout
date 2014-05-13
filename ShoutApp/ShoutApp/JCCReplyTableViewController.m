@@ -14,6 +14,7 @@
 //  Copyright (c) 2014 Shout. All rights reserved.
 //
 
+#import "JCCUserCredentials.h"
 #import "JCCFeedTableViewController.h"
 #import "JCCReplyTableViewController.h"
 #import "JCCTableViewCell1.h"
@@ -77,13 +78,24 @@
 
 
 - (IBAction)showMuteOption:(UIButton*)sender {
+    
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     currentCell = cell;
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
-    [alert show];
+    if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
+    {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
+        [alert show];
+    }
+
 }
 
 

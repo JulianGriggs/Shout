@@ -37,6 +37,8 @@
     NSMutableArray *myObject;
     
     NSString *Id;
+    
+    JCCTableViewCell1 *currentCell;
 }
 //This is the actual table view object that corresponds to this table view controller
 //@property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -213,10 +215,25 @@
 
 
 - (IBAction)showMuteOption:(UIButton*)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"Do you really want to mute this person?" delegate:self cancelButtonTitle:@"Nah" otherButtonTitles:nil];
-    // optional - add more buttons:
-    [alert addButtonWithTitle:@"Yes"];
-    [alert show];
+    
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+    currentCell = cell;
+    
+    if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
+    {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
+        [alert show];
+    }
+
+
 }
 
 
@@ -368,10 +385,10 @@
     }
 
     // Hides the Reply and Echo button
-    [cell.ReplyIconImage setHidden:YES];
-    [cell.ReplyButton setHidden:YES];
-    [cell.EchoIconImage setHidden:YES];
-    [cell.EchoButton setHidden:YES];
+//    [cell.ReplyIconImage setHidden:YES];
+//    [cell.ReplyButton setHidden:YES];
+//    [cell.EchoIconImage setHidden:YES];
+//    [cell.EchoButton setHidden:YES];
     
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
