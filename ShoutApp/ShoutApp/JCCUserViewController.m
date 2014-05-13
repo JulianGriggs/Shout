@@ -206,6 +206,7 @@
     if (userProfDict == nil)
     {
         [JCCMakeRequests displayLackOfInternetAlert];
+        return;
     }
     else
     {
