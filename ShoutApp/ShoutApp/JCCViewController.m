@@ -125,6 +125,20 @@
 
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+}
+
+
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -43,7 +43,6 @@
     // dislike button
     UIButton *dislikeButton;
     
-    
     UIView *composeView;
     UIView *outerReplyView;
     UITextView *replyTextView;
@@ -82,13 +81,16 @@
 
 
 
-
+// Resets the reply screen
 - (void) resetAfterReply
 {
     [self textViewDidEndEditing:replyTextView];
     replyTextView.text = @"Reply here!";
     replyTextView.textColor =[UIColor lightGrayColor];
 }
+
+
+
 
 
 //  handle posting a reply
@@ -253,6 +255,10 @@
     
 }
 
+
+
+
+
 // converts a UTC string to a date object
 - (NSString *) formatTime:(NSString *) timeString
 {
@@ -324,23 +330,11 @@
 
 
 
+
+
+// Sends a like
 - (IBAction)sendUp:(UIButton*)sender
 {
-    
-    // If black set to white, else set to black
-    if ([likeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
-    {
-        // Resets the color of the "down" button to black
-        [self setDefaultLikeDislike:dislikeButton];
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [self setLikeAsMarked:likeButton];
-    }
-    else
-    {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [self setDefaultLikeDislike:likeButton];
-
-    }
     
     //  update the labels
     NSString *response = [JCCMakeRequests postLike:Id];
@@ -353,6 +347,20 @@
     }
     else
     {
+        // If black set to white, else set to black
+        if ([likeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
+        {
+            // Resets the color of the "down" button to black
+            [self setDefaultLikeDislike:dislikeButton];
+            // Sets the color of the "up" button to blue when its highlighted and after being clicked
+            [self setLikeAsMarked:likeButton];
+        }
+        else
+        {
+            // Sets the color of the "up" button to blue when its highlighted and after being clicked
+            [self setDefaultLikeDislike:likeButton];
+        }
+        
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
     }
@@ -365,30 +373,11 @@
 // Happens whenever a user clicks the "DOWN" button
 - (IBAction)sendDown:(UIButton*)sender
 {
-    // If black set to red, else set to black
-    if ([dislikeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
-    {
-        // Resets the color of the "up" button to black
-        [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        likeButton.backgroundColor = [UIColor clearColor];
-        // Sets the color of the "down" button to blue when its highlighted and after being clicked
-        [dislikeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        dislikeButton.backgroundColor = [UIColor blackColor];
-        dislikeButton.layer.cornerRadius = 20.0;
-        dislikeButton.layer.masksToBounds = YES;
-    }
-    else
-    {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        dislikeButton.backgroundColor = [UIColor clearColor];
-        
-    }
     
     //  update the labels
     NSString *response = [JCCMakeRequests postDislike:Id];
     NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:Id];
-
+    
     if(response == nil || messageDict == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
@@ -396,6 +385,26 @@
     }
     else
     {
+        // If black set to red, else set to black
+        if ([dislikeButton.titleLabel.textColor isEqual:[UIColor blackColor]])
+        {
+            // Resets the color of the "up" button to black
+            [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            likeButton.backgroundColor = [UIColor clearColor];
+            // Sets the color of the "down" button to blue when its highlighted and after being clicked
+            [dislikeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            dislikeButton.backgroundColor = [UIColor blackColor];
+            dislikeButton.layer.cornerRadius = 20.0;
+            dislikeButton.layer.masksToBounds = YES;
+        }
+        else
+        {
+            // Sets the color of the "up" button to blue when its highlighted and after being clicked
+            [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            dislikeButton.backgroundColor = [UIColor clearColor];
+            
+        }
+
         [likeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
         [dislikeLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
     }
@@ -447,7 +456,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.navigationItem setTitle:@"SHOUT!"];
+    [self.navigationItem setTitle:@"Reply"];
     
 
     //  build the location manager

@@ -31,8 +31,6 @@
     UIImage *theirProfPicture;
     UIImageView *profilePicture;
     JCCOtherUserShoutsTableViewController *tableViewController;
-    
-    
     UILabel *theirUsername;
     UILabel *theirMaxRadius;
     UILabel *theirNumShouts;
@@ -228,13 +226,24 @@
 
 
 
+
 //  handle the edit profile picture button being pressed
 -(IBAction)editProfPicButtonPressed:(id)sender
 {
-    JCCOtherProfPicViewController *profPicView = [[JCCOtherProfPicViewController alloc] init];
-    profPicView.profPicture = theirProfPicture;
-    [self.navigationController pushViewController:profPicView animated:YES];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        JCCOtherProfPicViewController *profPicView = [[JCCOtherProfPicViewController alloc] init];
+        profPicView.profPicture = theirProfPicture;
+        [self.navigationController pushViewController:profPicView animated:YES];
+    }
 }
+
 
 
 

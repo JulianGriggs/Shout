@@ -368,6 +368,7 @@
     [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
     [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
     [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
+    [cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
     [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
     [cell.SenderIDLabel setText:@""];
     
@@ -399,12 +400,6 @@
         if ([person isEqualToString:sharedUserName])
             [self setDislikeAsMarked:cell];
     }
-    
-    // Hides the Reply and Echo button
-    [cell.ReplyIconImage setHidden:YES];
-    [cell.ReplyButton setHidden:YES];
-    [cell.EchoIconImage setHidden:YES];
-    [cell.EchoButton setHidden:YES];
     
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     

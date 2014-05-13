@@ -80,6 +80,10 @@
     }
 }
 
+
+
+
+// Passes the message ID
 -(void)passMessageId:(NSString *)messageId
 {
     Id = messageId;
@@ -87,6 +91,8 @@
 
 
 
+
+// Displayes the mute option
 - (IBAction)showMuteOption:(UIButton*)sender {
     
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -122,7 +128,7 @@
 
 
 
-
+// Fetch most recent shouts and reload table
 - (NSArray*)fetchShouts
 {
     
@@ -150,6 +156,9 @@
     // Return the number of rows in the section.
     return jsonObjects.count;
 }
+
+
+
 
 
 // converts a UTC string to a date object
@@ -207,6 +216,7 @@
 
 
 
+// Called everytime a new cell is loaded
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"replyCell1";
@@ -256,6 +266,8 @@
 
 
 
+
+// Registers which button in the alert view was clicked and responds appropriately
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != 0)
@@ -274,6 +286,8 @@
 
 
 
+
+// Height for each table cell
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 120;
@@ -283,6 +297,7 @@
 
 
 
+// Number of sections in the table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -315,6 +330,7 @@
 
 
 
+// Called whenever the view appears
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
@@ -322,6 +338,9 @@
 }
 
 
+
+
+// fetch shouts and then reload the table
 - (void)refresh
 {
     // Do something...
@@ -334,6 +353,7 @@
 
 
 
+// Called the first time the view loads
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -367,57 +387,5 @@
     // Return NO if you do not want the item to be re-orderable.
     return NO;
 }
-
-
-
-
-
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//}
-
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
