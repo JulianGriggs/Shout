@@ -102,7 +102,7 @@
 
 
 
-- (void)fetchShouts
+- (NSArray*)fetchShouts
 {
     
     //  handle setting up location updates
@@ -116,6 +116,7 @@
 
     // This parses the response from the server as a JSON object
     jsonObjects = [JCCMakeRequests getReplies:Id];
+    return jsonObjects;
     
 }
 
@@ -200,9 +201,17 @@
     
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
-    NSLog(@"%@", dictShout);
-    NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
     
+    NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
+    // If no internet
+    if (profPicData == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return cell;
+    }
+    
+    else
+    {
     // Begin configuration of Cell
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
     cell.ProfileImage.layer.cornerRadius = 8.0;
@@ -218,6 +227,7 @@
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
+    }
     
 }
 
@@ -226,14 +236,12 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0)
+    if (buttonIndex != 0)
     {
-        // Do nothing
-    }
-    else
-    {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
-        [self fetchShouts];
+        if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
+        {
+            [JCCMakeRequests displayLackOfInternetAlert];
+        }
         [self.tableView reloadData];
         
     }

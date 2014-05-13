@@ -37,7 +37,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     
@@ -77,7 +77,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -121,7 +121,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -165,7 +165,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -207,7 +207,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -259,7 +259,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -309,7 +309,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -357,7 +357,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -401,7 +401,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -447,9 +447,8 @@
     NSError *error;
     
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -533,7 +532,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     
@@ -607,7 +606,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -649,7 +648,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -685,7 +684,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -733,7 +732,7 @@
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
-    if (error.code == 1009)
+    if (error.code == -1009)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];

@@ -95,7 +95,7 @@
         [self.tableView reloadData];
     }
     
-
+    
 }
 
 
@@ -124,38 +124,25 @@
         cell.DownLabel.layer.cornerRadius = 8.0;
         cell.DownLabel.layer.masksToBounds = YES;
         
-        // post the dislike
-        [JCCMakeRequests postDislike:getMessageID];
-        
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
-        [self.tableView reloadData];
-
-        
-        
     }
+    
     else
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.DownLabel setTextColor:[UIColor blackColor]];
         cell.DownLabel.backgroundColor = [UIColor whiteColor];
-        
-        // post the dislike
-        [JCCMakeRequests postDislike:getMessageID];
-        
-//        //  update the labels
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
+    }
+    
+    // post the dislike
+    if([JCCMakeRequests postDislike:getMessageID] == nil || [self fetchShouts] == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
+    
+    else
+    {
         [self.tableView reloadData];
-
     }
 }
 
@@ -168,7 +155,7 @@
 {
     // This allocates a echo view controller and pushes it on the navigation stack
     JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
-
+    
     // get the text
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
@@ -221,10 +208,10 @@
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     currentCell = cell;
-
+    
     if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
     {
-    
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
@@ -233,7 +220,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
         [alert show];
     }
-
+    
 }
 
 
@@ -249,14 +236,12 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0)
+    if (buttonIndex != 0)
     {
-        // Do nothing
-    }
-    else
-    {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
-        [self fetchShouts];
+        if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
+        {
+                [JCCMakeRequests displayLackOfInternetAlert];
+        }
         [self.tableView reloadData];
         
     }
@@ -309,7 +294,7 @@
     
     timeInterval = timeInterval + 37;
     
-
+    
     //  years
     if ((timeInterval) / 31536000 >= 1)
     {
@@ -355,7 +340,7 @@
     
     //  seconds
     return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
-
+    
 }
 
 
@@ -364,75 +349,76 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"messageCell1";
     
+    NSString *CellIdentifier = @"messageCell1";
     JCCTableViewCell1 *cell = (JCCTableViewCell1 *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-//        cell = [[JCCTableViewCell1 alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:(CellIdentifier)];
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCTableViewCell1" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
-    
     NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
-    // Begin configuration of Cell
-    
-    [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
-    cell.ProfileImage.layer.cornerRadius = 8.0;
-    cell.ProfileImage.layer.masksToBounds = YES;
-    [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
-//    CGSize sizeThatShouldFitTheContent = [cell.MessageTextView sizeThatFits:cell.MessageTextView.frame.size];
-//    CGRect frame = cell.MessageTextView.frame;
-//    frame.size.height = sizeThatShouldFitTheContent.height;
-//    [cell.MessageTextView setFrame:frame];
-    [cell.MessageTextView setBackgroundColor:[UIColor lightTextColor]];
-    [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
-   
-    
-    [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
-    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
-    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
-    [cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
-
-    
-    [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
-    [cell.SenderIDLabel setText:@""];
-    
-    // Connects the buttons to their respective actions
-    [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
-    cell.InnerView.layer.cornerRadius = 8.0;
-    cell.InnerView.layer.masksToBounds = YES;
-    
-    
-    // Set current like/dislike
-    NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
-    NSArray *usersDisliked = [dictShout objectForKey:@"usersDisliked"];
-    
-    // Default colors for likes/dislikes
-    [self setDefaultLikeDislike:cell];
-    
-    // Check to see if like or dislike should be highlighted
-    for (NSString* person in usersLiked)
+    // If no internet
+    if (profPicData == nil)
     {
-        if ([person isEqualToString:sharedUserName])
-            [self setLikeAsMarked:cell];
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return cell;
     }
     
-    for (NSString* person in usersDisliked)
+    else
     {
-        if ([person isEqualToString:sharedUserName])
-            [self setDislikeAsMarked:cell];
+        // Begin configuration of Cell
+        [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
+        cell.ProfileImage.layer.cornerRadius = 8.0;
+        cell.ProfileImage.layer.masksToBounds = YES;
+        [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
+        [cell.MessageTextView setBackgroundColor:[UIColor lightTextColor]];
+        [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
+        
+        
+        [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
+        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
+        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
+        [cell.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
+        
+        
+        [cell.MessageIDLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"id"]]];
+        [cell.SenderIDLabel setText:@""];
+        
+        // Connects the buttons to their respective actions
+        [cell.UpButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.DownButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
+        cell.InnerView.layer.cornerRadius = 8.0;
+        cell.InnerView.layer.masksToBounds = YES;
+        
+        
+        // Set current like/dislike
+        NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
+        NSArray *usersDisliked = [dictShout objectForKey:@"usersDisliked"];
+        
+        // Default colors for likes/dislikes
+        [self setDefaultLikeDislike:cell];
+        
+        // Check to see if like or dislike should be highlighted
+        for (NSString* person in usersLiked)
+        {
+            if ([person isEqualToString:sharedUserName])
+                [self setLikeAsMarked:cell];
+        }
+        
+        for (NSString* person in usersDisliked)
+        {
+            if ([person isEqualToString:sharedUserName])
+                [self setDislikeAsMarked:cell];
+        }
+        return cell;
     }
-    
-    
-    return cell;
     
 }
 
@@ -533,9 +519,17 @@
 - (void)refresh
 {
     // Do something...
-    [self fetchShouts];
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
+    
+    if ([self fetchShouts] == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+    }
+    
+    else
+    {
+        [self.tableView reloadData];
+        [self.refreshControl endRefreshing];
+    }
 }
 
 
