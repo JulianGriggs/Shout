@@ -115,7 +115,12 @@
         //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         
-        [JCCMakeRequests postShout:dictionaryData];
+        NSString *response = [JCCMakeRequests postShout:dictionaryData];
+        if (response == nil)
+        {
+            [JCCMakeRequests displayLackOfInternetAlert];
+            return;
+        }
         [self.navigationController popViewControllerAnimated:TRUE];
         
     }
@@ -282,6 +287,11 @@
 //    mapView.settings.compassButton = YES;
     
     NSDictionary* userDict = [JCCMakeRequests getUserProfile];
+    if (userDict == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
     maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
     
     radiusSize = DEFAULT_MIN_RADIUS;

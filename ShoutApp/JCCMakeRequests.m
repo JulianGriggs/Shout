@@ -219,6 +219,8 @@
 
 
 
+
+
 // Gets the max radius size
 +(int) getMaxRadiusSize:(NSDictionary *) userDict
 {
@@ -226,6 +228,8 @@
     NSLog(@"MaxRadius: %@", maxRadius);
     return [maxRadius intValue];
 }
+
+
 
 
 
@@ -274,6 +278,9 @@
     
     return jsonObjects;
 }
+
+
+
 
 
 // Returns the list of shouts
@@ -328,6 +335,7 @@
 
 
 
+
 // Returns the list of shouts
 +(NSArray *) getMyShouts
 {
@@ -371,6 +379,9 @@
     
     return jsonObjects;
 }
+
+
+
 
 
 //  Returns a list of a given users shouts
@@ -418,6 +429,8 @@
 
 
 
+
+
 // post the dislike
 +(NSString *)postDislike:(NSString *) messageID
 {
@@ -457,6 +470,8 @@
 #endif
     return theReply;
 }
+
+
 
 
 
@@ -505,6 +520,8 @@
 
 
 
+
+
 // post the dislike
 +(NSDictionary *)getShoutWithID:(NSString *)messageID
 {
@@ -545,6 +562,7 @@
     NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
     return messageDict;
 }
+
 
 
 
@@ -620,6 +638,8 @@
 
 
 
+
+
 // post the dislike
 +(NSString *)postMute:(NSString *) username
 {
@@ -658,6 +678,8 @@
 #endif
     return theReply;
 }
+
+
 
 
 // Attempts the the registration.  Upon success YES is returned.  Upon failure, NO is returned.
@@ -741,6 +763,8 @@
     NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
 #endif
     
+    
+
     if (GETReply == nil) return nil; // Failure (Probably didn't give a valid username / password)
     
     else

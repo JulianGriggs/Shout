@@ -113,17 +113,16 @@
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData];
 
-        if (token)
-        {
-            [self setUserCredentials:token];
-            [self addMainViewControllers];
-        }
-        
-        else
+        if (token == nil)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [alert show];
             passwordField.text = @"";
+        }
+        else 
+        {
+            [self setUserCredentials:token];
+            [self addMainViewControllers];
         }
     }
 }

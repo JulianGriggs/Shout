@@ -64,8 +64,20 @@
 // Populates all of the data
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername];
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    if (userProfDict == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
     NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
+    
+    if (profPicData == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
+
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
