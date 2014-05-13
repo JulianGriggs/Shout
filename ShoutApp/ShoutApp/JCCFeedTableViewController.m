@@ -162,10 +162,22 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    // set the text
-    [replyViewController passMessageId:cell.MessageIDLabel.text];
+   
     
-    [self.navigationController pushViewController:replyViewController animated:YES];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        // set the text
+        [replyViewController passMessageId:cell.MessageIDLabel.text];
+        
+        [self.navigationController pushViewController:replyViewController animated:YES];
+    }
+    
     
 }
 
@@ -185,10 +197,21 @@
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     currentCell = cell;
     
-    [self.navigationController pushViewController:echoViewController animated:YES];
     
-    // set the text
-    [echoViewController setTextField:cell.MessageTextView.text];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.navigationController pushViewController:echoViewController animated:YES];
+        
+        // set the text
+        [echoViewController setTextField:cell.MessageTextView.text];
+    }
+    
 }
 
 
@@ -200,7 +223,19 @@
     JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     otherViewController.otherUsername = cell.UsernameLabel.text;
-    [self.navigationController pushViewController:otherViewController animated:YES];
+    
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.navigationController pushViewController:otherViewController animated:YES];
+    }
+    
+    
 }
 
 
@@ -211,17 +246,28 @@
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     currentCell = cell;
     
-    if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
+    
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
     {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [alert show];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
-        [alert show];
+        if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
+        {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
+            [alert show];
+        }
     }
+    
     
 }
 

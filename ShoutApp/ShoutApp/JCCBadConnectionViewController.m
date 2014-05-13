@@ -51,6 +51,7 @@
     badInternetView.backgroundColor = [UIColor blackColor];
     badInternetView.textAlignment = NSTextAlignmentCenter;
     badInternetView.textColor = [UIColor whiteColor];
+    [badInternetView setUserInteractionEnabled:NO];
     badInternetView.text = @"I have some bad news friend. It appears your internet connection is poor. In order for this app to work properly you need a better connection. Please press \"Try Again\" to test your connection and get back to enjoying Shout!";
     [self.view addSubview:badInternetView];
     

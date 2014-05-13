@@ -10,6 +10,7 @@
 #import "JCCPostViewController.h"
 #import "JCCUserViewController.h"
 #import "JCCUserCredentials.h"
+#import "JCCMakeRequests.h"
 
 
 @interface JCCViewController ()
@@ -44,9 +45,18 @@
 // This is the function that is called when the compose button is pressed
 - (IBAction)pressedComposeButton:(id)sender
 {
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    [self.navigationController pushViewController:postViewController animated:YES];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        // This allocates a post view controller and pushes it on the navigation stack
+        JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+        [self.navigationController pushViewController:postViewController animated:YES];
+    }
 }
 
 
@@ -55,7 +65,16 @@
 
 -(IBAction)pressedUserButton:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
@@ -64,7 +83,19 @@
 
 -(IBAction)swipeRightHandler:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    
 }
 
 
@@ -73,9 +104,21 @@
 
 -(IBAction)swipeLeftHandler:(id)sender
 {
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-    [self.navigationController pushViewController:postViewController animated:YES];
+    
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        // This allocates a post view controller and pushes it on the navigation stack
+        JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+        [self.navigationController pushViewController:postViewController animated:YES];
+    }
+    
+
 }
 
 
