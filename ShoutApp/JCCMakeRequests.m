@@ -33,7 +33,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
@@ -66,7 +67,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
@@ -143,7 +145,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: postReply, var: theReply = %@", theReply);
@@ -226,7 +229,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
 #ifdef DEBUG
@@ -270,7 +274,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: getShouts, var: theReply = %@", theReply);
@@ -658,6 +663,12 @@
         
         return token;
     }
+}
+
++(void) displayLackOfInternetAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Poor Connection" message:@"It's possible that your internet connection is poor.  In order for this app to run properly you need a better connection." delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
+    [alert show];
 }
 
 @end

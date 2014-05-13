@@ -43,4 +43,7 @@
 +(BOOL) attemptRegistration:(NSDictionary *) dictionaryData;
 
 +(NSString *)attemptAuth:(NSDictionary *) dictionaryData;
+
++(void) displayLackOfInternetAlert;
+
 @end
