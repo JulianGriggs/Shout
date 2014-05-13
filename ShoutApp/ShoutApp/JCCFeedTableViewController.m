@@ -88,7 +88,7 @@
     if([JCCMakeRequests postLike:getMessageID] == nil || [self fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:YES];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     else
@@ -138,7 +138,7 @@
     if([JCCMakeRequests postDislike:getMessageID] == nil || [self fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:YES];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     
@@ -243,7 +243,7 @@
         if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
         {
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:YES];
+            [self.navigationController pushViewController:badView animated:NO];
         }
         
         [self.tableView reloadData];
@@ -369,7 +369,7 @@
     if (profPicData == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:YES];
+        [self.navigationController pushViewController:badView animated:NO];
         
         return cell;
     }
@@ -529,7 +529,7 @@
     if ([self fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:YES];
+        [self.navigationController pushViewController:badView animated:NO];
     }
     
     else

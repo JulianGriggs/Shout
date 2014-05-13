@@ -67,14 +67,16 @@
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
     if (userProfDict == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
     
     if (profPicData == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
 

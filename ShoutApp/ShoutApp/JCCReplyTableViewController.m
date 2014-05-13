@@ -206,7 +206,8 @@
     // If no internet
     if (profPicData == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return cell;
     }
     
@@ -240,7 +241,8 @@
     {
         if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
         {
-            [JCCMakeRequests displayLackOfInternetAlert];
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [self.navigationController pushViewController:badView animated:NO];
         }
         [self.tableView reloadData];
         

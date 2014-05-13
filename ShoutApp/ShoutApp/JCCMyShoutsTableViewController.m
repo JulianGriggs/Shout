@@ -88,7 +88,8 @@
     // post the like
     if([JCCMakeRequests postLike:getMessageID] == nil || [self fetchShouts] == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     else
@@ -133,7 +134,8 @@
     // post the dislike
     if([JCCMakeRequests postDislike:getMessageID] == nil || [self fetchShouts] == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     
@@ -319,7 +321,8 @@
     // If no internet
     if (profPicData == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return cell;
     }
     else

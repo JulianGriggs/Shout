@@ -93,14 +93,16 @@
     NSDictionary *userProfile = [JCCMakeRequests getUserProfile];
     if (userProfile == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     NSData *profileImage = [JCCMakeRequests getProfileImage:userProfile];
     
     if (profileImage)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     UIImage *actualPhoto = [[UIImage alloc] initWithData:profileImage];

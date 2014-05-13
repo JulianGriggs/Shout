@@ -109,7 +109,8 @@
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text};
         if([JCCMakeRequests postReply:dictionaryData withID:Id] == nil)
         {
-            [JCCMakeRequests displayLackOfInternetAlert];
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [self.navigationController pushViewController:badView animated:NO];
         }
         else
         {
@@ -347,7 +348,8 @@
     
     if(response == nil || messageDict == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
     }
     else
     {
@@ -389,7 +391,8 @@
 
     if(response == nil || messageDict == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
     }
     else
     {
@@ -478,7 +481,8 @@
     // If no internet connection
     if(tempJsonObjects == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
     }
     
     else
@@ -629,7 +633,10 @@
     
     // If no internet
     if (profPicData == nil)
-        [JCCMakeRequests displayLackOfInternetAlert];
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     else
         [profilePicture setImage:[UIImage imageWithData:profPicData]];
     

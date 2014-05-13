@@ -126,7 +126,8 @@
         NSString *response = [JCCMakeRequests postShout:dictionaryData];
         if (response == nil)
         {
-            [JCCMakeRequests displayLackOfInternetAlert];
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [self.navigationController pushViewController:badView animated:NO];
             return;
         }
         [self.navigationController popViewControllerAnimated:TRUE];
@@ -251,7 +252,8 @@
     NSDictionary* userDict = [JCCMakeRequests getUserProfile];
     if (userDict == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
         return;
     }
     maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
