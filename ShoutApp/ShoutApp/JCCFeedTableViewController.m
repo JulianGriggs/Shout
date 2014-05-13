@@ -87,7 +87,8 @@
     // post the like
     if([JCCMakeRequests postLike:getMessageID] == nil || [self fetchShouts] == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:YES];
         return;
     }
     else
@@ -136,7 +137,8 @@
     // post the dislike
     if([JCCMakeRequests postDislike:getMessageID] == nil || [self fetchShouts] == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:YES];
         return;
     }
     
@@ -240,8 +242,10 @@
     {
         if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
         {
-                [JCCMakeRequests displayLackOfInternetAlert];
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [self.navigationController pushViewController:badView animated:YES];
         }
+        
         [self.tableView reloadData];
         
     }
@@ -364,7 +368,9 @@
     // If no internet
     if (profPicData == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:YES];
+        
         return cell;
     }
     
@@ -522,7 +528,8 @@
     
     if ([self fetchShouts] == nil)
     {
-        [JCCMakeRequests displayLackOfInternetAlert];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:YES];
     }
     
     else

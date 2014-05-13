@@ -47,17 +47,19 @@
     //  set black background color
     [self.view setBackgroundColor:[UIColor blackColor]];
     
-    UILabel *badInternetLabel = [[UILabel alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625, outerWindowHeight * 0.132, outerWindowWidth * 0.703, outerWindowHeight * 0.370)];
-    badInternetLabel.textColor = [UIColor whiteColor];
-    badInternetLabel.text = @"I have some bad news frien. It appears your internet connection is poor. In order for this app to work properly you need a better connection. Please press \"Try Again\" to test your connection and get back to enjoying Shout!";
-    
+    UITextView *badInternetView = [[UITextView alloc] initWithFrame:CGRectMake(outerWindowWidth * 0.15625, outerWindowHeight * 0.532, outerWindowWidth * 0.703, outerWindowHeight * 0.370)];
+    badInternetView.backgroundColor = [UIColor blackColor];
+    badInternetView.textAlignment = NSTextAlignmentCenter;
+    badInternetView.textColor = [UIColor whiteColor];
+    badInternetView.text = @"I have some bad news frien. It appears your internet connection is poor. In order for this app to work properly you need a better connection. Please press \"Try Again\" to test your connection and get back to enjoying Shout!";
+    [self.view addSubview:badInternetView];
     
     //  add a button to test the internet connection
     UIButton *tryAgainButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
     tryAgainButton.backgroundColor = [UIColor blackColor];
     [tryAgainButton setTitle:@"Try Again" forState:UIControlStateNormal];
     [tryAgainButton addTarget:self action:@selector(tryAgainButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self.view addSubview:tryAgainButton];
 }
 
 //  try again

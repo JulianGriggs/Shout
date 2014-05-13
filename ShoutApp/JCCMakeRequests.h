@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JCCBadConnectionViewController.h"
+
 
 @interface JCCMakeRequests : NSObject
 
