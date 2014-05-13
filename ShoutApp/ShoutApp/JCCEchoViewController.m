@@ -120,68 +120,31 @@
     }
     else
     {
-        
-        //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
-        NSString *response = [JCCMakeRequests postShout:dictionaryData];
-        if (response == nil)
+        NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+        if (profileAttempt == nil)
         {
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
             [self.navigationController pushViewController:badView animated:NO];
-            return;
         }
-        [self.navigationController popViewControllerAnimated:TRUE];
+        else
+        {
+            
+            //  format the data
+            NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+            NSString *response = [JCCMakeRequests postShout:dictionaryData];
+            if (response == nil)
+            {
+                JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+                [self.navigationController pushViewController:badView animated:NO];
+                return;
+            }
+            [self.navigationController popViewControllerAnimated:TRUE];
+        }
+        
         
     }
 }
 
-
-
-
-//
-//
-//-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-//{
-//    return textField.text.length + (string.length - range.length) <= 30;
-//}
-//
-//- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-//{
-//    return YES;
-//}
-//
-//- (void)textViewDidBeginEditing:(UITextView *)textView
-//{
-//    if ([textView.text isEqualToString:@"Let's hear it!"])
-//    {
-//        textView.text = @"";
-//        textView.textColor = [UIColor blackColor]; //optional
-//    }
-//    [textView becomeFirstResponder];
-//}
-//
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-//{
-//    
-//    [textView becomeFirstResponder];
-//    if([text isEqualToString:@"\n"])
-//    {
-//        [textView resignFirstResponder];
-//        return NO;
-//    }
-//    
-//    return textView.text.length + (text.length - range.length) <= 140;
-//}
-//
-//
-//- (void)textViewDidEndEditing:(UITextView *)textView
-//{
-//    if ([textView.text isEqualToString:@""]) {
-//        textView.text = @"Let's hear it!";
-//        textView.textColor = [UIColor lightGrayColor];
-//    }
-//    [textView resignFirstResponder];
-//}
 
 
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
@@ -207,7 +170,16 @@
 
 - (IBAction)jumpToLocation:(id)sender
 {
-    [mapView animateToLocation:myCurrentLocation];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [mapView animateToLocation:myCurrentLocation];
+    }
 }
 
 -(void)mapView:(GMSMapView *)mapview willMove:(BOOL)gesture

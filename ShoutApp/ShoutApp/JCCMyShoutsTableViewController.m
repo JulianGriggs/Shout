@@ -152,18 +152,28 @@
 // Happens when a user touches the reply button
 - (IBAction)sendReply:(UIButton*)sender
 {
-    // This allocates a echo view controller and pushes it on the navigation stack
-    JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
-    [self.navigationController pushViewController:replyViewController animated:YES];
     
-    
-    // get the text
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    // set the text
-    [replyViewController passMessageId:cell.MessageIDLabel.text];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        // This allocates a echo view controller and pushes it on the navigation stack
+        JCCReplyViewController *replyViewController = [[JCCReplyViewController alloc] init];
+        [self.navigationController pushViewController:replyViewController animated:YES];
+        
+        
+        // get the text
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        // set the text
+        [replyViewController passMessageId:cell.MessageIDLabel.text];
+    }
 }
 
 
@@ -173,18 +183,29 @@
 // Happens when user touches the echo button
 - (IBAction)sendEcho:(UIButton*)sender
 {
-    // This allocates a echo view controller and pushes it on the navigation stack
-    JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
     
-    // get the text
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        // This allocates a echo view controller and pushes it on the navigation stack
+        JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
+        
+        // get the text
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        [self.navigationController pushViewController:echoViewController animated:YES];
+        
+        // set the text
+        [echoViewController setTextField:cell.MessageTextView.text];
+    }
     
-    [self.navigationController pushViewController:echoViewController animated:YES];
-    
-    // set the text
-    [echoViewController setTextField:cell.MessageTextView.text];
 }
 
 

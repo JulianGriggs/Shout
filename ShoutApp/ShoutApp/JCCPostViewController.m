@@ -111,19 +111,26 @@
     }
     else
     {
-        
-        //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
-        
-        NSString *response = [JCCMakeRequests postShout:dictionaryData];
-        if (response == nil)
+        NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+        if (profileAttempt == nil)
         {
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
             [self.navigationController pushViewController:badView animated:NO];
-            return;
         }
-        [self.navigationController popViewControllerAnimated:TRUE];
-        
+        else
+        {
+            //  format the data
+            NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+            
+            NSString *response = [JCCMakeRequests postShout:dictionaryData];
+            if (response == nil)
+            {
+                JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+                [self.navigationController pushViewController:badView animated:NO];
+                return;
+            }
+            [self.navigationController popViewControllerAnimated:TRUE];
+        }
     }
 }
 
@@ -218,7 +225,17 @@
 
 - (IBAction)jumpToLocation:(id)sender
 {
-    [mapView animateToLocation:myCurrentLocation];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [mapView animateToLocation:myCurrentLocation];
+    }
+
 }
 
 
