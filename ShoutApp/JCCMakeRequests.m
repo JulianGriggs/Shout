@@ -81,6 +81,11 @@
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/static/shout/images/"];
     NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
     
+    NSString *authStr = sharedUserToken;
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    NSLog(@"%@", authValue);
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
     [request setURL:[NSURL URLWithString:url1]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -375,7 +380,6 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     NSString *authStr = sharedUserToken;
-    
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
@@ -396,14 +400,18 @@
 
 
 // post the dislike
-+(NSDictionary *)getShoutWithID:(NSString *) messageID
++(NSDictionary *)getShoutWithID:(NSString *)messageID
 {
     // make the url with query variables
-    NSString *url = [NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/messages/", messageID];
+    NSString *url = [NSString stringWithFormat:@"%@%@/", @"http://shout.princeton.edu:8000/api/v1/messages/", messageID];
+    
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    request = [[NSMutableURLRequest alloc] init];
+    NSString *authStr = sharedUserToken;
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -473,13 +481,7 @@
     NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
-    
-    //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    //        if(data.length > 0)
-    //        {
-    //            //success
-    //        }
-    //    }];
+
     NSURLResponse *response;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];

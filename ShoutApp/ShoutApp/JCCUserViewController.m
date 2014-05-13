@@ -188,6 +188,7 @@
     [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
     
+    
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
     
@@ -211,8 +212,6 @@
     
     //add my shouts button
     myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
-//    myShoutsButton.backgroundColor = [UIColor darkGrayColor];
-//    myShoutsButton.alpha = 0.4;
     myShoutsButton.backgroundColor = [UIColor blackColor];
     [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
     [self.view addSubview:myShoutsButton];
@@ -228,6 +227,7 @@
     [self addChildViewController:tableViewController];
     // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
+    [table addGestureRecognizer:gestureLeftRecognizer];
     
     
     
@@ -242,6 +242,9 @@
     
     myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
     [self.view addSubview:myNumLikesReceived];
+    
+    
+
 
 }
 
