@@ -18,6 +18,10 @@
     //  get the the users information
     NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/users/getMyProfile/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -47,6 +51,10 @@
     //  get the the users information
     NSString *url = [NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherProfile?username=", otherUsername];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -77,6 +85,9 @@
 {
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/static/shout/images/"];
     NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
@@ -112,6 +123,9 @@
     
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     NSString *authStr = sharedUserToken;
     
@@ -149,6 +163,9 @@
 
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
 
     // authentication
     NSString *authStr = sharedUserToken;
@@ -193,6 +210,10 @@
     
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     [request setURL:[NSURL URLWithString:url2]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -234,6 +255,9 @@
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     // authentication
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
@@ -272,6 +296,10 @@
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     // authentication
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
@@ -306,6 +334,9 @@
     
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     // authentication
     NSString *authStr = sharedUserToken;
@@ -345,6 +376,9 @@
 
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
 
     NSString *authStr = sharedUserToken;
 
@@ -357,7 +391,12 @@
 
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    NSLog(@"%@", error);
+    
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: postDislike, var: theReply = %@", theReply);
@@ -378,6 +417,9 @@
     
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
@@ -408,6 +450,9 @@
     // send the get request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -437,6 +482,9 @@
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shout.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
     
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
@@ -505,6 +553,9 @@
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
+    
     NSString *authStr = sharedUserToken;
     
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
@@ -534,6 +585,9 @@
     
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     // Registration
     [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/users/register/"]];
@@ -566,6 +620,9 @@
     
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    //  10 second timeout interval
+    request.timeoutInterval = 10;
     
     
     // authentication
