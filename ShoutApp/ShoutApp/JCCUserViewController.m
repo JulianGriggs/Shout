@@ -30,13 +30,13 @@
     UIImage *myProfPicture;
     UIImageView *profilePicture;
     JCCMyShoutsTableViewController *tableViewController;
-
+    
     
     UILabel *myUsername;
     UILabel *myMaxRadius;
     UILabel *myNumShouts;
     UILabel *myNumLikesReceived;
-
+    
     
 }
 
@@ -81,7 +81,7 @@
         NSLog(@"Token after logout button: %@", sharedUserToken);
         [self.navigationController popViewControllerAnimated:YES];
     }
-        
+    
 }
 
 
@@ -94,7 +94,7 @@
     // This allocates a post view controller and pushes it on the navigation stack
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
     [alert show];
-
+    
     
 }
 
@@ -117,7 +117,19 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    if (userProfDict == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
     NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
+    
+    if (profPicData == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
+    
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
@@ -154,7 +166,7 @@
     UIView *userView = [[UIView alloc] init];
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
-
+    
     
     // add map in the background
     //  build the location manager
@@ -191,61 +203,63 @@
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    if (userProfDict == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+    }
+    else
+    {
+        // Stores our userID
+        sharedUserID = [userProfDict objectForKey:@"id"];
+        
+        //  add the users profile picture
+        //  add profile picture
+        profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+        [self.view addSubview:profilePicture];
+        
+        
+        //  add an edit profile picture button
+        editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+        [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:editProfPicButton];
+        
+        
+        //  add the navaigation buttons
+        
+        
+        //add my shouts button
+        myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
+        myShoutsButton.backgroundColor = [UIColor blackColor];
+        [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
+        [self.view addSubview:myShoutsButton];
+        
+        tableViewController = [[JCCMyShoutsTableViewController alloc] init];
+        
+        // The table view controller's view
+        UITableView *table = tableViewController.tableView;
+        [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
+        [table setFrame:CGRectMake(0,195,0, 0)];
+        table.contentInset = UIEdgeInsetsMake(0, 0, 194, 0);
+        // Adds the table view controller as a child view controller
+        [self addChildViewController:tableViewController];
+        // Adds the View of the table view controller as a subview
+        [self.view addSubview:table];
+        [table addGestureRecognizer:gestureLeftRecognizer];
+        
+        
+        
+        myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
+        [self.view addSubview:myUsername];
+        
+        myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
+        [self.view addSubview:myMaxRadius];
+        
+        myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+        [self.view addSubview:myNumLikesReceived];
+    }
     
-    // Stores our userID
-    sharedUserID = [userProfDict objectForKey:@"id"];
-
-    //  add the users profile picture
-    //  add profile picture
-    profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
-    [self.view addSubview:profilePicture];
     
     
-    //  add an edit profile picture button
-    editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
-    [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:editProfPicButton];
-    
-    
-    //  add the navaigation buttons
-
-    
-    //add my shouts button
-    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
-    myShoutsButton.backgroundColor = [UIColor blackColor];
-    [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
-    [self.view addSubview:myShoutsButton];
-    
-    tableViewController = [[JCCMyShoutsTableViewController alloc] init];
-    
-    // The table view controller's view
-    UITableView *table = tableViewController.tableView;
-    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
-    [table setFrame:CGRectMake(0,195,0, 0)];
-    table.contentInset = UIEdgeInsetsMake(0, 0, 194, 0);
-    // Adds the table view controller as a child view controller
-    [self addChildViewController:tableViewController];
-    // Adds the View of the table view controller as a subview
-    [self.view addSubview:table];
-    [table addGestureRecognizer:gestureLeftRecognizer];
-    
-    
-    
-    myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
-    [self.view addSubview:myUsername];
-    
-    myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
-    [self.view addSubview:myMaxRadius];
-
-//    myNumShouts = [[UILabel alloc] initWithFrame:CGRectMake(100, 160, 200, 30)];
-//    [self.view addSubview:myNumShouts];
-    
-    myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
-    [self.view addSubview:myNumLikesReceived];
-    
-    
-
-
 }
 
 
@@ -255,7 +269,7 @@
 //  handle the edit profile picture button being pressed
 -(IBAction)editProfPicButtonPressed:(id)sender
 {
-     JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
+    JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
     profPicView.profPicture = myProfPicture;
     [self.navigationController pushViewController:profPicView animated:YES];
 }
@@ -310,14 +324,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

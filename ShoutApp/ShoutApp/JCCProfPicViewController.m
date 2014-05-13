@@ -91,7 +91,18 @@
     }
     //  set the background image to the current profile picture
     NSDictionary *userProfile = [JCCMakeRequests getUserProfile];
+    if (userProfile == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
     NSData *profileImage = [JCCMakeRequests getProfileImage:userProfile];
+    
+    if (profileImage)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
     UIImage *actualPhoto = [[UIImage alloc] initWithData:profileImage];
     [self.imageView setImage:actualPhoto];
     self.takePhotoButton.layer.cornerRadius = 8.0;

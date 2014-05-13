@@ -76,18 +76,6 @@
         cell.UpLabel.backgroundColor = [UIColor blackColor];
         cell.UpLabel.layer.cornerRadius = 8.0;
         cell.UpLabel.layer.masksToBounds = YES;
-        
-        // post the like
-        [JCCMakeRequests postLike:getMessageID];
-        
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
-        [self.tableView reloadData];
-        
     }
     else
     {
@@ -95,17 +83,16 @@
         [cell.UpLabel setTextColor:[UIColor blackColor]];
         cell.UpLabel.backgroundColor = [UIColor whiteColor];
         
-        
-        // post the like
-        [JCCMakeRequests postLike:getMessageID];
-        
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
+    }
+    
+    // post the like
+    if([JCCMakeRequests postLike:getMessageID] == nil || [self fetchShouts] == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
+    else
+    {
         [self.tableView reloadData];
     }
     
@@ -136,34 +123,22 @@
         cell.DownLabel.backgroundColor = [UIColor blackColor];
         cell.DownLabel.layer.cornerRadius = 8.0;
         cell.DownLabel.layer.masksToBounds = YES;
-        
-        // post the dislike
-        [JCCMakeRequests postDislike:getMessageID];
-        
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
-        [self.tableView reloadData];
-        
     }
     else
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.DownLabel setTextColor:[UIColor blackColor]];
         cell.DownLabel.backgroundColor = [UIColor whiteColor];
-        
-        // post the dislike
-        [JCCMakeRequests postDislike:getMessageID];
-        
-//        //  update the labels
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
+    }
+    // post the dislike
+    if([JCCMakeRequests postDislike:getMessageID] == nil || [self fetchShouts] == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
+    
+    else
+    {
         [self.tableView reloadData];
     }
 }
@@ -240,7 +215,7 @@
 
 
 
-- (void)fetchShouts
+- (NSArray*)fetchShouts
 {
     
     //  handle setting up location updates
@@ -253,7 +228,7 @@
     locationManager.distanceFilter=kCLDistanceFilterNone;
         
     jsonObjects = [JCCMakeRequests getMyShouts];
-    
+    return jsonObjects;
 }
 
 
@@ -340,6 +315,15 @@
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
 
     NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
+    
+    // If no internet
+    if (profPicData == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return cell;
+    }
+    else
+    {
     // Begin configuration of Cell
     
     [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
@@ -384,16 +368,11 @@
             [self setDislikeAsMarked:cell];
     }
 
-    // Hides the Reply and Echo button
-//    [cell.ReplyIconImage setHidden:YES];
-//    [cell.ReplyButton setHidden:YES];
-//    [cell.EchoIconImage setHidden:YES];
-//    [cell.EchoButton setHidden:YES];
     
     [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
-    
+    }
 }
 
 
