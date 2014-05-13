@@ -243,11 +243,6 @@
     [mapView animateToViewingAngle:45];
     
     
-    
-    // mapView.settings.myLocationButton = YES;
-    // Adds compass
-    //    mapView.settings.compassButton = YES;
-    
     NSDictionary* userDict = [JCCMakeRequests getUserProfile];
     maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
     radiusSize = DEFAULT_MIN_RADIUS;

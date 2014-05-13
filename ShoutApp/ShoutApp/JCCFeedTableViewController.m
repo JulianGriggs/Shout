@@ -78,15 +78,22 @@
         cell.UpLabel.layer.masksToBounds = YES;
         
         // post the like
-        [JCCMakeRequests postLike:getMessageID];
+        if([JCCMakeRequests postLike:getMessageID] == nil)
+        {
+            [JCCMakeRequests displayLackOfInternetAlert];
+            return;
+        };
         
 //        // This parses the response from the server as a JSON object
 //        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
 //        
 //        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
 //        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
+        
         [self fetchShouts];
+        
         [self.tableView reloadData];
+
         
     }
     else
@@ -97,7 +104,12 @@
         
         
         // post the like
-        [JCCMakeRequests postLike:getMessageID];
+        if([JCCMakeRequests postLike:getMessageID] == nil)
+        {
+            [JCCMakeRequests displayLackOfInternetAlert];
+            return;
+        };
+
         
 //        // This parses the response from the server as a JSON object
 //        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
