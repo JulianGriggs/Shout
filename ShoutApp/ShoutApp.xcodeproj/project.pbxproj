@@ -53,6 +53,7 @@
 		755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */; };
 		7577227D191EA40E009A9704 /* JCCOtherUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7577227C191EA40E009A9704 /* JCCOtherUserViewController.m */; };
 		75772281191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75772280191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m */; };
+		75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */; };
 		75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */; };
 		75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */; };
 		75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */; };
@@ -136,6 +137,8 @@
 		7577227C191EA40E009A9704 /* JCCOtherUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCOtherUserViewController.m; sourceTree = "<group>"; };
 		7577227F191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCOtherUserShoutsTableViewController.h; sourceTree = "<group>"; };
 		75772280191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCOtherUserShoutsTableViewController.m; sourceTree = "<group>"; };
+		75A5565A1921F1E500A9C727 /* JCCBadConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCBadConnectionViewController.h; sourceTree = "<group>"; };
+		75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCBadConnectionViewController.m; sourceTree = "<group>"; };
 		75EC956E191B2C95004AE3F6 /* JCCReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyTableViewCell.h; sourceTree = "<group>"; };
 		75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewCell.m; sourceTree = "<group>"; };
 		75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCReplyTableViewCell.xib; sourceTree = "<group>"; };
@@ -295,6 +298,8 @@
 		61E069C91906D3AA00900A71 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				75A5565A1921F1E500A9C727 /* JCCBadConnectionViewController.h */,
+				75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */,
 				61782094191ABDB300192709 /* JCCMakeRequests.h */,
 				61782095191ABDB300192709 /* JCCMakeRequests.m */,
 				61E069C219060AA600900A71 /* JCCUserCredentials.h */,
@@ -557,6 +562,7 @@
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */,
 				61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */,
+				75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
