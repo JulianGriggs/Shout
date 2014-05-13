@@ -53,6 +53,10 @@
 }
 
 
+
+
+
+// Get the profile of another user
 +(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername
 {
     //  get the the users information
@@ -90,6 +94,8 @@
                                   GETReply options:kNilOptions error:nil];
     return userProfDict;
 }
+
+
 
 
 
@@ -134,6 +140,8 @@
 
 
 
+
+// Post a Reply
 +(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID
 {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
@@ -174,33 +182,34 @@
 #endif
     
     return theReply;
-
+    
 }
 
 
 
 
+// Post a shout message
 +(NSString *) postShout:(NSDictionary *) dictionaryData
 {
-
+    
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-
+    
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //  10 second timeout interval
     request.timeoutInterval = 10;
-
+    
     // authentication
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-
+    
     [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/messages"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:jsonData];
-
+    
     // check the response
     NSURLResponse *response;
     NSError *error = nil;
@@ -255,7 +264,7 @@
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-
+    
     
     // check the response
     NSURLResponse *response;
@@ -304,7 +313,7 @@
     NSString *authStr = sharedUserToken;
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-
+    
     [request setURL:[NSURL URLWithString:url5]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -327,7 +336,7 @@
     
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
-                   GETReply options:kNilOptions error:nil];
+                            GETReply options:kNilOptions error:nil];
     
     return jsonObjects;
 }
@@ -438,23 +447,23 @@
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
     NSString *url1 = [url stringByAppendingString:messageID];
     NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
-
-
+    
+    
     // send the post request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     //  10 second timeout interval
     request.timeoutInterval = 10;
-
+    
     NSString *authStr = sharedUserToken;
-
+    
     NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-
+    
     [request setURL:[NSURL URLWithString:url2]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
+    
     // check the response
     NSURLResponse *response;
     NSError *error;
@@ -618,7 +627,7 @@
     NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
-
+    
     NSURLResponse *response;
     NSError *error;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -682,6 +691,7 @@
 
 
 
+
 // Attempts the the registration.  Upon success YES is returned.  Upon failure, NO is returned.
 +(BOOL) attemptRegistration:(NSDictionary *) dictionaryData
 {
@@ -723,6 +733,8 @@
 
 
 
+
+
 // Attempts the login.  Upon success the token is returned.  Upon failure, nil is returned.
 +(NSString *)attemptAuth: (NSDictionary *) dictionaryData
 {
@@ -738,7 +750,7 @@
     
     // authentication
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", [dictionaryData objectForKey:@"username"] , [dictionaryData objectForKey:@"password"]];
-
+    
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -758,13 +770,13 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-
+    
 #ifdef DEBUG
     NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
 #endif
     
     
-
+    
     if (GETReply == nil) return nil; // Failure (Probably didn't give a valid username / password)
     
     else
@@ -778,6 +790,10 @@
         return token;
     }
 }
+
+
+
+
 
 +(void) displayLackOfInternetAlert
 {

@@ -64,7 +64,7 @@
 // Populates all of the data
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:theirUsername.text];
     if (userProfDict == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
