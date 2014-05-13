@@ -99,7 +99,7 @@
     }
     NSData *profileImage = [JCCMakeRequests getProfileImage:userProfile];
     
-    if (profileImage)
+    if (profileImage == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [self.navigationController pushViewController:badView animated:NO];
