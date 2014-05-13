@@ -35,6 +35,12 @@
     NSURLResponse *response;
     NSError *error;
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    //  return nil if the internet connection is poor
+    if (error.code == 1009)
+        return nil;
+    
+    
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
@@ -400,8 +406,6 @@
     
     NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
-    NSLog(@"%@", error);
-    
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: postDislike, var: theReply = %@", theReply);
@@ -436,7 +440,14 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    //  return nil if the internet connection is poor
+    if (error.code == 1009)
+        return nil;
+    
+    
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: postLike, var: theReply = %@", theReply);
@@ -469,7 +480,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
 #ifdef DEBUG
@@ -536,7 +548,8 @@
     
 
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
 #ifdef DEBUG
@@ -572,7 +585,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
 #ifdef DEBUG
@@ -602,7 +616,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
     NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
@@ -644,7 +659,8 @@
     
     // check the response
     NSURLResponse *response;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSError *error;
+    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 
 #ifdef DEBUG
