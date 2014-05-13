@@ -21,11 +21,15 @@
     
 }
 
+
+
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
 }
+
 
 
 
@@ -40,6 +44,10 @@
     
 }
 
+
+
+
+
 - (IBAction)selectPhoto:(UIButton *)sender {
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -52,7 +60,9 @@
     
 }
 
-#pragma mark - Image Picker Controller delegate methods
+
+
+
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
@@ -65,11 +75,16 @@
     
 }
 
+
+
+
+
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
+
 
 
 

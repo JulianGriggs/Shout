@@ -16,6 +16,11 @@
 {
     UIImage *newProfImage;
 }
+
+
+
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -25,12 +30,21 @@
     return self;
 }
 
+
+
+
+
+// Called the first time the view loads
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.imageView setImage:self.profPicture];
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {

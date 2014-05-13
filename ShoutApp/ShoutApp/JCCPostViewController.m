@@ -19,16 +19,6 @@
 
 @interface JCCPostViewController ()
 
-    
-
-
-
-
-//@property (weak, nonatomic) IBOutlet UITextView *postTextView;
-//@property (weak, nonatomic) IBOutlet UIButton *shoutButton;
-
-
-//  map shit
 
 @end
 
@@ -53,7 +43,6 @@
 
 
 
-// map stuff
 
 
 // Action that changes the radius of the circle overlay whenever the the slider is changed
@@ -72,9 +61,8 @@
     // Creates a marker at current position.
     [self addLocationMarker:currentLocationMarker withPostion:myCurrentLocation withTitle:@"Me" withSnippet:@"My Location" withColor:[UIColor blueColor]];
     [self addLocationMarker:destinationLocationMarker withPostion:destinationLocation withTitle:@"Destination" withSnippet:nil withColor:[UIColor redColor]];
-
-    
 }
+
 
 
 
@@ -99,6 +87,7 @@
 
 
 
+// Sends the POST shout request
 - (IBAction)postShout:(id)sender
 {
     
@@ -138,8 +127,7 @@
 
 
 
-
-
+// Called to determine if the text view should begin editing when prompted
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     return YES;
@@ -149,6 +137,7 @@
 
 
 
+// Called when the textview does begin editing
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@"Let's hear it!"])
@@ -163,6 +152,7 @@
 
 
 
+// Makes sure that the person doesn't send too much text or newlines
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     
@@ -180,6 +170,7 @@
 
 
 
+// Called when the text view finished editing
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@""]) {
@@ -193,6 +184,7 @@
 
 
 
+// Called when a long tap is pressed at a coordinate
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     circle.map = nil;
@@ -406,15 +398,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 
 @end

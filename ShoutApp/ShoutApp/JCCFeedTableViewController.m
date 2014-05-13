@@ -54,10 +54,8 @@
 // Happens when a user clicks the "UP" button
 @implementation JCCFeedTableViewController
 
-/********************************************************************
- * Actions
- *******************************************************************/
 
+// Send the like
 - (IBAction)sendUp:(UIButton*)sender
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -280,6 +278,7 @@
 
 
 
+
 // updates the location
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
@@ -308,6 +307,7 @@
 
 
 
+
 // fetch all of the shouts from the users location
 - (NSArray*)fetchShouts
 {
@@ -323,7 +323,7 @@
 
 
 
-
+// Number of sections in the table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.

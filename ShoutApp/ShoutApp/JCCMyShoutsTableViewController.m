@@ -56,6 +56,8 @@
 
 
 
+
+// Send the like
 - (IBAction)sendUp:(UIButton*)sender
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -265,6 +267,9 @@
 }
 
 
+
+
+
 // converts a UTC string to a date object
 - (NSString *) formatTime:(NSString *) timeString
 {
@@ -320,8 +325,7 @@
 
 
 
-
-
+// Called every time a cell is loaded into the table
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"messageCell1";
@@ -401,6 +405,8 @@
 
 
 
+
+
 // Sets default to white background and black text for like/dislike labels
 -(void)setDefaultLikeDislike:(JCCTableViewCell1*)cell
 {
@@ -417,6 +423,8 @@
 
 
 
+
+
 // if the user is found in the list for having liked, then highlight the like label
 -(void)setLikeAsMarked:(JCCTableViewCell1*)cell
 {
@@ -425,6 +433,9 @@
     cell.UpLabel.layer.cornerRadius = 8.0;
     cell.UpLabel.layer.masksToBounds = YES;
 }
+
+
+
 
 
 // if the user is found in the list for having disliked, then highlight the like label
@@ -438,6 +449,9 @@
 
 
 
+
+
+// Height of each cell in the table
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 140;
@@ -447,6 +461,7 @@
 
 
 
+// Number of sections in the table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -479,6 +494,7 @@
 
 
 
+// Called every time before the view appears
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
@@ -486,6 +502,10 @@
 }
 
 
+
+
+
+// Refreshes the data and then reloads the table
 - (void)refresh
 {
     // Do something...
@@ -498,6 +518,7 @@
 
 
 
+// Called the first time the view loads
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -525,6 +546,7 @@
 
 
 
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -533,18 +555,5 @@
 }
 
 
-
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

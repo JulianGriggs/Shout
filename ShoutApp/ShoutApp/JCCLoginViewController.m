@@ -30,6 +30,10 @@
 
 }
 
+
+
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -39,6 +43,11 @@
     return self;
 }
 
+
+
+
+
+// How pressing the return key is handled
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -54,6 +63,7 @@
 
 
 
+// Called when the text fields begins to be edited
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
 
@@ -71,12 +81,20 @@
 
 
 
+
+// Called when the text field is done being edited
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
 }
 
--(void) dismissKeyboard {
+
+
+
+
+// Dismisses the keyboard back to the bottom and moves text fields with it
+-(void) dismissKeyboard
+{
     [userNameField resignFirstResponder];
     [passwordField resignFirstResponder];
     
@@ -90,6 +108,11 @@
     }];
 }
 
+
+
+
+
+// Sends the login attempt
 - (IBAction)postLogin:(id)sender
 {
     
@@ -130,6 +153,8 @@
 
 
 
+
+// Sets the user credentials as global variables upon successful login
 -(void) setUserCredentials:(NSString *)token
 {
     // Sets the username and token for this session of the app
@@ -144,6 +169,9 @@
 
 
 
+
+
+// Adds the app's main view controllers onto the stack
 -(void) addMainViewControllers
 {
     // Created the user view controller
@@ -158,11 +186,15 @@
 
 
 
+
+
+// Moves to the registration page by adding it to the stack
 -(IBAction)moveToRegistration:(id)sender
 {
     JCCRegistrationViewController *registration = [[JCCRegistrationViewController alloc]init];
     [self.navigationController pushViewController:registration animated:YES];
 }
+
 
 
 
@@ -178,6 +210,9 @@
 
 
 
+
+
+// Called every time the view is about to appear
 -(void)viewWillAppear:(BOOL)animated
 {
 //    // Remove back button in top navigation
@@ -188,6 +223,10 @@
 }
 
 
+
+
+
+// Called the first time the view loads
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -283,21 +322,16 @@
     
 }
 
+
+
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -57,8 +57,6 @@
 
 
 
-
-
 // Populates all of the data
 -(void)viewWillAppear:(BOOL)animated
 {

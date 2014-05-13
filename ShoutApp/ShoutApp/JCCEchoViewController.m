@@ -24,11 +24,6 @@
 }
 
 
-//@property (weak, nonatomic) IBOutlet UITextView *postTextView;
-//@property (weak, nonatomic) IBOutlet UIButton *shoutButton;
-
-
-//  map shit
 
 @end
 
@@ -47,6 +42,10 @@
     int maxRadiusSize;
     int radiusSize;
 }
+
+
+
+
 
 // set the text field
 -(void)setTextField:(NSString *)text
@@ -67,7 +66,8 @@
     [self.view addSubview:postTextView];
 }
 
-// map stuff
+
+
 
 
 // Action that changes the radius of the circle overlay whenever the the slider is changed
@@ -90,6 +90,10 @@
     
 }
 
+
+
+
+
 // Method that will add a location marker
 - (void) addLocationMarker:(GMSMarker*)marker withPostion:(CLLocationCoordinate2D)markerPosition withTitle:(NSString *)title withSnippet:(NSString *)snippet withColor:(UIColor*)color
 {
@@ -107,8 +111,10 @@
 }
 
 
-//  other stuff
 
+
+
+// Send the POST rewuest for sending a shout
 - (IBAction)postShout:(id)sender
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
@@ -147,6 +153,8 @@
 
 
 
+
+
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     circle.map = nil;
@@ -163,10 +171,9 @@
     
 }
 
-//-(IBAction)editText:(id)sender
-//{
-//    [postTextView becomeFirstResponder];
-//}
+
+
+
 
 - (IBAction)jumpToLocation:(id)sender
 {
@@ -182,16 +189,23 @@
     }
 }
 
+
+
+
+
 -(void)mapView:(GMSMapView *)mapview willMove:(BOOL)gesture
 {
     [postTextView resignFirstResponder];
 }
 
+
+
+
+
 -(void)mapView:(GMSMapView *)mapview didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [postTextView resignFirstResponder];
 }
-
 
 
 
@@ -298,21 +312,12 @@
 
 
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
