@@ -448,6 +448,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationItem setTitle:@"SHOUT!"];
+    
 
     //  build the location manager
     if (!locationManager)
