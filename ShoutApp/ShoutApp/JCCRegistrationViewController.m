@@ -188,7 +188,7 @@
         
             else
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and internet connection, then try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [alert show];
                 passwordField.text = @"";
             
