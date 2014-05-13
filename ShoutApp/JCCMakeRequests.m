@@ -152,7 +152,7 @@
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
     //  build the appropriate URL
-    NSString *url = [NSString stringWithFormat:@"%@%@",@"http://shout.princeton.edu:8000/api/v1/replies?message_id=", ID];
+    NSString *url = [NSString stringWithFormat:@"%@",@"http://shout.princeton.edu:8000/api/v1/replies"];
     
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];

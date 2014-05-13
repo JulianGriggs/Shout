@@ -106,7 +106,7 @@
     {
         
         //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text};
+        NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text, @"messageID": Id};
         if([JCCMakeRequests postReply:dictionaryData withID:Id] == nil)
         {
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
