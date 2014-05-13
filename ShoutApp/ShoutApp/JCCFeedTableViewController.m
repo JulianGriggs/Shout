@@ -76,50 +76,25 @@
         cell.UpLabel.backgroundColor = [UIColor blackColor];
         cell.UpLabel.layer.cornerRadius = 8.0;
         cell.UpLabel.layer.masksToBounds = YES;
-        
-        // post the like
-        if([JCCMakeRequests postLike:getMessageID] == nil)
-        {
-            [JCCMakeRequests displayLackOfInternetAlert];
-            return;
-        };
-        
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        
-        [self fetchShouts];
-        
-        [self.tableView reloadData];
-
-        
     }
     else
     {
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.UpLabel setTextColor:[UIColor blackColor]];
         cell.UpLabel.backgroundColor = [UIColor whiteColor];
-        
-        
-        // post the like
-        if([JCCMakeRequests postLike:getMessageID] == nil)
-        {
-            [JCCMakeRequests displayLackOfInternetAlert];
-            return;
-        };
-
-        
-//        // This parses the response from the server as a JSON object
-//        NSDictionary *messageDict = [JCCMakeRequests getShoutWithID:getMessageID];
-//
-//        
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"likes"]]];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [messageDict objectForKey:@"dislikes"]]];
-        [self fetchShouts];
+    }
+    
+    // post the like
+    if([JCCMakeRequests postLike:getMessageID] == nil || [self fetchShouts] == nil)
+    {
+        [JCCMakeRequests displayLackOfInternetAlert];
+        return;
+    }
+    else
+    {
         [self.tableView reloadData];
     }
+    
 
 }
 
@@ -289,13 +264,14 @@
 
 
 
-- (void)fetchShouts
+- (NSArray*)fetchShouts
 {
     
     //  get the current location
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
     
     jsonObjects = [JCCMakeRequests getShouts:dictionaryData];
+    return jsonObjects;
     
 }
 
