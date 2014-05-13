@@ -8,6 +8,7 @@
 
 
 #import "JCCOtherUserViewController.h"
+#import "JCCOtherProfPicViewController.h"
 #import "JCCViewController.h"
 #import "JCCLoginViewController.h"
 #import "JCCUserCredentials.h"
@@ -26,6 +27,7 @@
     UIButton *theirShoutsButton;
     UIButton *topShoutsButton;
     UIButton *theirLocationsButton;
+    UIButton *editProfPicButton;
     UIImage *theirProfPicture;
     UIImageView *profilePicture;
     JCCOtherUserShoutsTableViewController *tableViewController;
@@ -131,7 +133,11 @@
     profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
     [self.view addSubview:profilePicture];
     
-    
+    //  add an edit profile picture button
+    editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+    [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:editProfPicButton];
+
     
     //add my shouts button
     theirShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
@@ -208,6 +214,16 @@
     theirLocationsButton.alpha = 0.8;
 }
 
+
+
+
+//  handle the edit profile picture button being pressed
+-(IBAction)editProfPicButtonPressed:(id)sender
+{
+    JCCOtherProfPicViewController *profPicView = [[JCCOtherProfPicViewController alloc] init];
+    profPicView.profPicture = theirProfPicture;
+    [self.navigationController pushViewController:profPicView animated:YES];
+}
 
 
 

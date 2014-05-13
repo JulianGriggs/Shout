@@ -40,6 +40,8 @@
 		61A0CE9218F371DB00B8217A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9118F371DB00B8217A /* OpenGLES.framework */; };
 		61A0CE9418F371E300B8217A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9318F371E300B8217A /* QuartzCore.framework */; };
 		61A0CE9618F371EC00B8217A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */; };
+		61A6FD371921BD4F0095E2EB /* JCCOtherProfPicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A6FD351921BD4F0095E2EB /* JCCOtherProfPicViewController.m */; };
+		61A6FD381921BD4F0095E2EB /* JCCOtherProfPicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A6FD361921BD4F0095E2EB /* JCCOtherProfPicViewController.xib */; };
 		61E069C419060AA600900A71 /* JCCUserCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E069C319060AA600900A71 /* JCCUserCredentials.m */; };
 		61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E069C61906D2DC00900A71 /* JCCRegistrationViewController.m */; };
 		61FBB75118FCA78A00C55ECF /* JCCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FBB75018FCA78A00C55ECF /* JCCLoginViewController.m */; };
@@ -110,6 +112,9 @@
 		61A0CE9118F371DB00B8217A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		61A0CE9318F371E300B8217A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		61A0CE9518F371EC00B8217A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		61A6FD341921BD4F0095E2EB /* JCCOtherProfPicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCOtherProfPicViewController.h; path = ../../../Documents/JCCOtherProfPicViewController.h; sourceTree = "<group>"; };
+		61A6FD351921BD4F0095E2EB /* JCCOtherProfPicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCOtherProfPicViewController.m; path = ../../../Documents/JCCOtherProfPicViewController.m; sourceTree = "<group>"; };
+		61A6FD361921BD4F0095E2EB /* JCCOtherProfPicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = JCCOtherProfPicViewController.xib; path = ../../../Documents/JCCOtherProfPicViewController.xib; sourceTree = "<group>"; };
 		61E069C219060AA600900A71 /* JCCUserCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCUserCredentials.h; sourceTree = "<group>"; };
 		61E069C319060AA600900A71 /* JCCUserCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCUserCredentials.m; sourceTree = "<group>"; };
 		61E069C51906D2DC00900A71 /* JCCRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCRegistrationViewController.h; sourceTree = "<group>"; };
@@ -268,6 +273,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		61A6FD2E1921BC370095E2EB /* OtherProfilePic */ = {
+			isa = PBXGroup;
+			children = (
+				61A6FD341921BD4F0095E2EB /* JCCOtherProfPicViewController.h */,
+				61A6FD351921BD4F0095E2EB /* JCCOtherProfPicViewController.m */,
+				61A6FD361921BD4F0095E2EB /* JCCOtherProfPicViewController.xib */,
+			);
+			name = OtherProfilePic;
+			sourceTree = "<group>";
+		};
 		61E069C81906D38400900A71 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +388,7 @@
 		7577227E191EA509009A9704 /* OtherUser */ = {
 			isa = PBXGroup;
 			children = (
+				61A6FD2E1921BC370095E2EB /* OtherProfilePic */,
 				7577227B191EA40E009A9704 /* JCCOtherUserViewController.h */,
 				7577227C191EA40E009A9704 /* JCCOtherUserViewController.m */,
 				7577227F191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.h */,
@@ -497,6 +513,7 @@
 			files = (
 				7502063519198BDB001BAA49 /* JCCProfPicViewController.xib in Resources */,
 				61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */,
+				61A6FD381921BD4F0095E2EB /* JCCOtherProfPicViewController.xib in Resources */,
 				6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */,
 				61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */,
 				75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */,
@@ -530,6 +547,7 @@
 				7502063419198BDB001BAA49 /* JCCProfPicViewController.m in Sources */,
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,
 				61A0CE3D18F08A8C00B8217A /* main.m in Sources */,
+				61A6FD371921BD4F0095E2EB /* JCCOtherProfPicViewController.m in Sources */,
 				61FBB75118FCA78A00C55ECF /* JCCLoginViewController.m in Sources */,
 				6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */,
 				75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */,
