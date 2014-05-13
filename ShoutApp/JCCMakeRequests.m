@@ -592,7 +592,6 @@
     
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:60];
     [request setHTTPMethod:@"PUT"];
     
     NSString *boundary = @"unique-consistent-string";
