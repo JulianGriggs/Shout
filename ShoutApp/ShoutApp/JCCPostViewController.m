@@ -300,10 +300,6 @@
     [mapView animateToViewingAngle:45];
     
     
-   // mapView.settings.myLocationButton = YES;
-    // Adds compass
-//    mapView.settings.compassButton = YES;
-    
     NSDictionary* userDict = [JCCMakeRequests getUserProfile];
     if (userDict == nil)
     {
@@ -355,8 +351,6 @@
     
     // Recreating myLocation Button
     UIImage* myLocationIcon = [UIImage imageNamed:@"MyLocation.png"];
-    // Adds button that jumps back to current location
-//    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
     UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, outerWindowHeight * 0.875, 35, 35)];
     myLocationButton.layer.cornerRadius = 8.0;
     [myLocationButton setBackgroundColor:[UIColor blackColor]];
