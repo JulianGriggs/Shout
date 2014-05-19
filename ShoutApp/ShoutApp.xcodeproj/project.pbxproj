@@ -7,15 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6109D47B1921CFA000EB8AED /* JCCOtherProfPicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6109D4791921CFA000EB8AED /* JCCOtherProfPicViewController.m */; };
-		6109D47C1921CFA000EB8AED /* JCCOtherProfPicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6109D47A1921CFA000EB8AED /* JCCOtherProfPicViewController.xib */; };
-		61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61782095191ABDB300192709 /* JCCMakeRequests.m */; };
 		6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */; };
 		6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */; };
-		6184A941192A4C9500F939E5 /* JCCLikeDislikeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */; };
-		6184A945192A540B00F939E5 /* JCCReplyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A944192A540B00F939E5 /* JCCReplyHandler.m */; };
-		6184A948192A54E400F939E5 /* JCCMuteHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A947192A54E400F939E5 /* JCCMuteHandler.m */; };
-		6184A94B192A54F300F939E5 /* JCCEchoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A94A192A54F300F939E5 /* JCCEchoHandler.m */; };
+		6184A953192A64BF00F939E5 /* JCCOtherProfPicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A94D192A64BF00F939E5 /* JCCOtherProfPicViewController.m */; };
+		6184A954192A64BF00F939E5 /* JCCOtherProfPicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6184A94E192A64BF00F939E5 /* JCCOtherProfPicViewController.xib */; };
+		6184A955192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A950192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.m */; };
+		6184A956192A64BF00F939E5 /* JCCOtherUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A952192A64BF00F939E5 /* JCCOtherUserViewController.m */; };
+		6184A961192A651300F939E5 /* JCCEchoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A958192A651300F939E5 /* JCCEchoHandler.m */; };
+		6184A962192A651300F939E5 /* JCCLikeDislikeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A95A192A651300F939E5 /* JCCLikeDislikeHandler.m */; };
+		6184A963192A651300F939E5 /* JCCMakeRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A95C192A651300F939E5 /* JCCMakeRequests.m */; };
+		6184A964192A651300F939E5 /* JCCMuteHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A95E192A651300F939E5 /* JCCMuteHandler.m */; };
+		6184A965192A651300F939E5 /* JCCReplyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A960192A651300F939E5 /* JCCReplyHandler.m */; };
 		619B901619106FB800B9E728 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619B901519106FB800B9E728 /* GoogleMaps.framework */; };
 		619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 619B901719106FF500B9E728 /* GoogleMaps.bundle */; };
 		61A0CE3118F08A8C00B8217A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3018F08A8C00B8217A /* Foundation.framework */; };
@@ -55,8 +57,6 @@
 		755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF518F4779E00DB52D9 /* JCCViewController.m */; };
 		755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */; };
 		755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */; };
-		7577227D191EA40E009A9704 /* JCCOtherUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7577227C191EA40E009A9704 /* JCCOtherUserViewController.m */; };
-		75772281191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75772280191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m */; };
 		75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */; };
 		75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC956F191B2C95004AE3F6 /* JCCReplyTableViewCell.m */; };
 		75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */; };
@@ -75,22 +75,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6109D4781921CFA000EB8AED /* JCCOtherProfPicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCOtherProfPicViewController.h; sourceTree = "<group>"; };
-		6109D4791921CFA000EB8AED /* JCCOtherProfPicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCOtherProfPicViewController.m; sourceTree = "<group>"; };
-		6109D47A1921CFA000EB8AED /* JCCOtherProfPicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCOtherProfPicViewController.xib; sourceTree = "<group>"; };
-		61782094191ABDB300192709 /* JCCMakeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCMakeRequests.h; sourceTree = "<group>"; };
-		61782095191ABDB300192709 /* JCCMakeRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCMakeRequests.m; sourceTree = "<group>"; };
 		6178FCAC191DD21C00B206B7 /* JCCTableViewCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell1.h; sourceTree = "<group>"; };
 		6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell1.m; sourceTree = "<group>"; };
 		6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCTableViewCell1.xib; sourceTree = "<group>"; };
-		6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCLikeDislikeHandler.h; sourceTree = "<group>"; };
-		6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCLikeDislikeHandler.m; sourceTree = "<group>"; };
-		6184A943192A540B00F939E5 /* JCCReplyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyHandler.h; sourceTree = "<group>"; };
-		6184A944192A540B00F939E5 /* JCCReplyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyHandler.m; sourceTree = "<group>"; };
-		6184A946192A54E400F939E5 /* JCCMuteHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCMuteHandler.h; sourceTree = "<group>"; };
-		6184A947192A54E400F939E5 /* JCCMuteHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCMuteHandler.m; sourceTree = "<group>"; };
-		6184A949192A54F300F939E5 /* JCCEchoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEchoHandler.h; sourceTree = "<group>"; };
-		6184A94A192A54F300F939E5 /* JCCEchoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEchoHandler.m; sourceTree = "<group>"; };
+		6184A94C192A64BF00F939E5 /* JCCOtherProfPicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCOtherProfPicViewController.h; path = ShoutApp/JCCOtherProfPicViewController.h; sourceTree = "<group>"; };
+		6184A94D192A64BF00F939E5 /* JCCOtherProfPicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCOtherProfPicViewController.m; path = ShoutApp/JCCOtherProfPicViewController.m; sourceTree = "<group>"; };
+		6184A94E192A64BF00F939E5 /* JCCOtherProfPicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = JCCOtherProfPicViewController.xib; path = ShoutApp/JCCOtherProfPicViewController.xib; sourceTree = "<group>"; };
+		6184A94F192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCOtherUserShoutsTableViewController.h; path = ShoutApp/JCCOtherUserShoutsTableViewController.h; sourceTree = "<group>"; };
+		6184A950192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCOtherUserShoutsTableViewController.m; path = ShoutApp/JCCOtherUserShoutsTableViewController.m; sourceTree = "<group>"; };
+		6184A951192A64BF00F939E5 /* JCCOtherUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCOtherUserViewController.h; path = ShoutApp/JCCOtherUserViewController.h; sourceTree = "<group>"; };
+		6184A952192A64BF00F939E5 /* JCCOtherUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCOtherUserViewController.m; path = ShoutApp/JCCOtherUserViewController.m; sourceTree = "<group>"; };
+		6184A957192A651300F939E5 /* JCCEchoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCEchoHandler.h; path = ShoutApp/JCCEchoHandler.h; sourceTree = "<group>"; };
+		6184A958192A651300F939E5 /* JCCEchoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCEchoHandler.m; path = ShoutApp/JCCEchoHandler.m; sourceTree = "<group>"; };
+		6184A959192A651300F939E5 /* JCCLikeDislikeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCLikeDislikeHandler.h; path = ShoutApp/JCCLikeDislikeHandler.h; sourceTree = "<group>"; };
+		6184A95A192A651300F939E5 /* JCCLikeDislikeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCLikeDislikeHandler.m; path = ShoutApp/JCCLikeDislikeHandler.m; sourceTree = "<group>"; };
+		6184A95B192A651300F939E5 /* JCCMakeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCMakeRequests.h; path = ShoutApp/JCCMakeRequests.h; sourceTree = "<group>"; };
+		6184A95C192A651300F939E5 /* JCCMakeRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCMakeRequests.m; path = ShoutApp/JCCMakeRequests.m; sourceTree = "<group>"; };
+		6184A95D192A651300F939E5 /* JCCMuteHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCMuteHandler.h; path = ShoutApp/JCCMuteHandler.h; sourceTree = "<group>"; };
+		6184A95E192A651300F939E5 /* JCCMuteHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCMuteHandler.m; path = ShoutApp/JCCMuteHandler.m; sourceTree = "<group>"; };
+		6184A95F192A651300F939E5 /* JCCReplyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCReplyHandler.h; path = ShoutApp/JCCReplyHandler.h; sourceTree = "<group>"; };
+		6184A960192A651300F939E5 /* JCCReplyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCReplyHandler.m; path = ShoutApp/JCCReplyHandler.m; sourceTree = "<group>"; };
 		619B901519106FB800B9E728 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		619B901719106FF500B9E728 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		61A0CE2D18F08A8C00B8217A /* ShoutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,10 +149,6 @@
 		755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCUserViewController.m; sourceTree = "<group>"; };
 		755AAEFA18F7307600DB52D9 /* JCCEchoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEchoViewController.h; sourceTree = "<group>"; };
 		755AAEFB18F7307600DB52D9 /* JCCEchoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEchoViewController.m; sourceTree = "<group>"; };
-		7577227B191EA40E009A9704 /* JCCOtherUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCOtherUserViewController.h; sourceTree = "<group>"; };
-		7577227C191EA40E009A9704 /* JCCOtherUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCOtherUserViewController.m; sourceTree = "<group>"; };
-		7577227F191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCOtherUserShoutsTableViewController.h; sourceTree = "<group>"; };
-		75772280191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCOtherUserShoutsTableViewController.m; sourceTree = "<group>"; };
 		75A5565A1921F1E500A9C727 /* JCCBadConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCBadConnectionViewController.h; sourceTree = "<group>"; };
 		75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCBadConnectionViewController.m; sourceTree = "<group>"; };
 		75EC956E191B2C95004AE3F6 /* JCCReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyTableViewCell.h; sourceTree = "<group>"; };
@@ -200,16 +200,16 @@
 		6184A942192A53AA00F939E5 /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				61782094191ABDB300192709 /* JCCMakeRequests.h */,
-				61782095191ABDB300192709 /* JCCMakeRequests.m */,
-				6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */,
-				6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */,
-				6184A943192A540B00F939E5 /* JCCReplyHandler.h */,
-				6184A944192A540B00F939E5 /* JCCReplyHandler.m */,
-				6184A946192A54E400F939E5 /* JCCMuteHandler.h */,
-				6184A947192A54E400F939E5 /* JCCMuteHandler.m */,
-				6184A949192A54F300F939E5 /* JCCEchoHandler.h */,
-				6184A94A192A54F300F939E5 /* JCCEchoHandler.m */,
+				6184A957192A651300F939E5 /* JCCEchoHandler.h */,
+				6184A958192A651300F939E5 /* JCCEchoHandler.m */,
+				6184A959192A651300F939E5 /* JCCLikeDislikeHandler.h */,
+				6184A95A192A651300F939E5 /* JCCLikeDislikeHandler.m */,
+				6184A95B192A651300F939E5 /* JCCMakeRequests.h */,
+				6184A95C192A651300F939E5 /* JCCMakeRequests.m */,
+				6184A95D192A651300F939E5 /* JCCMuteHandler.h */,
+				6184A95E192A651300F939E5 /* JCCMuteHandler.m */,
+				6184A95F192A651300F939E5 /* JCCReplyHandler.h */,
+				6184A960192A651300F939E5 /* JCCReplyHandler.m */,
 			);
 			name = Handlers;
 			path = ..;
@@ -310,9 +310,9 @@
 		61A6FD2E1921BC370095E2EB /* OtherProfilePic */ = {
 			isa = PBXGroup;
 			children = (
-				6109D4781921CFA000EB8AED /* JCCOtherProfPicViewController.h */,
-				6109D4791921CFA000EB8AED /* JCCOtherProfPicViewController.m */,
-				6109D47A1921CFA000EB8AED /* JCCOtherProfPicViewController.xib */,
+				6184A94C192A64BF00F939E5 /* JCCOtherProfPicViewController.h */,
+				6184A94D192A64BF00F939E5 /* JCCOtherProfPicViewController.m */,
+				6184A94E192A64BF00F939E5 /* JCCOtherProfPicViewController.xib */,
 			);
 			name = OtherProfilePic;
 			sourceTree = "<group>";
@@ -422,11 +422,11 @@
 		7577227E191EA509009A9704 /* OtherUser */ = {
 			isa = PBXGroup;
 			children = (
+				6184A94F192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.h */,
+				6184A950192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.m */,
+				6184A951192A64BF00F939E5 /* JCCOtherUserViewController.h */,
+				6184A952192A64BF00F939E5 /* JCCOtherUserViewController.m */,
 				61A6FD2E1921BC370095E2EB /* OtherProfilePic */,
-				7577227B191EA40E009A9704 /* JCCOtherUserViewController.h */,
-				7577227C191EA40E009A9704 /* JCCOtherUserViewController.m */,
-				7577227F191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.h */,
-				75772280191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m */,
 			);
 			name = OtherUser;
 			path = ..;
@@ -547,10 +547,10 @@
 			files = (
 				7502063519198BDB001BAA49 /* JCCProfPicViewController.xib in Resources */,
 				61A0CE4918F08A8C00B8217A /* Images.xcassets in Resources */,
-				6109D47C1921CFA000EB8AED /* JCCOtherProfPicViewController.xib in Resources */,
 				6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */,
 				61A0CE3B18F08A8C00B8217A /* InfoPlist.strings in Resources */,
 				75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */,
+				6184A954192A64BF00F939E5 /* JCCOtherProfPicViewController.xib in Resources */,
 				61A0CE7A18F0A86C00B8217A /* CustomPostView.xib in Resources */,
 				619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */,
 			);
@@ -571,31 +571,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6184A941192A4C9500F939E5 /* JCCLikeDislikeHandler.m in Sources */,
-				75772281191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m in Sources */,
-				6184A94B192A54F300F939E5 /* JCCEchoHandler.m in Sources */,
+				6184A963192A651300F939E5 /* JCCMakeRequests.m in Sources */,
+				6184A953192A64BF00F939E5 /* JCCOtherProfPicViewController.m in Sources */,
+				6184A955192A64BF00F939E5 /* JCCOtherUserShoutsTableViewController.m in Sources */,
 				61E069C419060AA600900A71 /* JCCUserCredentials.m in Sources */,
 				75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */,
-				7577227D191EA40E009A9704 /* JCCOtherUserViewController.m in Sources */,
 				75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */,
+				6184A956192A64BF00F939E5 /* JCCOtherUserViewController.m in Sources */,
 				755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */,
 				61A0CE6A18F08AE300B8217A /* JCCFeedTableViewController.m in Sources */,
 				7502063419198BDB001BAA49 /* JCCProfPicViewController.m in Sources */,
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,
 				61A0CE3D18F08A8C00B8217A /* main.m in Sources */,
-				6109D47B1921CFA000EB8AED /* JCCOtherProfPicViewController.m in Sources */,
+				6184A961192A651300F939E5 /* JCCEchoHandler.m in Sources */,
 				61FBB75118FCA78A00C55ECF /* JCCLoginViewController.m in Sources */,
 				6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */,
 				75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */,
 				755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */,
 				61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */,
+				6184A965192A651300F939E5 /* JCCReplyHandler.m in Sources */,
 				75020638191998DB001BAA49 /* JCCMyShoutsTableViewController.m in Sources */,
-				6184A948192A54E400F939E5 /* JCCMuteHandler.m in Sources */,
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
+				6184A962192A651300F939E5 /* JCCLikeDislikeHandler.m in Sources */,
 				61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */,
-				61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */,
 				75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */,
-				6184A945192A540B00F939E5 /* JCCReplyHandler.m in Sources */,
+				6184A964192A651300F939E5 /* JCCMuteHandler.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
