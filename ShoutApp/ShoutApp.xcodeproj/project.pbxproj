@@ -12,6 +12,7 @@
 		61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61782095191ABDB300192709 /* JCCMakeRequests.m */; };
 		6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */; };
 		6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */; };
+		6184A941192A4C9500F939E5 /* JCCLikeDislikeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */; };
 		619B901619106FB800B9E728 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619B901519106FB800B9E728 /* GoogleMaps.framework */; };
 		619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 619B901719106FF500B9E728 /* GoogleMaps.bundle */; };
 		61A0CE3118F08A8C00B8217A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3018F08A8C00B8217A /* Foundation.framework */; };
@@ -79,6 +80,8 @@
 		6178FCAC191DD21C00B206B7 /* JCCTableViewCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell1.h; sourceTree = "<group>"; };
 		6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell1.m; sourceTree = "<group>"; };
 		6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCTableViewCell1.xib; sourceTree = "<group>"; };
+		6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCLikeDislikeHandler.h; sourceTree = "<group>"; };
+		6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCLikeDislikeHandler.m; sourceTree = "<group>"; };
 		619B901519106FB800B9E728 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		619B901719106FF500B9E728 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		61A0CE2D18F08A8C00B8217A /* ShoutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +191,8 @@
 		61A0CE2418F08A8C00B8217A = {
 			isa = PBXGroup;
 			children = (
+				6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */,
+				6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */,
 				61A0CE3618F08A8C00B8217A /* ShoutApp */,
 				61A0CE5518F08A8C00B8217A /* ShoutAppTests */,
 				61A0CE2F18F08A8C00B8217A /* Frameworks */,
@@ -542,6 +547,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6184A941192A4C9500F939E5 /* JCCLikeDislikeHandler.m in Sources */,
 				75772281191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m in Sources */,
 				61E069C419060AA600900A71 /* JCCUserCredentials.m in Sources */,
 				75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */,
