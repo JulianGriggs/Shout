@@ -212,12 +212,12 @@
 				6184A94A192A54F300F939E5 /* JCCEchoHandler.m */,
 			);
 			name = Handlers;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		61A0CE2418F08A8C00B8217A = {
 			isa = PBXGroup;
 			children = (
-				6184A942192A53AA00F939E5 /* Handlers */,
 				61A0CE3618F08A8C00B8217A /* ShoutApp */,
 				61A0CE5518F08A8C00B8217A /* ShoutAppTests */,
 				61A0CE2F18F08A8C00B8217A /* Frameworks */,
@@ -262,6 +262,7 @@
 		61A0CE3618F08A8C00B8217A /* ShoutApp */ = {
 			isa = PBXGroup;
 			children = (
+				6184A942192A53AA00F939E5 /* Handlers */,
 				755AAF081901B50A00DB52D9 /* Echo */,
 				755AAF071901B4D300DB52D9 /* Post */,
 				61E069C81906D38400900A71 /* Registration */,
