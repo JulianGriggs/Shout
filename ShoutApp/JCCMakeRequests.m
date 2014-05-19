@@ -11,25 +11,28 @@
 
 @implementation JCCMakeRequests
 
-
-// Returns an NSDictionary with the user's profile information
-+(NSDictionary *)getUserProfile
++(NSData*)sendGenericRequestWithURL:(NSString *)url withType:(NSString*)HTTPMethod withData:(NSData*) jsonData withCustomRequest:(NSMutableURLRequest *) customRequest
 {
-    //  get the the users information
-    NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/users/getMyProfile/"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
+    NSMutableURLRequest *request;
+    if (customRequest == nil)
+    {
+        request = [[NSMutableURLRequest alloc] init];
+        
+        //  10 second timeout interval
+        request.timeoutInterval = 10;
+        
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:HTTPMethod];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:jsonData];
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    }
+    else
+    {
+        request = customRequest;
+    }
     
     // check the response
     NSURLResponse *response;
@@ -39,7 +42,21 @@
     //  return nil if the internet connection is poor
     if (error.code == -1009)
         return nil;
+    return GETReply;
     
+}
+
+// Returns an NSDictionary with the user's profile information
++(NSDictionary *)getUserProfile
+{
+    //  get the the users information
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/users/getMyProfile/"];
+    
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    
+    //  return nil if the internet connection is poor
+    if (GETReply == nil)
+        return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
@@ -50,6 +67,7 @@
     NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
                                   GETReply options:kNilOptions error:nil];
     return userProfDict;
+    
 }
 
 
@@ -61,27 +79,11 @@
 {
     //  get the the users information
     NSString *url = [NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherProfile?username=", otherUsername];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -102,32 +104,13 @@
 // Returns an NSData object with the user's profile image
 +(NSData*)getProfileImage:(NSDictionary *) dictShout
 {
-    // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/static/shout/images/"];
-    NSString *url1 = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
     
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    NSLog(@"%@", authValue);
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url1]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    //    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error = nil;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -144,36 +127,17 @@
 // Post a Reply
 +(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID
 {
+    // Encode dictionary data in json
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
-    
-    
-    // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    NSString *authStr = sharedUserToken;
-    
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    NSLog(@"%@", authValue);
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
     //  build the appropriate URL
     NSString *url = [NSString stringWithFormat:@"%@",@"http://shout.princeton.edu:8000/api/v1/replies"];
     
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    // send the post request
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -188,35 +152,21 @@
 
 
 
+
 // Post a shout message
 +(NSString *) postShout:(NSDictionary *) dictionaryData
 {
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
+    //  get the the users information
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/messages"];
+    
     // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/messages"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error = nil;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -230,49 +180,19 @@
 
 
 
-// Gets the max radius size
-+(int) getMaxRadiusSize:(NSDictionary *) userDict
-{
-    NSNumber *maxRadius = [userDict objectForKey:@"maxRadius"];
-    NSLog(@"MaxRadius: %@", maxRadius);
-    return [maxRadius intValue];
-}
-
-
-
-
-
 // Returns the list of replies
 +(NSArray *) getReplies:(NSString *) ID
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/replies?"];
-    NSString *url1 = [url stringByAppendingString:@"message_id="];
-    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", ID]];
+    url = [url stringByAppendingString:@"message_id="];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", ID]];
     
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    [request setURL:[NSURL URLWithString:url2]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    // send the post request
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -297,35 +217,18 @@
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages?"];
-    NSString *url1 = [url stringByAppendingString:@"latitude="];
-    NSString *url2 = [url1 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"latitude"]]];
-    NSString *url3 = [url2 stringByAppendingString:@"&"];
-    NSString *url4 = [url3 stringByAppendingString:@"longitude="];
-    NSString *url5 = [url4 stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
-    
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url5]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    url = [url stringByAppendingString:@"latitude="];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"latitude"]]];
+    url = [url stringByAppendingString:@"&"];
+    url = [url stringByAppendingString:@"longitude="];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
     
     
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    // send the post request
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -351,30 +254,11 @@
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/getMyShouts/"];
     
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    // send the post request
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -399,29 +283,11 @@
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherShouts?username=", otherUsername]];
     
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    // authentication
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    // send the post request
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -445,32 +311,14 @@
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
-    NSString *url1 = [url stringByAppendingString:messageID];
-    NSString *url2 = [url1 stringByAppendingString:@"/dislike"];
-    
+    url = [url stringByAppendingString:messageID];
+    url = [url stringByAppendingString:@"/dislike"];
     
     // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
     
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    NSString *authStr = sharedUserToken;
-    
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url2]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -489,36 +337,15 @@
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
-    NSString *url1 = [url stringByAppendingString:messageID];
-    NSString *url2 = [url1 stringByAppendingString:@"/like"];
-    
+    url = [url stringByAppendingString:messageID];
+    url = [url stringByAppendingString:@"/like"];
     
     // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url2]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
-    {
+    if (GETReply == nil)
         return nil;
-    }
-    
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
 #ifdef DEBUG
@@ -537,30 +364,12 @@
     // make the url with query variables
     NSString *url = [NSString stringWithFormat:@"%@%@/", @"http://shout.princeton.edu:8000/api/v1/messages/", messageID];
     
-    // send the get request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    NSString *authStr = sharedUserToken;
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    // send the GET request
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
-    
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     
@@ -575,8 +384,7 @@
 
 
 
-
-+(NSString*)sendImageToServer:(UIImage *)newProfImage
++(NSMutableURLRequest*) buildUploadPhotoRequest:(UIImage *)newProfImage
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shout.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
     
@@ -619,20 +427,31 @@
     
     [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
+    
     // setting the body of the post to the reqeust
     [request setHTTPBody:body];
     
     // set the content-length
     NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    return request;
     
+}
+
+
+
+
+
++(NSString*)sendImageToServer:(UIImage *)newProfImage
+{
     
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableURLRequest *request = [self buildUploadPhotoRequest:newProfImage];
+    
+    // send the PUT request
+    NSData *GETReply = [self sendGenericRequestWithURL:nil withType:@"PUT" withData:nil withCustomRequest:request];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -653,30 +472,13 @@
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/mute?username="];
-    NSString *url1 = [url stringByAppendingString:username];
+    url = [url stringByAppendingString:username];
     
     // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    NSString *authStr = sharedUserToken;
-    
-    NSString *authValue = [NSString stringWithFormat:@"Token %@", authStr];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:url1]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -694,28 +496,16 @@
 // Attempts the the registration.  Upon success YES is returned.  Upon failure, NO is returned.
 +(BOOL) attemptRegistration:(NSDictionary *) dictionaryData
 {
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/register/"];
+    
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
-    
     // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    // Registration
-    [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/users/register/"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
     
     //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -739,33 +529,14 @@
 {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/api-token-auth/"];
     
     // send the post request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
     
-    //  10 second timeout interval
-    request.timeoutInterval = 10;
-    
-    
-    // authentication
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [dictionaryData objectForKey:@"username"] , [dictionaryData objectForKey:@"password"]];
-    
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request setURL:[NSURL URLWithString:@"http://shout.princeton.edu:8000/api/v1/api-token-auth/"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:jsonData];
-    
-    // check the response
-    NSURLResponse *response;
-    NSError *error;
-    NSData *GETReply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    //  return nil if the internet connection is poor
-    if (error.code == -1009)
+    //  return nil if the internet connection is poor or didn't give a valid username/password
+    if (GETReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -774,22 +545,26 @@
     NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
 #endif
     
+    // This parses the response from the server as a JSON object
+    NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
     
+    // This can also be nil if an error occurs where the json doesn't have a token key
+    NSString *token = [loginToken objectForKey:@"token"];
     
-    if (GETReply == nil) return nil; // Failure (Probably didn't give a valid username / password)
-    
-    else
-    {
-        // This parses the response from the server as a JSON object
-        NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: GETReply options:kNilOptions error:nil];
-        
-        // This can also be nil if an error occurs where the json doesn't have a token key
-        NSString *token = [loginToken objectForKey:@"token"];
-        
-        return token;
-    }
+    return token;
 }
 
+
+
+
+
+// Gets the max radius size
++(int) getMaxRadiusSize:(NSDictionary *) userDict
+{
+    NSNumber *maxRadius = [userDict objectForKey:@"maxRadius"];
+    NSLog(@"MaxRadius: %@", maxRadius);
+    return [maxRadius intValue];
+}
 
 
 
