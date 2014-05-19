@@ -15,6 +15,7 @@
 #import "JCCOtherUserViewController.h"
 #import "JCCLikeDislikeHandler.h"
 #import "JCCReplyHandler.h"
+#import "JCCEchoHandler.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -112,30 +113,7 @@
 // Happens when user touches the echo button
 - (IBAction)sendEcho:(UIButton*)sender
 {
-    // This allocates a echo view controller and pushes it on the navigation stack
-    JCCEchoViewController *echoViewController = [[JCCEchoViewController alloc] init];
-    
-    // get the text
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    currentCell = cell;
-    
-    
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.navigationController pushViewController:echoViewController animated:YES];
-        
-        // set the text
-        [echoViewController setTextField:cell.MessageTextView.text];
-    }
-    
+    [JCCEchoHandler sendEcho:sender fromTableViewController:self];
 }
 
 

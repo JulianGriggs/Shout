@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface JCCEchoHandler : NSObject
-
++ (void)sendEcho:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController;
 @end
