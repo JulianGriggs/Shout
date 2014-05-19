@@ -9,6 +9,7 @@
 #import "JCCLikeDislikeHandler.h"
 #import "JCCTableViewCell1.h"
 #import "JCCMakeRequests.h"
+#import "JCCBadConnectionViewController.h"
 
 @implementation JCCLikeDislikeHandler
 

@@ -10,6 +10,7 @@
 #import "JCCReplyTableViewController.h"
 #import "JCCTableViewCell1.h"
 #import "JCCMakeRequests.h"
+#import "JCCBadConnectionViewController.h"
 
 @implementation JCCReplyHandler
 
