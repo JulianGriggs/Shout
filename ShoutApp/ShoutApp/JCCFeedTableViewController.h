@@ -11,4 +11,5 @@
 #import "JCCReplyViewController.h"
 
 @interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIAlertViewDelegate>
+- (NSArray*)fetchShouts;
 @end

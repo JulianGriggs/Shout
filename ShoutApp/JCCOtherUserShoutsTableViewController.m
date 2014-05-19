@@ -12,6 +12,7 @@
 #import "JCCOtherUserShoutsTableViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
+#import "JCCLikeDislikeHandler.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCOtherUserShoutsTableViewController ()
@@ -61,34 +62,9 @@
 // Send the like
 - (IBAction)sendUp:(UIButton*)sender
 {
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *getMessageID = cell.MessageIDLabel.text;
-    
-    // If black set to blue, else set to black
-    if ([cell.UpLabel.textColor isEqual:[UIColor blackColor]])
-    {
-        // Resets the color of the "down" button to black
-        [cell.DownLabel setTextColor:[UIColor blackColor]];
-        cell.DownLabel.backgroundColor = [UIColor whiteColor];
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor whiteColor]];
-        cell.UpLabel.backgroundColor = [UIColor blackColor];
-        cell.UpLabel.layer.cornerRadius = 8.0;
-        cell.UpLabel.layer.masksToBounds = YES;
-    }
-    else
-    {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor blackColor]];
-        cell.UpLabel.backgroundColor = [UIColor whiteColor];
-    }
-    
     // post the like
-    if([JCCMakeRequests postLike:getMessageID] == nil || [self fetchShouts] == nil)
+    [JCCLikeDislikeHandler sendUp:sender fromTableViewController:self];
+    if([self fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [self.navigationController pushViewController:badView animated:NO];
@@ -98,8 +74,6 @@
     {
         [self.tableView reloadData];
     }
-    
-    
 }
 
 
@@ -109,42 +83,14 @@
 // Happens whenever a user clicks the "DOWN" button
 - (IBAction)sendDown:(UIButton*)sender
 {
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *getMessageID = cell.MessageIDLabel.text;
-    
-    // If black set to white, else set to black
-    if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
-    {
-        // Resets the color of the "up" button to black
-        [cell.UpLabel setTextColor:[UIColor blackColor]];
-        cell.UpLabel.backgroundColor = [UIColor whiteColor];
-        // Sets the color of the "down" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor whiteColor]];
-        cell.DownLabel.backgroundColor = [UIColor blackColor];
-        cell.DownLabel.layer.cornerRadius = 8.0;
-        cell.DownLabel.layer.masksToBounds = YES;
-        
-    }
-    
-    else
-    {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor blackColor]];
-        cell.DownLabel.backgroundColor = [UIColor whiteColor];
-    }
-    
     // post the dislike
-    if([JCCMakeRequests postDislike:getMessageID] == nil || [self fetchShouts] == nil)
+    [JCCLikeDislikeHandler sendDown:sender fromTableViewController:self];
+    if([self fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [self.navigationController pushViewController:badView animated:NO];
         return;
     }
-    
     else
     {
         [self.tableView reloadData];
