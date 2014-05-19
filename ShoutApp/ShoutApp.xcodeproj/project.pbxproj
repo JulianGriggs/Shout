@@ -13,6 +13,9 @@
 		6178FCAF191DD21C00B206B7 /* JCCTableViewCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */; };
 		6178FCB0191DD21C00B206B7 /* JCCTableViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */; };
 		6184A941192A4C9500F939E5 /* JCCLikeDislikeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */; };
+		6184A945192A540B00F939E5 /* JCCReplyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A944192A540B00F939E5 /* JCCReplyHandler.m */; };
+		6184A948192A54E400F939E5 /* JCCMuteHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A947192A54E400F939E5 /* JCCMuteHandler.m */; };
+		6184A94B192A54F300F939E5 /* JCCEchoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6184A94A192A54F300F939E5 /* JCCEchoHandler.m */; };
 		619B901619106FB800B9E728 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619B901519106FB800B9E728 /* GoogleMaps.framework */; };
 		619B901819106FF500B9E728 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 619B901719106FF500B9E728 /* GoogleMaps.bundle */; };
 		61A0CE3118F08A8C00B8217A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A0CE3018F08A8C00B8217A /* Foundation.framework */; };
@@ -75,13 +78,19 @@
 		6109D4781921CFA000EB8AED /* JCCOtherProfPicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCOtherProfPicViewController.h; sourceTree = "<group>"; };
 		6109D4791921CFA000EB8AED /* JCCOtherProfPicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCOtherProfPicViewController.m; sourceTree = "<group>"; };
 		6109D47A1921CFA000EB8AED /* JCCOtherProfPicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCOtherProfPicViewController.xib; sourceTree = "<group>"; };
-		61782094191ABDB300192709 /* JCCMakeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCCMakeRequests.h; path = ../JCCMakeRequests.h; sourceTree = "<group>"; };
-		61782095191ABDB300192709 /* JCCMakeRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCCMakeRequests.m; path = ../JCCMakeRequests.m; sourceTree = "<group>"; };
+		61782094191ABDB300192709 /* JCCMakeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCMakeRequests.h; sourceTree = "<group>"; };
+		61782095191ABDB300192709 /* JCCMakeRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCMakeRequests.m; sourceTree = "<group>"; };
 		6178FCAC191DD21C00B206B7 /* JCCTableViewCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell1.h; sourceTree = "<group>"; };
 		6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell1.m; sourceTree = "<group>"; };
 		6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCTableViewCell1.xib; sourceTree = "<group>"; };
 		6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCLikeDislikeHandler.h; sourceTree = "<group>"; };
 		6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCLikeDislikeHandler.m; sourceTree = "<group>"; };
+		6184A943192A540B00F939E5 /* JCCReplyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyHandler.h; sourceTree = "<group>"; };
+		6184A944192A540B00F939E5 /* JCCReplyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyHandler.m; sourceTree = "<group>"; };
+		6184A946192A54E400F939E5 /* JCCMuteHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCMuteHandler.h; sourceTree = "<group>"; };
+		6184A947192A54E400F939E5 /* JCCMuteHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCMuteHandler.m; sourceTree = "<group>"; };
+		6184A949192A54F300F939E5 /* JCCEchoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEchoHandler.h; sourceTree = "<group>"; };
+		6184A94A192A54F300F939E5 /* JCCEchoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEchoHandler.m; sourceTree = "<group>"; };
 		619B901519106FB800B9E728 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		619B901719106FF500B9E728 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		61A0CE2D18F08A8C00B8217A /* ShoutApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,11 +197,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6184A942192A53AA00F939E5 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				61782094191ABDB300192709 /* JCCMakeRequests.h */,
+				61782095191ABDB300192709 /* JCCMakeRequests.m */,
+				6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */,
+				6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */,
+				6184A943192A540B00F939E5 /* JCCReplyHandler.h */,
+				6184A944192A540B00F939E5 /* JCCReplyHandler.m */,
+				6184A946192A54E400F939E5 /* JCCMuteHandler.h */,
+				6184A947192A54E400F939E5 /* JCCMuteHandler.m */,
+				6184A949192A54F300F939E5 /* JCCEchoHandler.h */,
+				6184A94A192A54F300F939E5 /* JCCEchoHandler.m */,
+			);
+			name = Handlers;
+			sourceTree = "<group>";
+		};
 		61A0CE2418F08A8C00B8217A = {
 			isa = PBXGroup;
 			children = (
-				6184A93F192A4C9500F939E5 /* JCCLikeDislikeHandler.h */,
-				6184A940192A4C9500F939E5 /* JCCLikeDislikeHandler.m */,
+				6184A942192A53AA00F939E5 /* Handlers */,
 				61A0CE3618F08A8C00B8217A /* ShoutApp */,
 				61A0CE5518F08A8C00B8217A /* ShoutAppTests */,
 				61A0CE2F18F08A8C00B8217A /* Frameworks */,
@@ -305,8 +330,6 @@
 			children = (
 				75A5565A1921F1E500A9C727 /* JCCBadConnectionViewController.h */,
 				75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */,
-				61782094191ABDB300192709 /* JCCMakeRequests.h */,
-				61782095191ABDB300192709 /* JCCMakeRequests.m */,
 				61E069C219060AA600900A71 /* JCCUserCredentials.h */,
 				61E069C319060AA600900A71 /* JCCUserCredentials.m */,
 				61A0CE6C18F08AF400B8217A /* JCCAppDelegate.h */,
@@ -549,6 +572,7 @@
 			files = (
 				6184A941192A4C9500F939E5 /* JCCLikeDislikeHandler.m in Sources */,
 				75772281191EA5B1009A9704 /* JCCOtherUserShoutsTableViewController.m in Sources */,
+				6184A94B192A54F300F939E5 /* JCCEchoHandler.m in Sources */,
 				61E069C419060AA600900A71 /* JCCUserCredentials.m in Sources */,
 				75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */,
 				7577227D191EA40E009A9704 /* JCCOtherUserViewController.m in Sources */,
@@ -565,10 +589,12 @@
 				755AAEFC18F7307600DB52D9 /* JCCEchoViewController.m in Sources */,
 				61A0CE7518F08AF400B8217A /* JCCPostViewController.m in Sources */,
 				75020638191998DB001BAA49 /* JCCMyShoutsTableViewController.m in Sources */,
+				6184A948192A54E400F939E5 /* JCCMuteHandler.m in Sources */,
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */,
 				61782096191ABDB300192709 /* JCCMakeRequests.m in Sources */,
 				75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */,
+				6184A945192A540B00F939E5 /* JCCReplyHandler.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
