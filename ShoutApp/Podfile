@@ -4,7 +4,7 @@ platform :ios, "7.1"
 
 target "ShoutApp" do
 pod 'UIAlertView+Blocks'
-
+pod 'AFNetworking', '~> 2.0'
 end
 
 target "ShoutAppTests" do
