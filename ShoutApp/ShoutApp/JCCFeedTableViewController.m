@@ -16,6 +16,7 @@
 #import "JCCLikeDislikeHandler.h"
 #import "JCCReplyHandler.h"
 #import "JCCEchoHandler.h"
+#import "JCCMuteHandler.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -147,34 +148,18 @@
 // handles the mute option
 - (IBAction)showMuteOption:(UIButton*)sender
 {
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    currentCell = cell;
-    
-    
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
+    // post the dislike
+    [JCCMuteHandler sendMute:sender fromTableViewController:self];
+    if([self fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [self.navigationController pushViewController:badView animated:NO];
+        return;
     }
     else
     {
-        if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
-        {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
-            [alert show];
-        }
+        [self.tableView reloadData];
     }
-    
-    
 }
 
 
