@@ -8,6 +8,7 @@
 
 #import "JCCMakeRequests.h"
 #import "JCCUserCredentials.h"
+#import "AFNetworking.h"
 
 @implementation JCCMakeRequests
 
@@ -46,6 +47,61 @@
     
 }
 
+
+
+
+// Experimenting with AFNetworking
++(NSData*)sendAsynchronousRequestWithURL:(NSString *)url withType:(NSString*)HTTPMethod withData:(NSData*) jsonData withCustomRequest:(NSMutableURLRequest *) customRequest
+{
+    __block NSData *reply = nil;
+    
+    if ([HTTPMethod isEqualToString:@"GET"])
+    {
+    
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
+        NSDictionary *parameters = @{@"foo": @"bar"};
+        [manager GET:url parameters:parameters
+             success:^(AFHTTPRequestOperation *operation, id responseObject)
+            {
+                NSLog(@"JSON: %@", responseObject);
+                reply = (NSData*)responseObject;
+            }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"Error: %@", error);
+         }];
+    
+    }
+    
+    else if ([HTTPMethod isEqualToString:@"POST"])
+    {
+        
+        NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
+        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
+                                                                 jsonData options:kNilOptions error:nil];
+        [manager POST:url parameters:parameters
+             success:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             NSLog(@"JSON: %@", responseObject);
+             reply = (NSData*)responseObject;
+         }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error)
+         {
+             NSLog(@"Error: %@", error);
+         }];
+    }
+    
+    NSLog(@"cunt %@", reply);
+    return reply;
+}
 
 
 
@@ -232,7 +288,7 @@
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
-    
+
     //  return nil if the internet connection is poor
     if (GETReply == nil)
         return nil;
@@ -518,7 +574,7 @@
 #endif
     
     if ([theReply isEqualToString:@"error"])
-        return NO;  // Failure (Username probably alreday exists)
+        return NO;  // Failure (Username probably already exists)
     
     else
         return YES; // Success
