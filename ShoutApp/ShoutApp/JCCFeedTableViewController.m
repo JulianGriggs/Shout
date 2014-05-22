@@ -353,68 +353,25 @@
         NSArray *usersDisliked = [dictShout objectForKey:@"usersDisliked"];
         
         // Default colors for likes/dislikes
-        [self setDefaultLikeDislike:cell];
+        [JCCLikeDislikeHandler setDefaultLikeDislike:cell];
         
         // Check to see if like or dislike should be highlighted
         for (NSString* person in usersLiked)
         {
             if ([person isEqualToString:sharedUserName])
-                [self setLikeAsMarked:cell];
+                [JCCLikeDislikeHandler setLikeAsMarked:cell];
         }
         
         for (NSString* person in usersDisliked)
         {
             if ([person isEqualToString:sharedUserName])
-                [self setDislikeAsMarked:cell];
+                [JCCLikeDislikeHandler setDislikeAsMarked:cell];
         }
         return cell;
     }
     
 }
 
-
-
-
-
-// Sets default to white background and black text for like/dislike labels
--(void)setDefaultLikeDislike:(JCCTableViewCell1*)cell
-{
-    [cell.UpLabel setTextColor:[UIColor blackColor]];
-    cell.UpLabel.backgroundColor = [UIColor whiteColor];
-    cell.UpLabel.layer.cornerRadius = 8.0;
-    cell.UpLabel.layer.masksToBounds = YES;
-    
-    [cell.DownLabel setTextColor:[UIColor blackColor]];
-    cell.DownLabel.backgroundColor = [UIColor whiteColor];
-    cell.DownLabel.layer.cornerRadius = 8.0;
-    cell.DownLabel.layer.masksToBounds = YES;
-}
-
-
-
-
-
-// if the user is found in the list for having liked, then highlight the like label
--(void)setLikeAsMarked:(JCCTableViewCell1*)cell
-{
-    [cell.UpLabel setTextColor:[UIColor whiteColor]];
-    cell.UpLabel.backgroundColor = [UIColor blackColor];
-    cell.UpLabel.layer.cornerRadius = 8.0;
-    cell.UpLabel.layer.masksToBounds = YES;
-}
-
-
-
-
-
-// if the user is found in the list for having disliked, then highlight the like label
--(void)setDislikeAsMarked:(JCCTableViewCell1*)cell
-{
-    [cell.DownLabel setTextColor:[UIColor whiteColor]];
-    cell.DownLabel.backgroundColor = [UIColor blackColor];
-    cell.DownLabel.layer.cornerRadius = 8.0;
-    cell.DownLabel.layer.masksToBounds = YES;
-}
 
 
 
