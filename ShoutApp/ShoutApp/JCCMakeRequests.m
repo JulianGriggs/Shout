@@ -109,7 +109,7 @@
 // Returns an NSDictionary with the user's profile information
 +(NSDictionary *)getUserProfile
 {
-    NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/users/getMyProfile/"];
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getMyProfile/"];
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
@@ -138,7 +138,7 @@
 +(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername
 {
     //  get the the users information
-    NSString *url = [NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherProfile?username=", otherUsername];
+    NSString *url = [NSString stringWithFormat:@"%@%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getOtherProfile?username=", otherUsername];
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
@@ -165,7 +165,7 @@
 // Returns an NSData object with the user's profile image
 +(NSData*)getProfileImage:(NSDictionary *) dictShout
 {
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/static/shout/images/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/static/shout/images/"];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
     
     // send the GET request
@@ -193,7 +193,7 @@
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
     //  build the appropriate URL
-    NSString *url = [NSString stringWithFormat:@"%@",@"http://shout.princeton.edu:8000/api/v1/replies"];
+    NSString *url = [NSString stringWithFormat:@"%@",@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/replies"];
     
     // send the POST request
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
@@ -222,7 +222,7 @@
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
     //  get the the users information
-    NSString *url = [NSString stringWithFormat:@"%@", @"http://shout.princeton.edu:8000/api/v1/messages"];
+    NSString *url = [NSString stringWithFormat:@"%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages"];
     
     // send the POST request
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
@@ -246,7 +246,7 @@
 +(NSArray *) getReplies:(NSString *) ID
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/replies?"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/replies?"];
     url = [url stringByAppendingString:@"message_id="];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", ID]];
     
@@ -278,7 +278,7 @@
 +(NSArray *) getShouts:(NSDictionary *) dictionaryData
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages?"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages?"];
     url = [url stringByAppendingString:@"latitude="];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"latitude"]]];
     url = [url stringByAppendingString:@"&"];
@@ -314,7 +314,7 @@
 +(NSArray *) getMyShouts
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/getMyShouts/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getMyShouts/"];
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
@@ -343,7 +343,7 @@
 +(NSArray *) getOtherUsersShouts:(NSString *) otherUsername
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%@%@", @"http://shout.princeton.edu:8000/api/v1/users/getOtherShouts?username=", otherUsername]];
+    NSString *url = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%@%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getOtherShouts?username=", otherUsername]];
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
@@ -372,7 +372,7 @@
 +(NSString *)postDislike:(NSString *) messageID
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
     url = [url stringByAppendingString:messageID];
     url = [url stringByAppendingString:@"/dislike"];
     
@@ -398,7 +398,7 @@
 +(NSString *)postLike:(NSString *) messageID
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/messages/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
     url = [url stringByAppendingString:messageID];
     url = [url stringByAppendingString:@"/like"];
     
@@ -424,7 +424,7 @@
 +(NSDictionary *)getShoutWithID:(NSString *)messageID
 {
     // make the url with query variables
-    NSString *url = [NSString stringWithFormat:@"%@%@/", @"http://shout.princeton.edu:8000/api/v1/messages/", messageID];
+    NSString *url = [NSString stringWithFormat:@"%@%@/", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/", messageID];
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
@@ -448,7 +448,7 @@
 // Create the request for uploading a photo
 +(NSMutableURLRequest*) buildUploadPhotoRequest:(UIImage *)newProfImage
 {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://shout.princeton.edu:8000/api/v1/userProfiles/%@/", sharedUserID]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/userProfiles/%@/", sharedUserID]]];
     
     
     //  10 second timeout interval
@@ -531,7 +531,7 @@
 +(NSString *)postMute:(NSString *) username
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/mute?username="];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/mute?username="];
     url = [url stringByAppendingString:username];
     
     // send the POST request
@@ -557,7 +557,7 @@
 +(BOOL) attemptRegistration:(NSDictionary *) dictionaryData
 {
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/users/register/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/register/"];
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
@@ -590,7 +590,7 @@
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
     // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://shout.princeton.edu:8000/api/v1/api-token-auth/"];
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/api-token-auth/"];
     
     // send the POST request
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
