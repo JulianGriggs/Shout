@@ -65,16 +65,6 @@
 {
     // post the like
     [JCCLikeDislikeHandler sendUp:sender fromTableViewController:self];
-    if([self fetchShouts] == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return;
-    }
-    else
-    {
-        [self.tableView reloadData];
-    }
 }
 
 
@@ -85,16 +75,6 @@
 {
     // post the dislike
     [JCCLikeDislikeHandler sendDown:sender fromTableViewController:self];
-    if([self fetchShouts] == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return;
-    }
-    else
-    {
-        [self.tableView reloadData];
-    }
 }
 
 
