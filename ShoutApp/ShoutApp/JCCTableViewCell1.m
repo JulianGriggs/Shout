@@ -182,8 +182,6 @@
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
          [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
      }];
-    
-    
 }
 
 

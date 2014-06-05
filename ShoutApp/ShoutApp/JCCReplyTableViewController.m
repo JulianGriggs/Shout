@@ -51,8 +51,7 @@
     
     JCCTableViewCell1 *currentCell;
 }
-//This is the actual table view object that corresponds to this table view controller
-//@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
 
@@ -92,41 +91,6 @@
 
 
 
-// Displayes the mute option
-- (IBAction)showMuteOption:(UIButton*)sender {
-    
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    currentCell = cell;
-    
-    
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        if ([currentCell.UsernameLabel.text isEqualToString:sharedUserName])
-        {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
-            [alert show];
-        }
-    }
-    
-
-}
-
-
-
 
 // Fetch most recent shouts and reload table
 - (NSArray*)fetchShouts
@@ -161,106 +125,21 @@
 
 
 
-// converts a UTC string to a date object
-- (NSString *) formatTime:(NSString *) timeString
-{
-    NSString* input = timeString;
-    NSString* format = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    
-    NSDate *now = [NSDate date];
-    
-    // Set up an NSDateFormatter for UTC time zone
-    NSDateFormatter* formatterUtc = [[NSDateFormatter alloc] init];
-    [formatterUtc setDateFormat:format];
-    [formatterUtc setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    // Cast the input string to NSDate
-    NSDate* utcDate = [formatterUtc dateFromString:input];
-    
-    double timeInterval = [now timeIntervalSinceDate:utcDate];
-    
-    timeInterval = timeInterval + 37;
-    
-    //  years
-    if ((timeInterval) / 31536000 >= 1)
-    {
-        return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
-    }
-    
-    //  days
-    else if ((timeInterval) / 86400 >= 1)
-    {
-        return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
-    }
-    
-    //  hours
-    else if ((timeInterval) / 3600 >= 1)
-    {
-        return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
-    }
-    
-    //  minutes
-    else if ((timeInterval) / 60 >= 1)
-    {
-        return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
-    }
-    
-    if (timeInterval < 1)
-        return [NSString stringWithFormat:@"right now"];
-    
-    //  seconds
-    return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
-    
-}
-
-
-
-
 // Called everytime a new cell is loaded
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"replyCell1";
-    
+    NSString *CellIdentifier = @"replyCell1";
     JCCReplyTableViewCell *cell = (JCCReplyTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCReplyTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        cell.parentTableViewController = (UITableViewController *)self;
     }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
-    
-    NSData* profPicData = [JCCMakeRequests getProfileImage:dictShout];
-    // If no internet
-    if (profPicData == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return cell;
-    }
-    
-    else
-    {
-    // Begin configuration of Cell
-    [cell.ProfileImage setImage:[UIImage imageWithData:profPicData]];
-    cell.ProfileImage.layer.cornerRadius = 8.0;
-    cell.ProfileImage.layer.masksToBounds = YES;
-    
-    [cell.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
-    [cell.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
-    [cell.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
-    cell.InnerView.layer.cornerRadius = 8.0;
-    cell.InnerView.layer.masksToBounds = YES;
-    
-    
-    [cell.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [cell setUpCellWithDictionary:dictShout];
     return cell;
-    }
-    
 }
 
 
