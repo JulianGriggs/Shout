@@ -203,12 +203,7 @@
     
     
     
-    //  create the table view controller
     tableViewController = [[JCCFeedTableViewController alloc] init];
-    
-    
-    
-    // At any time, only one of the table view and the no shouts view will be visible
     UITableView *table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height),0, 0)];
