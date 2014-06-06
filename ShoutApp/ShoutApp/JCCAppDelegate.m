@@ -11,6 +11,8 @@
 #import "JCCViewController.h"
 #import "JCCUserViewController.h"
 #import "JCCLoginViewController.h"
+#import "AFNetworking.h"
+#import "JCCBadConnectionViewController.h"
 
 @implementation JCCAppDelegate
 CGFloat outerWindowHeight;
@@ -47,6 +49,24 @@ int maxCharacters = 111;
     [GMSServices provideAPIKey:@"AIzaSyCAU6EIF1XjTI26yiqRMJvycaVfOYcHf74"];
     // Shows the window
     [self.window makeKeyAndVisible];
+    
+    
+    /**************************************************************************************************/
+     // This registers every time that we lose internet connection.  It then pushes on our lack of internet view.
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+        // Double check with logging
+        if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
+            [navigationController popViewControllerAnimated:NO];
+        } else {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [navigationController pushViewController:badView animated:NO];
+        }
+    }];
+    /**************************************************************************************************/
+    
     return YES;
 }
 
