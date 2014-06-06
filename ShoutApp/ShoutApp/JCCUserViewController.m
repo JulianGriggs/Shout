@@ -30,14 +30,10 @@
     UIImage *myProfPicture;
     UIImageView *profilePicture;
     JCCMyShoutsTableViewController *tableViewController;
-    
-    
     UILabel *myUsername;
     UILabel *myMaxRadius;
     UILabel *myNumShouts;
     UILabel *myNumLikesReceived;
-    
-    
 }
 
 
