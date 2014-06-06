@@ -11,6 +11,7 @@
 #import "JCCUserViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
+#import "JCCNoShoutsViewController.h"
 
 
 @interface JCCViewController ()
@@ -118,7 +119,7 @@
         [self.navigationController pushViewController:postViewController animated:YES];
     }
     
-
+    
 }
 
 
@@ -127,15 +128,45 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:NO];
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
     if (profileAttempt == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [self.navigationController pushViewController:badView animated:NO];
     }
+    
+    
+    // Displays "No Shouts Message" if there are no shouts in the area.
+    if ([self containsShouts])
+    {
+        [self.view.subviews.lastObject setHidden:YES];
+        
+    }
+    else
+    {
+        [tableView setHidden:YES];
+        
+    }
+    
 }
 
 
+
+
+
+-(BOOL) containsShouts
+{
+    //  get the current location
+    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
+    
+    NSArray *jsonObjects = [JCCMakeRequests getShouts:dictionaryData];
+    if ([jsonObjects count] == 0)
+    {
+        return NO;
+    }
+    else return YES;
+}
 
 
 
@@ -148,7 +179,7 @@
     self.navigationItem.hidesBackButton = YES;
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
     [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
-
+    
     [self.navigationItem setTitle:@"Feed"];
     
     //  build the location manager
@@ -170,20 +201,28 @@
     self.view = mapView;
     
     
+    
+    
     //  create the table view controller
     tableViewController = [[JCCFeedTableViewController alloc] init];
     
-    // The table view controller's view
+    
+    
+    // At any time, only one of the table view and the no shouts view will be visible
     UITableView *table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height),0, 0)];
     table.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
-    // Adds the table view controller as a child view controller
+    
     [self addChildViewController:tableViewController];
-    // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
     
-
+    JCCNoShoutsViewController *noShoutsViewController = [[JCCNoShoutsViewController alloc] init];
+    [self addChildViewController:noShoutsViewController];
+    [self.view addSubview:noShoutsViewController.view];
+    
+    
+    
     
     
     // Create the button to transition to the compose message screen

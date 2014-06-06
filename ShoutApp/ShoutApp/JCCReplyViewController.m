@@ -490,16 +490,16 @@
         likeButton.backgroundColor = [UIColor blackColor];
         likeButton.layer.cornerRadius = 20.0;
         likeButton.layer.masksToBounds = YES;
-        int numLikes = [likeLabel.text integerValue];
-        [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes + 1]];
+        NSInteger numLikes = [likeLabel.text integerValue];
+        [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes + 1]];
         if ([dislikeButton.titleLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
             [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             dislikeButton.backgroundColor = [UIColor clearColor];
             
-            int numDislikes = [dislikeLabel.text integerValue];
-            [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+            NSInteger numDislikes = [dislikeLabel.text integerValue];
+            [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
         }
         
     }
@@ -508,8 +508,8 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         likeButton.backgroundColor = [UIColor clearColor];
-        int numLikes = [likeLabel.text integerValue];
-        [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+        NSInteger numLikes = [likeLabel.text integerValue];
+        [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
     }
     
     __block NSData *reply = nil;
@@ -561,16 +561,16 @@
         dislikeButton.backgroundColor = [UIColor blackColor];
         dislikeButton.layer.cornerRadius = 20.0;
         dislikeButton.layer.masksToBounds = YES;
-        int numDislikes = [dislikeLabel.text integerValue];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes + 1]];
+        NSInteger numDislikes = [dislikeLabel.text integerValue];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes + 1]];
         if ([likeButton.titleLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
             [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             likeButton.backgroundColor = [UIColor clearColor];
             
-            int numLikes = [likeLabel.text integerValue];
-            [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+            NSInteger numLikes = [likeLabel.text integerValue];
+            [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
         }
         
     }
@@ -579,8 +579,8 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         dislikeButton.backgroundColor = [UIColor clearColor];
-        int numDislikes = [dislikeLabel.text integerValue];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+        NSInteger numDislikes = [dislikeLabel.text integerValue];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
     }
     
     __block NSData *reply = nil;
