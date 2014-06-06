@@ -62,32 +62,6 @@
 
 
 
-//  handle switching to other users page on click of cell
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    otherViewController.otherUsername = cell.UsernameLabel.text;
-    
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.navigationController pushViewController:otherViewController animated:YES];
-    }
-    
-    
-}
-
-
-
-
-
-
 // updates the location
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {

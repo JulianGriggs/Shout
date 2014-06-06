@@ -14,6 +14,7 @@
 #import "JCCMakeRequests.h"
 #import "JCCUserCredentials.h"
 #import "AFNetworking.h"
+#import "JCCOtherUserViewController.h"
 
 @implementation JCCTableViewCell1
 
@@ -187,6 +188,29 @@
 
 
 
+- (IBAction)transitionToUserPage:(id)sender
+{
+    JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
+//    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+//    otherViewController.otherUsername = cell.UsernameLabel.text;
+//    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
+    otherViewController.otherUsername = self.UsernameLabel.text;
+    
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    if (profileAttempt == nil)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
+    }
+    
+}
+
+
+
 
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout
 {
@@ -213,6 +237,7 @@
     [self.ReplyButton addTarget:self action:@selector(sendReply:) forControlEvents:UIControlEventTouchUpInside];
     [self.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     [self.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
+    [self.ProfileImageButton addTarget:self action:@selector(transitionToUserPage:) forControlEvents:UIControlEventTouchUpInside];
     self.InnerView.layer.cornerRadius = 8.0;
     self.InnerView.layer.masksToBounds = YES;
     
