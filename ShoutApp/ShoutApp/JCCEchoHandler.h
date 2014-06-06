@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface JCCEchoHandler : NSObject
+
+/***
+ Sends the echo request synchronously.
+ ***/
 + (void)sendEcho:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController;
+
 @end

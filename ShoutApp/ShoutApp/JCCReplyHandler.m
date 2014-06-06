@@ -14,6 +14,10 @@
 
 @implementation JCCReplyHandler
 
+
+/***
+ Sends a synchronous reply.
+ ***/
 + (void)sendReply:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController
 {
     // This allocates a echo view controller and pushes it on the navigation stack

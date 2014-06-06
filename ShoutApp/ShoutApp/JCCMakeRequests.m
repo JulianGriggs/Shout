@@ -12,6 +12,10 @@
 
 @implementation JCCMakeRequests
 
+
+/***
+ Creates and sends a generic synchronous request using the provided URL, HTTPMethod, and Data.  If the custom request parameter is not nil then it will use the custom request parameter.
+ ***/
 +(NSData*)sendGenericRequestWithURL:(NSString *)url withType:(NSString*)HTTPMethod withData:(NSData*) jsonData withCustomRequest:(NSMutableURLRequest *) customRequest
 {
     NSMutableURLRequest *request;
@@ -49,64 +53,9 @@
 
 
 
-
-// Experimenting with AFNetworking
-+(NSData*)sendAsynchronousRequestWithURL:(NSString *)url withType:(NSString*)HTTPMethod withData:(NSData*) jsonData withCustomRequest:(NSMutableURLRequest *) customRequest
-{
-    __block NSData *reply = nil;
-    
-    if ([HTTPMethod isEqualToString:@"GET"])
-    {
-    
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        manager.requestSerializer = [AFJSONRequestSerializer serializer];
-        [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
-        NSDictionary *parameters = @{@"foo": @"bar"};
-        [manager GET:url parameters:parameters
-             success:^(AFHTTPRequestOperation *operation, id responseObject)
-            {
-                NSLog(@"JSON: %@", responseObject);
-                reply = (NSData*)responseObject;
-            }
-             failure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"Error: %@", error);
-         }];
-    
-    }
-    
-    else if ([HTTPMethod isEqualToString:@"POST"])
-    {
-        
-        NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-        manager.requestSerializer = [AFJSONRequestSerializer serializer];
-        [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
-        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
-                                                                 jsonData options:kNilOptions error:nil];
-        [manager POST:url parameters:parameters
-             success:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             NSLog(@"JSON: %@", responseObject);
-             reply = (NSData*)responseObject;
-         }
-             failure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             NSLog(@"Error: %@", error);
-         }];
-    }
-    
-    NSLog(@"cunt %@", reply);
-    return reply;
-}
-
-
-
-
-// Returns an NSDictionary with the user's profile information
+/***
+ Returns an NSDictionary with the user's profile information.
+ ***/
 +(NSDictionary *)getUserProfile
 {
     NSString *url = [NSString stringWithFormat:@"%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getMyProfile/"];
@@ -118,23 +67,22 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
-#endif
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
+//#endif
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
                                   GETReply options:kNilOptions error:nil];
     return userProfDict;
-    
 }
 
 
 
-
-
-// Get the profile of another user
+/***
+ Get the profile of another user.
+ ***/
 +(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername
 {
     //  get the the users information
@@ -147,10 +95,10 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
-#endif
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
+//#endif
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
@@ -160,9 +108,9 @@
 
 
 
-
-
-// Returns an NSData object with the user's profile image
+/***
+ Returns an NSData object with the user's profile image.
+ ***/
 +(NSData*)getProfileImage:(NSDictionary *) dictShout
 {
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/static/shout/images/"];
@@ -175,18 +123,18 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: getProfileImage, var: theReply = %@", theReply);
-#endif
-    
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getProfileImage, var: theReply = %@", theReply);
+//#endif
     return GETReply;
 }
 
 
 
-
-// Post a Reply
+/***
+ Synchronously posts a Reply.
+ ***/
 +(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID
 {
     // Encode dictionary data in json
@@ -203,19 +151,18 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: postReply, var: theReply = %@", theReply);
-#endif
+//#ifdef DEBUG
+//    NSLog(@"function: postReply, var: theReply = %@", theReply);
+//#endif
     
     return theReply;
-    
 }
 
 
 
-
-
-// Post a shout message
+/***
+ Synchronously posts a shout message.
+ ***/
 +(NSString *) postShout:(NSDictionary *) dictionaryData
 {
     
@@ -232,17 +179,17 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: postShout, var: theReply = %@", theReply);
-#endif
+//#ifdef DEBUG
+//    NSLog(@"function: postShout, var: theReply = %@", theReply);
+//#endif
     return theReply;
 }
 
 
 
-
-
-// Returns the list of replies
+/***
+ Returns all replies to a given shout.
+ ***/
 +(NSArray *) getReplies:(NSString *) ID
 {
     // make the url with query variables
@@ -257,12 +204,12 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-#ifdef DEBUG
-    NSLog(@"function: getReplies, var: theReply = %@", theReply);
-#endif
-    
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//    
+//#ifdef DEBUG
+//    NSLog(@"function: getReplies, var: theReply = %@", theReply);
+//#endif
+//    
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
                             GETReply options:kNilOptions error:nil];
@@ -272,9 +219,9 @@
 
 
 
-
-
-// Returns the list of shouts
+/***
+ Returns the list of all shouts.
+ ***/
 +(NSArray *) getShouts:(NSDictionary *) dictionaryData
 {
     // make the url with query variables
@@ -285,7 +232,6 @@
     url = [url stringByAppendingString:@"longitude="];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
     
-    
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
 
@@ -293,11 +239,10 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: getShouts, var: theReply = %@", theReply);
-#endif
-    
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getShouts, var: theReply = %@", theReply);
+//#endif
     
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
@@ -308,9 +253,9 @@
 
 
 
-
-
-// Returns the list of shouts
+/***
+ Returns the list of all shouts sent by the user.
+ ***/
 +(NSArray *) getMyShouts
 {
     // make the url with query variables
@@ -323,10 +268,10 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
-#endif
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
+//#endif
     
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
@@ -337,9 +282,9 @@
 
 
 
-
-
-//  Returns a list of a given users shouts
+/***
+ Returns the list of all shouts sent by a different user.
+ ***/
 +(NSArray *) getOtherUsersShouts:(NSString *) otherUsername
 {
     // make the url with query variables
@@ -352,10 +297,10 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
-#endif
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
+//#endif
     
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
@@ -366,61 +311,9 @@
 
 
 
-
-
-//// post the dislike
-//+(NSString *)postDislike:(NSString *) messageID
-//{
-//    // make the url with query variables
-//    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
-//    url = [url stringByAppendingString:messageID];
-//    url = [url stringByAppendingString:@"/dislike"];
-//    
-//    // send the POST request
-//    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
-//    
-//    //  return nil if the internet connection is poor
-//    if (POSTReply == nil)
-//        return nil;
-//    
-//    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: postDislike, var: theReply = %@", theReply);
-//#endif
-//    return theReply;
-//}
-
-
-
-
-
-//// post the like
-//+(NSString *)postLike:(NSString *) messageID
-//{
-//    // make the url with query variables
-//    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
-//    url = [url stringByAppendingString:messageID];
-//    url = [url stringByAppendingString:@"/like"];
-//    
-//    // send the POST request
-//    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
-//    
-//    //  return nil if the internet connection is poor
-//    if (POSTReply == nil)
-//        return nil;
-//    
-//    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: postLike, var: theReply = %@", theReply);
-//#endif
-//    return theReply;
-//}
-
-
-
-
-
-// Get a particular shout ising its ID
+/***
+ Get a particular shout using its ID.
+ ***/
 +(NSDictionary *)getShoutWithID:(NSString *)messageID
 {
     // make the url with query variables
@@ -433,11 +326,10 @@
     if (GETReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-    
-#ifdef DEBUG
-    NSLog(@"function: getShoutsWithID, var: theReply = %@", theReply);
-#endif
+//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: getShoutsWithID, var: theReply = %@", theReply);
+//#endif
     // This parses the response from the server as a JSON object
     NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
     return messageDict;
@@ -445,9 +337,9 @@
 
 
 
-
-
-// Create the request for uploading a photo
+/***
+ Create and return the request for uploading a photo.
+ ***/
 +(NSMutableURLRequest*) buildUploadPhotoRequest:(UIImage *)newProfImage
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/userProfiles/%@/", sharedUserID]]];
@@ -503,8 +395,9 @@
 
 
 
-
-// uploads a profile picture to the server
+/***
+ Uploads a profile picture to the server.
+ ***/
 +(NSString*)sendImageToServer:(UIImage *)newProfImage
 {
     NSMutableURLRequest *request = [self buildUploadPhotoRequest:newProfImage];
@@ -517,19 +410,18 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[PUTReply bytes] length:[PUTReply length] encoding: NSASCIIStringEncoding];
-    
-#ifdef DEBUG
-    NSLog(@"function: sendImageToServer, var: theReply = %@", theReply);
-#endif
+//#ifdef DEBUG
+//    NSLog(@"function: sendImageToServer, var: theReply = %@", theReply);
+//#endif
     return theReply;
     
 }
 
 
 
-
-
-// post the dislike
+/***
+ Synchronously post the mute.
+ ***/
 +(NSString *)postMute:(NSString *) username
 {
     // make the url with query variables
@@ -544,18 +436,17 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-    
-#ifdef DEBUG
-    NSLog(@"function: postMute, var: theReply = %@", theReply);
-#endif
+//#ifdef DEBUG
+//    NSLog(@"function: postMute, var: theReply = %@", theReply);
+//#endif
     return theReply;
 }
 
 
 
-
-
-// Attempts the the registration.  Upon success YES is returned.  Upon failure, NO is returned.
+/***
+ Synchronously attempts the registration.  Upon success YES is returned.  Upon failure, NO is returned.
+ ***/
 +(BOOL) attemptRegistration:(NSDictionary *) dictionaryData
 {
     // make the url with query variables
@@ -571,10 +462,9 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
-#endif
-    
+//#ifdef DEBUG
+//    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
+//#endif
     if ([theReply isEqualToString:@"error"])
         return NO;  // Failure (Username probably already exists)
     
@@ -584,9 +474,9 @@
 
 
 
-
-
-// Attempts the login.  Upon success the token is returned.  Upon failure, nil is returned.
+/***
+ Synchronously attempts the login.  Upon success the token is returned.  Upon failure, nil is returned.
+ ***/
 +(NSString *)attemptAuth: (NSDictionary *) dictionaryData
 {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
@@ -601,11 +491,11 @@
     if (POSTReply == nil)
         return nil;
     
-    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-    
-#ifdef DEBUG
-    NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
-#endif
+//    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+//    
+//#ifdef DEBUG
+//    NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
+//#endif
     
     // This parses the response from the server as a JSON object
     NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: POSTReply options:kNilOptions error:nil];
@@ -618,23 +508,16 @@
 
 
 
-
-
-// Gets the max radius size
+/***
+ Obtains the max radius from the provided dictionary of user information.
+ ***/
 +(int) getMaxRadiusSize:(NSDictionary *) userDict
 {
     NSNumber *maxRadius = [userDict objectForKey:@"maxRadius"];
-    NSLog(@"MaxRadius: %@", maxRadius);
     return [maxRadius intValue];
 }
 
 
 
-
-+(void) displayLackOfInternetAlert
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Poor Connection" message:@"It's possible that your internet connection is poor.  In order for this app to run properly you need a better connection." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-    [alert show];
-}
 
 @end

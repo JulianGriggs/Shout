@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface JCCReplyHandler : NSObject
+
+/***
+ Sends a synchronous reply.
+ ***/
 + (void)sendReply:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController;
 @end

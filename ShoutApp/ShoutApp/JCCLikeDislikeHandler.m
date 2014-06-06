@@ -16,44 +16,32 @@
 @implementation JCCLikeDislikeHandler
 
 
-// Send the like
+/***
+  Sends the like.  This updates the UI to show that user has liked the message.  In addition it asynchronously sends a "like" to the server.
+ ***/
 + (void)sendUp:(UIButton*)sender fromTableViewController: (JCCFeedTableViewController *)tableViewController
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:tableViewController.tableView];
     NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
-    
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
-    
     NSString *getMessageID = cell.MessageIDLabel.text;
     
-    // If black set to white, else set to black
     if ([cell.UpLabel.textColor isEqual:[UIColor blackColor]])
     {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor whiteColor]];
-        cell.UpLabel.backgroundColor = [UIColor blackColor];
         cell.UpLabel.layer.cornerRadius = 8.0;
         cell.UpLabel.layer.masksToBounds = YES;
-        NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%ld", numLikes + 1]];
+        [self setLikeAsMarked:cell];
+        [self incrementLike:cell];
         if ([cell.DownLabel.textColor isEqual:[UIColor whiteColor]])
         {
-            // Resets the color of the "down" button to default
-            [cell.DownLabel setTextColor:[UIColor blackColor]];
-            cell.DownLabel.backgroundColor = [UIColor whiteColor];
-            
-            NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-            [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
+            [self setDislikeAsUnmarked:cell];
+            [self decrementDislike:cell];
         }
-        
     }
     else
     {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.UpLabel setTextColor:[UIColor blackColor]];
-        cell.UpLabel.backgroundColor = [UIColor whiteColor];
-        NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
+        [self setLikeAsUnmarked:cell];
+        [self decrementLike:cell];
     }
     
     __block NSData *reply = nil;
@@ -68,8 +56,7 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
-    //        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
-    //                                    nil options:kNilOptions error:nil];
+
     [manager POST:url parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
@@ -83,50 +70,38 @@
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
          [tableViewController.navigationController pushViewController:badView animated:NO];
      }];
-    
 }
 
 
 
-
-// Happens whenever a user clicks the "DOWN" button
+/***
+ Sends the dislike.  This updates the UI to show that user has disliked the message.  In addition it asynchronously sends a "dislike" to the server.
+ ***/
 + (void)sendDown:(UIButton*)sender fromTableViewController:(JCCFeedTableViewController *) tableViewController
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:tableViewController.tableView];
     NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
-    
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
-    
     NSString *getMessageID = cell.MessageIDLabel.text;
     
-    // If black set to white, else set to black
     if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
     {
-        // Sets the color of the "down" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor whiteColor]];
-        cell.DownLabel.backgroundColor = [UIColor blackColor];
         cell.DownLabel.layer.cornerRadius = 8.0;
         cell.DownLabel.layer.masksToBounds = YES;
-        NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%ld", numDislikes + 1]];
+
+        [self setDislikeAsMarked:cell];
+        [self incrementDislike:cell];
+        
         if ([cell.UpLabel.textColor isEqual:[UIColor whiteColor]])
         {
-            // Resets the color of the "down" button to default
-            [cell.UpLabel setTextColor:[UIColor blackColor]];
-            cell.UpLabel.backgroundColor = [UIColor whiteColor];
-            
-            NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
-            [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
+            [self setLikeAsUnmarked:cell];
+            [self decrementLike:cell];
         }
-        
     }
     else
     {
-        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-        [cell.DownLabel setTextColor:[UIColor blackColor]];
-        cell.DownLabel.backgroundColor = [UIColor whiteColor];
-        NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
+        [self setDislikeAsUnmarked:cell];
+        [self decrementDislike:cell];
     }
     
     __block NSData *reply = nil;
@@ -135,14 +110,12 @@
     url = [url stringByAppendingString:getMessageID];
     url = [url stringByAppendingString:@"/dislike"];
     
-    
     NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
-    //        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
-    //                                    nil options:kNilOptions error:nil];
+
     [manager POST:url parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
@@ -156,51 +129,108 @@
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
          [tableViewController.navigationController pushViewController:badView animated:NO];
      }];
-    
 }
 
 
 
-
-// Sets default to white background and black text for like/dislike labels
+/*** 
+ Sets default to clear background and black text for like/dislike labels.
+ ***/
 +(void)setDefaultLikeDislike:(JCCTableViewCell1*)cell
 {
-    [cell.UpLabel setTextColor:[UIColor blackColor]];
-    cell.UpLabel.backgroundColor = [UIColor whiteColor];
-    cell.UpLabel.layer.cornerRadius = 8.0;
-    cell.UpLabel.layer.masksToBounds = YES;
-    
-    [cell.DownLabel setTextColor:[UIColor blackColor]];
-    cell.DownLabel.backgroundColor = [UIColor whiteColor];
-    cell.DownLabel.layer.cornerRadius = 8.0;
-    cell.DownLabel.layer.masksToBounds = YES;
+    [self setLikeAsUnmarked:cell];
+    [self setDislikeAsUnmarked:cell];
 }
 
 
 
+/***
+ Sets the like label to unmarked.
+ ***/
++(void)setLikeAsUnmarked:(JCCTableViewCell1*)cell
+{
+    [cell.UpLabel setTextColor:[UIColor blackColor]];
+    cell.UpLabel.backgroundColor = [UIColor clearColor];
+}
 
 
-// if the user is found in the list for having liked, then highlight the like label
+
+/***
+ Sets the dislike label to unmarked.
+ ***/
++(void)setDislikeAsUnmarked:(JCCTableViewCell1*)cell
+{
+    [cell.DownLabel setTextColor:[UIColor blackColor]];
+    cell.DownLabel.backgroundColor = [UIColor clearColor];
+}
+
+
+
+/***
+ Sets the like label to marked.
+ ***/
 +(void)setLikeAsMarked:(JCCTableViewCell1*)cell
 {
     [cell.UpLabel setTextColor:[UIColor whiteColor]];
     cell.UpLabel.backgroundColor = [UIColor blackColor];
-    cell.UpLabel.layer.cornerRadius = 8.0;
-    cell.UpLabel.layer.masksToBounds = YES;
 }
 
 
 
-
-
-// if the user is found in the list for having disliked, then highlight the like label
+/***
+ Sets the dislike label to marked.
+ ***/
 +(void)setDislikeAsMarked:(JCCTableViewCell1*)cell
 {
     [cell.DownLabel setTextColor:[UIColor whiteColor]];
     cell.DownLabel.backgroundColor = [UIColor blackColor];
-    cell.DownLabel.layer.cornerRadius = 8.0;
-    cell.DownLabel.layer.masksToBounds = YES;
 }
+
+
+
+/***
+ Increases the number of likes by 1 in the NumberOfUpsLabel.
+ ***/
++(void)incrementLike:(JCCTableViewCell1*)cell
+{
+    NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
+    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes + 1]];
+}
+
+
+
+/***
+ Increases the number of dislikes by 1 in the NumberOfDownsLabel.
+ ***/
++(void)incrementDislike:(JCCTableViewCell1*)cell
+{
+    NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
+    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes + 1]];
+}
+
+
+
+/***
+ Reduces the number of likes by 1 in the NumberOfUpsLabel.
+ ***/
++(void)decrementLike:(JCCTableViewCell1*)cell
+{
+    
+    NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
+    [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+}
+
+
+
+/***
+ Reduces the number of dislikes by 1 in the NumberOfDownsLabel.
+ ***/
++(void)decrementDislike:(JCCTableViewCell1*)cell
+{
+    NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
+    [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+}
+
 
 
 @end

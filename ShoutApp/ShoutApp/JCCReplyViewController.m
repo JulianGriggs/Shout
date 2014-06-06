@@ -348,7 +348,7 @@
         likeButton.layer.cornerRadius = 20.0;
         likeButton.layer.masksToBounds = YES;
         NSInteger numLikes = [likeLabel.text integerValue];
-        [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes + 1]];
+        [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes + 1]];
         if ([dislikeButton.titleLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
@@ -356,7 +356,7 @@
             dislikeButton.backgroundColor = [UIColor clearColor];
             
             NSInteger numDislikes = [dislikeLabel.text integerValue];
-            [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
+            [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
         }
         
     }
@@ -366,7 +366,7 @@
         [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         likeButton.backgroundColor = [UIColor clearColor];
         NSInteger numLikes = [likeLabel.text integerValue];
-        [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
+        [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
     }
     
     __block NSData *reply = nil;
@@ -419,7 +419,7 @@
         dislikeButton.layer.cornerRadius = 20.0;
         dislikeButton.layer.masksToBounds = YES;
         NSInteger numDislikes = [dislikeLabel.text integerValue];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes + 1]];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes + 1]];
         if ([likeButton.titleLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
@@ -427,7 +427,7 @@
             likeButton.backgroundColor = [UIColor clearColor];
             
             NSInteger numLikes = [likeLabel.text integerValue];
-            [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
+            [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
         }
         
     }
@@ -437,7 +437,7 @@
         [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         dislikeButton.backgroundColor = [UIColor clearColor];
         NSInteger numDislikes = [dislikeLabel.text integerValue];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
     }
     
     __block NSData *reply = nil;
