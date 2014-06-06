@@ -519,5 +519,13 @@
 
 
 
+/***
+ Displays a modal informing the user about their own lack of internet connection.
+ ***/
++(void) displayLackOfInternetAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Poor Connection" message:@"It's possible that your internet connection is poor.  In order for this app to run properly you need a better connection." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    [alert show];
+}
 
 @end

@@ -117,5 +117,11 @@
 
 
 
+/***
+ Displays a modal informing the user about their own lack of internet connection.
+ ***/
++(void) displayLackOfInternetAlert;
+
+
 
 @end
