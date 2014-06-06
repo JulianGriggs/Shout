@@ -16,4 +16,5 @@
 
 - (void)refresh;
 
+- (NSArray*)fetchShouts;
 @end

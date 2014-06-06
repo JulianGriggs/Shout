@@ -130,6 +130,7 @@
 // Called to determine if the text view should begin editing when prompted
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    NSLog(@"Here");
     return YES;
 }
 
@@ -335,7 +336,6 @@
     postTextView.userInteractionEnabled = YES;
     postTextView.editable = YES;
     postTextView.delegate = self;
-    
 
     
     [self.view addSubview:postTextView];

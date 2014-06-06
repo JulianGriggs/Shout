@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCCFeedTableViewController.h"
 
 @interface JCCTableViewCell1 : UITableViewCell
 
@@ -29,4 +30,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfDownsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfRepliesLabel;
 @property (weak, nonatomic) IBOutlet UIView *InnerView;
+@property UITableViewController *parentTableViewController;
+- (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout;
 @end

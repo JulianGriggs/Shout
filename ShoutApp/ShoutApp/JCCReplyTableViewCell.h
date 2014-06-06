@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *MoreButton;
 @property (weak, nonatomic) IBOutlet UIView *InnerView;
 @property (weak, nonatomic) IBOutlet UILabel *MessageIDLabel;
-
+@property UITableViewController *parentTableViewController;
+- (JCCReplyTableViewCell *)setUpCellWithDictionary:(NSDictionary *) dictShout;
 @end

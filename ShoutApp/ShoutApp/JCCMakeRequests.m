@@ -368,53 +368,53 @@
 
 
 
-// post the dislike
-+(NSString *)postDislike:(NSString *) messageID
-{
-    // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
-    url = [url stringByAppendingString:messageID];
-    url = [url stringByAppendingString:@"/dislike"];
-    
-    // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
-    
-    //  return nil if the internet connection is poor
-    if (POSTReply == nil)
-        return nil;
-    
-    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: postDislike, var: theReply = %@", theReply);
-#endif
-    return theReply;
-}
+//// post the dislike
+//+(NSString *)postDislike:(NSString *) messageID
+//{
+//    // make the url with query variables
+//    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
+//    url = [url stringByAppendingString:messageID];
+//    url = [url stringByAppendingString:@"/dislike"];
+//    
+//    // send the POST request
+//    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
+//    
+//    //  return nil if the internet connection is poor
+//    if (POSTReply == nil)
+//        return nil;
+//    
+//    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: postDislike, var: theReply = %@", theReply);
+//#endif
+//    return theReply;
+//}
 
 
 
 
 
-// post the like
-+(NSString *)postLike:(NSString *) messageID
-{
-    // make the url with query variables
-    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
-    url = [url stringByAppendingString:messageID];
-    url = [url stringByAppendingString:@"/like"];
-    
-    // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
-    
-    //  return nil if the internet connection is poor
-    if (POSTReply == nil)
-        return nil;
-    
-    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-#ifdef DEBUG
-    NSLog(@"function: postLike, var: theReply = %@", theReply);
-#endif
-    return theReply;
-}
+//// post the like
+//+(NSString *)postLike:(NSString *) messageID
+//{
+//    // make the url with query variables
+//    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
+//    url = [url stringByAppendingString:messageID];
+//    url = [url stringByAppendingString:@"/like"];
+//    
+//    // send the POST request
+//    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
+//    
+//    //  return nil if the internet connection is poor
+//    if (POSTReply == nil)
+//        return nil;
+//    
+//    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+//#ifdef DEBUG
+//    NSLog(@"function: postLike, var: theReply = %@", theReply);
+//#endif
+//    return theReply;
+//}
 
 
 
@@ -442,6 +442,8 @@
     NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
     return messageDict;
 }
+
+
 
 
 
