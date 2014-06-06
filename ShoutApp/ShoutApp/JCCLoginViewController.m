@@ -27,27 +27,13 @@
     UIImage *logoImage;
     UIImageView *imageView;
     UIButton *registerButton;
-
 }
 
 
 
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// How pressing the return key is handled
+/***
+ Makes it so that pressing the return button toggles through fields.
+ ***/
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -61,12 +47,11 @@
 
 
 
-
-
-// Called when the text fields begins to be edited
+/***
+ Animates the fiels up when the text fields begins to be edited.
+ ***/
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-
         [UIView animateWithDuration:0.25 animations:^{
             [imageView setFrame:CGRectMake(outerWindowWidth * 0.4218, outerWindowHeight * 0.1327, outerWindowWidth * 0.1718, outerWindowHeight * 0.088)];
             [userNameField setFrame:CGRectMake(50, outerWindowHeight * 0.2288, 225, outerWindowHeight * 0.07)];
@@ -74,15 +59,13 @@
             [loginButton setFrame:CGRectMake(50, outerWindowHeight * 0.42, 225, outerWindowHeight * 0.07)];
             [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.48, 225, outerWindowHeight * 0.088)];
         }];
-
-    
 }
 
 
 
-
-
-// Called when the text field is done being edited
+/***
+ Resigns first responder status of the text field when it is no longer being edited.
+ ***/
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -90,9 +73,9 @@
 
 
 
-
-
-// Dismisses the keyboard back to the bottom and moves text fields with it
+/***
+ Dismisses the keyboard back to the bottom and moves text fields with it.
+ ***/
 -(void) dismissKeyboard
 {
     [userNameField resignFirstResponder];
@@ -110,12 +93,11 @@
 
 
 
-
-
-// Sends the login attempt
+/***
+ Performs username validation and then sends the login attempt.
+ ***/
 - (IBAction)postLogin:(id)sender
 {
-    
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
     if (userNameField.text.length > 30)
@@ -131,8 +113,6 @@
     
     else
     {
-    
-        //  format the data
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData];
 
@@ -152,9 +132,9 @@
 
 
 
-
-
-// Sets the user credentials as global variables upon successful login
+/***
+ Sets the user credentials as global variables upon successful login.
+ ***/
 -(void) setUserCredentials:(NSString *)token
 {
     // Sets the username and token for this session of the app
@@ -169,9 +149,9 @@
 
 
 
-
-
-// Adds the app's main view controllers onto the stack
+/***
+ Adds the userViewController and the JCCViewContoller onto the stack.
+ ***/
 -(void) addMainViewControllers
 {
     // Created the user view controller
@@ -187,9 +167,9 @@
 
 
 
-
-
-// Moves to the registration page by adding it to the stack
+/***
+ Moves to the registration page by adding it to the stack.
+ ***/
 -(IBAction)moveToRegistration:(id)sender
 {
     JCCRegistrationViewController *registration = [[JCCRegistrationViewController alloc]init];
@@ -198,9 +178,9 @@
 
 
 
-
-
-// Returns YES upon success, and NO upon failure
+/***
+ Attempts to authenticated with the user token.  Returns YES upon success, and NO upon failure.
+ ***/
 -(BOOL)attemptAuthWithToken
 {
     if ([sharedUserToken isEqual: @""])
@@ -211,9 +191,9 @@
 
 
 
-
-
-// Called every time the view is about to appear
+/***
+ Hides the back button.  And tries to login.
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
 //    // Remove back button in top navigation
@@ -225,9 +205,9 @@
 
 
 
-
-
-// Called the first time the view loads
+/***
+ Called the first time the view loads.
+ ***/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -322,8 +302,6 @@
     
     
 }
-
-
 
 
 

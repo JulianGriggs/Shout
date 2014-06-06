@@ -13,7 +13,5 @@
 #import "JCCReplyViewController.h"
 
 @interface JCCOtherUserShoutsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
-
 @property (nonatomic, strong) NSString *otherUsername;
-
 @end

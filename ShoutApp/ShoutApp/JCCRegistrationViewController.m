@@ -22,32 +22,17 @@
     UITextField *userNameField;
     UITextField *emailField;
     UITextField *passwordField;
-    
     UIImage *logoImage;
     UIImageView *imageView;
     UIButton *registerButton;
     UIButton *backToLoginButton;
-
 }
 
 
 
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// Handles how pressing the return key in the keyboard should page through the text fields
+/***
+ Makes it so that pressing the return key toggles between fields.
+ ***/
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -63,9 +48,9 @@
 
 
 
-
-
-// Animation upon beginning the editing of text fields
+/***
+ Animates up upon beginning the editing of text fields.
+ ***/
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.25 animations:^{
@@ -81,9 +66,9 @@
 
 
 
-
-
-// Animation upon ending the editing of text fields
+/***
+ Resigns first responder status upon finished editing of text field.
+ ***/
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -91,8 +76,9 @@
 
 
 
-
-// Animates the dismissal of the keyboard and the text fields
+/***
+ Animates down the dismissal of the keyboard and the text fields.
+ ***/
 -(void) dismissKeyboard {
     [userNameField resignFirstResponder];
     [passwordField resignFirstResponder];
@@ -109,18 +95,17 @@
 
 
 
-
-
+/***
+ Sets the username and token for this session of the app.
+ ***/
 -(void) setUserCredentials:(NSString *)token
 {
-    /***********************************************************/
-    // Sets the username and token for this session of the app
+
     sharedUserName = userNameField.text;
     sharedUserToken = token;
-    /***********************************************************/
-    NSLog((@"Registered Username: %@ \n Registered Token: %@"), sharedUserName, sharedUserToken);
-    // Restores the default values
-    /*------------------------*/
+//    NSLog((@"Registered Username: %@ \n Registered Token: %@"), sharedUserName, sharedUserToken);
+    
+    // Clears the UI to the default values
     userNameField.text = @"";
     emailField.text = @"";
     passwordField.text = @"";
@@ -129,9 +114,9 @@
 
 
 
-
-
-// Returns back to the login screen
+/***
+ Pops off the registration view controller to return to the login view controller.
+ ***/
 -(IBAction)backToLogin:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -139,9 +124,9 @@
 
 
 
-
-
-// Validates email address
+/***
+ Validates email address.
+ ***/
 - (BOOL)validateEmailWithString:(NSString*)email
 {
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
@@ -151,9 +136,9 @@
 
 
 
-
-
-// Does error checking and field validation before attempting a registration/login
+/***
+ Does error checking and field validation before attempting a registration/login.
+ ***/
 - (IBAction)postLogin:(id)sender
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
@@ -182,7 +167,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
-        
     
     else
     {
@@ -199,24 +183,20 @@
                 [self setUserCredentials:token];
                 [self.navigationController popViewControllerAnimated:NO];
             }
-        
             else
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and internet connection, then try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [alert show];
                 passwordField.text = @"";
-            
             }
         }
         else
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Registration" message:@"This username already belongs to an account!  Please choose a different username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [alert show];
-
         }
     }
 }
-
 
 
 

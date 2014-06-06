@@ -26,7 +26,6 @@
 {
     // location manager
     CLLocationManager *locationManager;
-    
     GMSMapView *mapView;
     CLLocationCoordinate2D myCurrentLocation;
     CLLocationCoordinate2D destinationLocation;
@@ -45,7 +44,9 @@
 
 
 
-// Action that changes the radius of the circle overlay whenever the the slider is changed
+/***
+ Changes the radius of the circle overlay whenever the the slider is changed.
+ ***/
 - (IBAction)sliderChanged:(UISlider*)sender
 {
     // Gets the size from the slider
@@ -65,15 +66,14 @@
 
 
 
-
-
-// Method that will add a location marker
+/***
+ Adds a location marker at the current position.
+ ***/
 - (void) addLocationMarker:(GMSMarker*)marker withPostion:(CLLocationCoordinate2D)markerPosition withTitle:(NSString *)title withSnippet:(NSString *)snippet withColor:(UIColor*)color
 {
     // If the current location is the same as the destination location, make marker purple.
     if (myCurrentLocation.latitude == destinationLocation.latitude && myCurrentLocation.longitude == destinationLocation.longitude)
         color = [UIColor purpleColor];
-        
     
     // Creates a marker at the location given.
     marker.position = CLLocationCoordinate2DMake(markerPosition.latitude, markerPosition.longitude);
@@ -85,9 +85,9 @@
 
 
 
-
-
-// Sends the POST shout request
+/***
+ Sends the POST shout request.  If the shout message is empty then it alerts the user through a pop up modal.
+ ***/
 - (IBAction)postShout:(id)sender
 {
     
@@ -125,20 +125,19 @@
 
 
 
-
-
-// Called to determine if the text view should begin editing when prompted
+/***
+ Makes it so that the text view does begin editing.
+ ***/
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    NSLog(@"Here");
     return YES;
 }
 
 
 
-
-
-// Called when the textview does begin editing
+/***
+ Called when the textview does begin editing.
+ ***/
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@"Let's hear it!"])
@@ -151,9 +150,9 @@
 
 
 
-
-
-// Makes sure that the person doesn't send too much text or newlines
+/***
+ Validates the text input for a shout.  Newlines are disallowed and shouts aren't allowed to be longer than maxCharacters in length.
+ ***/
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     
@@ -169,9 +168,9 @@
 
 
 
-
-
-// Called when the text view finished editing
+/***
+ Called when the text view is finished editing.
+ ***/
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@""]) {
@@ -183,9 +182,9 @@
 
 
 
-
-
-// Called when a long tap is pressed at a coordinate
+/***
+ Drops a pin at the location of a long press.
+ ***/
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     circle.map = nil;
@@ -204,8 +203,9 @@
 
 
 
-
-
+/***
+ Resigns the first responder status of the postTextView.
+ ***/
 -(IBAction)editText:(id)sender
 {
     [postTextView becomeFirstResponder];
@@ -213,9 +213,9 @@
 
 
 
-
-
-
+/***
+ Animates the user back to the current location.
+ ***/
 - (IBAction)jumpToLocation:(id)sender
 {
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -233,8 +233,9 @@
 
 
 
-
-
+/***
+ Resigns the first responder status of the text view when the map gets dragged.
+ ***/
 -(void)mapView:(GMSMapView *)mapview willMove:(BOOL)gesture
 {
     [postTextView resignFirstResponder];
@@ -242,8 +243,9 @@
 
 
 
-
-
+/***
+ Resigns the first responder status of the text view when the map gets touched.
+ ***/
 -(void)mapView:(GMSMapView *)mapview didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [postTextView resignFirstResponder];
@@ -251,15 +253,14 @@
 
 
 
-
-
+/***
+ Updates the current user location.
+ ***/
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *mostRecentLocation = (CLLocation *) locations.lastObject;
     myCurrentLocation = CLLocationCoordinate2DMake(mostRecentLocation.coordinate.latitude, mostRecentLocation.coordinate.longitude);
 }
-
-
 
 
 

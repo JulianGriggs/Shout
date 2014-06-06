@@ -12,6 +12,10 @@
 
 @interface JCCEchoViewController : UIViewController <UITextViewDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
 
+
+/***
+ Format the text field and add it to the view.
+ ***/
 -(void)setTextField:(NSString *)text;
 
 @end

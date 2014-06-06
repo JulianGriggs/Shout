@@ -44,16 +44,16 @@
     JCCTableViewCell1 *currentCell;
 
 }
-//This is the actual table view object that corresponds to this table view controller
-//@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
 
-// Happens when a user clicks the "UP" button
 @implementation JCCOtherUserShoutsTableViewController
 
 
-
+/***
+ Sets the Id instance variable.
+ ***/
 -(void)passMessageId:(NSString *)messageId
 {
     Id = messageId;
@@ -61,11 +61,11 @@
 
 
 
-
-
+/***
+ Fetch shouts from the current location.
+ ***/
 - (NSArray*)fetchShouts
 {
-    
     //  handle setting up location updates
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -81,8 +81,9 @@
 
 
 
-
-
+/***
+ Sets the number of rows in the section to the number of shouts in the jsonObject.
+ ***/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -91,9 +92,9 @@
 
 
 
-
-
-// Called every time a new cell needs to be loaded
+/***
+ Loads each new cell.
+ ***/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"messageCell1";
@@ -116,9 +117,10 @@
 
 
 
-
-
-// Height of cells in table
+/***
+ Sets the height of all cells in table.
+ TODO: Make this a dynamic value.
+ ***/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 140;
@@ -126,9 +128,9 @@
 
 
 
-
-
-// Number of sections in the table
+/***
+ Sets the number of sections in the table to equal 1.
+ ***/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -136,32 +138,9 @@
 
 
 
-
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// Prevents the view from being turned to landscape mode
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-
-
-
-// Called every time the view is about to appear
+/***
+ Refreshes the table every time the view is about to appear.
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
@@ -170,8 +149,9 @@
 
 
 
-
-// Refreshes the data and reloads the table
+/***
+ Refreshes the data and reloads the table.
+ ***/
 - (void)refresh
 {
     // Do something...
@@ -182,8 +162,6 @@
 
 
 
-
-// Called once when the view initially loads
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -200,14 +178,11 @@
 
 
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 
 

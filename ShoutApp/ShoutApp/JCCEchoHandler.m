@@ -15,6 +15,9 @@
 @implementation JCCEchoHandler
 // Happens when user touches the echo button
 
+/***
+ Sends the echo request synchronously.
+ ***/
 + (void)sendEcho:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController
 {
     // This allocates a echo view controller and pushes it on the navigation stack
@@ -34,7 +37,6 @@
     else
     {
         [tableViewController.navigationController pushViewController:echoViewController animated:YES];
-        
         // set the text
         [echoViewController setTextField:cell.MessageTextView.text];
     }

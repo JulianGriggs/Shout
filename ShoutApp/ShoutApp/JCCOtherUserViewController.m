@@ -34,30 +34,14 @@
     UILabel *theirUsername;
     UILabel *theirMaxRadius;
     UILabel *theirNumShouts;
-    UILabel *theirNumLikesReceived;
-    
-    
+    UILabel *theirNumLikesReceived;    
 }
 
 
 
-
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// Populates all of the data
+/***
+ Populates all of the data when the view appears.
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
     NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername];
@@ -87,9 +71,7 @@
     [theirNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
     
     [theirShoutsButton setTitle:[NSString stringWithFormat:@"Shouts by %@", [userProfDict objectForKey:@"username"]] forState:UIControlStateNormal];
-
 }
-
 
 
 
@@ -169,8 +151,6 @@
     // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
     
-    
-    
     theirUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
     [self.view addSubview:theirUsername];
     
@@ -179,14 +159,13 @@
     
     theirNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
     [self.view addSubview:theirNumLikesReceived];
-    
 }
 
 
 
-
-
-// handle the my shout button being pressed
+/***
+ Adjusts the alpha levels when the "My Shouts" button is being pressed.
+ ***/
 -(IBAction)myShoutButtonPressed:(id)sender
 {
     // adjust the alphas
@@ -197,9 +176,9 @@
 
 
 
-
-
-// handle the top shouts button being pressed
+/***
+ Adjusts the alpha levels when the "Top Shouts" button is being pressed.
+ ***/
 -(IBAction)topShoutsButtonPressed:(id)sender
 {
     // adjust the alphas
@@ -210,9 +189,9 @@
 
 
 
-
-
-//  handle the my locations button being pressed
+/***
+ Adjusts the alpha levels when the "My Locations" button is being pressed.
+ ***/
 -(IBAction)myLocationsButtonPressed:(id)sender
 {
     // adjust the alphas
@@ -223,9 +202,9 @@
 
 
 
-
-
-//  handle the edit profile picture button being pressed
+/***
+ When the user clicks on their profile image, the screen for editing the profile image comes up.
+ ***/
 -(IBAction)editProfPicButtonPressed:(id)sender
 {
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -241,8 +220,6 @@
         [self.navigationController pushViewController:profPicView animated:YES];
     }
 }
-
-
 
 
 

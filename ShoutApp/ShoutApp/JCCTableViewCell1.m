@@ -224,7 +224,13 @@
     
     [self.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
     [self.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"likes"]]];
+    self.UpLabel.layer.cornerRadius = 8.0;
+    self.UpLabel.layer.masksToBounds = YES;
+    
     [self.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"dislikes"]]];
+    self.DownLabel.layer.cornerRadius = 8.0;
+    self.DownLabel.layer.masksToBounds = YES;
+    
     [self.NumberOfRepliesLabel setText:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"numReplies"]]];
     
     

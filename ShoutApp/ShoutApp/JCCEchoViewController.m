@@ -45,20 +45,16 @@
 
 
 
-
-
-// set the text field
+/***
+ Format the text field and add it to the view.
+ ***/
 -(void)setTextField:(NSString *)text
 {
-    //  text view color and shape
     postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
     postTextView.layer.cornerRadius = 8.0;
     postTextView.layer.masksToBounds = YES;
-    
-    //  set the text
     [postTextView setText:text];
     
-    // Default text view
     postTextView.userInteractionEnabled = NO;
     postTextView.editable = NO;
     postTextView.delegate = self;
@@ -68,9 +64,9 @@
 
 
 
-
-
-// Action that changes the radius of the circle overlay whenever the the slider is changed
+/***
+ Changes the radius of the circle overlay whenever the the slider is changed.
+ ***/
 - (IBAction)sliderChanged:(UISlider*)sender
 {
     // Gets the size from the slider
@@ -86,21 +82,18 @@
     // Creates a marker at current position.
     [self addLocationMarker:currentLocationMarker withPostion:myCurrentLocation withTitle:@"Me" withSnippet:@"My Location" withColor:[UIColor blueColor]];
     [self addLocationMarker:destinationLocationMarker withPostion:destinationLocation withTitle:@"Destination" withSnippet:nil withColor:[UIColor redColor]];
-    
-    
 }
 
 
 
-
-
-// Method that will add a location marker
+/***
+ Adds a location marker at the selected position.
+ ***/
 - (void) addLocationMarker:(GMSMarker*)marker withPostion:(CLLocationCoordinate2D)markerPosition withTitle:(NSString *)title withSnippet:(NSString *)snippet withColor:(UIColor*)color
 {
     // If the current location is the same as the destination location, make marker purple.
     if (myCurrentLocation.latitude == destinationLocation.latitude && myCurrentLocation.longitude == destinationLocation.longitude)
         color = [UIColor purpleColor];
-    
     
     // Creates a marker at the location given.
     marker.position = CLLocationCoordinate2DMake(markerPosition.latitude, markerPosition.longitude);
@@ -112,9 +105,9 @@
 
 
 
-
-
-// Send the POST rewuest for sending a shout
+/*** 
+ Send the POST request for sending a shout from the user's location.  If the shout message is empty, then display an alert informing them of that.
+ ***/
 - (IBAction)postShout:(id)sender
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
@@ -146,19 +139,17 @@
             }
             [self.navigationController popViewControllerAnimated:TRUE];
         }
-        
-        
     }
 }
 
 
 
-
-
+/***
+ Drops a pin at the location of a long press.
+ ***/
 -(void) mapView:(GMSMapView *)mapview didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     circle.map = nil;
-    // Creates a marker at current position.
     destinationLocation = coordinate;
     circle.position = coordinate;
     circle.radius = radiusSize;
@@ -168,13 +159,13 @@
     circle.map = mapview;
     [self addLocationMarker:currentLocationMarker withPostion:myCurrentLocation withTitle:@"Me" withSnippet:@"My Location" withColor:[UIColor blueColor]];
     [self addLocationMarker:destinationLocationMarker withPostion:coordinate withTitle:@"Destination" withSnippet:nil withColor:[UIColor redColor]];
-    
 }
 
 
 
-
-
+/***
+ Animates the user back to the current location.
+ ***/
 - (IBAction)jumpToLocation:(id)sender
 {
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -191,8 +182,9 @@
 
 
 
-
-
+/***
+ Resigns the first responder status of the text view when the map gets dragged.
+ ***/
 -(void)mapView:(GMSMapView *)mapview willMove:(BOOL)gesture
 {
     [postTextView resignFirstResponder];
@@ -200,14 +192,13 @@
 
 
 
-
-
+/***
+ Resigns the first responder status of the text view when the map gets touched.
+ ***/
 -(void)mapView:(GMSMapView *)mapview didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [postTextView resignFirstResponder];
 }
-
-
 
 
 
@@ -308,8 +299,6 @@
     [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shoutButton];
 }
-
-
 
 
 
