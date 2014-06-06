@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfDownsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *NumberOfRepliesLabel;
 @property (weak, nonatomic) IBOutlet UIView *InnerView;
+@property (weak, nonatomic) IBOutlet UIButton *ProfileImageButton;
+
 @property UITableViewController *parentTableViewController;
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout;
 @end

@@ -130,6 +130,13 @@
                                 <color key="textColor" red="0.2907710309" green="0.4990426047" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KY3-kZ-h6U" userLabel="ProfileImageButton">
+                                <rect key="frame" x="5" y="13" width="55" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -150,6 +157,7 @@
                 <outlet property="NumberOfRepliesLabel" destination="GTh-L3-vqN" id="HtC-9L-eMf"/>
                 <outlet property="NumberOfUpsLabel" destination="NXN-uG-Md1" id="Zc8-dh-mbq"/>
                 <outlet property="ProfileImage" destination="QNH-Km-mqw" id="dkc-x8-uJX"/>
+                <outlet property="ProfileImageButton" destination="KY3-kZ-h6U" id="nrG-eI-84i"/>
                 <outlet property="ReplyButton" destination="2Xy-ND-Cxt" id="ahm-e1-KDu"/>
                 <outlet property="ReplyIconImage" destination="5i6-zq-yaq" id="Kxv-fu-oaw"/>
                 <outlet property="SenderIDLabel" destination="24N-kM-of8" id="GDf-so-zdX"/>

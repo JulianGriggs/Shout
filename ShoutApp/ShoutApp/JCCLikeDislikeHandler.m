@@ -160,6 +160,8 @@
 }
 
 
+
+
 // Sets default to white background and black text for like/dislike labels
 +(void)setDefaultLikeDislike:(JCCTableViewCell1*)cell
 {

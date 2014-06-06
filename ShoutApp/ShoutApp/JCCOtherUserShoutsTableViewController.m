@@ -108,6 +108,9 @@
     
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     [cell setUpCellWithDictionary:dictShout];
+    
+    // Prevents from going too many layers into viewing profiles
+    [cell.ProfileImageButton setHidden:YES];
     return cell;
 }
 
