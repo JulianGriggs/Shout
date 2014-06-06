@@ -34,16 +34,16 @@
         cell.UpLabel.backgroundColor = [UIColor blackColor];
         cell.UpLabel.layer.cornerRadius = 8.0;
         cell.UpLabel.layer.masksToBounds = YES;
-        int numLikes = [cell.NumberOfUpsLabel.text integerValue];
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes + 1]];
+        NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
+        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%ld", numLikes + 1]];
         if ([cell.DownLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
             [cell.DownLabel setTextColor:[UIColor blackColor]];
             cell.DownLabel.backgroundColor = [UIColor whiteColor];
             
-            int numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-            [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+            NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
+            [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
         }
         
     }
@@ -52,8 +52,8 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.UpLabel setTextColor:[UIColor blackColor]];
         cell.UpLabel.backgroundColor = [UIColor whiteColor];
-        int numLikes = [cell.NumberOfUpsLabel.text integerValue];
-        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+        NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
+        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
     }
     
     __block NSData *reply = nil;
@@ -107,16 +107,16 @@
         cell.DownLabel.backgroundColor = [UIColor blackColor];
         cell.DownLabel.layer.cornerRadius = 8.0;
         cell.DownLabel.layer.masksToBounds = YES;
-        int numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes + 1]];
+        NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
+        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%ld", numDislikes + 1]];
         if ([cell.UpLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
             [cell.UpLabel setTextColor:[UIColor blackColor]];
             cell.UpLabel.backgroundColor = [UIColor whiteColor];
             
-            int numLikes = [cell.NumberOfUpsLabel.text integerValue];
-            [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+            NSInteger numLikes = [cell.NumberOfUpsLabel.text integerValue];
+            [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
         }
         
     }
@@ -125,8 +125,8 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [cell.DownLabel setTextColor:[UIColor blackColor]];
         cell.DownLabel.backgroundColor = [UIColor whiteColor];
-        int numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+        NSInteger numDislikes = [cell.NumberOfDownsLabel.text integerValue];
+        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
     }
     
     __block NSData *reply = nil;

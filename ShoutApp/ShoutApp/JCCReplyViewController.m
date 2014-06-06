@@ -332,149 +332,6 @@
 
 
 
-//// Send the like
-//+ (void)sendUp:(UIButton*)sender fromTableViewController: (JCCFeedTableViewController *)tableViewController
-//{
-//    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:tableViewController.tableView];
-//    NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
-//    
-//    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
-//    
-//    NSString *getMessageID = cell.MessageIDLabel.text;
-//    
-//    // If black set to white, else set to black
-//    if ([cell.UpLabel.textColor isEqual:[UIColor blackColor]])
-//    {
-//        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-//        [cell.UpLabel setTextColor:[UIColor whiteColor]];
-//        cell.UpLabel.backgroundColor = [UIColor blackColor];
-//        cell.UpLabel.layer.cornerRadius = 8.0;
-//        cell.UpLabel.layer.masksToBounds = YES;
-//        int numLikes = [cell.NumberOfUpsLabel.text integerValue];
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes + 1]];
-//        if ([cell.DownLabel.textColor isEqual:[UIColor whiteColor]])
-//        {
-//            // Resets the color of the "down" button to default
-//            [cell.DownLabel setTextColor:[UIColor blackColor]];
-//            cell.DownLabel.backgroundColor = [UIColor whiteColor];
-//            
-//            int numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-//            [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
-//        }
-//        
-//    }
-//    else
-//    {
-//        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-//        [cell.UpLabel setTextColor:[UIColor blackColor]];
-//        cell.UpLabel.backgroundColor = [UIColor whiteColor];
-//        int numLikes = [cell.NumberOfUpsLabel.text integerValue];
-//        [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
-//    }
-//    
-//    __block NSData *reply = nil;
-//    // make the url with query variables
-//    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
-//    url = [url stringByAppendingString:getMessageID];
-//    url = [url stringByAppendingString:@"/like"];
-//    
-//    
-//    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
-//    //        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
-//    //                                    nil options:kNilOptions error:nil];
-//    [manager POST:url parameters:nil
-//          success:^(AFHTTPRequestOperation *operation, id responseObject)
-//     {
-//         reply = (NSData*)responseObject;
-//         [tableViewController fetchShouts];
-//         [tableViewController.tableView reloadData];
-//     }
-//          failure:^(AFHTTPRequestOperation *operation, NSError *error)
-//     {
-//         NSLog(@"Error: %@", error);
-//         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-//         [tableViewController.navigationController pushViewController:badView animated:NO];
-//     }];
-//    
-//}
-//
-//
-//
-//
-//// Happens whenever a user clicks the "DOWN" button
-//+ (void)sendDown:(UIButton*)sender fromTableViewController:(JCCFeedTableViewController *) tableViewController
-//{
-//    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:tableViewController.tableView];
-//    NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
-//    
-//    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
-//    
-//    NSString *getMessageID = cell.MessageIDLabel.text;
-//    
-//    // If black set to white, else set to black
-//    if ([cell.DownLabel.textColor isEqual:[UIColor blackColor]])
-//    {
-//        // Sets the color of the "down" button to blue when its highlighted and after being clicked
-//        [cell.DownLabel setTextColor:[UIColor whiteColor]];
-//        cell.DownLabel.backgroundColor = [UIColor blackColor];
-//        cell.DownLabel.layer.cornerRadius = 20.0;
-//        cell.DownLabel.layer.masksToBounds = YES;
-//        int numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes + 1]];
-//        if ([cell.UpLabel.textColor isEqual:[UIColor whiteColor]])
-//        {
-//            // Resets the color of the "down" button to default
-//            [cell.UpLabel setTextColor:[UIColor blackColor]];
-//            cell.UpLabel.backgroundColor = [UIColor whiteColor];
-//            
-//            int numLikes = [cell.NumberOfUpsLabel.text integerValue];
-//            [cell.NumberOfUpsLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
-//        }
-//        
-//    }
-//    else
-//    {
-//        // Sets the color of the "up" button to blue when its highlighted and after being clicked
-//        [cell.DownLabel setTextColor:[UIColor blackColor]];
-//        cell.DownLabel.backgroundColor = [UIColor whiteColor];
-//        int numDislikes = [cell.NumberOfDownsLabel.text integerValue];
-//        [cell.NumberOfDownsLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
-//    }
-//    
-//    __block NSData *reply = nil;
-//    // make the url with query variables
-//    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
-//    url = [url stringByAppendingString:getMessageID];
-//    url = [url stringByAppendingString:@"/dislike"];
-//    
-//    
-//    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
-//    //        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
-//    //                                    nil options:kNilOptions error:nil];
-//    [manager POST:url parameters:nil
-//          success:^(AFHTTPRequestOperation *operation, id responseObject)
-//     {
-//         reply = (NSData*)responseObject;
-//         [tableViewController fetchShouts];
-//         [tableViewController.tableView reloadData];
-//     }
-//          failure:^(AFHTTPRequestOperation *operation, NSError *error)
-//     {
-//         NSLog(@"Error: %@", error);
-//         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-//         [tableViewController.navigationController pushViewController:badView animated:NO];
-//     }];
-//    
-//}
-
 
 // Sends a like
 - (IBAction)sendUp:(UIButton*)sender
@@ -490,16 +347,16 @@
         likeButton.backgroundColor = [UIColor blackColor];
         likeButton.layer.cornerRadius = 20.0;
         likeButton.layer.masksToBounds = YES;
-        int numLikes = [likeLabel.text integerValue];
-        [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes + 1]];
+        NSInteger numLikes = [likeLabel.text integerValue];
+        [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes + 1]];
         if ([dislikeButton.titleLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
             [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             dislikeButton.backgroundColor = [UIColor clearColor];
             
-            int numDislikes = [dislikeLabel.text integerValue];
-            [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+            NSInteger numDislikes = [dislikeLabel.text integerValue];
+            [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
         }
         
     }
@@ -508,8 +365,8 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         likeButton.backgroundColor = [UIColor clearColor];
-        int numLikes = [likeLabel.text integerValue];
-        [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+        NSInteger numLikes = [likeLabel.text integerValue];
+        [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
     }
     
     __block NSData *reply = nil;
@@ -561,16 +418,16 @@
         dislikeButton.backgroundColor = [UIColor blackColor];
         dislikeButton.layer.cornerRadius = 20.0;
         dislikeButton.layer.masksToBounds = YES;
-        int numDislikes = [dislikeLabel.text integerValue];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes + 1]];
+        NSInteger numDislikes = [dislikeLabel.text integerValue];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes + 1]];
         if ([likeButton.titleLabel.textColor isEqual:[UIColor whiteColor]])
         {
             // Resets the color of the "down" button to default
             [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             likeButton.backgroundColor = [UIColor clearColor];
             
-            int numLikes = [likeLabel.text integerValue];
-            [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
+            NSInteger numLikes = [likeLabel.text integerValue];
+            [likeLabel setText:[NSString stringWithFormat:@"%ld", numLikes - 1]];
         }
         
     }
@@ -579,8 +436,8 @@
         // Sets the color of the "up" button to blue when its highlighted and after being clicked
         [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         dislikeButton.backgroundColor = [UIColor clearColor];
-        int numDislikes = [dislikeLabel.text integerValue];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
+        NSInteger numDislikes = [dislikeLabel.text integerValue];
+        [dislikeLabel setText:[NSString stringWithFormat:@"%ld", numDislikes - 1]];
     }
     
     __block NSData *reply = nil;
@@ -791,14 +648,8 @@
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
     [table setFrame:CGRectMake(0,-1 *(self.view.window.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height - self.navigationController.navigationBar.frame.size.height) + 227, 0, 0)];
     table.contentInset = UIEdgeInsetsMake(0, 0, 350, 0);
-
-    
     tableView.delegate = self;
-    
-    // Adds the table view controller as a child view controller
     [self addChildViewController:tableViewController];
-    
-    // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
     
     // Make gray background
