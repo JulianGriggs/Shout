@@ -28,22 +28,9 @@
 
 
 
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// This is the function that is called when the compose button is pressed
+/***
+ Transitions to the compose page.
+ ***/
 - (IBAction)pressedComposeButton:(id)sender
 {
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -62,8 +49,9 @@
 
 
 
-
-
+/***
+ Transitions to the User page.
+ ***/
 -(IBAction)pressedUserButton:(id)sender
 {
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -80,8 +68,9 @@
 
 
 
-
-
+/***
+ Transitions to the User page upon a swipe to the right.
+ ***/
 -(IBAction)swipeRightHandler:(id)sender
 {
     
@@ -95,17 +84,15 @@
     {
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    
 }
 
 
 
-
-
+/***
+ Transition to the compose view upon a swipe to the left.
+ ***/
 -(IBAction)swipeLeftHandler:(id)sender
 {
-    
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
     if (profileAttempt == nil)
     {
@@ -118,14 +105,13 @@
         JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
         [self.navigationController pushViewController:postViewController animated:YES];
     }
-    
-    
 }
 
 
 
-
-
+/***
+ Reloads the shouts when they exist, otherwise displays the "No Shouts Message".
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
@@ -136,25 +122,21 @@
         [self.navigationController pushViewController:badView animated:NO];
     }
     
-    
     // Displays "No Shouts Message" if there are no shouts in the area.
     if ([self containsShouts])
     {
         [self.view.subviews.lastObject setHidden:YES];
-        
     }
     else
     {
         [tableView setHidden:YES];
-        
     }
-    
 }
 
 
-
-
-
+/***
+ If there are any shouts in the area then return "Yes", else return "No".
+ ***/
 -(BOOL) containsShouts
 {
     //  get the current location
@@ -173,8 +155,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
+
     //  customize the navigation back button
     self.navigationItem.hidesBackButton = YES;
     UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
@@ -200,9 +181,6 @@
     mapView.settings.consumesGesturesInView = NO;
     self.view = mapView;
     
-    
-    
-    
     tableViewController = [[JCCFeedTableViewController alloc] init];
     UITableView *table = tableViewController.tableView;
     [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
@@ -217,9 +195,6 @@
     [self.view addSubview:noShoutsViewController.view];
     
     
-    
-    
-    
     // Create the button to transition to the compose message screen
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(pressedComposeButton:)];
     [self.navigationItem setRightBarButtonItem:composeShout animated:YES];
@@ -231,10 +206,7 @@
     UISwipeGestureRecognizer *gestureLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
     [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [self.view addGestureRecognizer:gestureLeftRecognizer];
-    
 }
-
-
 
 
 
