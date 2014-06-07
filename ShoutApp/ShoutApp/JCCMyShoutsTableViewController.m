@@ -53,6 +53,9 @@
 @implementation JCCMyShoutsTableViewController
 
 
+/***
+ Sets the Id instance variable.
+ ***/
 -(void)passMessageId:(NSString *)messageId
 {
     Id = messageId;
@@ -60,10 +63,11 @@
 
 
 
-
+/***
+ Gets all of the shouts based off of the current location.
+ ***/
 - (NSArray*)fetchShouts
 {
-    
     //  handle setting up location updates
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -79,8 +83,9 @@
 
 
 
-
-
+/***
+ Sets the number of rows to the number of shouts in the jsonObjects object.
+ ***/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -89,9 +94,9 @@
 
 
 
-
-
-// Called every time a cell is loaded into the table
+/***
+ Loads each cell.
+ ***/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"messageCell1";
@@ -114,9 +119,10 @@
 
 
 
-
-
-// Height of each cell in the table
+/***
+ Sets the height of each cell in the table.
+ TODO: Make this dynamic.
+ ***/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 140;
@@ -124,9 +130,9 @@
 
 
 
-
-
-// Number of sections in the table
+/***
+ Sets the number of sections in the table to 1.
+ ***/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -134,32 +140,9 @@
 
 
 
-
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// Prevents the view from being turned to landscape mode
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-
-
-
-// Called every time before the view appears
+/***
+ Refreshes the myshouts table view controller every time before the view appears.
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
@@ -168,9 +151,9 @@
 
 
 
-
-
-// Refreshes the data and then reloads the table
+/***
+ Refreshes the data and then reloads the table.
+ ***/
 - (void)refresh
 {
     // Do something...
@@ -181,9 +164,9 @@
 
 
 
-
-
-// Called the first time the view loads
+/***
+ Creates the refresh object.  And sets the tableview separator style to none.
+ ***/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -200,25 +183,10 @@
 
 
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
-
-
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return NO;
-}
-
-
 
 @end

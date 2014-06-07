@@ -23,48 +23,48 @@
 
 
 
-
-- (void)viewDidAppear:(BOOL)animated {
-    
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
-    
 }
 
 
 
-
-- (IBAction)takePhoto:(UIButton *)sender {
-    
+/***
+ Take a photo for use as a profile picture.
+ ***/
+- (IBAction)takePhoto:(UIButton *)sender
+{
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     
     [self presentViewController:picker animated:YES completion:NULL];
-    
 }
 
 
 
-
-
-- (IBAction)selectPhoto:(UIButton *)sender {
-    
+/***
+ Select a photo from camera roll for use as a profile picture.
+ ***/
+- (IBAction)selectPhoto:(UIButton *)sender
+{
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     [self presentViewController:picker animated:YES completion:NULL];
-    
-    
 }
 
 
 
-
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+/***
+ Sends the image to the server after the user decides they want to use the picture that they either took or selected.
+ ***/
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
@@ -77,31 +77,31 @@
 
 
 
-
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
+/***
+ User cancels the image picker.
+ ***/
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 
 
 
-
-
-- (void)viewDidLoad {
-    
+/***
+ Displays an alert if the user doesn't have a camera.  Sets the image to the current profile image.
+ ***/
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                               message:@"Device has no camera"
                                                              delegate:nil
                                                     cancelButtonTitle:@"OK"
                                                     otherButtonTitles: nil];
-        
         [myAlertView show];
     }
 
