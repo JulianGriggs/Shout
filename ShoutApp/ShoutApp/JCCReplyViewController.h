@@ -13,5 +13,9 @@
 
 @interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate>
 
+/***
+ Sets the Id instance variable.
+ ***/
 -(void)passMessageId:(NSString *)messageId;
+
 @end

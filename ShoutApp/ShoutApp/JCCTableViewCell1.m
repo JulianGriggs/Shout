@@ -206,7 +206,6 @@
     {
         [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
     }
-    
 }
 
 

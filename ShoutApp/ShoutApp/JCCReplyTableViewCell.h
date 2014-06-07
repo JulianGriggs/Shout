@@ -18,5 +18,12 @@
 @property (weak, nonatomic) IBOutlet UIView *InnerView;
 @property (weak, nonatomic) IBOutlet UILabel *MessageIDLabel;
 @property UITableViewController *parentTableViewController;
+@property (weak, nonatomic) IBOutlet UIButton *ProfileImageButton;
+
+
+
+/***
+ Sets up the cell including the profile imafe, username label, time label, message text view, and more button.
+ ***/
 - (JCCReplyTableViewCell *)setUpCellWithDictionary:(NSDictionary *) dictShout;
 @end

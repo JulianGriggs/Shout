@@ -63,6 +63,13 @@
                                 <color key="textColor" red="0.2907710309" green="0.4990426047" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UeM-EW-poT" userLabel="ProfileImageButton">
+                                <rect key="frame" x="5" y="15" width="55" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -76,6 +83,7 @@
                 <outlet property="MessageTextView" destination="Ya7-eg-9jl" id="BvN-mp-XlP"/>
                 <outlet property="MoreButton" destination="rEk-Zq-15Z" id="KbD-7X-Mmc"/>
                 <outlet property="ProfileImage" destination="eun-jQ-HMp" id="887-Du-VpG"/>
+                <outlet property="ProfileImageButton" destination="UeM-EW-poT" id="Dyk-xX-Jc0"/>
                 <outlet property="TimeLabel" destination="tvI-CG-Kvi" id="eli-iA-50c"/>
                 <outlet property="UsernameLabel" destination="QCU-ag-9Yq" id="QaL-Ug-7Nj"/>
             </connections>

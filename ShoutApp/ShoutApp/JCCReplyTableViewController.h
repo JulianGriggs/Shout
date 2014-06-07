@@ -12,9 +12,23 @@
 
 @interface JCCReplyTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UITextFieldDelegate, UIAlertViewDelegate>
 
+/***
+ Sets the Id instance variable.
+ ***/
 -(void)passMessageId:(NSString *)messageId;
 
+
+
+/***
+ Fetches shouts and then reloads the table.
+ ***/
 - (void)refresh;
 
+
+
+/***
+ Gets all of the replies to the current shout in question.
+ ***/
 - (NSArray*)fetchShouts;
+
 @end

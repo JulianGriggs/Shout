@@ -59,30 +59,9 @@
 @implementation JCCReplyTableViewController
 
 
-//  handle switching to other users page on click of cell
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
-    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        otherViewController.otherUsername = cell.UsernameLabel.text;
-        [self.navigationController pushViewController:otherViewController animated:YES];
-    }
-}
-
-
-
-
-// Passes the message ID
+/***
+ Sets the Id instance variable.
+ ***/
 -(void)passMessageId:(NSString *)messageId
 {
     Id = messageId;
@@ -90,12 +69,11 @@
 
 
 
-
-
-// Fetch most recent shouts and reload table
+/***
+ Gets all of the replies to the current shout in question.
+ ***/
 - (NSArray*)fetchShouts
 {
-    
     //  handle setting up location updates
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -108,24 +86,23 @@
     // This parses the response from the server as a JSON object
     jsonObjects = [JCCMakeRequests getReplies:Id];
     return jsonObjects;
-    
 }
 
 
 
-
-
+/***
+ Sets the number of rows to the number of replies.
+ ***/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return jsonObjects.count;
 }
 
 
 
-
-
-// Called everytime a new cell is loaded
+/***
+ Loads each cell.
+ ***/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = @"replyCell1";
@@ -136,7 +113,6 @@
         cell = [nib objectAtIndex:0];
         cell.parentTableViewController = (UITableViewController *)self;
     }
-    
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
     [cell setUpCellWithDictionary:dictShout];
     return cell;
@@ -144,9 +120,9 @@
 
 
 
-
-
-// Registers which button in the alert view was clicked and responds appropriately
+/***
+ Registers which button in the alert view was clicked and responds appropriately by either muting the user and reloading the table or by doing nothing.
+ ***/
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != 0)
@@ -156,17 +132,16 @@
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
             [self.navigationController pushViewController:badView animated:NO];
         }
-        
         [self.tableView reloadData];
-        
     }
 }
 
 
 
-
-
-// Height for each table cell
+/***
+ Sets the height for each table cell.
+ TODO: Make this dynamic.
+ ***/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 120;
@@ -174,9 +149,9 @@
 
 
 
-
-
-// Number of sections in the table
+/***
+ Sets the number of sections in the table to 1.
+ ***/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -184,32 +159,9 @@
 
 
 
-
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// Prevents the view from being turned to landscape mode
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
-
-
-
-// Called whenever the view appears
+/***
+ Refreshes whenever the view appears.
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:FALSE];
@@ -218,8 +170,9 @@
 
 
 
-
-// fetch shouts and then reload the table
+/***  
+ Fetches shouts and then reloads the table.
+ ***/
 - (void)refresh
 {
     // Do something...
@@ -230,9 +183,9 @@
 
 
 
-
-
-// Called the first time the view loads
+/***
+ Creates the refresh control and sets the separator style on the table to none.
+ ***/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -249,8 +202,6 @@
 
 
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -258,13 +209,5 @@
 }
 
 
-
-
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return NO;
-}
 
 @end
