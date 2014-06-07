@@ -11,5 +11,4 @@
 #import <GoogleMaps/GoogleMaps.h>
 
 @interface JCCUserViewController : UIViewController <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate, UIAlertViewDelegate>
-
 @end

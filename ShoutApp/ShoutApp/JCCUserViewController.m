@@ -14,6 +14,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCMyShoutsTableViewController.h"
 #import "JCCMakeRequests.h"
+#import "AFNetworking.h"
 
 @interface JCCUserViewController ()
 
@@ -24,8 +25,6 @@
     CLLocationManager *locationManager;
     GMSMapView *mapView;
     UIButton *myShoutsButton;
-    UIButton *topShoutsButton;
-    UIButton *myLocationsButton;
     UIButton *editProfPicButton;
     UIImage *myProfPicture;
     UIImageView *profilePicture;
@@ -38,34 +37,21 @@
 
 
 
-
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-
+/***
+ When the feed button is pressed, this allocates a feed view controller and pushes it on the navigation stack.
+ ***/
 -(IBAction)pressedFeedButton:(id)sender
 {
-    // This allocates a post view controller and pushes it on the navigation stack
     JCCViewController *viewController = [[JCCViewController alloc] init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 
 
-
-
+/***
+ Method implemented as part of the alertView delegate protocol.  If the user affirms the alert box, then this sets the userName and userToken globals to empty strings 
+ and pops the application back to the login view.  This is essentially the logout procedure.
+ ***/
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1)
@@ -75,26 +61,25 @@
         NSLog(@"Token after logout button: %@", sharedUserToken);
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
 }
 
 
 
-
-
+/***
+ Displays an alert asking if the user really wants to logout.
+ ***/
 -(IBAction)pressedLogoutButton:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
     [alert show];
-    
-    
 }
 
 
 
-
-
+/***
+ When there is a left swipe, this allocates a feed view controller and pushes it on the navigation stack.
+ ***/
 -(IBAction)swipeLeftHandler:(id)sender
 {
     // This allocates a post view controller and pushes it on the navigation stack
@@ -104,40 +89,61 @@
 
 
 
-
-
-// Populates all of the data
+/***
+ Populates all of the data for the user page including the profile image, the username, max radius, number of shouts and number of likes.
+ ***/
 -(void)viewWillAppear:(BOOL)animated
 {
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
-    if (userProfDict == nil)
-    {
-        [JCCMakeRequests displayLackOfInternetAlert];
-        return;
-    }
-    NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
-    
-    if (profPicData == nil)
-    {
-        [JCCMakeRequests displayLackOfInternetAlert];
-        return;
-    }
-    
-    [profilePicture setImage:[UIImage imageWithData:profPicData]];
-    profilePicture.layer.cornerRadius = 8.0;
-    profilePicture.layer.masksToBounds = YES;
-    myProfPicture = profilePicture.image;
-    
+    // Asynchronously loads the profile image in the cell
+    [self loadProfileImageUsingDictionary:userProfDict];
     [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
     [myMaxRadius setText:[NSString stringWithFormat:@"%@ %@ %@", @"Max Radius:", [userProfDict objectForKey:@"maxRadius"], @"meters"]];
     [myNumShouts setText:[NSString stringWithFormat:@"%@ %@",@"Number of Shouts:", [userProfDict objectForKey:@""]]];
     [myNumLikesReceived setText:[NSString stringWithFormat:@"%@ %@", @"Number of likes:", [userProfDict objectForKey:@"numLikes"]]];
-    
 }
 
 
 
+/***
+ Asynchronously loads the profile image.
+ ***/
+- (void) loadProfileImageUsingDictionary:(NSDictionary *) dictShout
+{
+    __block NSData *profPicData = nil;
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/static/shout/images/"];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
+    
+    
+    NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [manager.requestSerializer setValue:authValue forHTTPHeaderField:@"Authorization"];
+    //        NSDictionary *parameters = [NSJSONSerialization JSONObjectWithData:
+    //                                    nil options:kNilOptions error:nil];
+    [manager GET:url parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         profPicData = (NSData*)responseObject;
+         [profilePicture setImage:[UIImage imageWithData:profPicData]];
+         profilePicture.layer.cornerRadius = 8.0;
+         profilePicture.layer.masksToBounds = YES;
+         myProfPicture = profilePicture.image;
+     }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"Error: %@", error);
+         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [self.navigationController pushViewController:badView animated:NO];
+     }];
+}
 
+
+/***
+ Builds this view.
+ ***/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -160,8 +166,7 @@
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
     
-    
-    // add map in the background
+
     //  build the location manager
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -193,7 +198,6 @@
     [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
     
-    
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
     if (userProfDict == nil)
@@ -218,9 +222,6 @@
         [self.view addSubview:editProfPicButton];
         
         
-        //  add the navaigation buttons
-        
-        
         //add my shouts button
         myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
         myShoutsButton.backgroundColor = [UIColor blackColor];
@@ -241,7 +242,6 @@
         [table addGestureRecognizer:gestureLeftRecognizer];
         
         
-        
         myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
         [self.view addSubview:myUsername];
         
@@ -251,15 +251,13 @@
         myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
         [self.view addSubview:myNumLikesReceived];
     }
-    
-    
-    
 }
 
 
 
-
-//  handle the edit profile picture button being pressed
+/***
+ Transitions to viewing the profile image by allocating the view controller and then pushing it onto the stack.
+ ***/
 -(IBAction)editProfPicButtonPressed:(id)sender
 {
     JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
@@ -269,44 +267,14 @@
 
 
 
-
-
-// handle the my shout button being pressed
+/***
+ Shows the list of "My Shouts"
+ ***/
 -(IBAction)myShoutButtonPressed:(id)sender
 {
     // adjust the alphas
     myShoutsButton.alpha = 0.8;
-    topShoutsButton.alpha = 0.4;
-    myLocationsButton.alpha = 0.4;
 }
-
-
-
-
-
-// handle the top shouts button being pressed
--(IBAction)topShoutsButtonPressed:(id)sender
-{
-    // adjust the alphas
-    myShoutsButton.alpha = 0.4;
-    topShoutsButton.alpha = 0.8;
-    myLocationsButton.alpha = 0.4;
-}
-
-
-
-
-
-//  handle the my locations button being pressed
--(IBAction)myLocationsButtonPressed:(id)sender
-{
-    // adjust the alphas
-    myShoutsButton.alpha = 0.4;
-    topShoutsButton.alpha = 0.4;
-    myLocationsButton.alpha = 0.8;
-}
-
-
 
 
 
@@ -315,7 +283,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end
