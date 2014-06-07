@@ -15,15 +15,10 @@
 
 @implementation JCCNoShoutsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
+/***
+ Creates the view.
+ ***/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,7 +37,6 @@
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
     
-    
     //  set black background color
     [self.view setBackgroundColor:[UIColor blackColor]];
     
@@ -53,14 +47,9 @@
     [noShoutsView setUserInteractionEnabled:NO];
     noShoutsView.text = @"There doesn't appear to be anyone Shouting in this area.  Click the \"Compose\" Icon in the upper right of the screen to become the first!";
     [self.view addSubview:noShoutsView];
-    
-//    //  add a button to test the internet connection
-//    UIButton *tryAgainButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
-//    tryAgainButton.backgroundColor = [UIColor blackColor];
-//    [tryAgainButton setTitle:@"Compose" forState:UIControlStateNormal];
-//    [tryAgainButton addTarget:self action:@selector(tryAgainButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:tryAgainButton];
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -68,15 +57,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -33,5 +33,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *ProfileImageButton;
 
 @property UITableViewController *parentTableViewController;
+
+/***
+ Sets up the cell including the profile image, username label, time label, message text view, upLabel, downLabel, and more button.
+ ***/
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout;
 @end

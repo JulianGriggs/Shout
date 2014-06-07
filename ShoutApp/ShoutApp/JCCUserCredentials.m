@@ -10,12 +10,23 @@
 
 @implementation JCCUserCredentials
 
-// The token of the user. It is made globally available
+/***
+ The token of the user. It is made globally available.
+ ***/
 NSString *sharedUserToken = @"";
 
-// The username of the user. It is made globally available
+
+
+/***
+ The username of the user. It is made globally available.
+ ***/
 NSString *sharedUserName = @"";
 
-// The userID of the user. It is made globally available
+
+
+/***
+ The userID of the user. It is made globally available.
+ ***/
 NSString *sharedUserID = @"";
+
 @end

@@ -16,19 +16,10 @@
 
 @implementation JCCBadConnectionViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
-
-
-
-
+/***
+ Creates the view.
+ ***/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -46,7 +37,6 @@
     
     [imageView setImage:logoImage];
     [self.view addSubview:imageView];
-    
     
     //  set black background color
     [self.view setBackgroundColor:[UIColor blackColor]];
@@ -69,9 +59,9 @@
 
 
 
-
-
-//  try again
+/***
+ Tests the internet connection to see if the user has internet.
+ ***/
 -(IBAction)tryAgainButtonPressed:(id)sender
 {
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -83,10 +73,7 @@
     {
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
 }
-
-
 
 
 

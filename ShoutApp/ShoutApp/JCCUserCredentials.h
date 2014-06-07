@@ -10,7 +10,23 @@
 
 @interface JCCUserCredentials : NSObject
 
+/***
+ Global variable that stores the token of the logged in user.
+ ***/
 extern NSString* sharedUserToken;
+
+
+
+/***
+ Global variable that stores the userName of the logged in user.
+ ***/
 extern NSString* sharedUserName;
+
+
+
+/***
+ Global variable that stores the userID of the logged in user.
+ ***/
 extern NSString* sharedUserID;
+
 @end

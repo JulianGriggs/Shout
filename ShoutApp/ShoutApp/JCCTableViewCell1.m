@@ -19,8 +19,9 @@
 @implementation JCCTableViewCell1
 
 
-
-// Send the like
+/***
+ Send the like.
+ ***/
 - (IBAction)sendUp:(UIButton*)sender
 {
     // post the like
@@ -29,8 +30,9 @@
 
 
 
-
-// Happens whenever a user clicks the "DOWN" button
+/***
+ Send the dislike.
+ ***/
 - (IBAction)sendDown:(UIButton*)sender
 {
     // post the dislike
@@ -39,9 +41,9 @@
 
 
 
-
-
-// Happens when a user touches the reply button
+/***
+ Send the reply.
+ ***/
 - (IBAction)sendReply:(UIButton*)sender
 {
     [JCCReplyHandler sendReply:sender fromTableViewController:self.parentTableViewController];
@@ -49,9 +51,9 @@
 
 
 
-
-
-// Happens when user touches the echo button
+/***
+ Send the echo.
+ ***/
 - (IBAction)sendEcho:(UIButton*)sender
 {
     [JCCEchoHandler sendEcho:sender fromTableViewController:self.parentTableViewController];
@@ -59,17 +61,16 @@
 
 
 
-
-// handles the mute option
+/***
+ Displayes the mute option.
+ ***/
 - (IBAction)showMuteOption:(UIButton*)sender
 {
-    // post the dislike
     [JCCMuteHandler sendMute:sender fromTableViewController:self.parentTableViewController];
     if([(JCCFeedTableViewController*)self.parentTableViewController fetchShouts] == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
-        return;
     }
     else
     {
@@ -79,13 +80,13 @@
 
 
 
-
-// converts a UTC string to a date object
+/***
+ Converts a UTC string to a date object.
+ ***/
 - (NSString *) formatTime:(NSString *) timeString
 {
     NSString* input = timeString;
     NSString* format = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    
     NSDate *now = [NSDate date];
     
     // Set up an NSDateFormatter for UTC time zone
@@ -95,64 +96,61 @@
     
     // Cast the input string to NSDate
     NSDate* utcDate = [formatterUtc dateFromString:input];
-    
     double timeInterval = [now timeIntervalSinceDate:utcDate];
-    
     timeInterval = timeInterval + 37;
     
-    
-    //  years
+    // years
     if ((timeInterval) / 31536000 >= 1)
     {
         if ((int)(timeInterval) / 31536000 == 1)
         {
             return @"1 year ago";
         }
-        return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
+        else
+            return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
     }
     
-    //  days
+    // days
     else if ((timeInterval) / 86400 >= 1)
     {
         if ((int)(timeInterval) / 86400 == 1)
-        {
             return @"1 day ago";
-        }
-        return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
+        else
+            return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
     }
     
-    //  hours
+    // hours
     else if ((timeInterval) / 3600 >= 1)
     {
         if ((int)(timeInterval) / 3600 == 1)
-        {
             return @"1 hour ago";
-        }
-        return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
+        else
+            return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
     }
     
-    //  minutes
+    // minutes
     else if ((timeInterval) / 60 >= 1)
     {
         if ((int)(timeInterval) / 60 == 1)
-        {
             return @"1 min ago";
-        }
-        return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
+        else
+            return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
     }
     
-    if (timeInterval < 1)
+    // Moments
+    else if (timeInterval < 1)
         return [NSString stringWithFormat:@"right now"];
     
-    //  seconds
-    return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
-    
+    // seconds
+    else
+        return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
 }
 
 
 
-
-// Asynchronously loads the profile image in the cell
+/***
+ Asynchronously loads the profile image in the cell.
+ ***/
 - (void) loadProfileImageUsingDictionary:(NSDictionary *) dictShout
 {
     __block NSData *profPicData = nil;
@@ -187,13 +185,12 @@
 
 
 
-
+/***
+ Transitions to the other user page.
+ ***/
 - (IBAction)transitionToUserPage:(id)sender
 {
     JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
-//    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
-//    otherViewController.otherUsername = cell.UsernameLabel.text;
-//    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     otherViewController.otherUsername = self.UsernameLabel.text;
     
     NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
@@ -206,12 +203,13 @@
     {
         [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
     }
-    
 }
 
 
 
-
+/***
+ Sets up the cell including the profile image, username label, time label, message text view, upLabel, downLabel, and more button.
+ ***/
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout
 {
     // Asynchronously loads the profile image in the cell
@@ -247,7 +245,6 @@
     self.InnerView.layer.cornerRadius = 8.0;
     self.InnerView.layer.masksToBounds = YES;
     
-    
     // Set current like/dislike
     NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];
     NSArray *usersDisliked = [dictShout objectForKey:@"usersDisliked"];
@@ -267,12 +264,8 @@
         if ([person isEqualToString:sharedUserName])
             [JCCLikeDislikeHandler setDislikeAsMarked:self];
     }
-    
     return self;
-    
 }
-
-
 
 
 
@@ -280,8 +273,6 @@
 {
     // Initialization code
 }
-
-
 
 
 

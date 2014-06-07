@@ -51,38 +51,23 @@
     CGFloat keyboardSize;
     CGFloat screenWidth;
     CGFloat screenHeight;
-    
 }
 
 
 
-
-
-//  set the message id
+/***
+ Sets the Id instance variable.
+ ***/
 -(void)passMessageId:(NSString *)messageId
 {
     Id = messageId;
-    
 }
 
 
 
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-
-
-
-// Resets the reply screen
+/***
+ Resets the reply screen to display the default message.
+ ***/
 - (void) resetAfterReply
 {
     [self textViewDidEndEditing:replyTextView];
@@ -92,12 +77,11 @@
 
 
 
-
-
-//  handle posting a reply
+/***
+ Validates that there is actually a message to post.  If there is, then it posts the reply.
+ ***/
 -(IBAction)postReply:(id)sender
 {
-    // post the reply
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
     if (([replyTextView.text isEqualToString:@"Reply here!"] && [replyTextView.textColor isEqual:[UIColor lightGrayColor]]) || ([[replyTextView.text stringByTrimmingCharactersInSet: set] length] == 0))
@@ -107,8 +91,6 @@
     }
     else
     {
-        
-        //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text, @"messageID": Id};
         if([JCCMakeRequests postReply:dictionaryData withID:Id] == nil)
         {
@@ -117,38 +99,34 @@
         }
         else
         {
-            //  refresh the table of replies after posting
             [tableViewController refresh];
-            
-            // reset the screen
             [self resetAfterReply];
         }
-        
     }
 }
 
 
 
-
-
-// handle the number of cahracters in the text field
+/***
+ Validates the text in the reply to make sure that it doesn't contain any newline characters and to make sure that it isn't too long.
+ ***/
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
     [textView becomeFirstResponder];
     if([text isEqualToString:@"\n"])
     {
         [textView resignFirstResponder];
         return NO;
     }
-    
+
     return textView.text.length + (text.length - range.length) <= maxCharacters;
 }
 
 
 
-
-
+/***
+ Makes the replyTextView the first responder upon a touch event.
+ ***/
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [replyTextView resignFirstResponder];
@@ -156,9 +134,9 @@
 
 
 
-
-
-// handle text in text view
+/***
+ Clears the text view and animates up the replyTextView upon beginning editing.
+ ***/
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@"Reply here!"])
@@ -187,10 +165,7 @@
             replyTextView.layer.cornerRadius=8.0f;
             replyTextView.layer.masksToBounds = YES;
             [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-keyboardSize - 45, 35, 35)];
-            
-            
         }];
-
     }
     else
     {
@@ -208,9 +183,9 @@
 
 
 
-
-
-// handle text in text view
+/***
+ Animates down the replyTextView
+ ***/
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@""]) {
@@ -236,17 +211,15 @@
         [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45, 35, 35)];
         replyTextView.layer.cornerRadius=8.0f;
         replyTextView.layer.masksToBounds = YES;
-        
     }];
-
     [textView resignFirstResponder];
 }
 
 
 
-
-
-//  cancel button is pressed handler
+/***
+ Cancel button is pressed handler.
+ ***/
 -(IBAction)cancelButtonPressed:(id)sender
 {
     //  delete the compose view
@@ -258,14 +231,13 @@
 
 
 
-
-
-// converts a UTC string to a date object
+/***
+ Converts a UTC string to a date object.
+ ***/
 - (NSString *) formatTime:(NSString *) timeString
 {
     NSString* input = timeString;
     NSString* format = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    
     NSDate *now = [NSDate date];
     
     // Set up an NSDateFormatter for UTC time zone
@@ -275,68 +247,63 @@
     
     // Cast the input string to NSDate
     NSDate* utcDate = [formatterUtc dateFromString:input];
-    
     double timeInterval = [now timeIntervalSinceDate:utcDate];
-    
     timeInterval = timeInterval + 37;
     
-    
-    //  years
+    // years
     if ((timeInterval) / 31536000 >= 1)
     {
         if ((int)(timeInterval) / 31536000 == 1)
         {
             return @"1 year ago";
         }
-        return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
+        else
+            return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
     }
     
-    //  days
+    // days
     else if ((timeInterval) / 86400 >= 1)
     {
         if ((int)(timeInterval) / 86400 == 1)
-        {
             return @"1 day ago";
-        }
-        return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
+        else
+            return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
     }
     
-    //  hours
+    // hours
     else if ((timeInterval) / 3600 >= 1)
     {
         if ((int)(timeInterval) / 3600 == 1)
-        {
             return @"1 hour ago";
-        }
-        return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
+        else
+            return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
     }
     
-    //  minutes
+    // minutes
     else if ((timeInterval) / 60 >= 1)
     {
         if ((int)(timeInterval) / 60 == 1)
-        {
             return @"1 min ago";
-        }
-        return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
+        else
+            return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
     }
     
-    if (timeInterval < 1)
+    // Moments
+    else if (timeInterval < 1)
         return [NSString stringWithFormat:@"right now"];
     
-    //  seconds
-    return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
-    
+    // seconds
+    else
+        return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
 }
 
 
 
-
-
-// Sends a like
+/***
+ Updates the UI appropriately to display that the user has either liked or removed thier own like.  Sends the actual "like" POST asynchronously.
+ ***/
 - (IBAction)sendUp:(UIButton*)sender
 {
-    
     NSString *getMessageID = Id;
     
     // If black set to white, else set to black
@@ -358,7 +325,6 @@
             NSInteger numDislikes = [dislikeLabel.text integerValue];
             [dislikeLabel setText:[NSString stringWithFormat:@"%d", numDislikes - 1]];
         }
-        
     }
     else
     {
@@ -396,18 +362,15 @@
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
          [tableViewController.navigationController pushViewController:badView animated:NO];
      }];
-    
-
 }
 
 
 
-
-
-// Happens whenever a user clicks the "DOWN" button
+/***
+ Updates the UI appropriately to display that the user has either disliked or removed thier own dislike.  Sends the actual "dislike" POST asynchronously.
+ ***/
 - (IBAction)sendDown:(UIButton*)sender
 {
-    
     NSString *getMessageID = Id;
     
     // If black set to white, else set to black
@@ -425,11 +388,9 @@
             // Resets the color of the "down" button to default
             [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             likeButton.backgroundColor = [UIColor clearColor];
-            
             NSInteger numLikes = [likeLabel.text integerValue];
             [likeLabel setText:[NSString stringWithFormat:@"%d", numLikes - 1]];
         }
-        
     }
     else
     {
@@ -445,7 +406,6 @@
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/"];
     url = [url stringByAppendingString:getMessageID];
     url = [url stringByAppendingString:@"/dislike"];
-    
     
     NSString *authValue = [NSString stringWithFormat:@"Token %@", sharedUserToken];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -471,8 +431,9 @@
 
 
 
-
-// Sets default to white background and black text for like/dislike labels
+/***
+ Sets the default to clear background and black text for like/dislike labels.
+ ***/
 -(void)setDefaultLikeDislike:(UIButton*)button
 {
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -484,30 +445,25 @@
 
 
 
-
-
-// if the user is found in the list for having liked, then highlight the like label
+/***
+ Sets the like button to white text and a black background.
+ ***/
 -(void)setLikeAsMarked:(UIButton*)button
 {
-//    [button setTitle:@"⋀" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor blackColor]];
 }
 
 
 
-
-
-// if the user is found in the list for having disliked, then highlight the like label
+/***
+ Sets the dislike button to white text and a black background.
+ ***/
 -(void)setDislikeAsMarked:(UIButton*)button
 {
-//    [button setTitle:@"⋁" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor blackColor]];
-    
 }
-
-
 
 
 
@@ -559,9 +515,7 @@
         screenHeight = [UIScreen mainScreen].bounds.size.height;
         screenWidth = [UIScreen mainScreen].bounds.size.width;
         keyboardSize = 216;
-        //  text view color and shape
         postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
-        
         
         // Default text view
         postTextView.text = [tempJsonObjects objectForKey:@"bodyField"];
@@ -634,10 +588,7 @@
             if ([person isEqualToString:sharedUserName])
                 [self setDislikeAsMarked:dislikeButton];
         }
-
     }
-    
-
     
     //  create the table view controller
     tableViewController = [[JCCReplyTableViewController alloc] init];
@@ -687,7 +638,6 @@
     [self.view addSubview:repliesButton];
     
     //  add profile picture
-    
     profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 55, 55)];
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
@@ -704,10 +654,7 @@
         [profilePicture setImage:[UIImage imageWithData:profPicData]];
     
     [self.view addSubview:profilePicture];
-    
-
 }
-
 
 
 
@@ -716,16 +663,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
