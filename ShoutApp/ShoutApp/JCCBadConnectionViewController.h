@@ -9,5 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface JCCBadConnectionViewController : UIViewController
-
 @end
