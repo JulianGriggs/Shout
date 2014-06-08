@@ -256,6 +256,7 @@
     [self.view addSubview:userNameField];
 
     
+    
     // Create the password field
 //    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
     passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.572, 225, outerWindowHeight * 0.088)];
