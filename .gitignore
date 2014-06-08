@@ -13,6 +13,12 @@ build/
 *.mode1v3
 *.mode2v3
 
+ShoutApp/Pods/Pods.xcodeproj/xcuserdata/colemccracken.xcuserdatad/xcschemes/Pods-ShoutApp-UIAlertView+Blocks.xcscheme
+ShoutApp/Pods/Pods.xcodeproj/xcuserdata/colemccracken.xcuserdatad/xcschemes/Pods-ShoutApp-AFNetworking.xcscheme
+ShoutApp/Pods/Pods.xcodeproj/xcuserdata/colemccracken.xcuserdatad/xcschemes/Pods-ShoutApp.xcscheme
+ShoutApp/Pods/Pods.xcodeproj/xcuserdata/colemccracken.xcuserdatad/xcschemes/xcschememanagement.plist
+ShoutApp/ShoutApp.xcworkspace/xcuserdata/colemccracken.xcuserdatad/UserInterfaceState.xcuserstate
+
 Documentation/Generated
 doxygenWarnings.txt
 *.xcodeproj/xcuserdata/*.xcuserdatad
