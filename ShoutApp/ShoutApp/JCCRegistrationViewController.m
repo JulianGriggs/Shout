@@ -158,8 +158,9 @@
     {
         [self dismissKeyboard];
     }
-    
-    // Makes sure that the email given is a valid email address
+
+#warning TODO uncomment
+/*    // Makes sure that the email given is a valid email address
     else if(![self validateEmailWithString:emailField.text])
     {
         NSString *errorMessage = [NSString stringWithFormat:@"Your email address is not valid.  Please provide a valid email address."];
@@ -167,7 +168,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
-    
+    */
     else
     {
         // Object with username, password, and email address

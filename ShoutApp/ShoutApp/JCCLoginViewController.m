@@ -17,6 +17,8 @@
 #import "JCCMakeRequests.h"
 
 @interface JCCLoginViewController ()
+
+
 @end
 
 @implementation JCCLoginViewController
@@ -28,7 +30,6 @@
     UIImageView *imageView;
     UIButton *registerButton;
 }
-
 
 
 /***
@@ -126,6 +127,7 @@
         {
             [self setUserCredentials:token];
             [self addMainViewControllers];
+
         }
     }
 }
@@ -162,7 +164,7 @@
     [self.navigationController pushViewController:userViewController animated:NO];
     [self.navigationController pushViewController:viewController animated:NO];
     
-
+    
 }
 
 

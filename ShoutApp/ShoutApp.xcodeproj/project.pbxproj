@@ -63,6 +63,8 @@
 		75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */; };
 		75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */; };
 		75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */; };
+		9B7E05C81945211D00655DF6 /* JCCEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7E05C71945211D00655DF6 /* JCCEditProfileViewController.m */; };
+		9B7E05CB19452B9900655DF6 /* JCCConfirmPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7E05CA19452B9900655DF6 /* JCCConfirmPasswordViewController.m */; };
 		B9A72F8B7ADD455BBE2C1BD9 /* libPods-ShoutApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62093C4150DE4E12A5A0651A /* libPods-ShoutApp.a */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +165,10 @@
 		75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewController.m; sourceTree = "<group>"; };
 		75EC9573191B2C95004AE3F6 /* JCCReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyViewController.h; sourceTree = "<group>"; };
 		75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyViewController.m; sourceTree = "<group>"; };
+		9B7E05C61945211D00655DF6 /* JCCEditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEditProfileViewController.h; sourceTree = "<group>"; };
+		9B7E05C71945211D00655DF6 /* JCCEditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEditProfileViewController.m; sourceTree = "<group>"; };
+		9B7E05C919452B9900655DF6 /* JCCConfirmPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCConfirmPasswordViewController.h; sourceTree = "<group>"; };
+		9B7E05CA19452B9900655DF6 /* JCCConfirmPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCConfirmPasswordViewController.m; sourceTree = "<group>"; };
 		F4369340FB7147EDB22E7AC3 /* Pods-ShoutApp.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoutApp.xcconfig"; path = "Pods/Pods-ShoutApp.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -393,6 +399,10 @@
 		755AAF051901B4BC00DB52D9 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				9B7E05C61945211D00655DF6 /* JCCEditProfileViewController.h */,
+				9B7E05C71945211D00655DF6 /* JCCEditProfileViewController.m */,
+				9B7E05C919452B9900655DF6 /* JCCConfirmPasswordViewController.h */,
+				9B7E05CA19452B9900655DF6 /* JCCConfirmPasswordViewController.m */,
 				755AAEF718F5D50700DB52D9 /* JCCUserViewController.h */,
 				755AAEF818F5D50700DB52D9 /* JCCUserViewController.m */,
 				7502062A19198AC5001BAA49 /* ProfilePic */,
@@ -640,10 +650,12 @@
 				75020638191998DB001BAA49 /* JCCMyShoutsTableViewController.m in Sources */,
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				6184A962192A651300F939E5 /* JCCLikeDislikeHandler.m in Sources */,
+				9B7E05CB19452B9900655DF6 /* JCCConfirmPasswordViewController.m in Sources */,
 				61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */,
 				75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */,
 				6184A964192A651300F939E5 /* JCCMuteHandler.m in Sources */,
 				61A0CE6918F08AE300B8217A /* JCCAppDelegate.m in Sources */,
+				9B7E05C81945211D00655DF6 /* JCCEditProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

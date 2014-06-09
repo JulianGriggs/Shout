@@ -108,6 +108,15 @@
  ***/
 +(BOOL) attemptRegistration:(NSDictionary *) dictionaryData;
 
+/***
+ Synchronously attempts editing profile information.  Upon success YES is returned.  Upon failure, NO is returned.
+ ***/
++(BOOL) editProfile:(NSDictionary *) dictionaryData;
+
+/***
+ Synchronously attempts to confirm a users password.  Upon success YES is returned.  Upon failure, NO is returned.
+ ***/
++(BOOL) confirmPassword:(NSDictionary *) dictionaryData;
 
 
 /***

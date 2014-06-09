@@ -472,6 +472,63 @@
         return YES; // Success
 }
 
+/***
+ Synchronously attempts to confirm a users password.  Upon success YES is returned.  Upon failure, NO is returned.
+ ***/
++(BOOL) confirmPassword:(NSDictionary *) dictionaryData
+{
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/confirmPassword/"];
+    
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
+    
+    // send the POST request
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    
+    //  return nil if the internet connection is poor
+    if (POSTReply == nil)
+        return nil;
+    
+    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
+    //#endif
+    if ([theReply isEqualToString:@"wrong password"])
+        return NO;  // Failure
+    
+    else
+        return YES; // Success
+
+}
+
+/***
+ Synchronously attempts editing profile information.  Upon success YES is returned.  Upon failure, NO is returned.
+ ***/
++(BOOL) editProfile:(NSDictionary *) dictionaryData
+{
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/editProfile/"];
+    
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
+    
+    // send the POST request
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    
+    //  return nil if the internet connection is poor
+    if (POSTReply == nil)
+        return nil;
+    
+    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
+    //#endif
+    if ([theReply isEqualToString:@"that username is already taken"])
+        return NO;  // Failure (Username probably already exists)
+    
+    else
+        return YES; // Success
+}
+
 
 
 /***

@@ -11,6 +11,8 @@
 #import "JCCLoginViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCProfPicViewController.h"
+#import "JCCEditProfileViewController.h"
+#import "JCCConfirmPasswordViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCMyShoutsTableViewController.h"
 #import "JCCMakeRequests.h"
@@ -33,6 +35,7 @@
     UILabel *myMaxRadius;
     UILabel *myNumShouts;
     UILabel *myNumLikesReceived;
+    UIButton *editProfile;
 }
 
 
@@ -248,9 +251,23 @@
         myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
         [self.view addSubview:myMaxRadius];
         
-        myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
-        [self.view addSubview:myNumLikesReceived];
+//        myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+//        [self.view addSubview:myNumLikesReceived];
+        
+        editProfile = [[UIButton alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+        [editProfile setTitle:@"edit" forState:UIControlStateNormal];
+        [editProfile setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [editProfile setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+        [editProfile addTarget:self action:@selector(editProfileButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:editProfile];
     }
+}
+
+
+-(IBAction)editProfileButtonPressed:(id)sender
+{
+    JCCConfirmPasswordViewController *confirmPasswordView = [[JCCConfirmPasswordViewController alloc] init];
+    [self.navigationController pushViewController:confirmPasswordView animated:NO];
 }
 
 
