@@ -243,8 +243,8 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
-#warning TODO uncomment and make work. for some reason even when they were equaal they werent equal...
-/*    else if (passwordField.text != passwordConfirmField.text)
+    
+    else if (![passwordField.text isEqualToString:passwordConfirmField.text])
     {
         NSLog(@"more cunt blasters");
         NSLog(passwordField.text);
@@ -255,7 +255,7 @@
         [alert show];
 
     }
- */
+
 #warning TODO uncomment
     /*    // Makes sure that the email given is a valid email address
          else if(![self validateEmailWithString:emailField.text])
