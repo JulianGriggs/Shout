@@ -46,10 +46,13 @@
     
     JCCTableViewCell1 *currentCell;
     
+    int nonMessageHeight;
+    
 }
 @end
 
 @implementation JCCFeedTableViewController
+
 
 
 /***
@@ -114,19 +117,33 @@
     
     NSString *CellIdentifier = @"messageCell1";
     JCCTableViewCell1 *cell = (JCCTableViewCell1 *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
+/*    NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:[dictShout objectForKey:@"bodyField"]];
+    CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
+*/
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCTableViewCell1" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        [cell setFrame:CGRectMake(0, 0, 320, 480)];// messageHeight + nonMessageHeight)];
         cell.parentTableViewController = (UITableViewController *)self;
     }
-    
-    NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
+ /*   else
+    {
+        [cell setFrame:CGRectMake(0, 0, 320, messageHeight + nonMessageHeight)];
+    }
+*/
     [cell setUpCellWithDictionary:dictShout];
     return cell;
 }
 
-
+- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)text andWidth:(CGFloat)width
+{
+    UITextView *textView = [[UITextView alloc] init];
+    [textView setAttributedText:text];
+    CGSize size = [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
+    return size.height;
+}
 
 /***
  Sets the height for each table cell.
@@ -134,6 +151,12 @@
  ***/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
+    NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
+    NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:[dictShout objectForKey:@"bodyField"]];
+    CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
+    return messageHeight + nonMessageHeight;
+    */
     return 140;
 }
 
@@ -206,6 +229,7 @@
     
     // Gets the current location
     myCurrentLocation = locationManager.location.coordinate;
+    nonMessageHeight = 70;
     
 }
 
