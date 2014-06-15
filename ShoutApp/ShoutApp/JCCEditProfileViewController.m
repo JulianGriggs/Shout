@@ -274,7 +274,7 @@
         // Attempts the registration
         if ([JCCMakeRequests editProfile:dictionaryData])
         {
-            NSLog(@"cunt blasters");
+            NSLog(@"cunt blasters"); // hehe
             [self.navigationController popViewControllerAnimated:NO];
             [self.navigationController popToRootViewControllerAnimated:NO];
             

@@ -24,40 +24,27 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:tableViewController.tableView];
     NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
-
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
+    
+    if ([cell.UsernameLabel.text isEqualToString:sharedUserName])
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [tableViewController.navigationController pushViewController:badView animated:NO];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [alert show];
     }
     else
     {
-        if ([cell.UsernameLabel.text isEqualToString:sharedUserName])
-        {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
-        }
-        else
-        {
-            [UIAlertView showWithTitle:@"Mute"
-                               message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?"
-                     cancelButtonTitle:@"No"
-                     otherButtonTitles:@[@"Yes"]
-                              tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                  if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
-                                  {
-                                      if([JCCMakeRequests postMute:[cell.UsernameLabel text]] == nil)
-                                      {
-                                          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-                                          [tableViewController.navigationController pushViewController:badView animated:NO];
-                                      }
-                                      [tableViewController.tableView reloadData];
-                                  }
-                              }];
-        }
+        [UIAlertView showWithTitle:@"Mute"
+                           message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?"
+                 cancelButtonTitle:@"No"
+                 otherButtonTitles:@[@"Yes"]
+                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                              if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
+                              {
+                                  [JCCMakeRequests postMute:[cell.UsernameLabel text]];
+                                  [tableViewController.tableView reloadData];
+                              }
+                          }];
     }
+    
 }
 
 @end

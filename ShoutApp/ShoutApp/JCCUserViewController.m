@@ -52,7 +52,7 @@
 
 
 /***
- Method implemented as part of the alertView delegate protocol.  If the user affirms the alert box, then this sets the userName and userToken globals to empty strings 
+ Method implemented as part of the alertView delegate protocol.  If the user affirms the alert box, then this sets the userName and userToken globals to empty strings
  and pops the application back to the login view.  This is essentially the logout procedure.
  ***/
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -169,7 +169,7 @@
     userView.backgroundColor = [UIColor whiteColor];
     self.view = userView;
     
-
+    
     //  build the location manager
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -203,64 +203,57 @@
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
-    if (userProfDict == nil)
-    {
-        [JCCMakeRequests displayLackOfInternetAlert];
-        return;
-    }
-    else
-    {
-        // Stores our userID
-        sharedUserID = [userProfDict objectForKey:@"id"];
-        
-        //  add the users profile picture
-        //  add profile picture
-        profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
-        [self.view addSubview:profilePicture];
-        
-        
-        //  add an edit profile picture button
-        editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
-        [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:editProfPicButton];
-        
-        
-        //add my shouts button
-        myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
-        myShoutsButton.backgroundColor = [UIColor blackColor];
-        [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
-        [self.view addSubview:myShoutsButton];
-        
-        tableViewController = [[JCCMyShoutsTableViewController alloc] init];
-        
-        // The table view controller's view
-        UITableView *table = tableViewController.tableView;
-        [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
-        [table setFrame:CGRectMake(0,195,0, 0)];
-        table.contentInset = UIEdgeInsetsMake(0, 0, 194, 0);
-        // Adds the table view controller as a child view controller
-        [self addChildViewController:tableViewController];
-        // Adds the View of the table view controller as a subview
-        [self.view addSubview:table];
-        [table addGestureRecognizer:gestureLeftRecognizer];
-        
-        
-        myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
-        [self.view addSubview:myUsername];
-        
-        myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
-        [self.view addSubview:myMaxRadius];
-        
-//        myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
-//        [self.view addSubview:myNumLikesReceived];
-        
-        editProfile = [[UIButton alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
-        [editProfile setTitle:@"edit" forState:UIControlStateNormal];
-        [editProfile setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [editProfile setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-        [editProfile addTarget:self action:@selector(editProfileButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:editProfile];
-    }
+    // Stores our userID
+    sharedUserID = [userProfDict objectForKey:@"id"];
+    
+    //  add the users profile picture
+    //  add profile picture
+    profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+    [self.view addSubview:profilePicture];
+    
+    
+    //  add an edit profile picture button
+    editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
+    [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:editProfPicButton];
+    
+    
+    //add my shouts button
+    myShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
+    myShoutsButton.backgroundColor = [UIColor blackColor];
+    [myShoutsButton setTitle:@"My Shouts" forState:UIControlStateNormal];
+    [self.view addSubview:myShoutsButton];
+    
+    tableViewController = [[JCCMyShoutsTableViewController alloc] init];
+    
+    // The table view controller's view
+    UITableView *table = tableViewController.tableView;
+    [table setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.8]];
+    [table setFrame:CGRectMake(0,195,0, 0)];
+    table.contentInset = UIEdgeInsetsMake(0, 0, 194, 0);
+    // Adds the table view controller as a child view controller
+    [self addChildViewController:tableViewController];
+    // Adds the View of the table view controller as a subview
+    [self.view addSubview:table];
+    [table addGestureRecognizer:gestureLeftRecognizer];
+    
+    
+    myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
+    [self.view addSubview:myUsername];
+    
+    myMaxRadius = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 30)];
+    [self.view addSubview:myMaxRadius];
+    
+    //        myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+    //        [self.view addSubview:myNumLikesReceived];
+    
+    editProfile = [[UIButton alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
+    [editProfile setTitle:@"edit" forState:UIControlStateNormal];
+    [editProfile setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [editProfile setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [editProfile addTarget:self action:@selector(editProfileButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:editProfile];
+    
 }
 
 
