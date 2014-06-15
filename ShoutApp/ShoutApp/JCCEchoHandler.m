@@ -16,7 +16,7 @@
 // Happens when user touches the echo button
 
 /***
- Sends the echo request synchronously.
+ Moves to the Echo View controller
  ***/
 + (void)sendEcho:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController
 {

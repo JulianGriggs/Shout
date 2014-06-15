@@ -7,11 +7,9 @@
 //
 
 #import "JCCLikeDislikeHandler.h"
-#import "JCCMakeRequests.h"
 #import "JCCBadConnectionViewController.h"
 #import "JCCUserCredentials.h"
 #import "AFNetworking.h"
-#import "JCCFeedTableViewController.h"
 
 @implementation JCCLikeDislikeHandler
 

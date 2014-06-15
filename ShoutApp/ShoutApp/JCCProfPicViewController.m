@@ -19,6 +19,9 @@
 {
     UIImage* newProfImage;
     
+    //Object for error handling
+    NSError* error;
+    
 }
 
 
@@ -70,7 +73,7 @@
     self.imageView.image = chosenImage;
     newProfImage = chosenImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    [JCCMakeRequests sendImageToServer:newProfImage];
+    [JCCMakeRequests sendImageToServer:newProfImage withPotentialError:error];
     [self.navigationController popViewControllerAnimated:YES];
     
 }

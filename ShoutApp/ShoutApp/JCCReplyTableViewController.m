@@ -27,6 +27,12 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCReplyTableViewController ()
+
+@end
+
+
+// Happens when a user clicks the "UP" button
+@implementation JCCReplyTableViewController
 {
     
     // location manager
@@ -50,14 +56,10 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
+    
+    //Object for error handling
+    NSError* error;
 }
-
-@end
-
-
-// Happens when a user clicks the "UP" button
-@implementation JCCReplyTableViewController
-
 
 /***
  Sets the Id instance variable.
@@ -84,7 +86,7 @@
     locationManager.distanceFilter=kCLDistanceFilterNone;
     
     // This parses the response from the server as a JSON object
-    jsonObjects = [JCCMakeRequests getReplies:Id];
+    jsonObjects = [JCCMakeRequests getReplies:Id withPotentialError:error];
     return jsonObjects;
 }
 
@@ -127,7 +129,7 @@
 {
     if (buttonIndex != 0)
     {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:error];
         [self fetchShouts];
         [self.tableView reloadData];
     }

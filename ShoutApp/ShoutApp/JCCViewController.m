@@ -24,6 +24,9 @@
     GMSMapView *mapView;
     JCCFeedTableViewController *tableViewController;
     UITableView *tableView;
+    
+    //Object for error checking
+    NSError* error;
 }
 
 
@@ -98,8 +101,9 @@
 {
     //  get the current location
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
-    
-    NSArray *jsonObjects = [JCCMakeRequests getShouts:dictionaryData];
+
+    NSError* error;
+    NSArray *jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:error];
     if ([jsonObjects count] == 0)
     {
         return NO;

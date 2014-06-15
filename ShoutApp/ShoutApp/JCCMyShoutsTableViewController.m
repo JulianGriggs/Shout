@@ -20,6 +20,14 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCMyShoutsTableViewController ()
+
+//This is the actual table view object that corresponds to this table view controller
+//@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@end
+
+
+// Happens when a user clicks the "UP" button
+@implementation JCCMyShoutsTableViewController
 {
     
     // location manager
@@ -43,15 +51,10 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
+    
+    // Object for error handling
+    NSError* error;
 }
-//This is the actual table view object that corresponds to this table view controller
-//@property (strong, nonatomic) IBOutlet UITableView *tableView;
-@end
-
-
-// Happens when a user clicks the "UP" button
-@implementation JCCMyShoutsTableViewController
-
 
 /***
  Sets the Id instance variable.
@@ -77,7 +80,7 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
         
-    jsonObjects = [JCCMakeRequests getMyShouts];
+    jsonObjects = [JCCMakeRequests getMyShoutsWithPotentialError:error];
     return jsonObjects;
 }
 

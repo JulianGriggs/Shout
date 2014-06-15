@@ -36,6 +36,9 @@
     UILabel *myNumShouts;
     UILabel *myNumLikesReceived;
     UIButton *editProfile;
+    
+    // Object for error handling
+    NSError* error;
 }
 
 
@@ -97,7 +100,7 @@
  ***/
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
     // Asynchronously loads the profile image in the cell
     [self loadProfileImageUsingDictionary:userProfDict];
     [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
@@ -202,7 +205,7 @@
     
     
     // This parses the response from the server as a JSON object
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
     // Stores our userID
     sharedUserID = [userProfDict objectForKey:@"id"];
     

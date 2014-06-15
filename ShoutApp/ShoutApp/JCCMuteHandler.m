@@ -15,6 +15,9 @@
 #import "UIAlertView+Blocks.h"
 
 @implementation JCCMuteHandler
+{
+
+}
 
 /***
  Displays the alert modal upon clicking the alert button.  If the user then confirms their decision to mute the author of the shout they selected, then a synchronous mute is sent to the server.  Otherwise, the modal disappears.  If a user tries to mute themselves, a modal pops up informing them that this is not a permitted action.
@@ -39,7 +42,10 @@
                           tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                               if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
                               {
-                                  [JCCMakeRequests postMute:[cell.UsernameLabel text]];
+                                  // Object for error handling
+                                  NSError* error;
+                                  
+                                  [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:error];
                                   [tableViewController.tableView reloadData];
                               }
                           }];

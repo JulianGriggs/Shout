@@ -16,7 +16,7 @@
 
 
 /***
- Sends a synchronous reply.
+ Moves to reply view
  ***/
 + (void)sendReply:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController
 {

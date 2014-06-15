@@ -21,6 +21,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCFeedTableViewController ()
+
+@end
+
+@implementation JCCFeedTableViewController
 {
     
     // location manager
@@ -48,11 +52,10 @@
     
     int nonMessageHeight;
     
+    //Object for error checking
+    NSError* error;
+    
 }
-@end
-
-@implementation JCCFeedTableViewController
-
 
 
 /***
@@ -73,7 +76,7 @@
 {
     if (buttonIndex != 0)
     {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:error];
         [self fetchShouts];
         [self.tableView reloadData];
     }
@@ -89,7 +92,7 @@
     //  get the current location
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
     
-    jsonObjects = [JCCMakeRequests getShouts:dictionaryData];
+    jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:error];
     return jsonObjects;
 }
 
