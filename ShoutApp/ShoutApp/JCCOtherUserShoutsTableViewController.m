@@ -19,8 +19,12 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCOtherUserShoutsTableViewController ()
+
+@end
+
+
+@implementation JCCOtherUserShoutsTableViewController
 {
-    
     // location manager
     CLLocationManager *locationManager;
     
@@ -42,14 +46,10 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
-
+    
+    //Oject for error handling
+    NSError* error;
 }
-
-@end
-
-
-@implementation JCCOtherUserShoutsTableViewController
-
 
 /***
  Sets the Id instance variable.
@@ -75,7 +75,7 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
     
-    jsonObjects = [JCCMakeRequests getOtherUsersShouts:self.otherUsername];
+    jsonObjects = [JCCMakeRequests getOtherUsersShouts:self.otherUsername withPotentialError:error];
     return jsonObjects;
 }
 

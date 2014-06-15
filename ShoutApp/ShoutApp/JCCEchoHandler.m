@@ -16,7 +16,7 @@
 // Happens when user touches the echo button
 
 /***
- Sends the echo request synchronously.
+ Moves to the Echo View controller
  ***/
 + (void)sendEcho:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController
 {
@@ -28,18 +28,10 @@
     NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
     
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [tableViewController.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [tableViewController.navigationController pushViewController:echoViewController animated:YES];
-        // set the text
-        [echoViewController setTextField:cell.MessageTextView.text];
-    }
+    [tableViewController.navigationController pushViewController:echoViewController animated:YES];
+    // set the text
+    [echoViewController setTextField:cell.MessageTextView.text];
+    
 }
 
 @end

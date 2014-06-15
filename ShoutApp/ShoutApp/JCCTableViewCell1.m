@@ -17,6 +17,10 @@
 #import "JCCOtherUserViewController.h"
 
 @implementation JCCTableViewCell1
+{
+    //Object for error checking
+    NSError* error;
+}
 
 /***
  Send the like.
@@ -192,7 +196,7 @@
     JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
     otherViewController.otherUsername = self.UsernameLabel.text;
     
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfileWithPotentialError:error];
     if (profileAttempt == nil)
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
@@ -219,7 +223,7 @@
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout
 {
     int height = self.frame.size.height;
-    NSLog(@"total height %d", height);
+//    NSLog(@"total height %d", height);
 
     int emptySpaceFromTop = 13;
     int emptySpaceFromBottom = 10;

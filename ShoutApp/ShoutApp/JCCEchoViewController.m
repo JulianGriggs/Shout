@@ -41,6 +41,9 @@
     GMSCircle *circle;
     int maxRadiusSize;
     int radiusSize;
+    
+    // Object for error handling
+    NSError* error;
 }
 
 
@@ -105,7 +108,7 @@
 
 
 
-/*** 
+/***
  Send the POST request for sending a shout from the user's location.  If the shout message is empty, then display an alert informing them of that.
  ***/
 - (IBAction)postShout:(id)sender
@@ -119,26 +122,12 @@
     }
     else
     {
-        NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-        if (profileAttempt == nil)
-        {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:NO];
-        }
-        else
-        {
-            
-            //  format the data
-            NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
-            NSString *response = [JCCMakeRequests postShout:dictionaryData];
-            if (response == nil)
-            {
-                JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-                [self.navigationController pushViewController:badView animated:NO];
-                return;
-            }
-            [self.navigationController popViewControllerAnimated:TRUE];
-        }
+        
+        //  format the data
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:error];
+        [self.navigationController popViewControllerAnimated:TRUE];
+        
     }
 }
 
@@ -168,16 +157,7 @@
  ***/
 - (IBAction)jumpToLocation:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [mapView animateToLocation:myCurrentLocation];
-    }
+    [mapView animateToLocation:myCurrentLocation];
 }
 
 
@@ -226,13 +206,7 @@
     [mapView animateToViewingAngle:45];
     
     
-    NSDictionary* userDict = [JCCMakeRequests getUserProfile];
-    if (userDict == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return;
-    }
+    NSDictionary* userDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
     maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
     radiusSize = DEFAULT_MIN_RADIUS;
     
@@ -262,7 +236,7 @@
     // Recreating myLocation Button
     UIImage* myLocationIcon = [UIImage imageNamed:@"MyLocation.png"];
     // Adds button that jumps back to current location
-//    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
+    //    UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, 497, 35, 35)];
     UIButton *myLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(272, outerWindowHeight * 0.875, 35, 35)];
     myLocationButton.layer.cornerRadius = 8.0;
     [myLocationButton setBackgroundColor:[UIColor blackColor]];
@@ -276,7 +250,7 @@
     
     
     //  add slider
-//    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
+    //    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
     radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.7923, 225, 20)];
     [radiusSlider setTintColor:[UIColor blackColor]];
     [radiusSlider setThumbTintColor:[UIColor blackColor]];
@@ -289,7 +263,7 @@
     
     
     //  add shoutbutton
-//    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+    //    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
     shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, outerWindowHeight * 0.8627, 175, 50)];
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;

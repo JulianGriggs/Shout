@@ -15,6 +15,9 @@
 #import "UIAlertView+Blocks.h"
 
 @implementation JCCMuteHandler
+{
+
+}
 
 /***
  Displays the alert modal upon clicking the alert button.  If the user then confirms their decision to mute the author of the shout they selected, then a synchronous mute is sent to the server.  Otherwise, the modal disappears.  If a user tries to mute themselves, a modal pops up informing them that this is not a permitted action.
@@ -24,40 +27,30 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:tableViewController.tableView];
     NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
-
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
+    
+    if ([cell.UsernameLabel.text isEqualToString:sharedUserName])
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [tableViewController.navigationController pushViewController:badView animated:NO];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [alert show];
     }
     else
     {
-        if ([cell.UsernameLabel.text isEqualToString:sharedUserName])
-        {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mute" message:@"You can't mute yourself!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
-        }
-        else
-        {
-            [UIAlertView showWithTitle:@"Mute"
-                               message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?"
-                     cancelButtonTitle:@"No"
-                     otherButtonTitles:@[@"Yes"]
-                              tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                  if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
-                                  {
-                                      if([JCCMakeRequests postMute:[cell.UsernameLabel text]] == nil)
-                                      {
-                                          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-                                          [tableViewController.navigationController pushViewController:badView animated:NO];
-                                      }
-                                      [tableViewController.tableView reloadData];
-                                  }
-                              }];
-        }
+        [UIAlertView showWithTitle:@"Mute"
+                           message:@"You will never be able to receive shouts from this person again.  Are you sure you want to mute this person?"
+                 cancelButtonTitle:@"No"
+                 otherButtonTitles:@[@"Yes"]
+                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                              if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
+                              {
+                                  // Object for error handling
+                                  NSError* error;
+                                  
+                                  [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:error];
+                                  [tableViewController.tableView reloadData];
+                              }
+                          }];
     }
+    
 }
 
 @end

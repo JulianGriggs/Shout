@@ -16,7 +16,7 @@
 
 
 /***
- Sends a synchronous reply.
+ Moves to reply view
  ***/
 + (void)sendReply:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController
 {
@@ -28,20 +28,11 @@
     NSIndexPath *indexPath = [tableViewController.tableView indexPathForRowAtPoint:buttonPosition];
     JCCTableViewCell1 *cell = (JCCTableViewCell1*)[tableViewController.tableView cellForRowAtIndexPath:indexPath];
     
+    // set the text
+    [replyViewController passMessageId:cell.MessageIDLabel.text];
     
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [tableViewController.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        // set the text
-        [replyViewController passMessageId:cell.MessageIDLabel.text];
-        
-        [tableViewController.navigationController pushViewController:replyViewController animated:YES];
-    }
+    [tableViewController.navigationController pushViewController:replyViewController animated:YES];
+    
 }
 
 @end

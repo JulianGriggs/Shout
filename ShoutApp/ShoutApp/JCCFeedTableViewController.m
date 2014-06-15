@@ -21,6 +21,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCFeedTableViewController ()
+
+@end
+
+@implementation JCCFeedTableViewController
 {
     
     // location manager
@@ -48,11 +52,10 @@
     
     int nonMessageHeight;
     
+    //Object for error checking
+    NSError* error;
+    
 }
-@end
-
-@implementation JCCFeedTableViewController
-
 
 
 /***
@@ -73,11 +76,8 @@
 {
     if (buttonIndex != 0)
     {
-        if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
-        {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:NO];
-        }
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:error];
+        [self fetchShouts];
         [self.tableView reloadData];
     }
 }
@@ -92,7 +92,8 @@
     //  get the current location
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
     
-    jsonObjects = [JCCMakeRequests getShouts:dictionaryData];
+    jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:error];
+    NSLog(@"%@", error);
     return jsonObjects;
 }
 
@@ -188,16 +189,9 @@
  ***/
 - (void)refresh
 {
-    if ([self fetchShouts] == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.tableView reloadData];
-        [self.refreshControl endRefreshing];
-    }
+    [self fetchShouts];
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 

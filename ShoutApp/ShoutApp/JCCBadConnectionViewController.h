@@ -9,4 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface JCCBadConnectionViewController : UIViewController
+@property (weak, nonatomic) NSString* message;
 @end

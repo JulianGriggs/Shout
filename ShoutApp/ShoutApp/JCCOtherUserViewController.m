@@ -34,7 +34,10 @@
     UILabel *theirUsername;
     UILabel *theirMaxRadius;
     UILabel *theirNumShouts;
-    UILabel *theirNumLikesReceived;    
+    UILabel *theirNumLikesReceived;
+    
+    //Object for error handling
+    NSError* error;
 }
 
 
@@ -44,22 +47,9 @@
  ***/
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername];
-    if (userProfDict == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return;
-    }
-    NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict];
+    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername withPotentialError:error];
+    NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict withPotentialError:error];
     
-    if (profPicData == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return;
-    }
-
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
@@ -114,11 +104,11 @@
     [self.view addSubview:mapCoverView];
     
     
-//    // This parses the response from the server as a JSON object
-//    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
-//    
-//    // Stores our userID
-//    sharedUserID = [userProfDict objectForKey:@"id"];
+    //    // This parses the response from the server as a JSON object
+    //    NSDictionary *userProfDict = [JCCMakeRequests getUserProfile];
+    //
+    //    // Stores our userID
+    //    sharedUserID = [userProfDict objectForKey:@"id"];
     
     //  add the users profile picture
     //  add profile picture
@@ -129,7 +119,7 @@
     editProfPicButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 75, 80, 80)];
     [editProfPicButton addTarget:self action:@selector(editProfPicButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:editProfPicButton];
-
+    
     
     //add my shouts button
     theirShoutsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 165, 320, 30)];
@@ -207,18 +197,10 @@
  ***/
 -(IBAction)editProfPicButtonPressed:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        JCCOtherProfPicViewController *profPicView = [[JCCOtherProfPicViewController alloc] init];
-        profPicView.profPicture = theirProfPicture;
-        [self.navigationController pushViewController:profPicView animated:YES];
-    }
+    JCCOtherProfPicViewController *profPicView = [[JCCOtherProfPicViewController alloc] init];
+    profPicView.profPicture = theirProfPicture;
+    [self.navigationController pushViewController:profPicView animated:YES];
+    
 }
 
 

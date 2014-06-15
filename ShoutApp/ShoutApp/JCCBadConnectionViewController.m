@@ -15,6 +15,9 @@
 @end
 
 @implementation JCCBadConnectionViewController
+{
+    NSError* error;
+}
 
 
 /***
@@ -46,7 +49,8 @@
     badInternetView.textAlignment = NSTextAlignmentCenter;
     badInternetView.textColor = [UIColor whiteColor];
     [badInternetView setUserInteractionEnabled:NO];
-    badInternetView.text = @"I have some bad news friend. It appears your internet connection is poor. In order for this app to work properly you need a better connection. Please press \"Try Again\" to test your connection and get back to enjoying Shout!";
+//    badInternetView.text = @"I have some bad news friend. It appears your internet connection is poor. In order for this app to work properly you need a better connection. Please press \"Try Again\" to test your connection and get back to enjoying Shout!";
+    badInternetView.text = self.message;
     [self.view addSubview:badInternetView];
     
     //  add a button to test the internet connection
@@ -64,7 +68,7 @@
  ***/
 -(IBAction)tryAgainButtonPressed:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfileWithPotentialError:error];
     if (profileAttempt == nil)
     {
         [JCCMakeRequests displayLackOfInternetAlert];

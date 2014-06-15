@@ -30,6 +30,9 @@
     UITextField *passwordConfirmField;
     UITextField *emailField;
     UIButton *updateButton;
+    
+    //Object for error handling
+    NSError* error;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -272,9 +275,9 @@
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text, @"email": emailField.text};
             
         // Attempts the registration
-        if ([JCCMakeRequests editProfile:dictionaryData])
+        if ([JCCMakeRequests editProfile:dictionaryData withPotentialError:error])
         {
-            NSLog(@"cunt blasters");
+            NSLog(@"cunt blasters"); // hehe
             [self.navigationController popViewControllerAnimated:NO];
             [self.navigationController popToRootViewControllerAnimated:NO];
             

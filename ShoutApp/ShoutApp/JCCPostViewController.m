@@ -38,6 +38,9 @@
     GMSCircle *circle;
     int maxRadiusSize;
     int radiusSize;
+    
+    //Object for error handling
+    NSError* error;
 }
 
 
@@ -100,26 +103,13 @@
     }
     else
     {
-        NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-        if (profileAttempt == nil)
-        {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:NO];
-        }
-        else
-        {
-            //  format the data
-            NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
-            
-            NSString *response = [JCCMakeRequests postShout:dictionaryData];
-            if (response == nil)
-            {
-                JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-                [self.navigationController pushViewController:badView animated:NO];
-                return;
-            }
-            [self.navigationController popViewControllerAnimated:TRUE];
-        }
+        
+        //  format the data
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        
+        NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:error];
+        [self.navigationController popViewControllerAnimated:TRUE];
+        
     }
 }
 
@@ -218,17 +208,7 @@
  ***/
 - (IBAction)jumpToLocation:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [mapView animateToLocation:myCurrentLocation];
-    }
-
+    [mapView animateToLocation:myCurrentLocation];
 }
 
 
@@ -272,20 +252,20 @@
     
     
     // put title on navbar
-    [self.navigationItem setTitle:@"Compose"];    
+    [self.navigationItem setTitle:@"Compose"];
     
     if (!locationManager)
     {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
         locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-//        locationManager.distanceFilter=kCLDistanceFilterNone;
+        //        locationManager.distanceFilter=kCLDistanceFilterNone;
         locationManager.distanceFilter=10;
-
+        
         [locationManager startUpdatingLocation];
     }
     
-
+    
     
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:locationManager.location.coordinate.latitude
                                                             longitude:locationManager.location.coordinate.longitude
@@ -294,13 +274,7 @@
     [mapView animateToViewingAngle:45];
     
     
-    NSDictionary* userDict = [JCCMakeRequests getUserProfile];
-    if (userDict == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-        return;
-    }
+    NSDictionary* userDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
     maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
     
     radiusSize = DEFAULT_MIN_RADIUS;
@@ -325,7 +299,7 @@
     
     // Creates a marker at current position.
     [self addLocationMarker:destinationLocationMarker withPostion:destinationLocation withTitle:@"Destination" withSnippet:@"My Location" withColor:[UIColor redColor]];
-
+    
     //  text view color and shape
     postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
     postTextView.layer.cornerRadius = 8.0;
@@ -337,7 +311,7 @@
     postTextView.userInteractionEnabled = YES;
     postTextView.editable = YES;
     postTextView.delegate = self;
-
+    
     
     [self.view addSubview:postTextView];
     
@@ -353,11 +327,11 @@
     
     // Prevents the scroll bar from automatically scrolling down
     self.automaticallyAdjustsScrollViewInsets = NO;
-
-
+    
+    
     
     //  add slider
-//    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
+    //    radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, 450, 225, 20)];
     radiusSlider = [[UISlider alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.7923, 225, 20)];
     [radiusSlider setTintColor:[UIColor blackColor]];
     [radiusSlider setThumbTintColor:[UIColor blackColor]];
@@ -367,10 +341,10 @@
     
     [self.view addSubview:radiusSlider];
     [radiusSlider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
-
+    
     
     //  add shoutbutton
-//    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+    //    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
     shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, outerWindowHeight * 0.8627, 175, 50)];
     shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     shoutButton.clipsToBounds = YES;
@@ -381,7 +355,7 @@
     [self.view addSubview:shoutButton];
     
     
-
+    
     // button to allow editing of text
     textButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 75, 225, 75)];
     textButton.layer.cornerRadius = 8.0; // this value vary as per your desire

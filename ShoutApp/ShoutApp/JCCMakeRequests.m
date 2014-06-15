@@ -16,7 +16,7 @@
 /***
  Creates and sends a generic synchronous request using the provided URL, HTTPMethod, and Data.  If the custom request parameter is not nil then it will use the custom request parameter.
  ***/
-+(NSData*)sendGenericRequestWithURL:(NSString *)url withType:(NSString*)HTTPMethod withData:(NSData*) jsonData withCustomRequest:(NSMutableURLRequest *) customRequest
++(NSData*)sendGenericRequestWithURL:(NSString *)url withType:(NSString*)HTTPMethod withData:(NSData*) jsonData withCustomRequest:(NSMutableURLRequest *) customRequest withPotentialError:(NSError *)error
 {
     NSMutableURLRequest *request;
     if (customRequest == nil)
@@ -41,7 +41,6 @@
     
     // check the response
     NSURLResponse *response;
-    NSError *error;
     NSData *reply = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     //  return nil if the internet connection is poor
@@ -56,12 +55,13 @@
 /***
  Returns an NSDictionary with the user's profile information.
  ***/
-+(NSDictionary *)getUserProfile
++(NSDictionary *)getUserProfileWithPotentialError:(NSError*) error
 {
     NSString *url = [NSString stringWithFormat:@"%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getMyProfile/"];
     
+    
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -83,13 +83,13 @@
 /***
  Get the profile of another user.
  ***/
-+(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername
++(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername withPotentialError:(NSError*) error
 {
     //  get the the users information
     NSString *url = [NSString stringWithFormat:@"%@%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getOtherProfile?username=", otherUsername];
     
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -111,13 +111,13 @@
 /***
  Returns an NSData object with the user's profile image.
  ***/
-+(NSData*)getProfileImage:(NSDictionary *) dictShout
++(NSData*)getProfileImage:(NSDictionary *) dictShout withPotentialError:(NSError*) error
 {
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/static/shout/images/"];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictShout objectForKey:@"profilePic"]]];
     
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -135,7 +135,7 @@
 /***
  Synchronously posts a Reply.
  ***/
-+(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID
++(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID withPotentialError:(NSError*) error
 {
     // Encode dictionary data in json
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
@@ -144,7 +144,7 @@
     NSString *url = [NSString stringWithFormat:@"%@",@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/replies"];
     
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (POSTReply == nil)
@@ -163,7 +163,7 @@
 /***
  Synchronously posts a shout message.
  ***/
-+(NSString *) postShout:(NSDictionary *) dictionaryData
++(NSString *) postShout:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error
 {
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
@@ -172,7 +172,7 @@
     NSString *url = [NSString stringWithFormat:@"%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages"];
     
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (POSTReply == nil)
@@ -190,7 +190,7 @@
 /***
  Returns all replies to a given shout.
  ***/
-+(NSArray *) getReplies:(NSString *) ID
++(NSArray *) getReplies:(NSString *) ID withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/replies?"];
@@ -198,7 +198,7 @@
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", ID]];
     
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -222,7 +222,7 @@
 /***
  Returns the list of all shouts.
  ***/
-+(NSArray *) getShouts:(NSDictionary *) dictionaryData
++(NSArray *) getShouts:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages?"];
@@ -231,9 +231,9 @@
     url = [url stringByAppendingString:@"&"];
     url = [url stringByAppendingString:@"longitude="];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
-    
+
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
 
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -256,13 +256,13 @@
 /***
  Returns the list of all shouts sent by the user.
  ***/
-+(NSArray *) getMyShouts
++(NSArray *) getMyShoutsWithPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getMyShouts/"];
     
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -285,13 +285,14 @@
 /***
  Returns the list of all shouts sent by a different user.
  ***/
-+(NSArray *) getOtherUsersShouts:(NSString *) otherUsername
++(NSArray *) getOtherUsersShouts:(NSString *) otherUsername withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%@%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getOtherShouts?username=", otherUsername]];
     
+
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -314,13 +315,14 @@
 /***
  Get a particular shout using its ID.
  ***/
-+(NSDictionary *)getShoutWithID:(NSString *)messageID
++(NSDictionary *)getShoutWithID:(NSString *)messageID withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [NSString stringWithFormat:@"%@%@/", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/", messageID];
     
+
     // send the GET request
-    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil];
+    NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (GETReply == nil)
@@ -398,12 +400,13 @@
 /***
  Uploads a profile picture to the server.
  ***/
-+(NSString*)sendImageToServer:(UIImage *)newProfImage
++(NSString*)sendImageToServer:(UIImage *)newProfImage  withPotentialError:(NSError*) error
 {
     NSMutableURLRequest *request = [self buildUploadPhotoRequest:newProfImage];
     
+
     // send the PUT request
-    NSData *PUTReply = [self sendGenericRequestWithURL:nil withType:@"PUT" withData:nil withCustomRequest:request];
+    NSData *PUTReply = [self sendGenericRequestWithURL:nil withType:@"PUT" withData:nil withCustomRequest:request withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (PUTReply == nil)
@@ -422,14 +425,14 @@
 /***
  Synchronously post the mute.
  ***/
-+(NSString *)postMute:(NSString *) username
++(NSString *)postMute:(NSString *) username withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/mute?username="];
     url = [url stringByAppendingString:username];
     
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (POSTReply == nil)
@@ -447,7 +450,7 @@
 /***
  Synchronously attempts the registration.  Upon success YES is returned.  Upon failure, NO is returned.
  ***/
-+(BOOL) attemptRegistration:(NSDictionary *) dictionaryData
++(BOOL) attemptRegistration:(NSDictionary *) dictionaryData  withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/register/"];
@@ -455,7 +458,7 @@
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (POSTReply == nil)
@@ -475,15 +478,16 @@
 /***
  Synchronously attempts to confirm a users password.  Upon success YES is returned.  Upon failure, NO is returned.
  ***/
-+(BOOL) confirmPassword:(NSDictionary *) dictionaryData
++(BOOL) confirmPassword:(NSDictionary *) dictionaryData  withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/confirmPassword/"];
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
+
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (POSTReply == nil)
@@ -504,7 +508,7 @@
 /***
  Synchronously attempts editing profile information.  Upon success YES is returned.  Upon failure, NO is returned.
  ***/
-+(BOOL) editProfile:(NSDictionary *) dictionaryData
++(BOOL) editProfile:(NSDictionary *) dictionaryData  withPotentialError:(NSError*) error
 {
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/editProfile/"];
@@ -512,7 +516,7 @@
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor
     if (POSTReply == nil)
@@ -534,7 +538,7 @@
 /***
  Synchronously attempts the login.  Upon success the token is returned.  Upon failure, nil is returned.
  ***/
-+(NSString *)attemptAuth: (NSDictionary *) dictionaryData
++(NSString *)attemptAuth: (NSDictionary *) dictionaryData withPotentialError:(NSError*) error
 {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
@@ -542,7 +546,7 @@
     NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/api-token-auth/"];
     
     // send the POST request
-    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil];
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:error];
     
     //  return nil if the internet connection is poor or didn't give a valid username/password
     if (POSTReply == nil)
