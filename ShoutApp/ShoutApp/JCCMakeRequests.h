@@ -15,63 +15,63 @@
 /***
  Returns the list of all shouts.
  ***/
-+(NSArray *) getShouts:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error;
++(NSArray *) getShouts:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Returns the list of all shouts sent by the user.
  ***/
-+(NSArray *) getMyShoutsWithPotentialError:(NSError*) error;
++(NSArray *) getMyShoutsWithPotentialError:(NSError**) p_error;
 
 
 
 /***
  Returns the list of all shouts sent by a different user.
  ***/
-+(NSArray *) getOtherUsersShouts:(NSString *) otherUsername withPotentialError:(NSError*) error;
++(NSArray *) getOtherUsersShouts:(NSString *) otherUsername withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Returns all replies to a given shout.
  ***/
-+(NSArray *) getReplies:(NSString *) ID withPotentialError:(NSError*) error;
++(NSArray *) getReplies:(NSString *) ID withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Returns an NSDictionary with the user's profile information.
  ***/
-+(NSDictionary *)getUserProfileWithPotentialError:(NSError*) error;
++(NSDictionary *)getUserProfileWithPotentialError:(NSError**) p_error;
 
 
 
 /***
  Get the profile of another user.
  ***/
-+(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername withPotentialError:(NSError*) error;
++(NSDictionary *)getOtherUserProfile:(NSString *)otherUsername withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Returns an NSData object with the user's profile image.
  ***/
-+(NSData*)getProfileImage:(NSDictionary *) dictShout withPotentialError:(NSError*) error;
++(NSData*)getProfileImage:(NSDictionary *) dictShout withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Synchronously posts a shout message.
  ***/
-+(NSString *) postShout:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error;
++(NSString *) postShout:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Synchronously posts a Reply.
  ***/
-+(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID withPotentialError:(NSError*) error;
++(NSString *) postReply: (NSDictionary *) dictionaryData withID: (NSString *) ID withPotentialError:(NSError**) p_error;
 
 
 
@@ -85,44 +85,44 @@
 /***
  Get a particular shout using its ID.
  ***/
-+(NSDictionary *)getShoutWithID:(NSString *) messageID withPotentialError:(NSError*) error;
++(NSDictionary *)getShoutWithID:(NSString *) messageID withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Uploads a profile picture to the server.
  ***/
-+ (NSString*)sendImageToServer:(UIImage *)newProfImage withPotentialError:(NSError*) error;
++ (NSString*)sendImageToServer:(UIImage *)newProfImage withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Synchronously post the mute.
  ***/
-+(NSString *)postMute:(NSString *) username withPotentialError:(NSError*) error;
++(NSString *)postMute:(NSString *) username withPotentialError:(NSError**) p_error;
 
 
 
 /***
  Synchronously attempts the registration.  Upon success YES is returned.  Upon failure, NO is returned.
  ***/
-+(BOOL) attemptRegistration:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error;
++(BOOL) attemptRegistration:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
 
 /***
  Synchronously attempts editing profile information.  Upon success YES is returned.  Upon failure, NO is returned.
  ***/
-+(BOOL) editProfile:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error;
++(BOOL) editProfile:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
 
 /***
  Synchronously attempts to confirm a users password.  Upon success YES is returned.  Upon failure, NO is returned.
  ***/
-+(BOOL) confirmPassword:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error;
++(BOOL) confirmPassword:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
 
 
 /***
  Synchronously attempts the login.  Upon success the token is returned.  Upon failure, nil is returned.
  ***/
-+(NSString *)attemptAuth:(NSDictionary *) dictionaryData withPotentialError:(NSError*) error;
++(NSString *)attemptAuth:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
 
 
 

@@ -51,9 +51,6 @@
     CGFloat keyboardSize;
     CGFloat screenWidth;
     CGFloat screenHeight;
-    
-    //Object for errro handling
-    NSError* error;
 }
 
 
@@ -94,8 +91,11 @@
     }
     else
     {
+        //Object for error handling
+        NSError* error;
+        
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text, @"messageID": Id};
-        [JCCMakeRequests postReply:dictionaryData withID:Id withPotentialError:error];
+        [JCCMakeRequests postReply:dictionaryData withID:Id withPotentialError:&error];
         [tableViewController refresh];
         [self resetAfterReply];
     }
@@ -355,6 +355,7 @@
      {
          NSLog(@"Error: %@", error);
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [badView setMessage:error.localizedDescription];
          [tableViewController.navigationController pushViewController:badView animated:NO];
      }];
 }
@@ -495,8 +496,10 @@
     mapCoverView.alpha = 0.7;
     [self.view addSubview:mapCoverView];
     
+    //Object for error handling
+    NSError* error;
     
-    NSDictionary *tempJsonObjects = [JCCMakeRequests getShoutWithID:Id withPotentialError:error];
+    NSDictionary *tempJsonObjects = [JCCMakeRequests getShoutWithID:Id withPotentialError:&error];
     
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
@@ -628,7 +631,7 @@
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
     
-    NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects withPotentialError:error];
+    NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects withPotentialError:&error];
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     [self.view addSubview:profilePicture];
 }

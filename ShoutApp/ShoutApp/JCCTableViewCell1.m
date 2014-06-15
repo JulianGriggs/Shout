@@ -17,10 +17,7 @@
 #import "JCCOtherUserViewController.h"
 
 @implementation JCCTableViewCell1
-{
-    //Object for error checking
-    NSError* error;
-}
+
 
 /***
  Send the like.
@@ -182,6 +179,7 @@
      {
          NSLog(@"Error: %@", error);
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [badView setMessage:error.localizedDescription];
          [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
      }];
 }
@@ -195,17 +193,8 @@
 {
     JCCOtherUserViewController *otherViewController = [[JCCOtherUserViewController alloc] init];
     otherViewController.otherUsername = self.UsernameLabel.text;
+    [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
     
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfileWithPotentialError:error];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
-    }
 }
 
 - (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)text andWidth:(CGFloat)width
@@ -223,8 +212,8 @@
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout
 {
     int height = self.frame.size.height;
-//    NSLog(@"total height %d", height);
-
+    //    NSLog(@"total height %d", height);
+    
     int emptySpaceFromTop = 13;
     int emptySpaceFromBottom = 10;
     int emptySpaceFromLeftRight = 5;
@@ -240,20 +229,20 @@
     [self loadProfileImageUsingDictionary:dictShout];
     
     
-   // [self.InnerView setFrame:CGRectMake(11, 4, 299, height - 8)];
+    // [self.InnerView setFrame:CGRectMake(11, 4, 299, height - 8)];
     self.InnerView.layer.cornerRadius = 8.0;
     self.InnerView.layer.masksToBounds = YES;
     
     /*
-    NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:self.MessageTextView.text];
-    CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
-    NSLog(@"message height %f", messageHeight);
-    NSLog(@"message content: %@", self.MessageTextView.text);
-    [self.MessageTextView setFrame:CGRectMake(68, 31, 225, height - nonMessageHeight)];
-    */
+     NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:self.MessageTextView.text];
+     CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
+     NSLog(@"message height %f", messageHeight);
+     NSLog(@"message content: %@", self.MessageTextView.text);
+     [self.MessageTextView setFrame:CGRectMake(68, 31, 225, height - nonMessageHeight)];
+     */
     [self.MessageTextView setText:[dictShout objectForKey:@"bodyField"]];
     [self.MessageTextView setBackgroundColor:[UIColor lightTextColor]];
-
+    
     [self.UsernameLabel setText:[dictShout objectForKey:@"owner"]];
     
     [self.TimeLabel setText:[self formatTime:[dictShout objectForKey:@"timestamp"]]];
@@ -280,34 +269,34 @@
     [self.EchoButton addTarget:self action:@selector(sendEcho:) forControlEvents:UIControlEventTouchUpInside];
     [self.MoreButton addTarget:self action:@selector(showMuteOption:) forControlEvents:UIControlEventTouchUpInside];
     [self.ProfileImageButton addTarget:self action:@selector(transitionToUserPage:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     /*
-    [self.UpButton setFrame:CGRectMake(0, height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
-
-    
-    [self.DownButton setFrame:CGRectMake(bottomButtonWidth, height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
-    
-    [self.ReplyButton setFrame:CGRectMake(2*(bottomButtonWidth + emptySpaceFromBottom), height - emptySpaceFromBottom - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
-    
-    [self.EchoButton setFrame:CGRectMake(3*(bottomButtonWidth + emptySpaceFromBottom), height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
-    
-    [self.MoreButton setFrame:CGRectMake(4.6*(bottomButtonWidth), height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
-    
-    [self.UpLabel setFrame:CGRectMake(emptySpaceFromLeftRight, height - singleLineLabelHeight- emptySpaceFromBottom, iconLabelWidth, singleLineLabelHeight)];
-    
-    [self.NumberOfUpsLabel setFrame:CGRectMake(emptySpaceFromLeftRight + iconLabelWidth + spaceingOnBottomLayer, height - emptySpaceFromBottom - singleLineLabelHeight, numberLabelWidth, singleLineLabelHeight)];
-    
-    [self.DownLabel setFrame:CGRectMake(emptySpaceFromLeftRight + iconLabelWidth + 2*spaceingOnBottomLayer + numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
-    
-    [self.NumberOfDownsLabel setFrame:CGRectMake(emptySpaceFromLeftRight + 2*iconLabelWidth + 3*spaceingOnBottomLayer + numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
-    
-    [self.ReplyIconImage setFrame:CGRectMake(emptySpaceFromLeftRight + 2*iconLabelWidth + 4*spaceingOnBottomLayer + 2*numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
-    
-    [self.NumberOfRepliesLabel setFrame:CGRectMake(emptySpaceFromLeftRight + 3*iconLabelWidth + 5*spaceingOnBottomLayer + 2*numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
-    
-    [self.EchoIconImage setFrame:CGRectMake(emptySpaceFromLeftRight + 3*iconLabelWidth + 6*spaceingOnBottomLayer + 3*numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
-
-    */
+     [self.UpButton setFrame:CGRectMake(0, height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
+     
+     
+     [self.DownButton setFrame:CGRectMake(bottomButtonWidth, height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
+     
+     [self.ReplyButton setFrame:CGRectMake(2*(bottomButtonWidth + emptySpaceFromBottom), height - emptySpaceFromBottom - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
+     
+     [self.EchoButton setFrame:CGRectMake(3*(bottomButtonWidth + emptySpaceFromBottom), height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
+     
+     [self.MoreButton setFrame:CGRectMake(4.6*(bottomButtonWidth), height - bottomButtonHeight, bottomButtonWidth, bottomButtonHeight)];
+     
+     [self.UpLabel setFrame:CGRectMake(emptySpaceFromLeftRight, height - singleLineLabelHeight- emptySpaceFromBottom, iconLabelWidth, singleLineLabelHeight)];
+     
+     [self.NumberOfUpsLabel setFrame:CGRectMake(emptySpaceFromLeftRight + iconLabelWidth + spaceingOnBottomLayer, height - emptySpaceFromBottom - singleLineLabelHeight, numberLabelWidth, singleLineLabelHeight)];
+     
+     [self.DownLabel setFrame:CGRectMake(emptySpaceFromLeftRight + iconLabelWidth + 2*spaceingOnBottomLayer + numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
+     
+     [self.NumberOfDownsLabel setFrame:CGRectMake(emptySpaceFromLeftRight + 2*iconLabelWidth + 3*spaceingOnBottomLayer + numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
+     
+     [self.ReplyIconImage setFrame:CGRectMake(emptySpaceFromLeftRight + 2*iconLabelWidth + 4*spaceingOnBottomLayer + 2*numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
+     
+     [self.NumberOfRepliesLabel setFrame:CGRectMake(emptySpaceFromLeftRight + 3*iconLabelWidth + 5*spaceingOnBottomLayer + 2*numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
+     
+     [self.EchoIconImage setFrame:CGRectMake(emptySpaceFromLeftRight + 3*iconLabelWidth + 6*spaceingOnBottomLayer + 3*numberLabelWidth, height - emptySpaceFromBottom - singleLineLabelHeight, iconLabelWidth, singleLineLabelHeight)];
+     
+     */
     
     // Set current like/dislike
     NSArray *usersLiked = [dictShout objectForKey:@"usersLiked"];

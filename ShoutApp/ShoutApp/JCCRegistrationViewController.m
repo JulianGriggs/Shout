@@ -26,9 +26,6 @@
     UIImageView *imageView;
     UIButton *registerButton;
     UIButton *backToLoginButton;
-    
-    //Object for error handling
-    NSError* error;
 }
 
 
@@ -176,12 +173,14 @@
     {
         // Object with username, password, and email address
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text, @"email": emailField.text};
+        // Object for error handling
+        NSError* error;
         
         // Attempts the registration
-        if ([JCCMakeRequests attemptRegistration:dictionaryData withPotentialError:error])
+        if ([JCCMakeRequests attemptRegistration:dictionaryData withPotentialError:&error])
         {
             // Attemps to login as new user
-            NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:error];
+            NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
             if (token)
             {
                 [self setUserCredentials:token];

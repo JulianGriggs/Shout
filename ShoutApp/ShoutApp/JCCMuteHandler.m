@@ -45,7 +45,7 @@
                                   // Object for error handling
                                   NSError* error;
                                   
-                                  [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:error];
+                                  [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:&error];
                                   [tableViewController.tableView reloadData];
                               }
                           }];

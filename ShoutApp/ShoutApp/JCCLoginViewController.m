@@ -29,9 +29,6 @@
     UIImage *logoImage;
     UIImageView *imageView;
     UIButton *registerButton;
-    
-    //Object for error handling
-    NSError* error;
 }
 
 
@@ -117,8 +114,11 @@
     
     else
     {
+        // Object for error handling
+        NSError* error;
+        
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
-        NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:error];
+        NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
 
         if (token == nil)
         {

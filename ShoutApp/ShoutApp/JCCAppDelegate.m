@@ -54,17 +54,17 @@ int maxCharacters = 111;
     /**************************************************************************************************/
      // This registers every time that we lose internet connection.  It then pushes on our lack of internet view.
     
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
-        // Double check with logging
-        if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
-            [navigationController popViewControllerAnimated:NO];
-        } else {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [navigationController pushViewController:badView animated:NO];
-        }
-    }];
+//    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+//    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+//        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+//        // Double check with logging
+//        if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
+//            [navigationController popViewControllerAnimated:NO];
+//        } else {
+//            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+//            [navigationController pushViewController:badView animated:NO];
+//        }
+//    }];
     /**************************************************************************************************/
     
     return YES;

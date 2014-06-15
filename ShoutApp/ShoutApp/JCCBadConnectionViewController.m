@@ -15,9 +15,6 @@
 @end
 
 @implementation JCCBadConnectionViewController
-{
-    NSError* error;
-}
 
 
 /***
@@ -68,7 +65,10 @@
  ***/
 -(IBAction)tryAgainButtonPressed:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfileWithPotentialError:error];
+    // Object for error handling
+    NSError* error;
+    
+    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfileWithPotentialError:&error];
     if (profileAttempt == nil)
     {
         [JCCMakeRequests displayLackOfInternetAlert];
