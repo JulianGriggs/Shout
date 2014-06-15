@@ -93,6 +93,7 @@
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
     
     jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:error];
+    NSLog(@"%@", error);
     return jsonObjects;
 }
 

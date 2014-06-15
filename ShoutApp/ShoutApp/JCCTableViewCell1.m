@@ -223,7 +223,7 @@
 - (JCCTableViewCell1 *)setUpCellWithDictionary:(NSDictionary *) dictShout
 {
     int height = self.frame.size.height;
-    NSLog(@"total height %d", height);
+//    NSLog(@"total height %d", height);
 
     int emptySpaceFromTop = 13;
     int emptySpaceFromBottom = 10;

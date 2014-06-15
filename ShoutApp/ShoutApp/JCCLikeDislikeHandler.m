@@ -66,6 +66,7 @@
      {
          NSLog(@"Error: %@", error);
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [badView setMessage:error.localizedDescription];
          [tableViewController.navigationController pushViewController:badView animated:NO];
      }];
 }
@@ -125,6 +126,7 @@
      {
          NSLog(@"Error: %@", error);
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [badView setMessage:error.localizedDescription];
          [tableViewController.navigationController pushViewController:badView animated:NO];
      }];
 }
