@@ -73,11 +73,8 @@
 {
     if (buttonIndex != 0)
     {
-        if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
-        {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:NO];
-        }
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
+        [self fetchShouts];
         [self.tableView reloadData];
     }
 }
@@ -188,16 +185,9 @@
  ***/
 - (void)refresh
 {
-    if ([self fetchShouts] == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.tableView reloadData];
-        [self.refreshControl endRefreshing];
-    }
+    [self fetchShouts];
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 

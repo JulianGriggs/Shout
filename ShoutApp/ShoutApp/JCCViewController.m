@@ -33,18 +33,9 @@
  ***/
 - (IBAction)pressedComposeButton:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        // This allocates a post view controller and pushes it on the navigation stack
-        JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-        [self.navigationController pushViewController:postViewController animated:YES];
-    }
+    // This allocates a post view controller and pushes it on the navigation stack
+    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+    [self.navigationController pushViewController:postViewController animated:YES];
 }
 
 
@@ -54,16 +45,7 @@
  ***/
 -(IBAction)pressedUserButton:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -73,17 +55,7 @@
  ***/
 -(IBAction)swipeRightHandler:(id)sender
 {
-    
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -93,18 +65,9 @@
  ***/
 -(IBAction)swipeLeftHandler:(id)sender
 {
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        // This allocates a post view controller and pushes it on the navigation stack
-        JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
-        [self.navigationController pushViewController:postViewController animated:YES];
-    }
+    // This allocates a post view controller and pushes it on the navigation stack
+    JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
+    [self.navigationController pushViewController:postViewController animated:YES];
 }
 
 
@@ -115,12 +78,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
     
     // Displays "No Shouts Message" if there are no shouts in the area.
     if ([self containsShouts])
