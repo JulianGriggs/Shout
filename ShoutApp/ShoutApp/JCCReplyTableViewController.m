@@ -82,7 +82,7 @@
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
-
+    
     // This parses the response from the server as a JSON object
     jsonObjects = [JCCMakeRequests getReplies:Id];
     return jsonObjects;
@@ -127,11 +127,8 @@
 {
     if (buttonIndex != 0)
     {
-        if([JCCMakeRequests postMute:[currentCell.UsernameLabel text]] == nil || [self fetchShouts] == nil)
-        {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:NO];
-        }
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text]];
+        [self fetchShouts];
         [self.tableView reloadData];
     }
 }
@@ -170,7 +167,7 @@
 
 
 
-/***  
+/***
  Fetches shouts and then reloads the table.
  ***/
 - (void)refresh

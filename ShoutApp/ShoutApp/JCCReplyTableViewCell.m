@@ -72,16 +72,8 @@
     //    JCCTableViewCell1 *cell = (JCCTableViewCell1*)[self.tableView cellForRowAtIndexPath:indexPath];
     otherViewController.otherUsername = self.UsernameLabel.text;
     
-    NSDictionary *profileAttempt = [JCCMakeRequests getUserProfile];
-    if (profileAttempt == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
-    }
+    [self.parentTableViewController.navigationController pushViewController:otherViewController animated:YES];
+    
 }
 
 
@@ -181,16 +173,8 @@
 {
     // post the dislike
     [JCCMuteHandler sendMute:sender fromTableViewController:self.parentTableViewController];
-    if([(JCCFeedTableViewController*)self.parentTableViewController fetchShouts] == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
-        return;
-    }
-    else
-    {
-        [self.parentTableViewController.tableView reloadData];
-    }
+    [(JCCFeedTableViewController*)self.parentTableViewController fetchShouts];
+    [self.parentTableViewController.tableView reloadData];
 }
 
 @end

@@ -92,16 +92,9 @@
     else
     {
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text, @"messageID": Id};
-        if([JCCMakeRequests postReply:dictionaryData withID:Id] == nil)
-        {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [self.navigationController pushViewController:badView animated:NO];
-        }
-        else
-        {
-            [tableViewController refresh];
-            [self resetAfterReply];
-        }
+        [JCCMakeRequests postReply:dictionaryData withID:Id];
+        [tableViewController refresh];
+        [self resetAfterReply];
     }
 }
 
@@ -118,7 +111,7 @@
         [textView resignFirstResponder];
         return NO;
     }
-
+    
     return textView.text.length + (text.length - range.length) <= maxCharacters;
 }
 
@@ -226,7 +219,6 @@
     [composeView removeFromSuperview];
     [replyTextView removeFromSuperview];
     [replyButton removeFromSuperview];
-    
 }
 
 
@@ -473,7 +465,7 @@
     // Do any additional setup after loading the view.
     [self.navigationItem setTitle:@"Reply"];
     
-
+    
     //  build the location manager
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -502,93 +494,84 @@
     
     
     NSDictionary *tempJsonObjects = [JCCMakeRequests getShoutWithID:Id];
-
-    // If no internet connection
-    if(tempJsonObjects == nil)
+    
+    screenHeight = [UIScreen mainScreen].bounds.size.height;
+    screenWidth = [UIScreen mainScreen].bounds.size.width;
+    keyboardSize = 216;
+    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
+    
+    // Default text view
+    postTextView.text = [tempJsonObjects objectForKey:@"bodyField"];
+    postTextView.textColor = [UIColor blackColor];
+    postTextView.userInteractionEnabled = NO;
+    postTextView.editable = NO;
+    postTextView.layer.cornerRadius = 8.0;
+    postTextView.clipsToBounds = YES;
+    [self.view addSubview:postTextView];
+    
+    // username label
+    UIFont* boldFont = [UIFont boldSystemFontOfSize:16.0];
+    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 85, 100, 30)];
+    [usernameLabel setText:[tempJsonObjects objectForKey:@"owner"]];
+    usernameLabel.textAlignment = NSTextAlignmentLeft;
+    [usernameLabel setFont:boldFont];
+    [self.view addSubview:usernameLabel];
+    
+    // time label
+    timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
+    [timeLabel setText:[self formatTime:[tempJsonObjects objectForKey:@"timestamp"]]];
+    timeLabel.textAlignment = NSTextAlignmentRight;
+    UIFont* font = [UIFont systemFontOfSize:12.0];
+    [timeLabel setFont:font];
+    
+    UIColor *prettyBlue = [[UIColor alloc] initWithRed:74.0/255.0f green:127.0/255.0f blue:255.0/255.0f alpha:1.0f];
+    [timeLabel setTextColor:prettyBlue];
+    [self.view addSubview:timeLabel];
+    
+    //  like label
+    likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 177, 40, 40)];
+    [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
+    likeLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:likeLabel];
+    
+    //  dislike label
+    dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 177, 40, 40)];
+    [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
+    dislikeLabel.textAlignment = NSTextAlignmentCenter;
+    [dislikeButton targetForAction:@selector(sendDown:) withSender:self];
+    [self.view addSubview:dislikeLabel];
+    
+    // like button
+    likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
+    [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
+    [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [likeButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:likeButton];
+    
+    // dislike button
+    dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
+    [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
+    [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [dislikeButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:dislikeButton];
+    
+    [self setDefaultLikeDislike:likeButton];
+    [self setDefaultLikeDislike:dislikeButton];
+    NSArray *usersLiked = [tempJsonObjects objectForKey:@"usersLiked"];
+    NSArray *usersDisliked = [tempJsonObjects objectForKey:@"usersDisliked"];
+    // Check to see if like or dislike should be highlighted
+    for (NSString* person in usersLiked)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
+        if ([person isEqualToString:sharedUserName])
+            [self setLikeAsMarked:likeButton];
     }
     
-    else
+    for (NSString* person in usersDisliked)
     {
-        screenHeight = [UIScreen mainScreen].bounds.size.height;
-        screenWidth = [UIScreen mainScreen].bounds.size.width;
-        keyboardSize = 216;
-        postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
-        
-        // Default text view
-        postTextView.text = [tempJsonObjects objectForKey:@"bodyField"];
-        postTextView.textColor = [UIColor blackColor];
-        postTextView.userInteractionEnabled = NO;
-        postTextView.editable = NO;
-        postTextView.layer.cornerRadius = 8.0;
-        postTextView.clipsToBounds = YES;
-        [self.view addSubview:postTextView];
-        
-        // username label
-        UIFont* boldFont = [UIFont boldSystemFontOfSize:16.0];
-        usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 85, 100, 30)];
-        [usernameLabel setText:[tempJsonObjects objectForKey:@"owner"]];
-        usernameLabel.textAlignment = NSTextAlignmentLeft;
-        [usernameLabel setFont:boldFont];
-        [self.view addSubview:usernameLabel];
-        
-        // time label
-        timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
-        [timeLabel setText:[self formatTime:[tempJsonObjects objectForKey:@"timestamp"]]];
-        timeLabel.textAlignment = NSTextAlignmentRight;
-        UIFont* font = [UIFont systemFontOfSize:12.0];
-        [timeLabel setFont:font];
-        
-        UIColor *prettyBlue = [[UIColor alloc] initWithRed:74.0/255.0f green:127.0/255.0f blue:255.0/255.0f alpha:1.0f];
-        [timeLabel setTextColor:prettyBlue];
-        [self.view addSubview:timeLabel];
-        
-        //  like label
-        likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 177, 40, 40)];
-        [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
-        likeLabel.textAlignment = NSTextAlignmentCenter;
-        [self.view addSubview:likeLabel];
-        
-        //  dislike label
-        dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 177, 40, 40)];
-        [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
-        dislikeLabel.textAlignment = NSTextAlignmentCenter;
-        [dislikeButton targetForAction:@selector(sendDown:) withSender:self];
-        [self.view addSubview:dislikeLabel];
-        
-        // like button
-        likeButton = [[UIButton alloc] initWithFrame:CGRectMake(7, 207, 40, 40)];
-        [likeButton setTitle:@"⋀" forState:UIControlStateNormal];
-        [likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [likeButton addTarget:self action:@selector(sendUp:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:likeButton];
-        
-        // dislike button
-        dislikeButton = [[UIButton alloc] initWithFrame:CGRectMake(277, 207, 40, 40)];
-        [dislikeButton setTitle:@"⋁" forState:UIControlStateNormal];
-        [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [dislikeButton addTarget:self action:@selector(sendDown:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:dislikeButton];
-        
-        [self setDefaultLikeDislike:likeButton];
-        [self setDefaultLikeDislike:dislikeButton];
-        NSArray *usersLiked = [tempJsonObjects objectForKey:@"usersLiked"];
-        NSArray *usersDisliked = [tempJsonObjects objectForKey:@"usersDisliked"];
-        // Check to see if like or dislike should be highlighted
-        for (NSString* person in usersLiked)
-        {
-            if ([person isEqualToString:sharedUserName])
-                [self setLikeAsMarked:likeButton];
-        }
-        
-        for (NSString* person in usersDisliked)
-        {
-            if ([person isEqualToString:sharedUserName])
-                [self setDislikeAsMarked:dislikeButton];
-        }
+        if ([person isEqualToString:sharedUserName])
+            [self setDislikeAsMarked:dislikeButton];
     }
+    
     
     //  create the table view controller
     tableViewController = [[JCCReplyTableViewController alloc] init];
@@ -608,7 +591,7 @@
     outerReplyView.layer.backgroundColor=[[UIColor blackColor]CGColor];
     [outerReplyView setUserInteractionEnabled:NO];
     [self.view addSubview:outerReplyView];
-
+    
     // Make replyTextView
     replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
     replyTextView.layer.backgroundColor=[[UIColor whiteColor]CGColor];
@@ -630,7 +613,7 @@
     [replyButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [replyButton addTarget:self action:@selector(postReply:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:replyButton];
-
+    
     //add my shouts button
     repliesButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 265, 320, 30)];
     repliesButton.backgroundColor = [UIColor blackColor];
@@ -643,16 +626,7 @@
     profilePicture.layer.masksToBounds = YES;
     
     NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects];
-    
-    // If no internet
-    if (profPicData == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.navigationController pushViewController:badView animated:NO];
-    }
-    else
-        [profilePicture setImage:[UIImage imageWithData:profPicData]];
-    
+    [profilePicture setImage:[UIImage imageWithData:profPicData]];
     [self.view addSubview:profilePicture];
 }
 
