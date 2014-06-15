@@ -52,8 +52,6 @@
     
     int nonMessageHeight;
     
-    //Object for error checking
-    NSError* error;
     
 }
 
@@ -74,9 +72,12 @@
  ***/
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    //Object for error checking
+    NSError* error;
+    
     if (buttonIndex != 0)
     {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:error];
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:&error];
         [self fetchShouts];
         [self.tableView reloadData];
     }
@@ -89,11 +90,19 @@
  ***/
 - (NSArray*)fetchShouts
 {
+    //Object for error checking
+    NSError* error;
+    
     //  get the current location
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
     
-    jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:error];
-    NSLog(@"%@", error);
+    jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     return jsonObjects;
 }
 

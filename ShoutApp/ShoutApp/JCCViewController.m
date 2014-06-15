@@ -25,8 +25,6 @@
     JCCFeedTableViewController *tableViewController;
     UITableView *tableView;
     
-    //Object for error checking
-    NSError* error;
 }
 
 
@@ -103,7 +101,7 @@
     NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:locationManager.location.coordinate.latitude], @"longitude": [NSNumber numberWithDouble:locationManager.location.coordinate.longitude]};
 
     NSError* error;
-    NSArray *jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:error];
+    NSArray *jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:&error];
     if ([jsonObjects count] == 0)
     {
         return NO;

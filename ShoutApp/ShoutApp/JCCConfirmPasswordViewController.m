@@ -31,9 +31,6 @@
 {
     UITextField *passwordField;
     UIButton *confirm;
-    
-    // Object for error handling
-    NSError* error;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -92,7 +89,10 @@
 {
     NSDictionary *dictionaryData = @{@"password": passwordField.text};
 
-    if ([JCCMakeRequests confirmPassword:dictionaryData withPotentialError:error])
+    // Object for error handling
+    NSError* error;
+    
+    if ([JCCMakeRequests confirmPassword:dictionaryData withPotentialError:&error])
     {
         JCCEditProfileViewController *editProfileView = [[JCCEditProfileViewController alloc] init];
         [self.navigationController pushViewController:editProfileView animated:NO];

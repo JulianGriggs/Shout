@@ -36,9 +36,6 @@
     UILabel *myNumShouts;
     UILabel *myNumLikesReceived;
     UIButton *editProfile;
-    
-    // Object for error handling
-    NSError* error;
 }
 
 
@@ -100,7 +97,10 @@
  ***/
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
+    // Object for error handling
+    NSError* error;
+    
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:&error];
     // Asynchronously loads the profile image in the cell
     [self loadProfileImageUsingDictionary:userProfDict];
     [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
@@ -142,6 +142,7 @@
      {
          NSLog(@"Error: %@", error);
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [badView setMessage:error.localizedDescription];
          [self.navigationController pushViewController:badView animated:NO];
      }];
 }
@@ -203,9 +204,12 @@
     [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
+    // Object for error handling
+    NSError* error;
     
     // This parses the response from the server as a JSON object
-    NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
+    NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:
+                                  &error];
     // Stores our userID
     sharedUserID = [userProfDict objectForKey:@"id"];
     

@@ -46,9 +46,6 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
-    
-    //Oject for error handling
-    NSError* error;
 }
 
 /***
@@ -75,7 +72,10 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
     
-    jsonObjects = [JCCMakeRequests getOtherUsersShouts:self.otherUsername withPotentialError:error];
+    // Object for error handling
+    NSError* error;
+    
+    jsonObjects = [JCCMakeRequests getOtherUsersShouts:self.otherUsername withPotentialError:&error];
     return jsonObjects;
 }
 
