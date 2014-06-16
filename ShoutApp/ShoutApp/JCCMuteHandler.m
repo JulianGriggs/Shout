@@ -45,7 +45,13 @@
                                   // Object for error handling
                                   NSError* error;
                                   
-                                  [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:error];
+                                  [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:&error];
+                                  if(error)
+                                  {
+                                      JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+                                      [badView setMessage:error.localizedDescription];
+                                      [tableViewController.navigationController pushViewController:badView animated:NO];
+                                  }
                                   [tableViewController.tableView reloadData];
                               }
                           }];

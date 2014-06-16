@@ -56,9 +56,6 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
-    
-    //Object for error handling
-    NSError* error;
 }
 
 /***
@@ -76,6 +73,7 @@
  ***/
 - (NSArray*)fetchShouts
 {
+    
     //  handle setting up location updates
     if (!locationManager)
         locationManager = [[CLLocationManager alloc] init];
@@ -85,8 +83,16 @@
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
     
+    //Object for error handling
+    NSError* error;
     // This parses the response from the server as a JSON object
-    jsonObjects = [JCCMakeRequests getReplies:Id withPotentialError:error];
+    jsonObjects = [JCCMakeRequests getReplies:Id withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     return jsonObjects;
 }
 
@@ -129,7 +135,15 @@
 {
     if (buttonIndex != 0)
     {
-        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:error];
+        //Object for error handling
+        NSError* error;
+        [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:&error];
+        if(error)
+        {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
+        }
         [self fetchShouts];
         [self.tableView reloadData];
     }

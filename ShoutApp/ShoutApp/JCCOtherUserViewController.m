@@ -35,9 +35,6 @@
     UILabel *theirMaxRadius;
     UILabel *theirNumShouts;
     UILabel *theirNumLikesReceived;
-    
-    //Object for error handling
-    NSError* error;
 }
 
 
@@ -47,8 +44,24 @@
  ***/
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername withPotentialError:error];
-    NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict withPotentialError:error];
+    // Object for error handling
+    NSError* error;
+    
+    NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    
+    NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     profilePicture.layer.cornerRadius = 8.0;

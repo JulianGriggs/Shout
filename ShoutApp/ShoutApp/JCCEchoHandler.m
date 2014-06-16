@@ -10,7 +10,6 @@
 #import "JCCEchoViewController.h"
 #import "JCCTableViewCell1.h"
 #import "JCCBadConnectionViewController.h"
-#import "JCCMakeRequests.h"
 
 @implementation JCCEchoHandler
 // Happens when user touches the echo button

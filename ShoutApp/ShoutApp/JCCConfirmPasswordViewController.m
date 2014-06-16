@@ -31,9 +31,6 @@
 {
     UITextField *passwordField;
     UIButton *confirm;
-    
-    // Object for error handling
-    NSError* error;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -80,7 +77,7 @@
     confirm.backgroundColor = [UIColor grayColor];
     [confirm addTarget:self action:@selector(confirmPassword:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:confirm];
-
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
@@ -91,16 +88,28 @@
 - (void) confirmPassword:(id)sender
 {
     NSDictionary *dictionaryData = @{@"password": passwordField.text};
-
-    if ([JCCMakeRequests confirmPassword:dictionaryData withPotentialError:error])
+    
+    // Object for error handling
+    NSError* error;
+    bool passwordConfirmed = [JCCMakeRequests confirmPassword:dictionaryData withPotentialError:&error];
+    if(error)
     {
-        JCCEditProfileViewController *editProfileView = [[JCCEditProfileViewController alloc] init];
-        [self.navigationController pushViewController:editProfileView animated:NO];
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid" message:@"wrong password" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [alert show];
+        if (passwordConfirmed)
+        {
+            JCCEditProfileViewController *editProfileView = [[JCCEditProfileViewController alloc] init];
+            [self.navigationController pushViewController:editProfileView animated:NO];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid" message:@"wrong password" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+        }
     }
     
 }
@@ -131,14 +140,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

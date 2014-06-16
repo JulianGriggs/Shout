@@ -55,6 +55,7 @@
      {
          NSLog(@"Error: %@", error);
          JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+         [badView setMessage:error.localizedDescription];
          [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
      }];
 }

@@ -41,9 +41,6 @@
     GMSCircle *circle;
     int maxRadiusSize;
     int radiusSize;
-    
-    // Object for error handling
-    NSError* error;
 }
 
 
@@ -123,10 +120,22 @@
     else
     {
         
+        // Object for error handling
+        NSError* error;
+        
         //  format the data
         NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
-        NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:error];
-        [self.navigationController popViewControllerAnimated:TRUE];
+        NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:&error];
+        if(error)
+        {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
         
     }
 }
@@ -205,8 +214,17 @@
     mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     [mapView animateToViewingAngle:45];
     
+    // Object for error handling
+    NSError* error;
     
-    NSDictionary* userDict = [JCCMakeRequests getUserProfileWithPotentialError:error];
+    NSDictionary* userDict = [JCCMakeRequests getUserProfileWithPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    
     maxRadiusSize = [JCCMakeRequests getMaxRadiusSize:userDict];
     radiusSize = DEFAULT_MIN_RADIUS;
     

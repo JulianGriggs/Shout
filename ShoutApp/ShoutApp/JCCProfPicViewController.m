@@ -19,9 +19,6 @@
 {
     UIImage* newProfImage;
     
-    //Object for error handling
-    NSError* error;
-    
 }
 
 
@@ -73,8 +70,21 @@
     self.imageView.image = chosenImage;
     newProfImage = chosenImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    [JCCMakeRequests sendImageToServer:newProfImage withPotentialError:error];
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    // Object for error handling
+    NSError* error;
+    
+    [JCCMakeRequests sendImageToServer:newProfImage withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     
 }
 
@@ -107,7 +117,7 @@
                                                     otherButtonTitles: nil];
         [myAlertView show];
     }
-
+    
     [self.imageView setImage:self.profPicture];
     self.takePhotoButton.layer.cornerRadius = 8.0;
     self.selectPhotoButton.layer.cornerRadius = 8.0;

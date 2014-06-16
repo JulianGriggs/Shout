@@ -51,9 +51,6 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
-    
-    // Object for error handling
-    NSError* error;
 }
 
 /***
@@ -79,8 +76,17 @@
     locationManager.delegate = self;
     locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     locationManager.distanceFilter=kCLDistanceFilterNone;
-        
-    jsonObjects = [JCCMakeRequests getMyShoutsWithPotentialError:error];
+    
+    // Object for error handling
+    NSError* error;
+    
+    jsonObjects = [JCCMakeRequests getMyShoutsWithPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     return jsonObjects;
 }
 
