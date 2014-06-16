@@ -191,10 +191,11 @@
                 KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
                 [keychainItem setObject:userNameField.text forKey:(__bridge id)kSecAttrAccount];
                 [keychainItem setObject:passwordField.text forKey:(__bridge id)kSecValueData];
+                NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
                 [self setUserCredentials:token];
                 [self.navigationController popViewControllerAnimated:NO];
                 // Attemps to login as new user
-                NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
+
                 
                 if (token)
                 {
