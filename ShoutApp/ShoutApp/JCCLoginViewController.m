@@ -15,6 +15,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCRegistrationViewController.h"
 #import "JCCMakeRequests.h"
+#import "KeychainItemWrapper.h"
 
 @interface JCCLoginViewController ()
 
@@ -128,9 +129,11 @@
         }
         else 
         {
+            KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
+            [keychainItem setObject:userNameField.text forKey:(__bridge id)kSecAttrAccount];
+            [keychainItem setObject:passwordField.text forKey:(__bridge id)kSecValueData];
             [self setUserCredentials:token];
             [self addMainViewControllers];
-
         }
     }
 }

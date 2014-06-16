@@ -13,6 +13,9 @@
 #import "JCCLoginViewController.h"
 #import "AFNetworking.h"
 #import "JCCBadConnectionViewController.h"
+#import "KeychainItemWrapper.h"
+#import "JCCMakeRequests.h"
+#import "JCCUserCredentials.h"
 
 @implementation JCCAppDelegate
 CGFloat outerWindowHeight;
@@ -34,6 +37,33 @@ int maxCharacters = 111;
     
     // Creates the root naviagtion controller
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
+    NSString *username = [keychainItem objectForKey:(__bridge id)(kSecAttrAccount)];
+    if (![username isEqualToString:@""])
+    {
+        NSString *password = [keychainItem objectForKey:(__bridge id)(kSecValueData)];
+
+        NSError *error;
+        NSDictionary *dictionaryData = @{@"username": username, @"password": password};
+        NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:error];
+        // Sets the username and token for this session of the app
+        sharedUserName = username;
+        sharedUserToken = token;
+        
+        // Restores the default values
+        username = @"";
+        password = @"";
+        // Created the user view controller
+        JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+        // Created the table view controller
+        JCCViewController *viewController = [[JCCViewController alloc] init];
+        
+        [navigationController pushViewController:userViewController animated:NO];
+        [navigationController pushViewController:viewController animated:NO];
+    }
+    
+
 //    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
     
     //  set the navigation bar to black

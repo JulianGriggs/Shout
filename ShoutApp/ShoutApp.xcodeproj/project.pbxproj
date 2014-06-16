@@ -63,6 +63,7 @@
 		75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */; };
 		75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */; };
 		75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */; };
+		9B2FADD8194E69E80032E7C1 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2FADD7194E69E80032E7C1 /* KeychainItemWrapper.m */; };
 		9B7E05C81945211D00655DF6 /* JCCEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7E05C71945211D00655DF6 /* JCCEditProfileViewController.m */; };
 		9B7E05CB19452B9900655DF6 /* JCCConfirmPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7E05CA19452B9900655DF6 /* JCCConfirmPasswordViewController.m */; };
 		B9A72F8B7ADD455BBE2C1BD9 /* libPods-ShoutApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62093C4150DE4E12A5A0651A /* libPods-ShoutApp.a */; };
@@ -165,6 +166,8 @@
 		75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewController.m; sourceTree = "<group>"; };
 		75EC9573191B2C95004AE3F6 /* JCCReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyViewController.h; sourceTree = "<group>"; };
 		75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyViewController.m; sourceTree = "<group>"; };
+		9B2FADD6194E69E80032E7C1 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		9B2FADD7194E69E80032E7C1 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		9B7E05C61945211D00655DF6 /* JCCEditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEditProfileViewController.h; sourceTree = "<group>"; };
 		9B7E05C71945211D00655DF6 /* JCCEditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCEditProfileViewController.m; sourceTree = "<group>"; };
 		9B7E05C919452B9900655DF6 /* JCCConfirmPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCConfirmPasswordViewController.h; sourceTree = "<group>"; };
@@ -352,6 +355,8 @@
 				61E069C319060AA600900A71 /* JCCUserCredentials.m */,
 				61A0CE6C18F08AF400B8217A /* JCCAppDelegate.h */,
 				61A0CE6518F08AE300B8217A /* JCCAppDelegate.m */,
+				9B2FADD6194E69E80032E7C1 /* KeychainItemWrapper.h */,
+				9B2FADD7194E69E80032E7C1 /* KeychainItemWrapper.m */,
 				61A0CE6718F08AE300B8217A /* JCCAnnotation.h */,
 				61A0CE6818F08AE300B8217A /* JCCAnnotation.m */,
 			);
@@ -635,6 +640,7 @@
 				75EC9575191B2C95004AE3F6 /* JCCReplyTableViewCell.m in Sources */,
 				6184A956192A64BF00F939E5 /* JCCOtherUserViewController.m in Sources */,
 				755AAEF918F5D50700DB52D9 /* JCCUserViewController.m in Sources */,
+				9B2FADD8194E69E80032E7C1 /* KeychainItemWrapper.m in Sources */,
 				61A0CE6A18F08AE300B8217A /* JCCFeedTableViewController.m in Sources */,
 				7502063419198BDB001BAA49 /* JCCProfPicViewController.m in Sources */,
 				61A0CE6B18F08AE300B8217A /* JCCAnnotation.m in Sources */,

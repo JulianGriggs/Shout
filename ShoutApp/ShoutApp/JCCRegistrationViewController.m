@@ -12,7 +12,7 @@
 #import "JCCUserViewController.h"
 #import "JCCViewController.h"
 #import "JCCMakeRequests.h"
-
+#import "KeychainItemWrapper.h"
 @interface JCCRegistrationViewController ()
 
 @end
@@ -184,6 +184,9 @@
             NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:error];
             if (token)
             {
+                KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
+                [keychainItem setObject:userNameField.text forKey:(__bridge id)kSecAttrAccount];
+                [keychainItem setObject:passwordField.text forKey:(__bridge id)kSecValueData];
                 [self setUserCredentials:token];
                 [self.navigationController popViewControllerAnimated:NO];
             }
