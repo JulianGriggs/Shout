@@ -62,10 +62,10 @@
     if (GETReply == nil)
         return nil;
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
+    //#endif
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
@@ -90,10 +90,10 @@
     if (GETReply == nil)
         return nil;
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getUserProfile, var: theReply = %@", theReply);
+    //#endif
     
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [NSJSONSerialization JSONObjectWithData:
@@ -118,10 +118,10 @@
     if (GETReply == nil)
         return nil;
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getProfileImage, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getProfileImage, var: theReply = %@", theReply);
+    //#endif
     return GETReply;
 }
 
@@ -146,9 +146,9 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: postReply, var: theReply = %@", theReply);
-//#endif
+    //#ifdef DEBUG
+    //    NSLog(@"function: postReply, var: theReply = %@", theReply);
+    //#endif
     
     return theReply;
 }
@@ -174,9 +174,9 @@
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: postShout, var: theReply = %@", theReply);
-//#endif
+    //#ifdef DEBUG
+    //    NSLog(@"function: postShout, var: theReply = %@", theReply);
+    //#endif
     return theReply;
 }
 
@@ -199,12 +199,12 @@
     if (GETReply == nil)
         return nil;
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//    
-//#ifdef DEBUG
-//    NSLog(@"function: getReplies, var: theReply = %@", theReply);
-//#endif
-//    
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //
+    //#ifdef DEBUG
+    //    NSLog(@"function: getReplies, var: theReply = %@", theReply);
+    //#endif
+    //
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
                             GETReply options:kNilOptions error:nil];
@@ -226,23 +226,23 @@
     url = [url stringByAppendingString:@"&"];
     url = [url stringByAppendingString:@"longitude="];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
-
+    
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
-
+    
     NSLog(@"get shouts: %@",*p_error);
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getShouts, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getShouts, var: theReply = %@", theReply);
+    //#endif
     
     NSArray *jsonObjects;
     if (GETReply)
     {
         // This parses the response from the server as a JSON object
         jsonObjects = [NSJSONSerialization JSONObjectWithData:
-                            GETReply options:kNilOptions error:nil];
+                       GETReply options:kNilOptions error:nil];
     }
     return jsonObjects;
 }
@@ -260,10 +260,10 @@
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
+    //#endif
     
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
@@ -282,15 +282,15 @@
     // make the url with query variables
     NSString *url = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%@%@", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/getOtherShouts?username=", otherUsername]];
     
-
+    
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getMyShouts, var: theReply = %@", theReply);
+    //#endif
     
     // This parses the response from the server as a JSON object
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:
@@ -309,15 +309,15 @@
     // make the url with query variables
     NSString *url = [NSString stringWithFormat:@"%@%@/", @"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/messages/", messageID];
     
-
+    
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
-
-//    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: getShoutsWithID, var: theReply = %@", theReply);
-//#endif
+    
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: getShoutsWithID, var: theReply = %@", theReply);
+    //#endif
     // This parses the response from the server as a JSON object
     NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:GETReply options:kNilOptions error:nil];
     return messageDict;
@@ -390,15 +390,15 @@
 {
     NSMutableURLRequest *request = [self buildUploadPhotoRequest:newProfImage];
     
-
+    
     // send the PUT request
     NSData *PUTReply = [self sendGenericRequestWithURL:nil withType:@"PUT" withData:nil withCustomRequest:request withPotentialError:p_error];
     
     
     NSString *theReply = [[NSString alloc] initWithBytes:[PUTReply bytes] length:[PUTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: sendImageToServer, var: theReply = %@", theReply);
-//#endif
+    //#ifdef DEBUG
+    //    NSLog(@"function: sendImageToServer, var: theReply = %@", theReply);
+    //#endif
     return theReply;
     
 }
@@ -418,9 +418,9 @@
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: postMute, var: theReply = %@", theReply);
-//#endif
+    //#ifdef DEBUG
+    //    NSLog(@"function: postMute, var: theReply = %@", theReply);
+    //#endif
     return theReply;
 }
 
@@ -441,9 +441,9 @@
     
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//#ifdef DEBUG
-//    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
-//#endif
+    //#ifdef DEBUG
+    //    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
+    //#endif
     if ([theReply isEqualToString:@"error"])
         return NO;  // Failure (Username probably already exists)
     
@@ -461,7 +461,7 @@
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
     
-
+    
     // send the POST request
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:p_error];
     
@@ -475,7 +475,7 @@
     
     else
         return YES; // Success
-
+    
 }
 
 /***
@@ -519,19 +519,27 @@
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:p_error];
     
     
-//    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
-//    
-//#ifdef DEBUG
-//    NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
-//#endif
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+    //
+    //#ifdef DEBUG
+    //    NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
+    //#endif
     
-    // This parses the response from the server as a JSON object
-    NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: POSTReply options:kNilOptions error:nil];
+    if (*p_error)
+    {
+        return nil;
+    }
     
-    // This can also be nil if an error occurs where the json doesn't have a token key
-    NSString *token = [loginToken objectForKey:@"token"];
-    
-    return token;
+    else
+    {
+        // This parses the response from the server as a JSON object
+        NSDictionary *loginToken = [NSJSONSerialization JSONObjectWithData: POSTReply options:kNilOptions error:nil];
+        
+        // This can also be nil if an error occurs where the json doesn't have a token key
+        NSString *token = [loginToken objectForKey:@"token"];
+        
+        return token;
+    }
 }
 
 

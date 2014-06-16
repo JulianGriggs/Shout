@@ -120,6 +120,7 @@
         
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
+        NSLog(@"%@", error);
         if(error)
         {
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];

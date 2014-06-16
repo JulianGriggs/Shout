@@ -502,16 +502,6 @@
     mapCoverView.alpha = 0.7;
     [self.view addSubview:mapCoverView];
     
-    //Object for error handling
-    NSError* error;
-    
-//    NSDictionary *tempJsonObjects = [JCCMakeRequests getShoutWithID:Id withPotentialError:&error];
-//    if(error)
-//    {
-//        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-//        [badView setMessage:error.localizedDescription];
-//        [self.navigationController pushViewController:badView animated:NO];
-//    }
     
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
@@ -519,7 +509,6 @@
     postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
     
     // Default text view
-//    postTextView.text = [tempJsonObjects objectForKey:@"bodyField"];
     postTextView.text = self.MessageTextView.text;
     postTextView.textColor = [UIColor blackColor];
     postTextView.userInteractionEnabled = NO;
@@ -531,7 +520,6 @@
     // username label
     UIFont* boldFont = [UIFont boldSystemFontOfSize:16.0];
     usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 85, 100, 30)];
-//    [usernameLabel setText:[tempJsonObjects objectForKey:@"owner"]];
     [usernameLabel setText:self.userName];
     usernameLabel.textAlignment = NSTextAlignmentLeft;
     [usernameLabel setFont:boldFont];
@@ -539,7 +527,6 @@
     
     // time label
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
-//    [timeLabel setText:[self formatTime:[tempJsonObjects objectForKey:@"timestamp"]]];
     [timeLabel setText:[self formatTime:self.timeLabel]];
     timeLabel.textAlignment = NSTextAlignmentRight;
     UIFont* font = [UIFont systemFontOfSize:12.0];
@@ -551,14 +538,12 @@
     
     //  like label
     likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 177, 40, 40)];
-//    [likeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"likes"]]];
     [likeLabel setText:[NSString stringWithFormat:@"%ld", (long)self.numberLikes]];
     likeLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:likeLabel];
     
     //  dislike label
     dislikeLabel = [[UILabel alloc] initWithFrame:CGRectMake(275, 177, 40, 40)];
-//    [dislikeLabel setText:[NSString stringWithFormat:@"%@", [tempJsonObjects objectForKey:@"dislikes"]]];
     [dislikeLabel setText:[NSString stringWithFormat:@"%ld", (long)self.numberDislikes]];
     dislikeLabel.textAlignment = NSTextAlignmentCenter;
     [dislikeButton targetForAction:@selector(sendDown:) withSender:self];
@@ -580,20 +565,7 @@
     
     [self setDefaultLikeDislike:likeButton];
     [self setDefaultLikeDislike:dislikeButton];
-//    NSArray *usersLiked = [tempJsonObjects objectForKey:@"usersLiked"];
-//    NSArray *usersDisliked = [tempJsonObjects objectForKey:@"usersDisliked"];
-//    // Check to see if like or dislike should be highlighted
-//    for (NSString* person in usersLiked)
-//    {
-//        if ([person isEqualToString:sharedUserName])
-//            [self setLikeAsMarked:likeButton];
-//    }
-//    
-//    for (NSString* person in usersDisliked)
-//    {
-//        if ([person isEqualToString:sharedUserName])
-//            [self setDislikeAsMarked:dislikeButton];
-//    }
+
     if (self.userLiked) [self setLikeAsMarked:likeButton];
     if (self.userDisliked) [self setDislikeAsMarked:dislikeButton];
     
@@ -648,14 +620,7 @@
     profilePicture = [[UIImageView alloc] initWithFrame:CGRectMake(7, 75, 55, 55)];
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
-    
-//    NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects withPotentialError:&error];
-//    if(error)
-//    {
-//        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-//        [badView setMessage:error.localizedDescription];
-//        [self.navigationController pushViewController:badView animated:NO];
-//    }
+
     [profilePicture setImage:self.ProfileImage.image];
     [self.view addSubview:profilePicture];
 }
