@@ -101,6 +101,12 @@
     NSError* error;
     
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     // Asynchronously loads the profile image in the cell
     [self loadProfileImageUsingDictionary:userProfDict];
     [myUsername setText:[NSString stringWithFormat:@"%@ %@", @"Username: ", [userProfDict objectForKey:@"username"]]];
@@ -210,6 +216,13 @@
     // This parses the response from the server as a JSON object
     NSDictionary *userProfDict = [JCCMakeRequests getUserProfileWithPotentialError:
                                   &error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    
     // Stores our userID
     sharedUserID = [userProfDict objectForKey:@"id"];
     

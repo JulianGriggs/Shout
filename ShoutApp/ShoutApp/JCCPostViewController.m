@@ -107,7 +107,16 @@
         NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         
         NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:&error];
-        [self.navigationController popViewControllerAnimated:TRUE];
+        if(error)
+        {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:TRUE];
+        }
         
     }
 }

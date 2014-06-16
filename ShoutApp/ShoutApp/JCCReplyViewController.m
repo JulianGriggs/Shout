@@ -96,6 +96,12 @@
         
         NSDictionary *dictionaryData = @{@"bodyField": replyTextView.text, @"messageID": Id};
         [JCCMakeRequests postReply:dictionaryData withID:Id withPotentialError:&error];
+        if(error)
+        {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
+        }
         [tableViewController refresh];
         [self resetAfterReply];
     }
@@ -500,6 +506,12 @@
     NSError* error;
     
     NSDictionary *tempJsonObjects = [JCCMakeRequests getShoutWithID:Id withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
@@ -632,6 +644,12 @@
     profilePicture.layer.masksToBounds = YES;
     
     NSData* profPicData = [JCCMakeRequests getProfileImage:tempJsonObjects withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
     [self.view addSubview:profilePicture];
 }
