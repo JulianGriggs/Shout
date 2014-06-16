@@ -87,6 +87,12 @@
     NSError* error;
     // This parses the response from the server as a JSON object
     jsonObjects = [JCCMakeRequests getReplies:Id withPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     return jsonObjects;
 }
 
@@ -131,8 +137,13 @@
     {
         //Object for error handling
         NSError* error;
-        
         [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:&error];
+        if(error)
+        {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
+        }
         [self fetchShouts];
         [self.tableView reloadData];
     }

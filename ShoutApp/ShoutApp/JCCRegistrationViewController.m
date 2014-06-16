@@ -59,7 +59,7 @@
         [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.299, 225, outerWindowHeight * 0.07)];
         [emailField setFrame:CGRectMake(50, outerWindowHeight * 0.37, 225, outerWindowHeight * 0.07)];
         [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.47, 225, outerWindowHeight * 0.07)];
-//        [backToLoginButton setFrame:CGRectMake(50, 300, 225, 50)];
+        //        [backToLoginButton setFrame:CGRectMake(50, 300, 225, 50)];
     }];
     
 }
@@ -100,10 +100,10 @@
  ***/
 -(void) setUserCredentials:(NSString *)token
 {
-
+    
     sharedUserName = userNameField.text;
     sharedUserToken = token;
-//    NSLog((@"Registered Username: %@ \n Registered Token: %@"), sharedUserName, sharedUserToken);
+    //    NSLog((@"Registered Username: %@ \n Registered Token: %@"), sharedUserName, sharedUserToken);
     
     // Clears the UI to the default values
     userNameField.text = @"";
@@ -158,17 +158,17 @@
     {
         [self dismissKeyboard];
     }
-
+    
 #warning TODO uncomment
-/*    // Makes sure that the email given is a valid email address
-    else if(![self validateEmailWithString:emailField.text])
-    {
-        NSString *errorMessage = [NSString stringWithFormat:@"Your email address is not valid.  Please provide a valid email address."];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [alert show];
-    }
-    */
+    /*    // Makes sure that the email given is a valid email address
+     else if(![self validateEmailWithString:emailField.text])
+     {
+     NSString *errorMessage = [NSString stringWithFormat:@"Your email address is not valid.  Please provide a valid email address."];
+     
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+     [alert show];
+     }
+     */
     else
     {
         // Object with username, password, and email address
@@ -176,27 +176,38 @@
         // Object for error handling
         NSError* error;
         
-        // Attempts the registration
-        if ([JCCMakeRequests attemptRegistration:dictionaryData withPotentialError:&error])
+        bool successfulRegistration = [JCCMakeRequests attemptRegistration:dictionaryData withPotentialError:&error];
+        if(error)
         {
-            // Attemps to login as new user
-            NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
-            if (token)
-            {
-                [self setUserCredentials:token];
-                [self.navigationController popViewControllerAnimated:NO];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and internet connection, then try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [alert show];
-                passwordField.text = @"";
-            }
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Registration" message:@"This username already belongs to an account!  Please choose a different username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
+            // Attempts the registration
+            if (successfulRegistration)
+            {
+                // Attemps to login as new user
+                NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
+                
+                if (token)
+                {
+                    [self setUserCredentials:token];
+                    [self.navigationController popViewControllerAnimated:NO];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and internet connection, then try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [alert show];
+                    passwordField.text = @"";
+                }
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Registration" message:@"This username already belongs to an account!  Please choose a different username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }
 }
@@ -231,7 +242,7 @@
     UIView *spacerView3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     
     // Create the email field
-//    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
+    //    userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 225, 225, 50)];
     userNameField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.396, 225, outerWindowHeight * 0.088)];
     [userNameField setLeftViewMode:UITextFieldViewModeAlways];
     [userNameField setLeftView:spacerView1];
@@ -250,7 +261,7 @@
     
     
     // Create the password field
-//    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
+    //    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, 275, 225, 50)];
     passwordField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.484, 225, outerWindowHeight * 0.088)];
     [passwordField setLeftViewMode:UITextFieldViewModeAlways];
     [passwordField setLeftView:spacerView2];
@@ -266,7 +277,7 @@
     [self.view addSubview:passwordField];
     
     // Build login button
-//    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
+    //    emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, 325, 225, 50)];
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.572, 225, outerWindowHeight * 0.088)];
     [emailField setLeftViewMode:UITextFieldViewModeAlways];
     [emailField setLeftView:spacerView3];
@@ -282,10 +293,10 @@
     emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     [self.view addSubview:emailField];
-
+    
     
     // Register new username
-//    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
+    //    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
     registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * .704, 225, outerWindowHeight * 0.088)];
     registerButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     registerButton.clipsToBounds = YES;
@@ -309,7 +320,7 @@
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
     [self.navigationItem setTitle:@"SHOUT!"];
-
+    
 }
 
 

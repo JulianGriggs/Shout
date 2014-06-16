@@ -181,7 +181,7 @@
     passwordConfirmField.layer.backgroundColor=[[UIColor whiteColor]CGColor];
     passwordConfirmField.layer.borderWidth= 1.0f;
     [self.view addSubview:passwordConfirmField];
-
+    
     
     
     // Build login button
@@ -215,7 +215,7 @@
     updateButton.backgroundColor = [UIColor grayColor];
     [updateButton addTarget:self action:@selector(editProfile:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:updateButton];
-
+    
 }
 
 -(IBAction)editProfile:(id)sender
@@ -226,15 +226,15 @@
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     int MAX_USERNAME_LENGTH = 15;
     
-        // Makes sure that the username is less than max length characters long
+    // Makes sure that the username is less than max length characters long
     if (userNameField.text.length > MAX_USERNAME_LENGTH)
     {
         NSString *errorMessage = [NSString stringWithFormat:@"Your username is too long!  Must be less than %d characters.", MAX_USERNAME_LENGTH];
-            
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     }
-        
+    
     // Makes sure that no fields are left blank
     else if (([[userNameField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[passwordField.text stringByTrimmingCharactersInSet: set] length] == 0) || ([[emailField.text stringByTrimmingCharactersInSet: set] length] == 0))
     {
@@ -253,19 +253,19 @@
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
-
+        
     }
-
+    
 #warning TODO uncomment
     /*    // Makes sure that the email given is a valid email address
-         else if(![self validateEmailWithString:emailField.text])
-         {
-         NSString *errorMessage = [NSString stringWithFormat:@"Your email address is not valid.  Please provide a valid email address."];
-         
-         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-         [alert show];
-         }
-         */
+     else if(![self validateEmailWithString:emailField.text])
+     {
+     NSString *errorMessage = [NSString stringWithFormat:@"Your email address is not valid.  Please provide a valid email address."];
+     
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+     [alert show];
+     }
+     */
     else
     {
         // Object with username, password, and email address
@@ -275,22 +275,34 @@
         NSError* error;
         
         // Attempts the registration
-        if ([JCCMakeRequests editProfile:dictionaryData withPotentialError:&error])
+        bool successfulRegistration = [JCCMakeRequests editProfile:dictionaryData withPotentialError:&error];
+        if(error)
         {
-            NSLog(@"cunt blasters"); // hehe
-            [self.navigationController popViewControllerAnimated:NO];
-            [self.navigationController popToRootViewControllerAnimated:NO];
-            
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid" message:@"This username already belongs to an account!  Please choose a different username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [alert show];
+            if (successfulRegistration)
+            {
+                
+                
+                NSLog(@"cunt blasters"); // hehe
+                [self.navigationController popViewControllerAnimated:NO];
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid" message:@"This username already belongs to an account!  Please choose a different username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }
     
-
-
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -300,14 +312,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

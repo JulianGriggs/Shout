@@ -81,6 +81,12 @@
     NSError* error;
     
     jsonObjects = [JCCMakeRequests getMyShoutsWithPotentialError:&error];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
     return jsonObjects;
 }
 

@@ -78,8 +78,17 @@
     if (buttonIndex != 0)
     {
         [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:&error];
-        [self fetchShouts];
-        [self.tableView reloadData];
+        if(error)
+        {
+            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+            [badView setMessage:error.localizedDescription];
+            [self.navigationController pushViewController:badView animated:NO];
+        }
+        else
+        {
+            [self fetchShouts];
+            [self.tableView reloadData];
+        }
     }
 }
 
@@ -128,9 +137,9 @@
     NSString *CellIdentifier = @"messageCell1";
     JCCTableViewCell1 *cell = (JCCTableViewCell1 *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
-/*    NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:[dictShout objectForKey:@"bodyField"]];
-    CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
-*/
+    /*    NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:[dictShout objectForKey:@"bodyField"]];
+     CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
+     */
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"JCCTableViewCell1" owner:self options:nil];
@@ -138,11 +147,11 @@
         [cell setFrame:CGRectMake(0, 0, 320, 480)];// messageHeight + nonMessageHeight)];
         cell.parentTableViewController = (UITableViewController *)self;
     }
- /*   else
-    {
-        [cell setFrame:CGRectMake(0, 0, 320, messageHeight + nonMessageHeight)];
-    }
-*/
+    /*   else
+     {
+     [cell setFrame:CGRectMake(0, 0, 320, messageHeight + nonMessageHeight)];
+     }
+     */
     [cell setUpCellWithDictionary:dictShout];
     return cell;
 }
@@ -162,11 +171,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     /*
-    NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
-    NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:[dictShout objectForKey:@"bodyField"]];
-    CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
-    return messageHeight + nonMessageHeight;
-    */
+     NSDictionary *dictShout = [jsonObjects objectAtIndex:indexPath.row];
+     NSAttributedString *bodyField = [[NSAttributedString alloc] initWithString:[dictShout objectForKey:@"bodyField"]];
+     CGFloat messageHeight = [self textViewHeightForAttributedText:bodyField andWidth:225];
+     return messageHeight + nonMessageHeight;
+     */
     return 140;
 }
 

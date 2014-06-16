@@ -75,7 +75,16 @@
     NSError* error;
     
     [JCCMakeRequests sendImageToServer:newProfImage withPotentialError:&error];
-    [self.navigationController popViewControllerAnimated:YES];
+    if(error)
+    {
+        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+        [badView setMessage:error.localizedDescription];
+        [self.navigationController pushViewController:badView animated:NO];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     
 }
 
@@ -108,7 +117,7 @@
                                                     otherButtonTitles: nil];
         [myAlertView show];
     }
-
+    
     [self.imageView setImage:self.profPicture];
     self.takePhotoButton.layer.cornerRadius = 8.0;
     self.selectPhotoButton.layer.cornerRadius = 8.0;
