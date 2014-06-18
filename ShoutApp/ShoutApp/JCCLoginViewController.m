@@ -101,7 +101,6 @@
 - (IBAction)postLogin:(id)sender
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
-    NSLog(@"here");
     if (userNameField.text.length > 30)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"Your username is too long!  Must be less than 30 characters." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -118,14 +117,20 @@
         // Object for error handling
         NSError* error;
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
-
+        
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
-        NSLog(@"%@", error);
         if(error)
         {
             JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
             [badView setMessage:error.localizedDescription];
             [self.navigationController pushViewController:badView animated:NO];
+        }
+        else if (token == nil)
+        {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and internet connection, then try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+            passwordField.text = @"";
         }
         else
         {
@@ -134,19 +139,9 @@
             [keychainItem setObject:passwordField.text forKey:(__bridge id)kSecValueData];
             [self setUserCredentials:token];
             [self addMainViewControllers];
-            if (token == nil)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"Your username/password combination doesn't appear to belong to an account!  Please check your login information and internet connection, then try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [alert show];
-                passwordField.text = @"";
-            }
-            else
-            {
-                [self setUserCredentials:token];
-                [self addMainViewControllers];
-                
-            }
+            
         }
+        
     }
 }
 

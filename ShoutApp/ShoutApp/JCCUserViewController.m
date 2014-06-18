@@ -17,6 +17,7 @@
 #import "JCCMyShoutsTableViewController.h"
 #import "JCCMakeRequests.h"
 #import "AFNetworking.h"
+#import "KeychainItemWrapper.h"
 
 @interface JCCUserViewController ()
 
@@ -61,6 +62,9 @@
     {
         sharedUserName = @"";
         sharedUserToken = @"";
+        KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
+        [keychainItem setObject:@"" forKey:(__bridge id)kSecAttrAccount];
+        [keychainItem setObject:@"" forKey:(__bridge id)kSecValueData];
         NSLog(@"Token after logout button: %@", sharedUserToken);
         [self.navigationController popViewControllerAnimated:YES];
     }

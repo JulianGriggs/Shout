@@ -54,7 +54,7 @@
         [replyViewController setUserDisliked:NO];
     }
     
-    [tableViewController.navigationController pushViewController:replyViewController animated:YES];
+    [tableViewController.navigationController pushViewController:replyViewController animated:NO];
     
 }
 
