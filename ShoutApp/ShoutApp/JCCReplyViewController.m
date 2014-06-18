@@ -354,8 +354,8 @@
           success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          reply = (NSData*)responseObject;
-         [tableViewController fetchShouts];
-         [tableViewController.tableView reloadData];
+//         [tableViewController fetchShouts];
+//         [tableViewController.tableView reloadData];
      }
           failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
@@ -420,8 +420,8 @@
           success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          reply = (NSData*)responseObject;
-         [tableViewController fetchShouts];
-         [tableViewController.tableView reloadData];
+//         [tableViewController fetchShouts];
+//         [tableViewController.tableView reloadData];
      }
           failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
