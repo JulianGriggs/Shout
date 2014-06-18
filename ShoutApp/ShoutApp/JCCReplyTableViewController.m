@@ -56,6 +56,8 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
+    
+    UIRefreshControl *refreshControl;
 }
 
 /***
@@ -86,12 +88,19 @@
     //Object for error handling
     NSError* error;
     // This parses the response from the server as a JSON object
+    
     jsonObjects = [JCCMakeRequests getReplies:Id withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+//        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+//        [badView setMessage:error.localizedDescription];
+//        [self.navigationController pushViewController:badView animated:NO];
+//        UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        [self.view addSubview:activity];
+//        [activity startAnimating];
+        NSLog(@"here");
+        [self.refreshControl beginRefreshing];
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+self.refreshControl.frame.size.height) animated:YES];
     }
     return jsonObjects;
 }
@@ -207,7 +216,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // This creates the refresh control
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;

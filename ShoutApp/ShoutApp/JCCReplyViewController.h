@@ -17,14 +17,14 @@
  Sets the Id instance variable.
  ***/
 -(void)passMessageId:(NSString *)messageId;
-@property (weak, nonatomic) UIImageView *ProfileImage;
-@property (weak, nonatomic) UITextView *MessageTextView;
+@property (weak, nonatomic) UIImageView *profileImage;
+@property (weak, nonatomic) UITextView *messageTextView;
 @property NSInteger numberLikes;
 @property NSInteger numberDislikes;
 @property BOOL userLiked;
 @property BOOL userDisliked;
 @property (weak, nonatomic) NSString* messageId;
 @property (weak, nonatomic) NSString* userName;
-@property (weak, nonatomic) NSString* timeLabel;
+@property (weak, nonatomic) NSString* time;
 
 @end

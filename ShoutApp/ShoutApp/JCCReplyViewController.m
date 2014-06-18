@@ -506,10 +506,11 @@
     screenHeight = [UIScreen mainScreen].bounds.size.height;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     keyboardSize = 216;
-    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
     
     // Default text view
-    postTextView.text = self.MessageTextView.text;
+    postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
+    NSLog(@"%@", self.messageTextView.text);
+    postTextView.text = self.messageTextView.text;
     postTextView.textColor = [UIColor blackColor];
     postTextView.userInteractionEnabled = NO;
     postTextView.editable = NO;
@@ -527,7 +528,7 @@
     
     // time label
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
-    [timeLabel setText:[self formatTime:self.timeLabel]];
+    [timeLabel setText:[self formatTime:self.time]];
     timeLabel.textAlignment = NSTextAlignmentRight;
     UIFont* font = [UIFont systemFontOfSize:12.0];
     [timeLabel setFont:font];
@@ -621,7 +622,7 @@
     profilePicture.layer.cornerRadius = 8.0;
     profilePicture.layer.masksToBounds = YES;
 
-    [profilePicture setImage:self.ProfileImage.image];
+    [profilePicture setImage:self.profileImage.image];
     [self.view addSubview:profilePicture];
 }
 

@@ -35,7 +35,8 @@
     [replyViewController setNumberLikes:[cell.NumberOfUpsLabel.text integerValue]];
     [replyViewController setNumberDislikes:[cell.NumberOfDownsLabel.text integerValue]];
     [replyViewController setUserName:cell.UsernameLabel.text];
-    [replyViewController setTimeLabel:cell.TimeLabel.text];
+    [replyViewController setTime:cell.TimeLabel.text];
+    [replyViewController setMessageTextView:cell.MessageTextView];
     if ([cell.UpLabel.backgroundColor isEqual:[UIColor blackColor]])
     {
         [replyViewController setUserLiked:YES];

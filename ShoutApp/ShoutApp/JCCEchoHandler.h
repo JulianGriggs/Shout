@@ -11,7 +11,7 @@
 @interface JCCEchoHandler : NSObject
 
 /***
- Sends the echo request synchronously.
+Moves to the echo page.
  ***/
 + (void)sendEcho:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController;
 

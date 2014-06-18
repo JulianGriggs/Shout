@@ -11,7 +11,7 @@
 @interface JCCReplyHandler : NSObject
 
 /***
- Sends a synchronous reply.
+Moves to the reply page.
  ***/
 + (void)sendReply:(UIButton*)sender fromTableViewController:(UITableViewController*) tableViewController;
 @end
