@@ -56,8 +56,6 @@
     NSString *Id;
     
     JCCTableViewCell1 *currentCell;
-    
-    UIRefreshControl *refreshControl;
 }
 
 /***
@@ -92,15 +90,8 @@
     jsonObjects = [JCCMakeRequests getReplies:Id withPotentialError:&error];
     if(error)
     {
-//        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-//        [badView setMessage:error.localizedDescription];
-//        [self.navigationController pushViewController:badView animated:NO];
-//        UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        [self.view addSubview:activity];
-//        [activity startAnimating];
-        NSLog(@"here");
-        [self.refreshControl beginRefreshing];
-        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+self.refreshControl.frame.size.height) animated:YES];
+        // Pass off error handling to calling function
+        return nil;
     }
     return jsonObjects;
 }
@@ -191,16 +182,34 @@
 }
 
 
+/***
+ This is called to set the long refresh back to normal after waiting
+ ***/
+- (void)quitRefresh
+{
+    [self.refreshControl endRefreshing];
+    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
 
 /***
  Fetches shouts and then reloads the table.
  ***/
 - (void)refresh
 {
-    // Do something...
-    [self fetchShouts];
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
+    
+    if ([self fetchShouts])
+    {
+        [self.tableView reloadData];
+        [self.refreshControl endRefreshing];
+    }
+    // There was an error
+    else
+    {
+        [self.refreshControl beginRefreshing];
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.refreshControl.frame.size.height) animated:YES];
+        [self performSelector:@selector(quitRefresh) withObject:nil afterDelay:5.0];
+    }
 }
 
 
@@ -216,7 +225,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // This creates the refresh control
-    refreshControl = [[UIRefreshControl alloc] init];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)
              forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;

@@ -59,7 +59,7 @@
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
     //  return nil if the internet connection is poor
-    if (GETReply == nil)
+    if (*p_error || GETReply == nil)
         return nil;
     
     //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -87,7 +87,7 @@
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
     //  return nil if the internet connection is poor
-    if (GETReply == nil)
+    if (*p_error || GETReply == nil)
         return nil;
     
     //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -115,7 +115,7 @@
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
     //  return nil if the internet connection is poor
-    if (GETReply == nil)
+    if (*p_error || GETReply == nil)
         return nil;
     
     //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
@@ -142,7 +142,7 @@
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:p_error];
     
     //  return nil if the internet connection is poor
-    if (POSTReply == nil)
+    if (*p_error || POSTReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
@@ -170,7 +170,7 @@
     NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:p_error];
     
     //  return nil if the internet connection is poor
-    if (POSTReply == nil)
+    if (*p_error || POSTReply == nil)
         return nil;
     
     NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
@@ -196,7 +196,7 @@
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
     //  return nil if the internet connection is poor
-    if (GETReply == nil)
+    if (*p_error || GETReply == nil)
         return nil;
     
     //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
