@@ -101,7 +101,7 @@
 - (IBAction)postLogin:(id)sender
 {
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
-    
+    NSLog(@"here");
     if (userNameField.text.length > 30)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"Your username is too long!  Must be less than 30 characters." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -117,8 +117,8 @@
     {
         // Object for error handling
         NSError* error;
-        
         NSDictionary *dictionaryData = @{@"username": userNameField.text, @"password": passwordField.text};
+
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
         NSLog(@"%@", error);
         if(error)

@@ -46,8 +46,8 @@ int maxCharacters = 111;
 
         NSError *error;
         NSDictionary *dictionaryData = @{@"username": username, @"password": password};
-#warning could be a problem passing nil, just did it to avoid annoying build problem
-        NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:nil];
+
+        NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
         // Sets the username and token for this session of the app
         sharedUserName = username;
         sharedUserToken = token;
