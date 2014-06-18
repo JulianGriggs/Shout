@@ -509,7 +509,6 @@
     
     // Default text view
     postTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, 145, 225, 75)];
-    NSLog(@"%@", self.messageTextView.text);
     postTextView.text = self.messageTextView.text;
     postTextView.textColor = [UIColor blackColor];
     postTextView.userInteractionEnabled = NO;

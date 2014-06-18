@@ -230,8 +230,6 @@
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];
     
-    NSLog(@"get shouts: %@",*p_error);
-    
     //    NSString *theReply = [[NSString alloc] initWithBytes:[GETReply bytes] length:[GETReply length] encoding: NSASCIIStringEncoding];
     //#ifdef DEBUG
     //    NSLog(@"function: getShouts, var: theReply = %@", theReply);
