@@ -41,6 +41,7 @@ int maxCharacters = 111;
     KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
     NSString *username = [keychainItem objectForKey:(__bridge id)(kSecAttrAccount)];
     if (![username isEqualToString:@""])
+        
     {
         NSString *password = [keychainItem objectForKey:(__bridge id)(kSecValueData)];
 
@@ -48,20 +49,24 @@ int maxCharacters = 111;
         NSDictionary *dictionaryData = @{@"username": username, @"password": password};
 
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
-        // Sets the username and token for this session of the app
-        sharedUserName = username;
-        sharedUserToken = token;
         
-        // Restores the default values
-        username = @"";
-        password = @"";
-        // Created the user view controller
-        JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-        // Created the table view controller
-        JCCViewController *viewController = [[JCCViewController alloc] init];
-        
-        [navigationController pushViewController:userViewController animated:NO];
-        [navigationController pushViewController:viewController animated:NO];
+        if (token != nil) {
+            // Sets the username and token for this session of the app
+            sharedUserName = username;
+            sharedUserToken = token;
+            
+            // Restores the default values
+            username = @"";
+            password = @"";
+            // Created the user view controller
+            JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+            // Created the table view controller
+            JCCViewController *viewController = [[JCCViewController alloc] init];
+            
+            [navigationController pushViewController:userViewController animated:NO];
+            [navigationController pushViewController:viewController animated:NO];
+        }
+
     }
     
 
