@@ -43,39 +43,42 @@ int maxCharacters = 111;
     if (![username isEqualToString:@""])
     {
         NSString *password = [keychainItem objectForKey:(__bridge id)(kSecValueData)];
-
+        
         NSError *error;
         NSDictionary *dictionaryData = @{@"username": username, @"password": password};
-
+        
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
-        // Sets the username and token for this session of the app
-        sharedUserName = username;
-        sharedUserToken = token;
-        
-        // Restores the default values
-        username = @"";
-        password = @"";
-        // Created the user view controller
-        JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-        // Created the table view controller
-        JCCViewController *viewController = [[JCCViewController alloc] init];
-        
-        [navigationController pushViewController:userViewController animated:NO];
-        [navigationController pushViewController:viewController animated:NO];
+        if(!error)
+        {
+            // Sets the username and token for this session of the app
+            sharedUserName = username;
+            sharedUserToken = token;
+            
+            // Restores the default values
+            username = @"";
+            password = @"";
+            // Created the user view controller
+            JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+            // Created the table view controller
+            JCCViewController *viewController = [[JCCViewController alloc] init];
+            
+            [navigationController pushViewController:userViewController animated:NO];
+            [navigationController pushViewController:viewController animated:NO];
+        }
     }
     
-
-//    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
+    
+    //    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
     
     //  set the navigation bar to black
-//    navigationController.navigationBar.barStyle = UIBarStyleBlack;
-//    navigationController.navigationBar.translucent = NO;
+    //    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    //    navigationController.navigationBar.translucent = NO;
     //navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     navigationController.navigationBar.topItem.title = @"SHOUT!";
     
     // Sets the root view controller to the navigation controller
     [self.window setRootViewController:navigationController];
-
+    
     
     [GMSServices provideAPIKey:@"AIzaSyCAU6EIF1XjTI26yiqRMJvycaVfOYcHf74"];
     // Shows the window
@@ -83,19 +86,19 @@ int maxCharacters = 111;
     
     
     /**************************************************************************************************/
-     // This registers every time that we lose internet connection.  It then pushes on our lack of internet view.
+    // This registers every time that we lose internet connection.  It then pushes on our lack of internet view.
     
-//    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-//    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-//        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
-//        // Double check with logging
-//        if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
-//            [navigationController popViewControllerAnimated:NO];
-//        } else {
-//            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-//            [navigationController pushViewController:badView animated:NO];
-//        }
-//    }];
+    //    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    //    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+    //        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+    //        // Double check with logging
+    //        if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
+    //            [navigationController popViewControllerAnimated:NO];
+    //        } else {
+    //            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
+    //            [navigationController pushViewController:badView animated:NO];
+    //        }
+    //    }];
     /**************************************************************************************************/
     
     return YES;
