@@ -25,18 +25,22 @@ int maxCharacters = 111;
 // Note that the viewController for the table and the user page are now created in the login controller after a successful login
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [GMSServices provideAPIKey:@"AIzaSyCAU6EIF1XjTI26yiqRMJvycaVfOYcHf74"];
+    
     // Creates the window object
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    
     // Set the height and window size
     outerWindowHeight = self.window.frame.size.height;  // 568 on 4 inch screen ----- 480 on 3.5 inch
     outerWindowWidth = self.window.frame.size.width; // 320 on 4 inch screen ----- 320 on 3.5 inch
     
-    // Created the login view controller
-    JCCLoginViewController *loginViewController = [[JCCLoginViewController alloc]init];
     
-    // Creates the root naviagtion controller
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+   // NOTE: Our default is to go to the login page.  This is why we set it as the root view controller at first.
+    JCCLoginViewController *loginViewController = [[JCCLoginViewController alloc]init];
+    UINavigationController* loginRegisterController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    loginRegisterController.navigationBar.topItem.title = @"SHOUT!";
+    self.window.rootViewController = loginRegisterController;
+
     
     KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
     NSString *username = [keychainItem objectForKey:(__bridge id)(kSecAttrAccount)];
@@ -49,8 +53,7 @@ int maxCharacters = 111;
         NSDictionary *dictionaryData = @{@"username": username, @"password": password};
 
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
-
-        if(!error)
+        if(!error || token != nil)
         {
             // Sets the username and token for this session of the app
             sharedUserName = username;
@@ -59,35 +62,30 @@ int maxCharacters = 111;
             // Restores the default values
             username = @"";
             password = @"";
-            // Created the user view controller
-            JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-            // Created the table view controller
-            JCCViewController *viewController = [[JCCViewController alloc] init];
             
-            [navigationController pushViewController:userViewController animated:NO];
-            [navigationController pushViewController:viewController animated:NO];
-        }
-
+            JCCViewController *viewController = [[JCCViewController alloc] init];
+            UIImage* feedIconImage = [UIImage imageNamed:@"FeedIcon.png"];
+            UITabBarItem* feedItem = [[UITabBarItem alloc] initWithTitle:@"Feed" image:feedIconImage tag:1];
+            viewController.tabBarItem = feedItem;
+            
+            JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+            UIImage* userIconImage = [UIImage imageNamed:@"UserIcon.png"];
+            UITabBarItem* userItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:userIconImage tag:0];
+            userViewController.tabBarItem = userItem;
+            
+            // Creates the root naviagtion controller
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+            
+            // NOTE: If you can login with the keychain then we want to immediately go to the tab bar root view controller.
+            UITabBarController *tabBarController = [[UITabBarController alloc] init];
+            NSArray* controllers = [NSArray arrayWithObjects:navigationController, userViewController, nil];
+            navigationController.navigationBar.topItem.title = @"SHOUT!";
+            [tabBarController setViewControllers:controllers];
+            self.window.rootViewController = tabBarController;
+        }        
     }
-    
-    
-    //    navigationController.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ShoutIcon.png"]];
-    
-    //  set the navigation bar to black
-    //    navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    //    navigationController.navigationBar.translucent = NO;
-    //navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-    navigationController.navigationBar.topItem.title = @"SHOUT!";
-    
-    // Sets the root view controller to the navigation controller
-    [self.window setRootViewController:navigationController];
-    
-    
-    [GMSServices provideAPIKey:@"AIzaSyCAU6EIF1XjTI26yiqRMJvycaVfOYcHf74"];
-    // Shows the window
+
     [self.window makeKeyAndVisible];
-    
-    
     /**************************************************************************************************/
     // This registers every time that we lose internet connection.  It then pushes on our lack of internet view.
     

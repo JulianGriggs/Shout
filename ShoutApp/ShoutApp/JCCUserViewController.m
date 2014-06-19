@@ -297,6 +297,7 @@
     JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
     profPicView.profPicture = myProfPicture;
     [self.navigationController pushViewController:profPicView animated:YES];
+//    [self presentViewController:profPicView animated:YES completion:nil];
 }
 
 

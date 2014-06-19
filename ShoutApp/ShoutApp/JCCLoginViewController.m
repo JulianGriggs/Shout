@@ -169,14 +169,35 @@
  ***/
 -(void) addMainViewControllers
 {
-    // Created the user view controller
-    JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
-    // Created the table view controller
+//    // Created the user view controller
+//    JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+//    // Created the table view controller
+//    JCCViewController *viewController = [[JCCViewController alloc] init];
+//    
+//    [self.navigationController pushViewController:userViewController animated:NO];
+//    [self.navigationController pushViewController:viewController animated:NO];
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    
     JCCViewController *viewController = [[JCCViewController alloc] init];
+    UIImage* feedIconImage = [UIImage imageNamed:@"FeedIcon.png"];
+    UITabBarItem* feedItem = [[UITabBarItem alloc] initWithTitle:@"Feed" image:feedIconImage tag:1];
+    viewController.tabBarItem = feedItem;
     
-    [self.navigationController pushViewController:userViewController animated:NO];
-    [self.navigationController pushViewController:viewController animated:NO];
+    JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
+    UIImage* userIconImage = [UIImage imageNamed:@"UserIcon.png"];
+    UITabBarItem* userItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:userIconImage tag:0];
+    userViewController.tabBarItem = userItem;
     
+    // Creates the root naviagtion controller
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    NSArray* controllers = [NSArray arrayWithObjects:navigationController, userViewController, nil];
+    
+    navigationController.navigationBar.topItem.title = @"SHOUT!";
+    
+    [tabBarController setViewControllers:controllers];
+    UIWindow * mainWindow = [UIApplication sharedApplication].windows.firstObject;
+    mainWindow.rootViewController = tabBarController;
     
 }
 
