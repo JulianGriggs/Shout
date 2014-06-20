@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JCCDismissViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
 @interface JCCBadConnectionViewController : UIViewController
 

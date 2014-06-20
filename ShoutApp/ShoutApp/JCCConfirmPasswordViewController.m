@@ -86,6 +86,16 @@
     
 }
 
+
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 - (void) confirmPassword:(id)sender
 {
     NSDictionary *dictionaryData = @{@"password": passwordField.text};

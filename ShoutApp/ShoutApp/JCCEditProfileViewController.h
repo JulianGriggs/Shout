@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JCCDismissViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCEditProfileViewController : UIViewController<UITextFieldDelegate, JCCDismissViewController>
+@interface JCCEditProfileViewController : UIViewController<UITextFieldDelegate, JCCDismissViewControllerDelegate>
 
-@property (nonatomic, weak) id<JCCDismissViewController> delegate;
+@property (nonatomic, weak) id<JCCDismissViewControllerDelegate> delegate;
 
 @end

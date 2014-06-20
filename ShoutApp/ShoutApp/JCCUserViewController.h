@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "JCCProfPicViewController.h"
-#import "JCCDismissViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCUserViewController : UIViewController <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate, UIAlertViewDelegate, JCCDismissViewController>
+@interface JCCUserViewController : UIViewController <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate, UIAlertViewDelegate, JCCDismissViewControllerDelegate>
 @end

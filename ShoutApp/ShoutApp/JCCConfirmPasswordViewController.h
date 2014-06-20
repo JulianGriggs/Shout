@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCConfirmPasswordViewController : UIViewController<UITextFieldDelegate>
+@interface JCCConfirmPasswordViewController : UIViewController<UITextFieldDelegate, JCCDismissViewControllerDelegate>
 
 @end

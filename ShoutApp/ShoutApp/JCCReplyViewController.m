@@ -14,6 +14,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
 #import "AFNetworking.h"
+#import "JCCErrorHandler.h"
 
 @interface JCCReplyViewController ()
 
@@ -98,9 +99,7 @@
         [JCCMakeRequests postReply:dictionaryData withID:self.messageId withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         [tableViewController refresh];
         [self resetAfterReply];
@@ -230,6 +229,14 @@
     [replyButton removeFromSuperview];
 }
 
+
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 /***
@@ -425,9 +432,7 @@
      }
           failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"Error: %@", error);
-         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-         [tableViewController.navigationController pushViewController:badView animated:NO];
+         [JCCErrorHandler displayErrorView:self withError:error];
      }];
 }
 

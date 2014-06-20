@@ -10,6 +10,7 @@
 #import "JCCProfPicViewController.h"
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
+#import "JCCErrorHandler.h"
 
 @interface JCCProfPicViewController ()
 
@@ -43,6 +44,14 @@
     [self presentViewController:picker animated:YES completion:NULL];
 }
 
+
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 /***
@@ -80,9 +89,7 @@
     [JCCMakeRequests sendImageToServer:newProfImage withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     else
     {

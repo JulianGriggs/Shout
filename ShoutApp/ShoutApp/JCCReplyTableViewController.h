@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "JCCReplyViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCReplyTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UITextFieldDelegate, UIAlertViewDelegate>
+@interface JCCReplyTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UITextFieldDelegate, UIAlertViewDelegate, JCCDismissViewControllerDelegate>
 
 /***
  Sets the Id instance variable.

@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "JCCReplyViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCMyShoutsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
+@interface JCCMyShoutsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, JCCDismissViewControllerDelegate>
 @end
 

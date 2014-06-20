@@ -10,8 +10,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "JCCFeedTableViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate>
+@interface JCCReplyViewController : UIViewController  <CLLocationManagerDelegate, UITextViewDelegate, UITableViewDelegate, JCCDismissViewControllerDelegate>
 
 /***
  Sets the Id instance variable.

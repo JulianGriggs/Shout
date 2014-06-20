@@ -24,6 +24,8 @@
 #import "JCCReplyViewController.h"
 #import "JCCMakeRequests.h"
 #import "JCCOtherUserViewController.h"
+#import "JCCErrorHandler.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCReplyTableViewController ()
@@ -140,9 +142,7 @@
         [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         [self fetchShouts];
         [self.tableView reloadData];
@@ -212,7 +212,13 @@
     }
 }
 
-
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 /***
  Creates the refresh control and sets the separator style on the table to none.

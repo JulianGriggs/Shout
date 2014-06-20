@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "JCCReplyViewController.h"
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIAlertViewDelegate>
+
+@interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIAlertViewDelegate, JCCDismissViewControllerDelegate>
 - (NSArray*)fetchShouts;
 @end

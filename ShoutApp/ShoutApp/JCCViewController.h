@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JCCFeedTableViewController.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCViewController : UIViewController <CLLocationManagerDelegate>
+@interface JCCViewController : UIViewController <CLLocationManagerDelegate, JCCDismissViewControllerDelegate>
 @end

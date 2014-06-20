@@ -14,6 +14,7 @@
 #import "JCCFeedTableViewController.h"
 #import "JCCOtherUserViewController.h"
 #import "JCCMakeRequests.h"
+#import "JCCErrorHandler.h"
 
 @implementation JCCReplyTableViewCell
 
@@ -53,10 +54,7 @@
      }
          failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"Error: %@", error);
-         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-         [badView setMessage:error.localizedDescription];
-         [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
+         [JCCErrorHandler displayErrorView:self.parentTableViewController withError:error];
      }];
 }
 

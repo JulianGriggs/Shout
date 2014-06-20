@@ -84,7 +84,7 @@
 /* Begin PBXFileReference section */
 		615D9D45195409DA00A77E6C /* JCCErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCErrorHandler.h; sourceTree = "<group>"; };
 		615D9D46195409DA00A77E6C /* JCCErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCErrorHandler.m; sourceTree = "<group>"; };
-		615D9D4819540EA700A77E6C /* JCCDismissViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCDismissViewController.h; sourceTree = "<group>"; };
+		615D9D49195417FD00A77E6C /* JCCDismissViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCDismissViewControllerDelegate.h; sourceTree = "<group>"; };
 		6178FCAC191DD21C00B206B7 /* JCCTableViewCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCTableViewCell1.h; sourceTree = "<group>"; };
 		6178FCAD191DD21C00B206B7 /* JCCTableViewCell1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCTableViewCell1.m; sourceTree = "<group>"; };
 		6178FCAE191DD21C00B206B7 /* JCCTableViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JCCTableViewCell1.xib; sourceTree = "<group>"; };
@@ -356,7 +356,7 @@
 		61E069C91906D3AA00900A71 /* General */ = {
 			isa = PBXGroup;
 			children = (
-				615D9D4819540EA700A77E6C /* JCCDismissViewController.h */,
+				615D9D49195417FD00A77E6C /* JCCDismissViewControllerDelegate.h */,
 				75A5565A1921F1E500A9C727 /* JCCBadConnectionViewController.h */,
 				75A5565B1921F1E500A9C727 /* JCCBadConnectionViewController.m */,
 				617F4540194188C1002E1279 /* JCCNoShoutsViewController.h */,
