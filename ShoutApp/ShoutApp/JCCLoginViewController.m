@@ -16,7 +16,7 @@
 #import "JCCRegistrationViewController.h"
 #import "JCCMakeRequests.h"
 #import "KeychainItemWrapper.h"
-
+#import "JCCForgotPasswordViewController.h"
 @interface JCCLoginViewController ()
 
 
@@ -30,6 +30,7 @@
     UIImage *logoImage;
     UIImageView *imageView;
     UIButton *registerButton;
+    UIButton *forgotButton;
 }
 
 
@@ -60,6 +61,7 @@
         [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.30, 225, outerWindowHeight * 0.07)];
         [loginButton setFrame:CGRectMake(50, outerWindowHeight * 0.42, 225, outerWindowHeight * 0.07)];
         [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.48, 225, outerWindowHeight * 0.088)];
+        [forgotButton setFrame:CGRectMake(50, outerWindowHeight * 0.54, 225, outerWindowHeight * 0.088)];
     }];
 }
 
@@ -88,8 +90,9 @@
         [imageView setFrame:CGRectMake(outerWindowWidth * 0.15625, outerWindowHeight * 0.132, outerWindowWidth * 0.703, outerWindowHeight * 0.370)];
         [userNameField setFrame:CGRectMake(50, outerWindowHeight * 0.484, 225, outerWindowHeight * 0.088)];
         [passwordField setFrame:CGRectMake(50, outerWindowHeight * 0.572, 225, outerWindowHeight * 0.088)];
-        [loginButton setFrame:CGRectMake(50, outerWindowHeight * 0.704, 225, outerWindowHeight * 0.088)];
-        [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
+        [loginButton setFrame:CGRectMake(50, outerWindowHeight * 0.660, 225, outerWindowHeight * 0.088)];
+        [registerButton setFrame:CGRectMake(50, outerWindowHeight * 0.748, 225, outerWindowHeight * 0.088)];
+        [forgotButton setFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
     }];
 }
 
@@ -191,7 +194,14 @@
     [self.navigationController pushViewController:registration animated:YES];
 }
 
-
+/***
+ Moves to forgot your password page by adding it to the stack
+ ***/
+-(IBAction)forgotPassword:(id)sender
+{
+    JCCForgotPasswordViewController *forgotPassword = [[JCCForgotPasswordViewController alloc]init];
+    [self.navigationController pushViewController:forgotPassword animated:YES];
+}
 
 /***
  Attempts to authenticated with the user token.  Returns YES upon success, and NO upon failure.
@@ -291,7 +301,7 @@
     
     // Build login button
     //    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 225, 50)];
-    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.704, 225, outerWindowHeight * 0.088)];
+    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.660, 225, outerWindowHeight * 0.088)];
     loginButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     loginButton.clipsToBounds = YES;
     [loginButton setTitle:@"Login!" forState:UIControlStateNormal];
@@ -304,13 +314,23 @@
     
     // Register new username
     //    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
-    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
+    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.748, 225, outerWindowHeight * 0.088)];
     [registerButton setTitle:@"Sign Up For Shout!" forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [registerButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [registerButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [registerButton addTarget:self action:@selector(moveToRegistration:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
+    
+    // Register new username
+    //    registerButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 475, 225, 50)];
+    forgotButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * 0.836, 225, outerWindowHeight * 0.088)];
+    [forgotButton setTitle:@"Forgot your password?" forState:UIControlStateNormal];
+    [forgotButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [forgotButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [forgotButton.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+    [forgotButton addTarget:self action:@selector(forgotPassword:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:forgotButton];
     
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;

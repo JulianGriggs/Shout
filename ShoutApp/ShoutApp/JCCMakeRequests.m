@@ -540,7 +540,37 @@
     }
 }
 
+/***
+  Attempts to reset password.  Returns boolean indicating success
+ ***/
++(BOOL)attemptResetPassword:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error
+{
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dictionaryData options:0 error:nil];
+    
+    // make the url with query variables
+    NSString *url = [[NSMutableString alloc] initWithString:@"http://ec2-54-200-82-59.us-west-2.compute.amazonaws.com:8080/api/v1/users/forgotPassword"];
+    
+    // send the POST request
+    NSData *POSTReply = [self sendGenericRequestWithURL:url withType:@"POST" withData:jsonData withCustomRequest:nil withPotentialError:p_error];
+    
+    
+    //    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+    //
+    //#ifdef DEBUG
+    //    NSLog(@"function: attemptAuth, var: theReply = %@", theReply);
+    //#endif
+    NSString *theReply = [[NSString alloc] initWithBytes:[POSTReply bytes] length:[POSTReply length] encoding: NSASCIIStringEncoding];
+    //#ifdef DEBUG
+    //    NSLog(@"function: attemptRegistration, var: theReply = %@", theReply);
+    //#endif
+    if ([theReply isEqualToString:@"OK"])
+        return YES;  // success
+    
+    else
+        return NO; // failure
 
+    
+}
 
 /***
  Obtains the max radius from the provided dictionary of user information.

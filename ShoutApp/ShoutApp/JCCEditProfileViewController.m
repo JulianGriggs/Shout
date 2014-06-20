@@ -18,6 +18,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCRegistrationViewController.h"
 #import "JCCMakeRequests.h"
+#import "KeychainItemWrapper.h"
 
 @interface JCCEditProfileViewController ()
 
@@ -286,7 +287,9 @@
         {
             if (successfulRegistration)
             {
-                
+                KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
+                [keychainItem setObject:userNameField.text forKey:(__bridge id)kSecAttrAccount];
+                [keychainItem setObject:passwordField.text forKey:(__bridge id)kSecValueData];
                 
                 NSLog(@"cunt blasters"); // hehe
                 [self.navigationController popViewControllerAnimated:NO];

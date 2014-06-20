@@ -63,6 +63,7 @@
 		75EC9576191B2C95004AE3F6 /* JCCReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75EC9570191B2C95004AE3F6 /* JCCReplyTableViewCell.xib */; };
 		75EC9577191B2C95004AE3F6 /* JCCReplyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */; };
 		75EC9578191B2C95004AE3F6 /* JCCReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */; };
+		9B17D6551953F34B000EB19E /* JCCForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17D6541953F34A000EB19E /* JCCForgotPasswordViewController.m */; };
 		9B2FADD8194E69E80032E7C1 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2FADD7194E69E80032E7C1 /* KeychainItemWrapper.m */; };
 		9B7E05C81945211D00655DF6 /* JCCEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7E05C71945211D00655DF6 /* JCCEditProfileViewController.m */; };
 		9B7E05CB19452B9900655DF6 /* JCCConfirmPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7E05CA19452B9900655DF6 /* JCCConfirmPasswordViewController.m */; };
@@ -166,6 +167,8 @@
 		75EC9572191B2C95004AE3F6 /* JCCReplyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyTableViewController.m; sourceTree = "<group>"; };
 		75EC9573191B2C95004AE3F6 /* JCCReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCReplyViewController.h; sourceTree = "<group>"; };
 		75EC9574191B2C95004AE3F6 /* JCCReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCReplyViewController.m; sourceTree = "<group>"; };
+		9B17D6531953F34A000EB19E /* JCCForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCForgotPasswordViewController.h; sourceTree = "<group>"; };
+		9B17D6541953F34A000EB19E /* JCCForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCCForgotPasswordViewController.m; sourceTree = "<group>"; };
 		9B2FADD6194E69E80032E7C1 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		9B2FADD7194E69E80032E7C1 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		9B7E05C61945211D00655DF6 /* JCCEditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCCEditProfileViewController.h; sourceTree = "<group>"; };
@@ -422,6 +425,8 @@
 			children = (
 				61FBB74F18FCA78A00C55ECF /* JCCLoginViewController.h */,
 				61FBB75018FCA78A00C55ECF /* JCCLoginViewController.m */,
+				9B17D6531953F34A000EB19E /* JCCForgotPasswordViewController.h */,
+				9B17D6541953F34A000EB19E /* JCCForgotPasswordViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -657,6 +662,7 @@
 				755AAEF618F4779E00DB52D9 /* JCCViewController.m in Sources */,
 				6184A962192A651300F939E5 /* JCCLikeDislikeHandler.m in Sources */,
 				9B7E05CB19452B9900655DF6 /* JCCConfirmPasswordViewController.m in Sources */,
+				9B17D6551953F34B000EB19E /* JCCForgotPasswordViewController.m in Sources */,
 				61E069C71906D2DC00900A71 /* JCCRegistrationViewController.m in Sources */,
 				75A5565C1921F1E500A9C727 /* JCCBadConnectionViewController.m in Sources */,
 				6184A964192A651300F939E5 /* JCCMuteHandler.m in Sources */,

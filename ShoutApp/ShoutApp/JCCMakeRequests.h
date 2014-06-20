@@ -120,6 +120,11 @@
 
 
 /***
+ Attempts to reset password.  Returns boolean indicating success
+ ***/
++(BOOL)attemptResetPassword:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
+
+/***
  Synchronously attempts the login.  Upon success the token is returned.  Upon failure, nil is returned.
  ***/
 +(NSString *)attemptAuth:(NSDictionary *) dictionaryData withPotentialError:(NSError**) p_error;
