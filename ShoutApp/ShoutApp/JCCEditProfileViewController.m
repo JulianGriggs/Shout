@@ -31,6 +31,7 @@
     UITextField *passwordConfirmField;
     UITextField *emailField;
     UIButton *updateButton;
+    UIButton *cancelButton;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -217,6 +218,24 @@
     [updateButton addTarget:self action:@selector(editProfile:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:updateButton];
     
+    
+    cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(50, outerWindowHeight * .792, 225, outerWindowHeight * 0.088)];
+    cancelButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    cancelButton.clipsToBounds = YES;
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:18.0]];
+    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    cancelButton.backgroundColor = [UIColor grayColor];
+    [cancelButton addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cancelButton];
+    
+}
+
+
+-(IBAction)cancel:(id)sender
+{
+    [self.delegate dismissProfPicViewController:self];
 }
 
 -(IBAction)editProfile:(id)sender
@@ -314,15 +333,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

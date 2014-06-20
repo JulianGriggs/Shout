@@ -58,7 +58,10 @@
     [self presentViewController:picker animated:YES completion:NULL];
 }
 
-
+- (IBAction)cancel:(id)sender
+{
+    [self.delegate dismissProfPicViewController:self];
+}
 
 /***
  Sends the image to the server after the user decides they want to use the picture that they either took or selected.

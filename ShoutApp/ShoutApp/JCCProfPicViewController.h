@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCCProfPicViewController.h"
+
+@protocol DismissProfPic;
+
 
 @interface JCCProfPicViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (nonatomic, weak) id<DismissProfPic> delegate;
+
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 /***
  Take a photo for use as a profile picture.
@@ -27,4 +34,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectPhotoButton;
 @property (strong, nonatomic) UIImage *profPicture;
 
+@end
+
+@protocol DismissProfPic <NSObject>
+@required
+- (void)dismissProfPicViewController:(UIViewController *)viewController;
 @end

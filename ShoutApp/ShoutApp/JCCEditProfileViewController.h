@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol DismissProfPic;
 
 @interface JCCEditProfileViewController : UIViewController<UITextFieldDelegate>
 
+@property (nonatomic, weak) id<DismissProfPic> delegate;
+
+@end
+
+
+
+@protocol DismissProfPic <NSObject>
+@required
+- (void)dismissProfPicViewController:(UIViewController *)viewController;
 @end

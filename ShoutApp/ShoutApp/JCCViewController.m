@@ -54,10 +54,10 @@
 /***
  Transitions to the User page upon a swipe to the right.
  ***/
--(IBAction)swipeRightHandler:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
+//-(IBAction)swipeRightHandler:(id)sender
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
 
 
@@ -123,10 +123,6 @@
 {
     [super viewDidLoad];
 
-    //  customize the navigation back button
-    self.navigationItem.hidesBackButton = YES;
-    UIBarButtonItem *userButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(pressedUserButton:)];
-    [self.navigationItem setLeftBarButtonItem:userButton animated:YES];
     
     [self.navigationItem setTitle:@"Feed"];
     
@@ -176,9 +172,9 @@
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(pressedComposeButton:)];
     [self.navigationItem setRightBarButtonItem:composeShout animated:YES];
     
-    UISwipeGestureRecognizer *gestureRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightHandler:)];
-    [gestureRightRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
-    [self.view addGestureRecognizer:gestureRightRecognizer];
+//    UISwipeGestureRecognizer *gestureRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightHandler:)];
+//    [gestureRightRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+//    [self.view addGestureRecognizer:gestureRightRecognizer];
     
     UISwipeGestureRecognizer *gestureLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
     [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];

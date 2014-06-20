@@ -54,7 +54,7 @@
 
 /***
  Method implemented as part of the alertView delegate protocol.  If the user affirms the alert box, then this sets the userName and userToken globals to empty strings
- and pops the application back to the login view.  This is essentially the logout procedure.
+ and moves the application back to the login view.  This is essentially the logout procedure.
  ***/
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -65,8 +65,13 @@
         KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ShoutLogin" accessGroup:nil];
         [keychainItem setObject:@"" forKey:(__bridge id)kSecAttrAccount];
         [keychainItem setObject:@"" forKey:(__bridge id)kSecValueData];
-        NSLog(@"Token after logout button: %@", sharedUserToken);
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        JCCLoginViewController *loginViewController = [[JCCLoginViewController alloc]init];
+        UINavigationController* loginRegisterController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+        loginRegisterController.navigationBar.topItem.title = @"SHOUT!";
+
+        UIWindow * mainWindow = [UIApplication sharedApplication].windows.firstObject;
+        mainWindow.rootViewController = loginRegisterController;
     }
 }
 
@@ -173,10 +178,6 @@
     // Remove back button in top navigation
     self.navigationItem.hidesBackButton = YES;
     
-    // Add logout button
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(pressedLogoutButton:)];
-    [self.navigationItem setLeftBarButtonItem:logoutButton animated:YES];
-    
     
     //  build the view
     UIView *userView = [[UIView alloc] init];
@@ -271,20 +272,31 @@
     //        myNumLikesReceived = [[UILabel alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
     //        [self.view addSubview:myNumLikesReceived];
     
-    editProfile = [[UIButton alloc] initWithFrame:CGRectMake(100, 130, 200, 30)];
-    [editProfile setTitle:@"edit" forState:UIControlStateNormal];
+    editProfile = [[UIButton alloc] initWithFrame:CGRectMake(100, 130, 80, 30)];
+    [editProfile setTitle:@"Edit" forState:UIControlStateNormal];
     [editProfile setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [editProfile setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     [editProfile addTarget:self action:@selector(editProfileButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:editProfile];
     
+    // Add logout button
+    UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(180, 130, 80, 30)];
+    [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+    [logoutButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [logoutButton addTarget:self action:@selector(pressedLogoutButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:logoutButton];
 }
 
 
 -(IBAction)editProfileButtonPressed:(id)sender
 {
-    JCCConfirmPasswordViewController *confirmPasswordView = [[JCCConfirmPasswordViewController alloc] init];
-    [self.navigationController pushViewController:confirmPasswordView animated:NO];
+//    JCCConfirmPasswordViewController *confirmPasswordView = [[JCCConfirmPasswordViewController alloc] init];
+    JCCEditProfileViewController *editProfileViewController = [[JCCEditProfileViewController alloc] init];
+    editProfileViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    editProfileViewController.delegate = self;
+    [self presentViewController:editProfileViewController animated:YES completion:nil];
+
 }
 
 
@@ -296,9 +308,20 @@
 {
     JCCProfPicViewController *profPicView = [[JCCProfPicViewController alloc] init];
     profPicView.profPicture = myProfPicture;
-    [self.navigationController pushViewController:profPicView animated:YES];
+    profPicView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    profPicView.delegate = self;
+//    [self.navigationController pushViewController:profPicView animated:YES];
+    [self presentViewController:profPicView animated:YES completion:nil];
 }
 
+
+/***
+ The delegate method for dismissing the profile picture when the time comes.
+ ***/
+- (void)dismissProfPicViewController:(JCCProfPicViewController *)profPicView
+{
+    [profPicView dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 /***
