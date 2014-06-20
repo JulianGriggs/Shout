@@ -17,6 +17,7 @@
 #import "JCCReplyHandler.h"
 #import "JCCEchoHandler.h"
 #import "JCCMuteHandler.h"
+#import "JCCErrorHandler.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCMyShoutsTableViewController ()
@@ -83,9 +84,7 @@
     jsonObjects = [JCCMakeRequests getMyShoutsWithPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     return jsonObjects;
 }

@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
+@protocol DismissViewController <NSObject>
+@required
+- (void)dismissViewController:(UIViewController *)viewController;
+@end
+
 @interface JCCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

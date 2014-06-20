@@ -12,6 +12,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
 #import "JCCNoShoutsViewController.h"
+#import "JCCErrorHandler.h"
 
 
 @interface JCCViewController ()
@@ -39,15 +40,6 @@
     [self.navigationController pushViewController:postViewController animated:YES];
 }
 
-
-
-/***
- Transitions to the User page.
- ***/
--(IBAction)pressedUserButton:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 
 
@@ -105,9 +97,7 @@
     
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     
     if ([jsonObjects count] == 0)
@@ -117,7 +107,13 @@
     else return YES;
 }
 
-
+/***
+The delegate method for dismissing the error view when the time comes.
+***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)viewDidLoad
 {

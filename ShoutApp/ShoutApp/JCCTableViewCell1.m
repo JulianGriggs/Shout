@@ -15,6 +15,7 @@
 #import "JCCUserCredentials.h"
 #import "AFNetworking.h"
 #import "JCCOtherUserViewController.h"
+#import "JCCErrorHandler.h"
 
 @implementation JCCTableViewCell1
 
@@ -67,15 +68,6 @@
 - (IBAction)showMuteOption:(UIButton*)sender
 {
     [JCCMuteHandler sendMute:sender fromTableViewController:self.parentTableViewController];
-    if([(JCCFeedTableViewController*)self.parentTableViewController fetchShouts] == nil)
-    {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
-    }
-    else
-    {
-        [self.parentTableViewController.tableView reloadData];
-    }
 }
 
 
@@ -177,10 +169,7 @@
      }
          failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"Error: %@", error);
-         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-         [badView setMessage:error.localizedDescription];
-         [self.parentTableViewController.navigationController pushViewController:badView animated:NO];
+         [JCCErrorHandler displayErrorView:self.parentTableViewController withError:error];
      }];
 }
 

@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "JCCProfPicViewController.h"
+#import "JCCDismissViewController.h"
 
-@protocol DismissProfPic;
 
+@interface JCCProfPicViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, JCCDismissViewController>
 
-@interface JCCProfPicViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-
-@property (nonatomic, weak) id<DismissProfPic> delegate;
+@property (nonatomic, weak) id<JCCDismissViewController> delegate;
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
@@ -34,9 +33,4 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectPhotoButton;
 @property (strong, nonatomic) UIImage *profPicture;
 
-@end
-
-@protocol DismissProfPic <NSObject>
-@required
-- (void)dismissProfPicViewController:(UIViewController *)viewController;
 @end

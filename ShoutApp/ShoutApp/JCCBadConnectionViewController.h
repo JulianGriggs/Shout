@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCCDismissViewController.h"
 
 @interface JCCBadConnectionViewController : UIViewController
+
 @property (weak, nonatomic) NSString* message;
+@property (nonatomic, weak) id<JCCDismissViewController> delegate;
+
 @end
+

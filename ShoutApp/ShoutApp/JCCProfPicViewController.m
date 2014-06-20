@@ -60,7 +60,7 @@
 
 - (IBAction)cancel:(id)sender
 {
-    [self.delegate dismissProfPicViewController:self];
+    [self.delegate dismissViewController:self];
 }
 
 /***

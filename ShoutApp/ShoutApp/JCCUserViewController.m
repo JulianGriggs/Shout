@@ -18,6 +18,7 @@
 #import "JCCMakeRequests.h"
 #import "AFNetworking.h"
 #import "KeychainItemWrapper.h"
+#import "JCCErrorHandler.h"
 
 @interface JCCUserViewController ()
 
@@ -38,18 +39,6 @@
     UILabel *myNumLikesReceived;
     UIButton *editProfile;
 }
-
-
-
-/***
- When the feed button is pressed, this allocates a feed view controller and pushes it on the navigation stack.
- ***/
--(IBAction)pressedFeedButton:(id)sender
-{
-    JCCViewController *viewController = [[JCCViewController alloc] init];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
 
 
 /***
@@ -89,16 +78,6 @@
 
 
 
-/***
- When there is a left swipe, this allocates a feed view controller and pushes it on the navigation stack.
- ***/
--(IBAction)swipeLeftHandler:(id)sender
-{
-    // This allocates a post view controller and pushes it on the navigation stack
-    JCCViewController *viewController = [[JCCViewController alloc] init];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
 
 
 /***
@@ -114,7 +93,9 @@
     {
         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
         [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        badView.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        badView.delegate = self;
+        [self presentViewController:badView animated:YES completion:nil];
     }
     // Asynchronously loads the profile image in the cell
     [self loadProfileImageUsingDictionary:userProfDict];
@@ -156,9 +137,7 @@
          failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"Error: %@", error);
-         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-         [badView setMessage:error.localizedDescription];
-         [self.navigationController pushViewController:badView animated:NO];
+         [JCCErrorHandler displayErrorView:self withError:error];
      }];
 }
 
@@ -170,13 +149,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    // Create the button to transition to the feed screen
-    UIBarButtonItem *feedButton = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(pressedFeedButton:)];
-    [self.navigationItem setRightBarButtonItem:feedButton animated:YES];
-    [self.navigationItem setTitle:@"Profile"];
-    // Remove back button in top navigation
-    self.navigationItem.hidesBackButton = YES;
     
     
     //  build the view
@@ -210,10 +182,6 @@
     mapCoverView.alpha = 0.7;
     [self.view addSubview:mapCoverView];
     
-    //  swipe left
-    UISwipeGestureRecognizer *gestureLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
-    [gestureLeftRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [mapCoverView addGestureRecognizer:gestureLeftRecognizer];
     
     // Object for error handling
     NSError* error;
@@ -223,9 +191,7 @@
                                   &error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     
     // Stores our userID
@@ -260,7 +226,6 @@
     [self addChildViewController:tableViewController];
     // Adds the View of the table view controller as a subview
     [self.view addSubview:table];
-    [table addGestureRecognizer:gestureLeftRecognizer];
     
     
     myUsername = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 200, 30)];
@@ -318,9 +283,9 @@
 /***
  The delegate method for dismissing the profile picture when the time comes.
  ***/
-- (void)dismissProfPicViewController:(JCCProfPicViewController *)profPicView
+- (void)dismissViewController:(UIViewController *)viewController
 {
-    [profPicView dismissViewControllerAnimated:YES completion:nil];
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 

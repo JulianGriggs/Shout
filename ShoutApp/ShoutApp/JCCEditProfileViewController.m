@@ -19,6 +19,7 @@
 #import "JCCRegistrationViewController.h"
 #import "JCCMakeRequests.h"
 #import "KeychainItemWrapper.h"
+#import "JCCErrorHandler.h"
 
 @interface JCCEditProfileViewController ()
 
@@ -233,10 +234,13 @@
 }
 
 
+
 -(IBAction)cancel:(id)sender
 {
-    [self.delegate dismissProfPicViewController:self];
+    [self.delegate dismissViewController:self];
 }
+
+
 
 -(IBAction)editProfile:(id)sender
 {
@@ -298,9 +302,7 @@
         bool successfulRegistration = [JCCMakeRequests editProfile:dictionaryData withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         else
         {

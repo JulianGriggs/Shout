@@ -17,6 +17,7 @@
 #import "JCCReplyHandler.h"
 #import "JCCEchoHandler.h"
 #import "JCCMuteHandler.h"
+#import "JCCErrorHandler.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -80,9 +81,7 @@
         [JCCMakeRequests postMute:[currentCell.UsernameLabel text] withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         else
         {
@@ -108,9 +107,7 @@
     jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     return jsonObjects;
 }
@@ -245,6 +242,14 @@
     
 }
 
+
+/***
+The delegate method for dismissing the error view when the time comes.
+***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void)didReceiveMemoryWarning

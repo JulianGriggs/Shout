@@ -20,6 +20,7 @@
 #import "JCCMyShoutsTableViewController.h"
 #import "JCCMakeRequests.h"
 #import <QuartzCore/QuartzCore.h>
+#import "JCCErrorHandler.h"
 #import "AFNetworking.h"
 
 
@@ -94,9 +95,7 @@
     bool passwordConfirmed = [JCCMakeRequests confirmPassword:dictionaryData withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     else
     {

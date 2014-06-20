@@ -75,7 +75,7 @@
     }
     else
     {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.delegate dismissViewController:self];
     }
 }
 
