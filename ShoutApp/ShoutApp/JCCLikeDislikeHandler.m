@@ -10,6 +10,7 @@
 #import "JCCBadConnectionViewController.h"
 #import "JCCUserCredentials.h"
 #import "AFNetworking.h"
+#import "JCCErrorHandler.h"
 
 @implementation JCCLikeDislikeHandler
 
@@ -64,9 +65,7 @@
      }
           failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-         [badView setMessage:error.localizedDescription];
-         [tableViewController.navigationController pushViewController:badView animated:NO];
+         [JCCErrorHandler displayErrorView:tableViewController withError:error];
      }];
 }
 
@@ -123,10 +122,7 @@
      }
           failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
-         NSLog(@"Error: %@", error);
-         JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-         [badView setMessage:error.localizedDescription];
-         [tableViewController.navigationController pushViewController:badView animated:NO];
+         [JCCErrorHandler displayErrorView:tableViewController withError:error];
      }];
 }
 

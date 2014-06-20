@@ -14,6 +14,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCMakeRequests.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import "JCCErrorHandler.h"
 
 #define DEFAULT_MIN_RADIUS 100
 
@@ -109,9 +110,7 @@
         NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         else
         {
@@ -374,7 +373,13 @@
     [self.view addSubview:textButton];
 }
 
-
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void)didReceiveMemoryWarning

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCEchoViewController : UIViewController <UITextViewDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate>
+@interface JCCEchoViewController : UIViewController <UITextViewDelegate, NSURLConnectionDelegate, GMSMapViewDelegate, CLLocationManagerDelegate, JCCDismissViewControllerDelegate>
 
 
 /***

@@ -13,6 +13,7 @@
 #import "JCCBadConnectionViewController.h"
 #import "JCCUserCredentials.h"
 #import "UIAlertView+Blocks.h"
+#import "JCCErrorHandler.h"
 
 @implementation JCCMuteHandler
 {
@@ -48,9 +49,7 @@
                                   [JCCMakeRequests postMute:[cell.UsernameLabel text] withPotentialError:&error];
                                   if(error)
                                   {
-                                      JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-                                      [badView setMessage:error.localizedDescription];
-                                      [tableViewController.navigationController pushViewController:badView animated:NO];
+                                      [JCCErrorHandler displayErrorView:tableViewController withError:error];
                                   }
                                   [tableViewController.tableView reloadData];
                               }

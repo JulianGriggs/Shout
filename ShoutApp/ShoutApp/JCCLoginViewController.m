@@ -17,6 +17,8 @@
 #import "JCCMakeRequests.h"
 #import "KeychainItemWrapper.h"
 #import "JCCForgotPasswordViewController.h"
+#import "JCCErrorHandler.h"
+
 @interface JCCLoginViewController ()
 
 
@@ -124,9 +126,7 @@
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         else if (token == nil)
         {
@@ -360,6 +360,15 @@
     
 }
 
+
+
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void)didReceiveMemoryWarning

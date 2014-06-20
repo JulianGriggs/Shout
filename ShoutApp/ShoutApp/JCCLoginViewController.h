@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCCDismissViewControllerDelegate.h"
 
 
-@interface JCCLoginViewController : UIViewController<UITextFieldDelegate>
+@interface JCCLoginViewController : UIViewController<UITextFieldDelegate, JCCDismissViewControllerDelegate>
 
 @end

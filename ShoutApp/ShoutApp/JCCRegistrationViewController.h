@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JCCDismissViewControllerDelegate.h"
 
-@interface JCCRegistrationViewController : UIViewController<UITextFieldDelegate>
+@interface JCCRegistrationViewController : UIViewController<UITextFieldDelegate, JCCDismissViewControllerDelegate>
 @end

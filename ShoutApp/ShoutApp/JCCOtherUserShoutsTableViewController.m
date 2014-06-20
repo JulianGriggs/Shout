@@ -16,6 +16,7 @@
 #import "JCCReplyHandler.h"
 #import "JCCEchoHandler.h"
 #import "JCCMuteHandler.h"
+#import "JCCErrorHandler.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface JCCOtherUserShoutsTableViewController ()
@@ -78,9 +79,7 @@
     jsonObjects = [JCCMakeRequests getOtherUsersShouts:self.otherUsername withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     return jsonObjects;
 }
@@ -182,6 +181,14 @@
     self.refreshControl = refreshControl;
 }
 
+
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void)didReceiveMemoryWarning

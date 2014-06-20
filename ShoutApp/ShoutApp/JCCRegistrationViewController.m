@@ -13,6 +13,8 @@
 #import "JCCViewController.h"
 #import "JCCMakeRequests.h"
 #import "KeychainItemWrapper.h"
+#import "JCCErrorHandler.h"
+
 @interface JCCRegistrationViewController ()
 
 @end
@@ -179,9 +181,7 @@
         bool successfulRegistration = [JCCMakeRequests attemptRegistration:dictionaryData withPotentialError:&error];
         if(error)
         {
-            JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-            [badView setMessage:error.localizedDescription];
-            [self.navigationController pushViewController:badView animated:NO];
+            [JCCErrorHandler displayErrorView:self withError:error];
         }
         else
         {
@@ -330,7 +330,13 @@
 }
 
 
-
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void)didReceiveMemoryWarning

@@ -38,6 +38,7 @@
     NSError* error;
     NSDictionary *dictionaryData = @{@"email":emailField.text};
     
+#warning need to check for error:
     BOOL response = [JCCMakeRequests attemptResetPassword:dictionaryData withPotentialError:&error];
     if (response) {
         [resetPasswordButton setTitle:@"success" forState:(UIControlStateNormal)];

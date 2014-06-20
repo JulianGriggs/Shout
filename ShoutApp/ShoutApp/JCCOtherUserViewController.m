@@ -15,6 +15,7 @@
 #import "JCCUserCredentials.h"
 #import "JCCOtherUserShoutsTableViewController.h"
 #import "JCCMakeRequests.h"
+#import "JCCErrorHandler.h"
 
 @interface JCCOtherUserViewController ()
 
@@ -50,17 +51,13 @@
     NSDictionary *userProfDict = [JCCMakeRequests getOtherUserProfile:self.otherUsername withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     
     NSData* profPicData = [JCCMakeRequests getProfileImage:userProfDict withPotentialError:&error];
     if(error)
     {
-        JCCBadConnectionViewController *badView = [[JCCBadConnectionViewController alloc] init];
-        [badView setMessage:error.localizedDescription];
-        [self.navigationController pushViewController:badView animated:NO];
+        [JCCErrorHandler displayErrorView:self withError:error];
     }
     
     [profilePicture setImage:[UIImage imageWithData:profPicData]];
@@ -76,7 +73,13 @@
     [theirShoutsButton setTitle:[NSString stringWithFormat:@"Shouts by %@", [userProfDict objectForKey:@"username"]] forState:UIControlStateNormal];
 }
 
-
+/***
+ The delegate method for dismissing the error view when the time comes.
+ ***/
+- (void)dismissViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)viewDidLoad
 {
