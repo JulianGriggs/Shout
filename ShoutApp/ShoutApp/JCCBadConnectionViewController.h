@@ -12,7 +12,7 @@
 @interface JCCBadConnectionViewController : UIViewController
 
 @property (weak, nonatomic) NSString* message;
-@property (nonatomic, weak) id<JCCDismissViewController> delegate;
+@property (nonatomic, weak) id<JCCDismissViewControllerDelegate> delegate;
 
 @end
 
