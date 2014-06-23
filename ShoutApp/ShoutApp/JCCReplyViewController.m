@@ -207,9 +207,9 @@
         [repliesButton setFrame:CGRectMake(0, 265, 320, 30)];
         
         
-        [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
-        [replyTextView setFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
-        [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45, 35, 35)];
+        [outerReplyView setFrame: CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60-tabBarHeight, [UIScreen mainScreen].bounds.size.width, 60)];
+        [replyTextView setFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55-tabBarHeight, 225, 50)];
+        [replyButton setFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45-tabBarHeight, 35, 35)];
         replyTextView.layer.cornerRadius=8.0f;
         replyTextView.layer.masksToBounds = YES;
     }];
@@ -237,74 +237,6 @@
 {
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-/***
- Converts a UTC string to a date object.
- ***/
-- (NSString *) formatTime:(NSString *) timeString
-{
-    NSString* input = timeString;
-    NSString* format = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    NSDate *now = [NSDate date];
-    
-    // Set up an NSDateFormatter for UTC time zone
-    NSDateFormatter* formatterUtc = [[NSDateFormatter alloc] init];
-    [formatterUtc setDateFormat:format];
-    [formatterUtc setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    // Cast the input string to NSDate
-    NSDate* utcDate = [formatterUtc dateFromString:input];
-    double timeInterval = [now timeIntervalSinceDate:utcDate];
-    timeInterval = timeInterval + 37;
-    
-    // years
-    if ((timeInterval) / 31536000 >= 1)
-    {
-        if ((int)(timeInterval) / 31536000 == 1)
-        {
-            return @"1 year ago";
-        }
-        else
-            return [NSString stringWithFormat:@"%d years ago", (int)(timeInterval) / 31536000];
-    }
-    
-    // days
-    else if ((timeInterval) / 86400 >= 1)
-    {
-        if ((int)(timeInterval) / 86400 == 1)
-            return @"1 day ago";
-        else
-            return [NSString stringWithFormat:@"%d days ago", (int)(timeInterval) / 86400];
-    }
-    
-    // hours
-    else if ((timeInterval) / 3600 >= 1)
-    {
-        if ((int)(timeInterval) / 3600 == 1)
-            return @"1 hour ago";
-        else
-            return [NSString stringWithFormat:@"%d hours ago", (int)(timeInterval) / 3600];
-    }
-    
-    // minutes
-    else if ((timeInterval) / 60 >= 1)
-    {
-        if ((int)(timeInterval) / 60 == 1)
-            return @"1 min ago";
-        else
-            return [NSString stringWithFormat:@"%d mins ago", (int)(timeInterval) / 60];
-    }
-    
-    // Moments
-    else if (timeInterval < 1)
-        return [NSString stringWithFormat:@"right now"];
-    
-    // seconds
-    else
-        return [NSString stringWithFormat:@"%d secs ago", (int)timeInterval];
-}
-
 
 
 /***
@@ -532,7 +464,7 @@
     
     // time label
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 85, 100, 30)];
-    [timeLabel setText:[self formatTime:self.time]];
+    [timeLabel setText:self.time];
     timeLabel.textAlignment = NSTextAlignmentRight;
     UIFont* font = [UIFont systemFontOfSize:12.0];
     [timeLabel setFont:font];
@@ -588,13 +520,13 @@
     [self.view addSubview:table];
     
     // Make gray background
-    outerReplyView = [[UITextView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60, [UIScreen mainScreen].bounds.size.width, 60)];
+    outerReplyView = [[UITextView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-60-tabBarHeight, [UIScreen mainScreen].bounds.size.width, 60)];
     outerReplyView.layer.backgroundColor=[[UIColor blackColor]CGColor];
     [outerReplyView setUserInteractionEnabled:NO];
     [self.view addSubview:outerReplyView];
     
     // Make replyTextView
-    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55, 225, 50)];
+    replyTextView = [[UITextView alloc] initWithFrame:CGRectMake(50, [UIScreen mainScreen].bounds.size.height-55-tabBarHeight, 225, 50)];
     replyTextView.layer.backgroundColor=[[UIColor whiteColor]CGColor];
     replyTextView.userInteractionEnabled = YES;
     replyTextView.layer.cornerRadius=8.0f;
@@ -606,7 +538,7 @@
     [self.view addSubview:replyTextView];
     
     //  add reply button
-    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45, 35, 35)];
+    replyButton = [[UIButton alloc] initWithFrame:CGRectMake(280, [UIScreen mainScreen].bounds.size.height-45-tabBarHeight, 35, 35)];
     replyButton.layer.cornerRadius = 8.0; // this value vary as per your desire
     replyButton.clipsToBounds = YES;
     [replyButton setBackgroundColor:[UIColor whiteColor]];
