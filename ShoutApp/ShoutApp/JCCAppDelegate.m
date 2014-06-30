@@ -49,12 +49,12 @@ int maxCharacters = 111;
         
     {
         NSString *password = [keychainItem objectForKey:(__bridge id)(kSecValueData)];
-        
         NSError *error;
         NSDictionary *dictionaryData = @{@"username": username, @"password": password};
 
         NSString *token = [JCCMakeRequests attemptAuth:dictionaryData withPotentialError:&error];
-        if(!error || token != nil)
+        
+        if(!error && token != nil)
         {
             // Sets the username and token for this session of the app
             sharedUserName = username;
@@ -68,12 +68,12 @@ int maxCharacters = 111;
             UIImage* feedIconImage = [UIImage imageNamed:@"FeedIcon.png"];
             UITabBarItem* feedItem = [[UITabBarItem alloc] initWithTitle:@"Feed" image:feedIconImage tag:1];
             viewController.tabBarItem = feedItem;
-            
+
             JCCUserViewController *userViewController = [[JCCUserViewController alloc] init];
             UIImage* userIconImage = [UIImage imageNamed:@"UserIcon.png"];
             UITabBarItem* userItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:userIconImage tag:0];
             userViewController.tabBarItem = userItem;
-            
+
             // Creates the root naviagtion controller
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
             
