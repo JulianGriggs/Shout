@@ -72,15 +72,15 @@
 {
     [super viewWillAppear:NO];
     
-//    // Displays "No Shouts Message" if there are no shouts in the area.
-//    if ([self containsShouts])
-//    {
-//        [self.view.subviews.lastObject setHidden:YES];
-//    }
-//    else
-//    {
-//        [tableView setHidden:YES];
-//    }
+    // Displays "No Shouts Message" if there are no shouts in the area.
+    if ([self containsShouts])
+    {
+        [self.view.subviews.lastObject setHidden:YES];
+    }
+    else
+    {
+        [tableView setHidden:YES];
+    }
 }
 
 
@@ -152,17 +152,7 @@ The delegate method for dismissing the error view when the time comes.
     JCCNoShoutsViewController *noShoutsViewController = [[JCCNoShoutsViewController alloc] init];
     [self addChildViewController:noShoutsViewController];
     [self.view addSubview:noShoutsViewController.view];
-    
-    // Displays "No Shouts Message" if there are no shouts in the area.
-    if ([self containsShouts])
-    {
-        [self.view.subviews.lastObject setHidden:YES];
-    }
-    else
-    {
-        [tableView setHidden:YES];
-    }
-    
+        
     
     // Create the button to transition to the compose message screen
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(pressedComposeButton:)];
