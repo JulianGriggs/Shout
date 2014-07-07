@@ -32,7 +32,8 @@
     CLLocationCoordinate2D destinationLocation;
     UISlider *radiusSlider;
     UITextView *postTextView;
-    UIButton *shoutButton;
+    UIButton *shoutPrivateButton;
+    UIButton *shoutPublicButton;
     UIButton *textButton;
     GMSMarker *currentLocationMarker;
     GMSMarker *destinationLocationMarker;
@@ -84,12 +85,10 @@
     marker.map = mapView;
 }
 
-
-
 /***
  Sends the POST shout request.  If the shout message is empty then it alerts the user through a pop up modal.
  ***/
-- (IBAction)postShout:(id)sender
+- (IBAction)postPublicShout:(id)sender
 {
     
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
@@ -105,7 +104,41 @@
         NSError* error;
         
         //  format the data
-        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"isPrivate": @NO, @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
+        
+        NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:&error];
+        if(error)
+        {
+            [JCCErrorHandler displayErrorView:self withError:error];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:TRUE];
+        }
+        
+    }
+}
+
+/***
+ Sends the POST shout request.  If the shout message is empty then it alerts the user through a pop up modal.
+ ***/
+- (IBAction)postPrivateShout:(id)sender
+{
+    
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    
+    if (([postTextView.text isEqualToString:@"Let's hear it!"] && [postTextView.textColor isEqual:[UIColor lightGrayColor]]) || ([[postTextView.text stringByTrimmingCharactersInSet: set] length] == 0))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uh Oh" message:@"You have to say something!" delegate:self cancelButtonTitle:@"Will do" otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        // Object for error handling
+        NSError* error;
+        
+        //  format the data
+        NSDictionary *dictionaryData = @{@"bodyField": postTextView.text, @"latitude": [NSNumber numberWithDouble:destinationLocation.latitude], @"longitude": [NSNumber numberWithDouble:destinationLocation.longitude], @"isPrivate": @YES, @"radius" : [NSNumber numberWithDouble:radiusSlider.value]};
         
         NSString *response = [JCCMakeRequests postShout:dictionaryData withPotentialError:&error];
         if(error)
@@ -352,16 +385,27 @@
     [radiusSlider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
     
     
-    //  add shoutbutton
-    //    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
-    shoutButton = [[UIButton alloc] initWithFrame:CGRectMake(75, (outerWindowHeight-tabBarHeight) * 0.8627, 175, 50)];
-    shoutButton.layer.cornerRadius = 8.0; // this value vary as per your desire
-    shoutButton.clipsToBounds = YES;
-    [shoutButton setTitle:@"SHOUT IT!" forState:UIControlStateNormal];
-    [shoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    shoutButton.backgroundColor = [UIColor blackColor];
-    [shoutButton addTarget:self action:@selector(postShout:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:shoutButton];
+    //  add shoutPublicButton
+    //    shoutPublicButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+    shoutPublicButton = [[UIButton alloc] initWithFrame:CGRectMake(150, (outerWindowHeight-tabBarHeight) * 0.8627, 130 , 50)];
+    shoutPublicButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    shoutPublicButton.clipsToBounds = YES;
+    [shoutPublicButton setTitle:@"TO EVERYONE!" forState:UIControlStateNormal];
+    [shoutPublicButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    shoutPublicButton.backgroundColor = [UIColor blackColor];
+    [shoutPublicButton addTarget:self action:@selector(postPublicShout:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shoutPublicButton];
+    
+    //  add shoutPrivateButton
+    //    shoutPrivateButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 490, 175, 50)];
+    shoutPrivateButton = [[UIButton alloc] initWithFrame:CGRectMake(15, (outerWindowHeight-tabBarHeight) * 0.8627, 130, 50)];
+    shoutPrivateButton.layer.cornerRadius = 8.0; // this value vary as per your desire
+    shoutPrivateButton.clipsToBounds = YES;
+    [shoutPrivateButton setTitle:@"TO FRIENDS!" forState:UIControlStateNormal];
+    [shoutPrivateButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    shoutPrivateButton.backgroundColor = [UIColor blackColor];
+    [shoutPrivateButton addTarget:self action:@selector(postPrivateShout:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shoutPrivateButton];
     
     
     

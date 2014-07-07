@@ -56,6 +56,7 @@
     
 }
 
+@synthesize isFriends;
 
 /***
  Updates the location.
@@ -101,9 +102,16 @@
     //Object for error checking
     NSError* error;
     
+    NSDictionary *dictionaryData;
+    if (isFriends) {
+        dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude], @"friendsOnly": @"True"};
+
+    }
+    else {
+        dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude],  @"friendsOnly": @"False"};
+
+    }
     //  get the current location
-    NSDictionary *dictionaryData = @{@"latitude": [NSNumber numberWithDouble:myCurrentLocation.latitude], @"longitude": [NSNumber numberWithDouble:myCurrentLocation.longitude]};
-    
     jsonObjects = [JCCMakeRequests getShouts:dictionaryData withPotentialError:&error];
     if(error)
     {
@@ -217,9 +225,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    isFriends = NO;
     // This will remove extra separators from tableview
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     // This creates the refresh control
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh)

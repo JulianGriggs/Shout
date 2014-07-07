@@ -13,6 +13,7 @@
 #import "JCCMakeRequests.h"
 #import "JCCNoShoutsViewController.h"
 #import "JCCErrorHandler.h"
+#import "JCCFeedTableViewController.h"
 
 
 @interface JCCViewController ()
@@ -25,7 +26,23 @@
     GMSMapView *mapView;
     JCCFeedTableViewController *tableViewController;
     UITableView *tableView;
+    UIBarButtonItem *toggleFriends;
+}
+
+/***
+ Transitions to the compose page.
+ ***/
+- (IBAction)pressedToggleFriendsButton:(id)sender
+{
+    // This allocates a post view controller and pushes it on the navigation stack
     
+    if (tableViewController.isFriends) {
+        [toggleFriends setTitle:@"Everyone"];
+        tableViewController.isFriends = NO;
+    } else {
+        [toggleFriends setTitle:@"Friends"];
+        tableViewController.isFriends = YES;
+    }
 }
 
 
@@ -38,6 +55,7 @@
     // This allocates a post view controller and pushes it on the navigation stack
     JCCPostViewController *postViewController = [[JCCPostViewController alloc] init];
     [self.navigationController pushViewController:postViewController animated:YES];
+
 }
 
 
@@ -152,7 +170,11 @@ The delegate method for dismissing the error view when the time comes.
     JCCNoShoutsViewController *noShoutsViewController = [[JCCNoShoutsViewController alloc] init];
     [self addChildViewController:noShoutsViewController];
     [self.view addSubview:noShoutsViewController.view];
-        
+    
+    
+    // Create the button to transition to the compose message screen
+    toggleFriends = [[UIBarButtonItem alloc] initWithTitle:@"Everyone" style:UIBarButtonItemStylePlain target:self action:@selector(pressedToggleFriendsButton:)];
+    [self.navigationItem setLeftBarButtonItem:toggleFriends animated:YES];
     
     // Create the button to transition to the compose message screen
     UIBarButtonItem *composeShout = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(pressedComposeButton:)];

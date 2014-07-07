@@ -14,4 +14,6 @@
 
 @interface JCCFeedTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIAlertViewDelegate, JCCDismissViewControllerDelegate>
 - (NSArray*)fetchShouts;
+
+@property (nonatomic) BOOL isFriends;
 @end

@@ -226,6 +226,9 @@
     url = [url stringByAppendingString:@"&"];
     url = [url stringByAppendingString:@"longitude="];
     url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"longitude"]]];
+    url = [url stringByAppendingString:@"&"];
+    url = [url stringByAppendingString:@"friendsOnly="];
+    url = [url stringByAppendingString:[NSString stringWithFormat:@"%@", [dictionaryData objectForKey:@"friendsOnly"]]];
     
     // send the GET request
     NSData *GETReply = [self sendGenericRequestWithURL:url withType:@"GET" withData:nil withCustomRequest:nil withPotentialError:p_error];

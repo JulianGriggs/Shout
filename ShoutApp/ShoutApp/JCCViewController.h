@@ -12,4 +12,5 @@
 #import "JCCDismissViewControllerDelegate.h"
 
 @interface JCCViewController : UIViewController <CLLocationManagerDelegate, JCCDismissViewControllerDelegate>
+
 @end
