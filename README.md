@@ -1,4 +1,4 @@
 Shout
 =====
 
-COS 333 Project
+Geographically based messaging application.
